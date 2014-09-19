@@ -1,0 +1,31 @@
+wiki_creds:
+  development:
+    user_agent: 'WikiEduWizard/1.0 (http://wikiedu.org/WikiEduWizard/; kevin@wintr.us) WikiEduWizard/1.0'
+    url: "http://test2.wikipedia.org/w/api.php"
+    key: 'b4e468c3e7e78483ee080942ca60774a'
+    secret: '1fcf0b56648ec7cd165208ff6987f04064481d18'
+  production:
+    user_agent: 'WikiEduWizard/1.0 (http://wikiedu.org/WikiEduWizard/; kevin@wintr.us) WikiEduWizard/1.0'
+    url: "http://test2.wikipedia.org/w/api.php"
+    key: 'b4e468c3e7e78483ee080942ca60774a'
+    secret: '1fcf0b56648ec7cd165208ff6987f04064481d18'
+
+# supported_mime_types:
+#   - extension:     'jpeg'
+#     mime_type:     'image/jpeg'
+#     type:          'image'
+#   - extension:     'jpg'
+#     mime_type:     'image/jpeg'
+#     type:          'image'
+#   - extension:     'm4v'
+#     mime_type:     'video/mv4'
+#     type:          'video'
+#   - extension:     'mov'
+#     mime_type:     'video/quicktime'
+#     type:          'video'
+#   - extension:     'mp4'
+#     mime_type:     'video/mp4'
+#     type:          'video'
+#   - extension:     'png'
+#     mime_type:     'image/png'
+#     type:          'image'
