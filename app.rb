@@ -9,46 +9,95 @@ require 'omniauth-mediawiki'
 require "mediawiki_api"
 require 'jbuilder'
 require 'debugger'
+require 'wikicloth'
+require 'rest_client'
+require 'oauth'
 
-class Hash
-  def self.to_ostructs(obj, memo={})
-    return obj unless obj.is_a? Hash
-    os = memo[obj] = OpenStruct.new
-    obj.each { |k,v| os.send("#{k}=", memo[v] || to_ostructs(v, memo)) }
-    os
-  end
-end
+## CLASSES
+require './utils/Hash'
 
+
+
+
+
+use Rack::Session::Cookie, :path => '/', :expire_after => 3600, :secret => 'dfgdsfgdfg87d8g79df'
+
+# LOAD CONFIG
 $config = Hash.to_ostructs(YAML.load_file(File.join(Dir.pwd, 'config.yml')))
 
 
-client = MediawikiApi::Client.new $config.wiki_creds.development.url
 
-use Rack::Session::Cookie
+
+
+
+# BUILD OMNIAUTH PROVIDER
 
 use OmniAuth::Builder do
- provider :mediawiki, $config.wiki_creds.development.key, $config.wiki_creds.development.secret
+  provider :mediawiki, $config.wiki_creds.development.key, $config.wiki_creds.development.secret
 end
 
+
+# SET USER AGENT
 before do
   headers "User-Agent" => $config.wiki_creds.development.user_agent
 end
 
 
+# ROOT URL
 get '/' do
   @title = 'Wikiedu Wizard'
   haml :login
 end
 
-get '/test' do
-  $config.wiki_creds.development.key
+get '/client' do
+
+  @conn = OAuth::Consumer.new($config.wiki_creds.development.key, $config.wiki_creds.development.secret)
+  @access_token = OAuth::AccessToken.new(@conn, session['access_token'], session['access_token_secret'])
+
+  get_token = @access_token.get('https://test2.wikipedia.org/w/api.php?action=query&meta=tokens&format=json')
+  token_response = JSON.parse(get_token.body)
+  csrf_token = token_response['query']['tokens']['csrftoken']
+  res = @access_token.post('http://test2.wikipedia.org/w/api.php', {:action => 'edit', :title => 'This is a Article Title 2', :text => 'This is the article text', :format => 'json', :token => csrf_token } )
+  res.body.inspect
+  
 end
 
-get '/auth/:provider/callback' do
-  @title = 'Wikiedu Wizard'
-  @auth = request.env['omniauth.auth']
-  haml :index
+
+
+# WIZARD STEP ONE
+get '/begin' do
+  if session['session_id']
+
+  else
+    redirect to '/auth/mediawiki'
+  end
 end
+
+
+# MEDIAWIKI API OAUTH CALLBACK
+get '/auth/:provider/callback' do
+
+  @title = 'Wikiedu Wizard - OAuth'
+
+  @auth = request.env['omniauth.auth']
+
+  @access_token = request.env["omniauth.auth"]["extra"]["access_token"]
+
+  session['access_token'] = @access_token.token
+  session['access_token_secret'] = @access_token.secret
+  
+  redirect to '/client'
+
+end
+
+def create_page(params, access_token)
+  
+  return res.body
+end
+
+
+
+
 
 
 
