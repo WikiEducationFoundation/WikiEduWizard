@@ -49,7 +49,7 @@ svgDirectory = "svg"
 fontsDirectory = "fonts"
 
 # Name of main JS file
-jsMainFile = "main"
+jsMainFile = "index"
 
 # Name of main CSS file
 cssMainFile = "main"
@@ -86,8 +86,8 @@ gulp.task "javascripts", ->
   gulp.src "#{sourcePath}/#{jsDirectory}/#{jsMainFile}.coffee", read: false
     .pipe plugins.plumber()
     .pipe plugins.browserify
-      transform:  ["handleify", "coffeeify"]
-      extensions: [".coffee", ".js"]
+      transform:  ["handleify", "coffeeify", "jadeify"]
+      extensions: [".coffee", ".js", ".jade"]
       debug: true
     .pipe plugins.rename "#{jsMainFile}.js"
     .pipe gulp.dest "#{outputPath}/#{jsDirectory}"
@@ -170,7 +170,7 @@ gulp.task "watch", ->
   plugins.watch glob: "#{sourcePath}/#{imagesDirectory}/**/*.{svg,jpg,gif,png}", ->
     gulp.start "copy-images"
 
-  plugins.watch glob: "#{sourcePath}/#{jsDirectory}/**/*.{coffee,js,haml,hbs}", ->
+  plugins.watch glob: "#{sourcePath}/#{jsDirectory}/**/*.{coffee,js,haml,hbs,jade}", ->
     gulp.start "javascripts"
 
   plugins.watch glob: "#{sourcePath}/#{vendorPath}/**/*", ->

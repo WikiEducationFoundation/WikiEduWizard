@@ -2,6 +2,10 @@
   "name": "wikiEduWizard",
   "version": "1.0.0",
   "dependencies": {
-    "backbone": "~1.1.2"
+    "jquery": "~2.1.1",
+    "underscore": "~1.7.0",
+    "backbone": "~1.1.2",
+    "backbone.marionette": "~2.2.1",
+    "marionette.backbone.syphon": "~0.5.0"
   }
 }
