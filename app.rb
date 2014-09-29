@@ -27,9 +27,6 @@ $config = Hash.to_ostructs(YAML.load_file(File.join(Dir.pwd, 'config.yml')))
 
 
 
-
-
-
 # BUILD OMNIAUTH PROVIDER
 
 use OmniAuth::Builder do
@@ -49,18 +46,28 @@ get '/' do
   haml :login
 end
 
+
 get '/client' do
 
   @conn = OAuth::Consumer.new($config.wiki_creds.development.key, $config.wiki_creds.development.secret)
   @access_token = OAuth::AccessToken.new(@conn, session['access_token'], session['access_token_secret'])
 
   get_token = @access_token.get('https://test2.wikipedia.org/w/api.php?action=query&meta=tokens&format=json')
+
   token_response = JSON.parse(get_token.body)
+
   csrf_token = token_response['query']['tokens']['csrftoken']
-  res = @access_token.post('http://test2.wikipedia.org/w/api.php', {:action => 'edit', :title => 'This is a Article Title 2', :text => 'This is the article text', :format => 'json', :token => csrf_token } )
-  res.body.inspect
+
+  res = @access_token.post('http://test2.wikipedia.org/w/api.php', {:action => 'query', :meta => 'userinfo', :format => 'json' } )
+
+  redirect to '/app'
   
 end
+
+get '/app' do
+  haml :app
+end
+
 
 
 
@@ -88,11 +95,6 @@ get '/auth/:provider/callback' do
   
   redirect to '/client'
 
-end
-
-def create_page(params, access_token)
-  
-  return res.body
 end
 
 
