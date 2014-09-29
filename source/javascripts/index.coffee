@@ -1,4 +1,4 @@
 App = require('./app')
 
 $ ->
-  # window.App = new App()
+  window.App = new App()
