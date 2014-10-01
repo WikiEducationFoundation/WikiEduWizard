@@ -52,6 +52,5 @@
   },
   "_source": "git://github.com/marionettejs/backbone.marionette.git",
   "_target": "~2.2.1",
-  "_originalSource": "backbone.marionette",
-  "_direct": true
+  "_originalSource": "backbone.marionette"
 }

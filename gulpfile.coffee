@@ -49,7 +49,7 @@ svgDirectory = "svg"
 fontsDirectory = "fonts"
 
 # Name of main JS file
-jsMainFile = "index"
+jsMainFile = "main"
 
 # Name of main CSS file
 cssMainFile = "main"
