@@ -9189,7 +9189,7 @@ return jQuery;
 
 }));
 
-//     Underscore.js 1.6.0
+//     Underscore.js 1.7.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 //     Underscore may be freely distributed under the MIT license.
@@ -9205,9 +9205,6 @@ return jQuery;
   // Save the previous value of the `_` variable.
   var previousUnderscore = root._;
 
-  // Establish the object that gets returned to break out of a loop iteration.
-  var breaker = {};
-
   // Save bytes in the minified (but not gzipped) version:
   var ArrayProto = Array.prototype, ObjProto = Object.prototype, FuncProto = Function.prototype;
 
@@ -9222,15 +9219,6 @@ return jQuery;
   // All **ECMAScript 5** native function implementations that we hope to use
   // are declared here.
   var
-    nativeForEach      = ArrayProto.forEach,
-    nativeMap          = ArrayProto.map,
-    nativeReduce       = ArrayProto.reduce,
-    nativeReduceRight  = ArrayProto.reduceRight,
-    nativeFilter       = ArrayProto.filter,
-    nativeEvery        = ArrayProto.every,
-    nativeSome         = ArrayProto.some,
-    nativeIndexOf      = ArrayProto.indexOf,
-    nativeLastIndexOf  = ArrayProto.lastIndexOf,
     nativeIsArray      = Array.isArray,
     nativeKeys         = Object.keys,
     nativeBind         = FuncProto.bind;
@@ -9244,8 +9232,7 @@ return jQuery;
 
   // Export the Underscore object for **Node.js**, with
   // backwards-compatibility for the old `require()` API. If we're in
-  // the browser, add `_` as a global object via a string identifier,
-  // for Closure Compiler "advanced" mode.
+  // the browser, add `_` as a global object.
   if (typeof exports !== 'undefined') {
     if (typeof module !== 'undefined' && module.exports) {
       exports = module.exports = _;
@@ -9256,98 +9243,125 @@ return jQuery;
   }
 
   // Current version.
-  _.VERSION = '1.6.0';
+  _.VERSION = '1.7.0';
+
+  // Internal function that returns an efficient (for current engines) version
+  // of the passed-in callback, to be repeatedly applied in other Underscore
+  // functions.
+  var createCallback = function(func, context, argCount) {
+    if (context === void 0) return func;
+    switch (argCount == null ? 3 : argCount) {
+      case 1: return function(value) {
+        return func.call(context, value);
+      };
+      case 2: return function(value, other) {
+        return func.call(context, value, other);
+      };
+      case 3: return function(value, index, collection) {
+        return func.call(context, value, index, collection);
+      };
+      case 4: return function(accumulator, value, index, collection) {
+        return func.call(context, accumulator, value, index, collection);
+      };
+    }
+    return function() {
+      return func.apply(context, arguments);
+    };
+  };
+
+  // A mostly-internal function to generate callbacks that can be applied
+  // to each element in a collection, returning the desired result — either
+  // identity, an arbitrary callback, a property matcher, or a property accessor.
+  _.iteratee = function(value, context, argCount) {
+    if (value == null) return _.identity;
+    if (_.isFunction(value)) return createCallback(value, context, argCount);
+    if (_.isObject(value)) return _.matches(value);
+    return _.property(value);
+  };
 
   // Collection Functions
   // --------------------
 
   // The cornerstone, an `each` implementation, aka `forEach`.
-  // Handles objects with the built-in `forEach`, arrays, and raw objects.
-  // Delegates to **ECMAScript 5**'s native `forEach` if available.
-  var each = _.each = _.forEach = function(obj, iterator, context) {
+  // Handles raw objects in addition to array-likes. Treats all
+  // sparse array-likes as if they were dense.
+  _.each = _.forEach = function(obj, iteratee, context) {
     if (obj == null) return obj;
-    if (nativeForEach && obj.forEach === nativeForEach) {
-      obj.forEach(iterator, context);
-    } else if (obj.length === +obj.length) {
-      for (var i = 0, length = obj.length; i < length; i++) {
-        if (iterator.call(context, obj[i], i, obj) === breaker) return;
+    iteratee = createCallback(iteratee, context);
+    var i, length = obj.length;
+    if (length === +length) {
+      for (i = 0; i < length; i++) {
+        iteratee(obj[i], i, obj);
       }
     } else {
       var keys = _.keys(obj);
-      for (var i = 0, length = keys.length; i < length; i++) {
-        if (iterator.call(context, obj[keys[i]], keys[i], obj) === breaker) return;
+      for (i = 0, length = keys.length; i < length; i++) {
+        iteratee(obj[keys[i]], keys[i], obj);
       }
     }
     return obj;
   };
 
-  // Return the results of applying the iterator to each element.
-  // Delegates to **ECMAScript 5**'s native `map` if available.
-  _.map = _.collect = function(obj, iterator, context) {
-    var results = [];
-    if (obj == null) return results;
-    if (nativeMap && obj.map === nativeMap) return obj.map(iterator, context);
-    each(obj, function(value, index, list) {
-      results.push(iterator.call(context, value, index, list));
-    });
+  // Return the results of applying the iteratee to each element.
+  _.map = _.collect = function(obj, iteratee, context) {
+    if (obj == null) return [];
+    iteratee = _.iteratee(iteratee, context);
+    var keys = obj.length !== +obj.length && _.keys(obj),
+        length = (keys || obj).length,
+        results = Array(length),
+        currentKey;
+    for (var index = 0; index < length; index++) {
+      currentKey = keys ? keys[index] : index;
+      results[index] = iteratee(obj[currentKey], currentKey, obj);
+    }
     return results;
   };
 
   var reduceError = 'Reduce of empty array with no initial value';
 
   // **Reduce** builds up a single result from a list of values, aka `inject`,
-  // or `foldl`. Delegates to **ECMAScript 5**'s native `reduce` if available.
-  _.reduce = _.foldl = _.inject = function(obj, iterator, memo, context) {
-    var initial = arguments.length > 2;
+  // or `foldl`.
+  _.reduce = _.foldl = _.inject = function(obj, iteratee, memo, context) {
     if (obj == null) obj = [];
-    if (nativeReduce && obj.reduce === nativeReduce) {
-      if (context) iterator = _.bind(iterator, context);
-      return initial ? obj.reduce(iterator, memo) : obj.reduce(iterator);
+    iteratee = createCallback(iteratee, context, 4);
+    var keys = obj.length !== +obj.length && _.keys(obj),
+        length = (keys || obj).length,
+        index = 0, currentKey;
+    if (arguments.length < 3) {
+      if (!length) throw new TypeError(reduceError);
+      memo = obj[keys ? keys[index++] : index++];
     }
-    each(obj, function(value, index, list) {
-      if (!initial) {
-        memo = value;
-        initial = true;
-      } else {
-        memo = iterator.call(context, memo, value, index, list);
-      }
-    });
-    if (!initial) throw new TypeError(reduceError);
+    for (; index < length; index++) {
+      currentKey = keys ? keys[index] : index;
+      memo = iteratee(memo, obj[currentKey], currentKey, obj);
+    }
     return memo;
   };
 
   // The right-associative version of reduce, also known as `foldr`.
-  // Delegates to **ECMAScript 5**'s native `reduceRight` if available.
-  _.reduceRight = _.foldr = function(obj, iterator, memo, context) {
-    var initial = arguments.length > 2;
+  _.reduceRight = _.foldr = function(obj, iteratee, memo, context) {
     if (obj == null) obj = [];
-    if (nativeReduceRight && obj.reduceRight === nativeReduceRight) {
-      if (context) iterator = _.bind(iterator, context);
-      return initial ? obj.reduceRight(iterator, memo) : obj.reduceRight(iterator);
+    iteratee = createCallback(iteratee, context, 4);
+    var keys = obj.length !== + obj.length && _.keys(obj),
+        index = (keys || obj).length,
+        currentKey;
+    if (arguments.length < 3) {
+      if (!index) throw new TypeError(reduceError);
+      memo = obj[keys ? keys[--index] : --index];
     }
-    var length = obj.length;
-    if (length !== +length) {
-      var keys = _.keys(obj);
-      length = keys.length;
+    while (index--) {
+      currentKey = keys ? keys[index] : index;
+      memo = iteratee(memo, obj[currentKey], currentKey, obj);
     }
-    each(obj, function(value, index, list) {
-      index = keys ? keys[--length] : --length;
-      if (!initial) {
-        memo = obj[index];
-        initial = true;
-      } else {
-        memo = iterator.call(context, memo, obj[index], index, list);
-      }
-    });
-    if (!initial) throw new TypeError(reduceError);
     return memo;
   };
 
   // Return the first value which passes a truth test. Aliased as `detect`.
   _.find = _.detect = function(obj, predicate, context) {
     var result;
-    any(obj, function(value, index, list) {
-      if (predicate.call(context, value, index, list)) {
+    predicate = _.iteratee(predicate, context);
+    _.some(obj, function(value, index, list) {
+      if (predicate(value, index, list)) {
         result = value;
         return true;
       }
@@ -9356,61 +9370,58 @@ return jQuery;
   };
 
   // Return all the elements that pass a truth test.
-  // Delegates to **ECMAScript 5**'s native `filter` if available.
   // Aliased as `select`.
   _.filter = _.select = function(obj, predicate, context) {
     var results = [];
     if (obj == null) return results;
-    if (nativeFilter && obj.filter === nativeFilter) return obj.filter(predicate, context);
-    each(obj, function(value, index, list) {
-      if (predicate.call(context, value, index, list)) results.push(value);
+    predicate = _.iteratee(predicate, context);
+    _.each(obj, function(value, index, list) {
+      if (predicate(value, index, list)) results.push(value);
     });
     return results;
   };
 
   // Return all the elements for which a truth test fails.
   _.reject = function(obj, predicate, context) {
-    return _.filter(obj, function(value, index, list) {
-      return !predicate.call(context, value, index, list);
-    }, context);
+    return _.filter(obj, _.negate(_.iteratee(predicate)), context);
   };
 
   // Determine whether all of the elements match a truth test.
-  // Delegates to **ECMAScript 5**'s native `every` if available.
   // Aliased as `all`.
   _.every = _.all = function(obj, predicate, context) {
-    predicate || (predicate = _.identity);
-    var result = true;
-    if (obj == null) return result;
-    if (nativeEvery && obj.every === nativeEvery) return obj.every(predicate, context);
-    each(obj, function(value, index, list) {
-      if (!(result = result && predicate.call(context, value, index, list))) return breaker;
-    });
-    return !!result;
+    if (obj == null) return true;
+    predicate = _.iteratee(predicate, context);
+    var keys = obj.length !== +obj.length && _.keys(obj),
+        length = (keys || obj).length,
+        index, currentKey;
+    for (index = 0; index < length; index++) {
+      currentKey = keys ? keys[index] : index;
+      if (!predicate(obj[currentKey], currentKey, obj)) return false;
+    }
+    return true;
   };
 
   // Determine if at least one element in the object matches a truth test.
-  // Delegates to **ECMAScript 5**'s native `some` if available.
   // Aliased as `any`.
-  var any = _.some = _.any = function(obj, predicate, context) {
-    predicate || (predicate = _.identity);
-    var result = false;
-    if (obj == null) return result;
-    if (nativeSome && obj.some === nativeSome) return obj.some(predicate, context);
-    each(obj, function(value, index, list) {
-      if (result || (result = predicate.call(context, value, index, list))) return breaker;
-    });
-    return !!result;
+  _.some = _.any = function(obj, predicate, context) {
+    if (obj == null) return false;
+    predicate = _.iteratee(predicate, context);
+    var keys = obj.length !== +obj.length && _.keys(obj),
+        length = (keys || obj).length,
+        index, currentKey;
+    for (index = 0; index < length; index++) {
+      currentKey = keys ? keys[index] : index;
+      if (predicate(obj[currentKey], currentKey, obj)) return true;
+    }
+    return false;
   };
 
   // Determine if the array or object contains a given value (using `===`).
   // Aliased as `include`.
   _.contains = _.include = function(obj, target) {
     if (obj == null) return false;
-    if (nativeIndexOf && obj.indexOf === nativeIndexOf) return obj.indexOf(target) != -1;
-    return any(obj, function(value) {
-      return value === target;
-    });
+    if (obj.length !== +obj.length) obj = _.values(obj);
+    return _.indexOf(obj, target) >= 0;
   };
 
   // Invoke a method (with arguments) on every item in a collection.
@@ -9439,51 +9450,67 @@ return jQuery;
     return _.find(obj, _.matches(attrs));
   };
 
-  // Return the maximum element or (element-based computation).
-  // Can't optimize arrays of integers longer than 65,535 elements.
-  // See [WebKit Bug 80797](https://bugs.webkit.org/show_bug.cgi?id=80797)
-  _.max = function(obj, iterator, context) {
-    if (!iterator && _.isArray(obj) && obj[0] === +obj[0] && obj.length < 65535) {
-      return Math.max.apply(Math, obj);
-    }
-    var result = -Infinity, lastComputed = -Infinity;
-    each(obj, function(value, index, list) {
-      var computed = iterator ? iterator.call(context, value, index, list) : value;
-      if (computed > lastComputed) {
-        result = value;
-        lastComputed = computed;
+  // Return the maximum element (or element-based computation).
+  _.max = function(obj, iteratee, context) {
+    var result = -Infinity, lastComputed = -Infinity,
+        value, computed;
+    if (iteratee == null && obj != null) {
+      obj = obj.length === +obj.length ? obj : _.values(obj);
+      for (var i = 0, length = obj.length; i < length; i++) {
+        value = obj[i];
+        if (value > result) {
+          result = value;
+        }
       }
-    });
+    } else {
+      iteratee = _.iteratee(iteratee, context);
+      _.each(obj, function(value, index, list) {
+        computed = iteratee(value, index, list);
+        if (computed > lastComputed || computed === -Infinity && result === -Infinity) {
+          result = value;
+          lastComputed = computed;
+        }
+      });
+    }
     return result;
   };
 
   // Return the minimum element (or element-based computation).
-  _.min = function(obj, iterator, context) {
-    if (!iterator && _.isArray(obj) && obj[0] === +obj[0] && obj.length < 65535) {
-      return Math.min.apply(Math, obj);
-    }
-    var result = Infinity, lastComputed = Infinity;
-    each(obj, function(value, index, list) {
-      var computed = iterator ? iterator.call(context, value, index, list) : value;
-      if (computed < lastComputed) {
-        result = value;
-        lastComputed = computed;
+  _.min = function(obj, iteratee, context) {
+    var result = Infinity, lastComputed = Infinity,
+        value, computed;
+    if (iteratee == null && obj != null) {
+      obj = obj.length === +obj.length ? obj : _.values(obj);
+      for (var i = 0, length = obj.length; i < length; i++) {
+        value = obj[i];
+        if (value < result) {
+          result = value;
+        }
       }
-    });
+    } else {
+      iteratee = _.iteratee(iteratee, context);
+      _.each(obj, function(value, index, list) {
+        computed = iteratee(value, index, list);
+        if (computed < lastComputed || computed === Infinity && result === Infinity) {
+          result = value;
+          lastComputed = computed;
+        }
+      });
+    }
     return result;
   };
 
-  // Shuffle an array, using the modern version of the
+  // Shuffle a collection, using the modern version of the
   // [Fisher-Yates shuffle](http://en.wikipedia.org/wiki/Fisher–Yates_shuffle).
   _.shuffle = function(obj) {
-    var rand;
-    var index = 0;
-    var shuffled = [];
-    each(obj, function(value) {
-      rand = _.random(index++);
-      shuffled[index - 1] = shuffled[rand];
-      shuffled[rand] = value;
-    });
+    var set = obj && obj.length === +obj.length ? obj : _.values(obj);
+    var length = set.length;
+    var shuffled = Array(length);
+    for (var index = 0, rand; index < length; index++) {
+      rand = _.random(0, index);
+      if (rand !== index) shuffled[index] = shuffled[rand];
+      shuffled[rand] = set[index];
+    }
     return shuffled;
   };
 
@@ -9498,21 +9525,14 @@ return jQuery;
     return _.shuffle(obj).slice(0, Math.max(0, n));
   };
 
-  // An internal function to generate lookup iterators.
-  var lookupIterator = function(value) {
-    if (value == null) return _.identity;
-    if (_.isFunction(value)) return value;
-    return _.property(value);
-  };
-
-  // Sort the object's values by a criterion produced by an iterator.
-  _.sortBy = function(obj, iterator, context) {
-    iterator = lookupIterator(iterator);
+  // Sort the object's values by a criterion produced by an iteratee.
+  _.sortBy = function(obj, iteratee, context) {
+    iteratee = _.iteratee(iteratee, context);
     return _.pluck(_.map(obj, function(value, index, list) {
       return {
         value: value,
         index: index,
-        criteria: iterator.call(context, value, index, list)
+        criteria: iteratee(value, index, list)
       };
     }).sort(function(left, right) {
       var a = left.criteria;
@@ -9527,12 +9547,12 @@ return jQuery;
 
   // An internal function used for aggregate "group by" operations.
   var group = function(behavior) {
-    return function(obj, iterator, context) {
+    return function(obj, iteratee, context) {
       var result = {};
-      iterator = lookupIterator(iterator);
-      each(obj, function(value, index) {
-        var key = iterator.call(context, value, index, obj);
-        behavior(result, key, value);
+      iteratee = _.iteratee(iteratee, context);
+      _.each(obj, function(value, index) {
+        var key = iteratee(value, index, obj);
+        behavior(result, value, key);
       });
       return result;
     };
@@ -9540,32 +9560,32 @@ return jQuery;
 
   // Groups the object's values by a criterion. Pass either a string attribute
   // to group by, or a function that returns the criterion.
-  _.groupBy = group(function(result, key, value) {
-    _.has(result, key) ? result[key].push(value) : result[key] = [value];
+  _.groupBy = group(function(result, value, key) {
+    if (_.has(result, key)) result[key].push(value); else result[key] = [value];
   });
 
   // Indexes the object's values by a criterion, similar to `groupBy`, but for
   // when you know that your index values will be unique.
-  _.indexBy = group(function(result, key, value) {
+  _.indexBy = group(function(result, value, key) {
     result[key] = value;
   });
 
   // Counts instances of an object that group by a certain criterion. Pass
   // either a string attribute to count by, or a function that returns the
   // criterion.
-  _.countBy = group(function(result, key) {
-    _.has(result, key) ? result[key]++ : result[key] = 1;
+  _.countBy = group(function(result, value, key) {
+    if (_.has(result, key)) result[key]++; else result[key] = 1;
   });
 
   // Use a comparator function to figure out the smallest index at which
   // an object should be inserted so as to maintain order. Uses binary search.
-  _.sortedIndex = function(array, obj, iterator, context) {
-    iterator = lookupIterator(iterator);
-    var value = iterator.call(context, obj);
+  _.sortedIndex = function(array, obj, iteratee, context) {
+    iteratee = _.iteratee(iteratee, context, 1);
+    var value = iteratee(obj);
     var low = 0, high = array.length;
     while (low < high) {
-      var mid = (low + high) >>> 1;
-      iterator.call(context, array[mid]) < value ? low = mid + 1 : high = mid;
+      var mid = low + high >>> 1;
+      if (iteratee(array[mid]) < value) low = mid + 1; else high = mid;
     }
     return low;
   };
@@ -9581,7 +9601,18 @@ return jQuery;
   // Return the number of elements in an object.
   _.size = function(obj) {
     if (obj == null) return 0;
-    return (obj.length === +obj.length) ? obj.length : _.keys(obj).length;
+    return obj.length === +obj.length ? obj.length : _.keys(obj).length;
+  };
+
+  // Split a collection into two arrays: one whose elements all satisfy the given
+  // predicate, and one whose elements all do not satisfy the predicate.
+  _.partition = function(obj, predicate, context) {
+    predicate = _.iteratee(predicate, context);
+    var pass = [], fail = [];
+    _.each(obj, function(value, key, obj) {
+      (predicate(value, key, obj) ? pass : fail).push(value);
+    });
+    return [pass, fail];
   };
 
   // Array Functions
@@ -9592,7 +9623,7 @@ return jQuery;
   // allows it to work with `_.map`.
   _.first = _.head = _.take = function(array, n, guard) {
     if (array == null) return void 0;
-    if ((n == null) || guard) return array[0];
+    if (n == null || guard) return array[0];
     if (n < 0) return [];
     return slice.call(array, 0, n);
   };
@@ -9602,14 +9633,14 @@ return jQuery;
   // the array, excluding the last N. The **guard** check allows it to work with
   // `_.map`.
   _.initial = function(array, n, guard) {
-    return slice.call(array, 0, array.length - ((n == null) || guard ? 1 : n));
+    return slice.call(array, 0, Math.max(0, array.length - (n == null || guard ? 1 : n)));
   };
 
   // Get the last element of an array. Passing **n** will return the last N
   // values in the array. The **guard** check allows it to work with `_.map`.
   _.last = function(array, n, guard) {
     if (array == null) return void 0;
-    if ((n == null) || guard) return array[array.length - 1];
+    if (n == null || guard) return array[array.length - 1];
     return slice.call(array, Math.max(array.length - n, 0));
   };
 
@@ -9618,7 +9649,7 @@ return jQuery;
   // the rest N values in the array. The **guard**
   // check allows it to work with `_.map`.
   _.rest = _.tail = _.drop = function(array, n, guard) {
-    return slice.call(array, (n == null) || guard ? 1 : n);
+    return slice.call(array, n == null || guard ? 1 : n);
   };
 
   // Trim out all falsy values from an array.
@@ -9627,23 +9658,26 @@ return jQuery;
   };
 
   // Internal implementation of a recursive `flatten` function.
-  var flatten = function(input, shallow, output) {
+  var flatten = function(input, shallow, strict, output) {
     if (shallow && _.every(input, _.isArray)) {
       return concat.apply(output, input);
     }
-    each(input, function(value) {
-      if (_.isArray(value) || _.isArguments(value)) {
-        shallow ? push.apply(output, value) : flatten(value, shallow, output);
+    for (var i = 0, length = input.length; i < length; i++) {
+      var value = input[i];
+      if (!_.isArray(value) && !_.isArguments(value)) {
+        if (!strict) output.push(value);
+      } else if (shallow) {
+        push.apply(output, value);
       } else {
-        output.push(value);
+        flatten(value, shallow, strict, output);
       }
-    });
+    }
     return output;
   };
 
   // Flatten out an array, either recursively (by default), or just one level.
   _.flatten = function(array, shallow) {
-    return flatten(array, shallow, []);
+    return flatten(array, shallow, false, []);
   };
 
   // Return a version of the array that does not contain the specified value(s).
@@ -9651,68 +9685,77 @@ return jQuery;
     return _.difference(array, slice.call(arguments, 1));
   };
 
-  // Split an array into two arrays: one whose elements all satisfy the given
-  // predicate, and one whose elements all do not satisfy the predicate.
-  _.partition = function(array, predicate) {
-    var pass = [], fail = [];
-    each(array, function(elem) {
-      (predicate(elem) ? pass : fail).push(elem);
-    });
-    return [pass, fail];
-  };
-
   // Produce a duplicate-free version of the array. If the array has already
   // been sorted, you have the option of using a faster algorithm.
   // Aliased as `unique`.
-  _.uniq = _.unique = function(array, isSorted, iterator, context) {
-    if (_.isFunction(isSorted)) {
-      context = iterator;
-      iterator = isSorted;
+  _.uniq = _.unique = function(array, isSorted, iteratee, context) {
+    if (array == null) return [];
+    if (!_.isBoolean(isSorted)) {
+      context = iteratee;
+      iteratee = isSorted;
       isSorted = false;
     }
-    var initial = iterator ? _.map(array, iterator, context) : array;
-    var results = [];
+    if (iteratee != null) iteratee = _.iteratee(iteratee, context);
+    var result = [];
     var seen = [];
-    each(initial, function(value, index) {
-      if (isSorted ? (!index || seen[seen.length - 1] !== value) : !_.contains(seen, value)) {
-        seen.push(value);
-        results.push(array[index]);
+    for (var i = 0, length = array.length; i < length; i++) {
+      var value = array[i];
+      if (isSorted) {
+        if (!i || seen !== value) result.push(value);
+        seen = value;
+      } else if (iteratee) {
+        var computed = iteratee(value, i, array);
+        if (_.indexOf(seen, computed) < 0) {
+          seen.push(computed);
+          result.push(value);
+        }
+      } else if (_.indexOf(result, value) < 0) {
+        result.push(value);
       }
-    });
-    return results;
+    }
+    return result;
   };
 
   // Produce an array that contains the union: each distinct element from all of
   // the passed-in arrays.
   _.union = function() {
-    return _.uniq(_.flatten(arguments, true));
+    return _.uniq(flatten(arguments, true, true, []));
   };
 
   // Produce an array that contains every item shared between all the
   // passed-in arrays.
   _.intersection = function(array) {
-    var rest = slice.call(arguments, 1);
-    return _.filter(_.uniq(array), function(item) {
-      return _.every(rest, function(other) {
-        return _.contains(other, item);
-      });
-    });
+    if (array == null) return [];
+    var result = [];
+    var argsLength = arguments.length;
+    for (var i = 0, length = array.length; i < length; i++) {
+      var item = array[i];
+      if (_.contains(result, item)) continue;
+      for (var j = 1; j < argsLength; j++) {
+        if (!_.contains(arguments[j], item)) break;
+      }
+      if (j === argsLength) result.push(item);
+    }
+    return result;
   };
 
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
   _.difference = function(array) {
-    var rest = concat.apply(ArrayProto, slice.call(arguments, 1));
-    return _.filter(array, function(value){ return !_.contains(rest, value); });
+    var rest = flatten(slice.call(arguments, 1), true, true, []);
+    return _.filter(array, function(value){
+      return !_.contains(rest, value);
+    });
   };
 
   // Zip together multiple lists into a single array -- elements that share
   // an index go together.
-  _.zip = function() {
-    var length = _.max(_.pluck(arguments, 'length').concat(0));
-    var results = new Array(length);
+  _.zip = function(array) {
+    if (array == null) return [];
+    var length = _.max(arguments, 'length').length;
+    var results = Array(length);
     for (var i = 0; i < length; i++) {
-      results[i] = _.pluck(arguments, '' + i);
+      results[i] = _.pluck(arguments, i);
     }
     return results;
   };
@@ -9733,10 +9776,8 @@ return jQuery;
     return result;
   };
 
-  // If the browser doesn't supply us with indexOf (I'm looking at you, **MSIE**),
-  // we need this function. Return the position of the first occurrence of an
-  // item in an array, or -1 if the item is not included in the array.
-  // Delegates to **ECMAScript 5**'s native `indexOf` if available.
+  // Return the position of the first occurrence of an item in an array,
+  // or -1 if the item is not included in the array.
   // If the array is large and already in sort order, pass `true`
   // for **isSorted** to use binary search.
   _.indexOf = function(array, item, isSorted) {
@@ -9744,26 +9785,23 @@ return jQuery;
     var i = 0, length = array.length;
     if (isSorted) {
       if (typeof isSorted == 'number') {
-        i = (isSorted < 0 ? Math.max(0, length + isSorted) : isSorted);
+        i = isSorted < 0 ? Math.max(0, length + isSorted) : isSorted;
       } else {
         i = _.sortedIndex(array, item);
         return array[i] === item ? i : -1;
       }
     }
-    if (nativeIndexOf && array.indexOf === nativeIndexOf) return array.indexOf(item, isSorted);
     for (; i < length; i++) if (array[i] === item) return i;
     return -1;
   };
 
-  // Delegates to **ECMAScript 5**'s native `lastIndexOf` if available.
   _.lastIndexOf = function(array, item, from) {
     if (array == null) return -1;
-    var hasIndex = from != null;
-    if (nativeLastIndexOf && array.lastIndexOf === nativeLastIndexOf) {
-      return hasIndex ? array.lastIndexOf(item, from) : array.lastIndexOf(item);
+    var idx = array.length;
+    if (typeof from == 'number') {
+      idx = from < 0 ? idx + from + 1 : Math.min(idx, from + 1);
     }
-    var i = (hasIndex ? from : array.length);
-    while (i--) if (array[i] === item) return i;
+    while (--idx >= 0) if (array[idx] === item) return idx;
     return -1;
   };
 
@@ -9775,15 +9813,13 @@ return jQuery;
       stop = start || 0;
       start = 0;
     }
-    step = arguments[2] || 1;
+    step = step || 1;
 
     var length = Math.max(Math.ceil((stop - start) / step), 0);
-    var idx = 0;
-    var range = new Array(length);
+    var range = Array(length);
 
-    while(idx < length) {
-      range[idx++] = start;
-      start += step;
+    for (var idx = 0; idx < length; idx++, start += step) {
+      range[idx] = start;
     }
 
     return range;
@@ -9793,7 +9829,7 @@ return jQuery;
   // ------------------
 
   // Reusable constructor function for prototype setting.
-  var ctor = function(){};
+  var Ctor = function(){};
 
   // Create a function bound to a given object (assigning `this`, and arguments,
   // optionally). Delegates to **ECMAScript 5**'s native `Function.bind` if
@@ -9801,17 +9837,18 @@ return jQuery;
   _.bind = function(func, context) {
     var args, bound;
     if (nativeBind && func.bind === nativeBind) return nativeBind.apply(func, slice.call(arguments, 1));
-    if (!_.isFunction(func)) throw new TypeError;
+    if (!_.isFunction(func)) throw new TypeError('Bind must be called on a function');
     args = slice.call(arguments, 2);
-    return bound = function() {
+    bound = function() {
       if (!(this instanceof bound)) return func.apply(context, args.concat(slice.call(arguments)));
-      ctor.prototype = func.prototype;
-      var self = new ctor;
-      ctor.prototype = null;
+      Ctor.prototype = func.prototype;
+      var self = new Ctor;
+      Ctor.prototype = null;
       var result = func.apply(self, args.concat(slice.call(arguments)));
-      if (Object(result) === result) return result;
+      if (_.isObject(result)) return result;
       return self;
     };
+    return bound;
   };
 
   // Partially apply a function by creating a version that has had some of its
@@ -9834,27 +9871,34 @@ return jQuery;
   // are the method names to be bound. Useful for ensuring that all callbacks
   // defined on an object belong to it.
   _.bindAll = function(obj) {
-    var funcs = slice.call(arguments, 1);
-    if (funcs.length === 0) throw new Error('bindAll must be passed function names');
-    each(funcs, function(f) { obj[f] = _.bind(obj[f], obj); });
+    var i, length = arguments.length, key;
+    if (length <= 1) throw new Error('bindAll must be passed function names');
+    for (i = 1; i < length; i++) {
+      key = arguments[i];
+      obj[key] = _.bind(obj[key], obj);
+    }
     return obj;
   };
 
   // Memoize an expensive function by storing its results.
   _.memoize = function(func, hasher) {
-    var memo = {};
-    hasher || (hasher = _.identity);
-    return function() {
-      var key = hasher.apply(this, arguments);
-      return _.has(memo, key) ? memo[key] : (memo[key] = func.apply(this, arguments));
+    var memoize = function(key) {
+      var cache = memoize.cache;
+      var address = hasher ? hasher.apply(this, arguments) : key;
+      if (!_.has(cache, address)) cache[address] = func.apply(this, arguments);
+      return cache[address];
     };
+    memoize.cache = {};
+    return memoize;
   };
 
   // Delays a function for the given number of milliseconds, and then calls
   // it with the arguments supplied.
   _.delay = function(func, wait) {
     var args = slice.call(arguments, 2);
-    return setTimeout(function(){ return func.apply(null, args); }, wait);
+    return setTimeout(function(){
+      return func.apply(null, args);
+    }, wait);
   };
 
   // Defers a function, scheduling it to run after the current call stack has
@@ -9872,12 +9916,12 @@ return jQuery;
     var context, args, result;
     var timeout = null;
     var previous = 0;
-    options || (options = {});
+    if (!options) options = {};
     var later = function() {
       previous = options.leading === false ? 0 : _.now();
       timeout = null;
       result = func.apply(context, args);
-      context = args = null;
+      if (!timeout) context = args = null;
     };
     return function() {
       var now = _.now();
@@ -9885,12 +9929,12 @@ return jQuery;
       var remaining = wait - (now - previous);
       context = this;
       args = arguments;
-      if (remaining <= 0) {
+      if (remaining <= 0 || remaining > wait) {
         clearTimeout(timeout);
         timeout = null;
         previous = now;
         result = func.apply(context, args);
-        context = args = null;
+        if (!timeout) context = args = null;
       } else if (!timeout && options.trailing !== false) {
         timeout = setTimeout(later, remaining);
       }
@@ -9907,13 +9951,14 @@ return jQuery;
 
     var later = function() {
       var last = _.now() - timestamp;
-      if (last < wait) {
+
+      if (last < wait && last > 0) {
         timeout = setTimeout(later, wait - last);
       } else {
         timeout = null;
         if (!immediate) {
           result = func.apply(context, args);
-          context = args = null;
+          if (!timeout) context = args = null;
         }
       }
     };
@@ -9923,28 +9968,13 @@ return jQuery;
       args = arguments;
       timestamp = _.now();
       var callNow = immediate && !timeout;
-      if (!timeout) {
-        timeout = setTimeout(later, wait);
-      }
+      if (!timeout) timeout = setTimeout(later, wait);
       if (callNow) {
         result = func.apply(context, args);
         context = args = null;
       }
 
       return result;
-    };
-  };
-
-  // Returns a function that will be executed at most one time, no matter how
-  // often you call it. Useful for lazy initialization.
-  _.once = function(func) {
-    var ran = false, memo;
-    return function() {
-      if (ran) return memo;
-      ran = true;
-      memo = func.apply(this, arguments);
-      func = null;
-      return memo;
     };
   };
 
@@ -9955,16 +9985,23 @@ return jQuery;
     return _.partial(wrapper, func);
   };
 
+  // Returns a negated version of the passed-in predicate.
+  _.negate = function(predicate) {
+    return function() {
+      return !predicate.apply(this, arguments);
+    };
+  };
+
   // Returns a function that is the composition of a list of functions, each
   // consuming the return value of the function that follows.
   _.compose = function() {
-    var funcs = arguments;
+    var args = arguments;
+    var start = args.length - 1;
     return function() {
-      var args = arguments;
-      for (var i = funcs.length - 1; i >= 0; i--) {
-        args = [funcs[i].apply(this, args)];
-      }
-      return args[0];
+      var i = start;
+      var result = args[start].apply(this, arguments);
+      while (i--) result = args[i].call(this, result);
+      return result;
     };
   };
 
@@ -9976,6 +10013,23 @@ return jQuery;
       }
     };
   };
+
+  // Returns a function that will only be executed before being called N times.
+  _.before = function(times, func) {
+    var memo;
+    return function() {
+      if (--times > 0) {
+        memo = func.apply(this, arguments);
+      } else {
+        func = null;
+      }
+      return memo;
+    };
+  };
+
+  // Returns a function that will be executed at most one time, no matter how
+  // often you call it. Useful for lazy initialization.
+  _.once = _.partial(_.before, 2);
 
   // Object Functions
   // ----------------
@@ -9994,7 +10048,7 @@ return jQuery;
   _.values = function(obj) {
     var keys = _.keys(obj);
     var length = keys.length;
-    var values = new Array(length);
+    var values = Array(length);
     for (var i = 0; i < length; i++) {
       values[i] = obj[keys[i]];
     }
@@ -10005,7 +10059,7 @@ return jQuery;
   _.pairs = function(obj) {
     var keys = _.keys(obj);
     var length = keys.length;
-    var pairs = new Array(length);
+    var pairs = Array(length);
     for (var i = 0; i < length; i++) {
       pairs[i] = [keys[i], obj[keys[i]]];
     }
@@ -10034,45 +10088,62 @@ return jQuery;
 
   // Extend a given object with all the properties in passed-in object(s).
   _.extend = function(obj) {
-    each(slice.call(arguments, 1), function(source) {
-      if (source) {
-        for (var prop in source) {
-          obj[prop] = source[prop];
+    if (!_.isObject(obj)) return obj;
+    var source, prop;
+    for (var i = 1, length = arguments.length; i < length; i++) {
+      source = arguments[i];
+      for (prop in source) {
+        if (hasOwnProperty.call(source, prop)) {
+            obj[prop] = source[prop];
         }
       }
-    });
+    }
     return obj;
   };
 
   // Return a copy of the object only containing the whitelisted properties.
-  _.pick = function(obj) {
-    var copy = {};
-    var keys = concat.apply(ArrayProto, slice.call(arguments, 1));
-    each(keys, function(key) {
-      if (key in obj) copy[key] = obj[key];
-    });
-    return copy;
+  _.pick = function(obj, iteratee, context) {
+    var result = {}, key;
+    if (obj == null) return result;
+    if (_.isFunction(iteratee)) {
+      iteratee = createCallback(iteratee, context);
+      for (key in obj) {
+        var value = obj[key];
+        if (iteratee(value, key, obj)) result[key] = value;
+      }
+    } else {
+      var keys = concat.apply([], slice.call(arguments, 1));
+      obj = new Object(obj);
+      for (var i = 0, length = keys.length; i < length; i++) {
+        key = keys[i];
+        if (key in obj) result[key] = obj[key];
+      }
+    }
+    return result;
   };
 
    // Return a copy of the object without the blacklisted properties.
-  _.omit = function(obj) {
-    var copy = {};
-    var keys = concat.apply(ArrayProto, slice.call(arguments, 1));
-    for (var key in obj) {
-      if (!_.contains(keys, key)) copy[key] = obj[key];
+  _.omit = function(obj, iteratee, context) {
+    if (_.isFunction(iteratee)) {
+      iteratee = _.negate(iteratee);
+    } else {
+      var keys = _.map(concat.apply([], slice.call(arguments, 1)), String);
+      iteratee = function(value, key) {
+        return !_.contains(keys, key);
+      };
     }
-    return copy;
+    return _.pick(obj, iteratee, context);
   };
 
   // Fill in a given object with default properties.
   _.defaults = function(obj) {
-    each(slice.call(arguments, 1), function(source) {
-      if (source) {
-        for (var prop in source) {
-          if (obj[prop] === void 0) obj[prop] = source[prop];
-        }
+    if (!_.isObject(obj)) return obj;
+    for (var i = 1, length = arguments.length; i < length; i++) {
+      var source = arguments[i];
+      for (var prop in source) {
+        if (obj[prop] === void 0) obj[prop] = source[prop];
       }
-    });
+    }
     return obj;
   };
 
@@ -10094,7 +10165,7 @@ return jQuery;
   var eq = function(a, b, aStack, bStack) {
     // Identical objects are equal. `0 === -0`, but they aren't identical.
     // See the [Harmony `egal` proposal](http://wiki.ecmascript.org/doku.php?id=harmony:egal).
-    if (a === b) return a !== 0 || 1 / a == 1 / b;
+    if (a === b) return a !== 0 || 1 / a === 1 / b;
     // A strict comparison is necessary because `null == undefined`.
     if (a == null || b == null) return a === b;
     // Unwrap any wrapped objects.
@@ -10102,29 +10173,27 @@ return jQuery;
     if (b instanceof _) b = b._wrapped;
     // Compare `[[Class]]` names.
     var className = toString.call(a);
-    if (className != toString.call(b)) return false;
+    if (className !== toString.call(b)) return false;
     switch (className) {
-      // Strings, numbers, dates, and booleans are compared by value.
+      // Strings, numbers, regular expressions, dates, and booleans are compared by value.
+      case '[object RegExp]':
+      // RegExps are coerced to strings for comparison (Note: '' + /a/i === '/a/i')
       case '[object String]':
         // Primitives and their corresponding object wrappers are equivalent; thus, `"5"` is
         // equivalent to `new String("5")`.
-        return a == String(b);
+        return '' + a === '' + b;
       case '[object Number]':
-        // `NaN`s are equivalent, but non-reflexive. An `egal` comparison is performed for
-        // other numeric values.
-        return a != +a ? b != +b : (a == 0 ? 1 / a == 1 / b : a == +b);
+        // `NaN`s are equivalent, but non-reflexive.
+        // Object(NaN) is equivalent to NaN
+        if (+a !== +a) return +b !== +b;
+        // An `egal` comparison is performed for other numeric values.
+        return +a === 0 ? 1 / +a === 1 / b : +a === +b;
       case '[object Date]':
       case '[object Boolean]':
         // Coerce dates and booleans to numeric primitive values. Dates are compared by their
         // millisecond representations. Note that invalid dates with millisecond representations
         // of `NaN` are not equivalent.
-        return +a == +b;
-      // RegExps are compared by their source patterns and flags.
-      case '[object RegExp]':
-        return a.source == b.source &&
-               a.global == b.global &&
-               a.multiline == b.multiline &&
-               a.ignoreCase == b.ignoreCase;
+        return +a === +b;
     }
     if (typeof a != 'object' || typeof b != 'object') return false;
     // Assume equality for cyclic structures. The algorithm for detecting cyclic
@@ -10133,25 +10202,29 @@ return jQuery;
     while (length--) {
       // Linear search. Performance is inversely proportional to the number of
       // unique nested structures.
-      if (aStack[length] == a) return bStack[length] == b;
+      if (aStack[length] === a) return bStack[length] === b;
     }
     // Objects with different constructors are not equivalent, but `Object`s
     // from different frames are.
     var aCtor = a.constructor, bCtor = b.constructor;
-    if (aCtor !== bCtor && !(_.isFunction(aCtor) && (aCtor instanceof aCtor) &&
-                             _.isFunction(bCtor) && (bCtor instanceof bCtor))
-                        && ('constructor' in a && 'constructor' in b)) {
+    if (
+      aCtor !== bCtor &&
+      // Handle Object.create(x) cases
+      'constructor' in a && 'constructor' in b &&
+      !(_.isFunction(aCtor) && aCtor instanceof aCtor &&
+        _.isFunction(bCtor) && bCtor instanceof bCtor)
+    ) {
       return false;
     }
     // Add the first object to the stack of traversed objects.
     aStack.push(a);
     bStack.push(b);
-    var size = 0, result = true;
+    var size, result;
     // Recursively compare objects and arrays.
-    if (className == '[object Array]') {
+    if (className === '[object Array]') {
       // Compare array lengths to determine if a deep comparison is necessary.
       size = a.length;
-      result = size == b.length;
+      result = size === b.length;
       if (result) {
         // Deep compare the contents, ignoring non-numeric properties.
         while (size--) {
@@ -10160,20 +10233,16 @@ return jQuery;
       }
     } else {
       // Deep compare objects.
-      for (var key in a) {
-        if (_.has(a, key)) {
-          // Count the expected number of properties.
-          size++;
-          // Deep compare each member.
+      var keys = _.keys(a), key;
+      size = keys.length;
+      // Ensure that both objects contain the same number of properties before comparing deep equality.
+      result = _.keys(b).length === size;
+      if (result) {
+        while (size--) {
+          // Deep compare each member
+          key = keys[size];
           if (!(result = _.has(b, key) && eq(a[key], b[key], aStack, bStack))) break;
         }
-      }
-      // Ensure that both objects contain the same number of properties.
-      if (result) {
-        for (key in b) {
-          if (_.has(b, key) && !(size--)) break;
-        }
-        result = !size;
       }
     }
     // Remove the first object from the stack of traversed objects.
@@ -10191,7 +10260,7 @@ return jQuery;
   // An "empty" object has no enumerable own-properties.
   _.isEmpty = function(obj) {
     if (obj == null) return true;
-    if (_.isArray(obj) || _.isString(obj)) return obj.length === 0;
+    if (_.isArray(obj) || _.isString(obj) || _.isArguments(obj)) return obj.length === 0;
     for (var key in obj) if (_.has(obj, key)) return false;
     return true;
   };
@@ -10204,18 +10273,19 @@ return jQuery;
   // Is a given value an array?
   // Delegates to ECMA5's native Array.isArray
   _.isArray = nativeIsArray || function(obj) {
-    return toString.call(obj) == '[object Array]';
+    return toString.call(obj) === '[object Array]';
   };
 
   // Is a given variable an object?
   _.isObject = function(obj) {
-    return obj === Object(obj);
+    var type = typeof obj;
+    return type === 'function' || type === 'object' && !!obj;
   };
 
   // Add some isType methods: isArguments, isFunction, isString, isNumber, isDate, isRegExp.
-  each(['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp'], function(name) {
+  _.each(['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp'], function(name) {
     _['is' + name] = function(obj) {
-      return toString.call(obj) == '[object ' + name + ']';
+      return toString.call(obj) === '[object ' + name + ']';
     };
   });
 
@@ -10223,14 +10293,14 @@ return jQuery;
   // there isn't any inspectable "Arguments" type.
   if (!_.isArguments(arguments)) {
     _.isArguments = function(obj) {
-      return !!(obj && _.has(obj, 'callee'));
+      return _.has(obj, 'callee');
     };
   }
 
-  // Optimize `isFunction` if appropriate.
-  if (typeof (/./) !== 'function') {
+  // Optimize `isFunction` if appropriate. Work around an IE 11 bug.
+  if (typeof /./ !== 'function') {
     _.isFunction = function(obj) {
-      return typeof obj === 'function';
+      return typeof obj == 'function' || false;
     };
   }
 
@@ -10241,12 +10311,12 @@ return jQuery;
 
   // Is the given value `NaN`? (NaN is the only number which does not equal itself).
   _.isNaN = function(obj) {
-    return _.isNumber(obj) && obj != +obj;
+    return _.isNumber(obj) && obj !== +obj;
   };
 
   // Is a given value a boolean?
   _.isBoolean = function(obj) {
-    return obj === true || obj === false || toString.call(obj) == '[object Boolean]';
+    return obj === true || obj === false || toString.call(obj) === '[object Boolean]';
   };
 
   // Is a given value equal to null?
@@ -10262,7 +10332,7 @@ return jQuery;
   // Shortcut function for checking if an object has a given property directly
   // on itself (in other words, not on a prototype).
   _.has = function(obj, key) {
-    return hasOwnProperty.call(obj, key);
+    return obj != null && hasOwnProperty.call(obj, key);
   };
 
   // Utility Functions
@@ -10275,16 +10345,18 @@ return jQuery;
     return this;
   };
 
-  // Keep the identity function around for default iterators.
+  // Keep the identity function around for default iteratees.
   _.identity = function(value) {
     return value;
   };
 
   _.constant = function(value) {
-    return function () {
+    return function() {
       return value;
     };
   };
+
+  _.noop = function(){};
 
   _.property = function(key) {
     return function(obj) {
@@ -10294,20 +10366,23 @@ return jQuery;
 
   // Returns a predicate for checking whether an object has a given set of `key:value` pairs.
   _.matches = function(attrs) {
+    var pairs = _.pairs(attrs), length = pairs.length;
     return function(obj) {
-      if (obj === attrs) return true; //avoid comparing an object to itself.
-      for (var key in attrs) {
-        if (attrs[key] !== obj[key])
-          return false;
+      if (obj == null) return !length;
+      obj = new Object(obj);
+      for (var i = 0; i < length; i++) {
+        var pair = pairs[i], key = pair[0];
+        if (pair[1] !== obj[key] || !(key in obj)) return false;
       }
       return true;
-    }
+    };
   };
 
   // Run a function **n** times.
-  _.times = function(n, iterator, context) {
+  _.times = function(n, iteratee, context) {
     var accum = Array(Math.max(0, n));
-    for (var i = 0; i < n; i++) accum[i] = iterator.call(context, i);
+    iteratee = createCallback(iteratee, context, 1);
+    for (var i = 0; i < n; i++) accum[i] = iteratee(i);
     return accum;
   };
 
@@ -10321,54 +10396,44 @@ return jQuery;
   };
 
   // A (possibly faster) way to get the current timestamp as an integer.
-  _.now = Date.now || function() { return new Date().getTime(); };
-
-  // List of HTML entities for escaping.
-  var entityMap = {
-    escape: {
-      '&': '&amp;',
-      '<': '&lt;',
-      '>': '&gt;',
-      '"': '&quot;',
-      "'": '&#x27;'
-    }
+  _.now = Date.now || function() {
+    return new Date().getTime();
   };
-  entityMap.unescape = _.invert(entityMap.escape);
 
-  // Regexes containing the keys and values listed immediately above.
-  var entityRegexes = {
-    escape:   new RegExp('[' + _.keys(entityMap.escape).join('') + ']', 'g'),
-    unescape: new RegExp('(' + _.keys(entityMap.unescape).join('|') + ')', 'g')
+   // List of HTML entities for escaping.
+  var escapeMap = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#x27;',
+    '`': '&#x60;'
   };
+  var unescapeMap = _.invert(escapeMap);
 
   // Functions for escaping and unescaping strings to/from HTML interpolation.
-  _.each(['escape', 'unescape'], function(method) {
-    _[method] = function(string) {
-      if (string == null) return '';
-      return ('' + string).replace(entityRegexes[method], function(match) {
-        return entityMap[method][match];
-      });
+  var createEscaper = function(map) {
+    var escaper = function(match) {
+      return map[match];
     };
-  });
+    // Regexes for identifying a key that needs to be escaped
+    var source = '(?:' + _.keys(map).join('|') + ')';
+    var testRegexp = RegExp(source);
+    var replaceRegexp = RegExp(source, 'g');
+    return function(string) {
+      string = string == null ? '' : '' + string;
+      return testRegexp.test(string) ? string.replace(replaceRegexp, escaper) : string;
+    };
+  };
+  _.escape = createEscaper(escapeMap);
+  _.unescape = createEscaper(unescapeMap);
 
   // If the value of the named `property` is a function then invoke it with the
   // `object` as context; otherwise, return it.
   _.result = function(object, property) {
     if (object == null) return void 0;
     var value = object[property];
-    return _.isFunction(value) ? value.call(object) : value;
-  };
-
-  // Add your own custom functions to the Underscore object.
-  _.mixin = function(obj) {
-    each(_.functions(obj), function(name) {
-      var func = _[name] = obj[name];
-      _.prototype[name] = function() {
-        var args = [this._wrapped];
-        push.apply(args, arguments);
-        return result.call(this, func.apply(_, args));
-      };
-    });
+    return _.isFunction(value) ? object[property]() : value;
   };
 
   // Generate a unique integer id (unique within the entire client session).
@@ -10399,22 +10464,26 @@ return jQuery;
     '\\':     '\\',
     '\r':     'r',
     '\n':     'n',
-    '\t':     't',
     '\u2028': 'u2028',
     '\u2029': 'u2029'
   };
 
-  var escaper = /\\|'|\r|\n|\t|\u2028|\u2029/g;
+  var escaper = /\\|'|\r|\n|\u2028|\u2029/g;
+
+  var escapeChar = function(match) {
+    return '\\' + escapes[match];
+  };
 
   // JavaScript micro-templating, similar to John Resig's implementation.
   // Underscore templating handles arbitrary delimiters, preserves whitespace,
   // and correctly escapes quotes within interpolated code.
-  _.template = function(text, data, settings) {
-    var render;
+  // NB: `oldSettings` only exists for backwards compatibility.
+  _.template = function(text, settings, oldSettings) {
+    if (!settings && oldSettings) settings = oldSettings;
     settings = _.defaults({}, settings, _.templateSettings);
 
     // Combine delimiters into one regular expression via alternation.
-    var matcher = new RegExp([
+    var matcher = RegExp([
       (settings.escape || noMatch).source,
       (settings.interpolate || noMatch).source,
       (settings.evaluate || noMatch).source
@@ -10424,19 +10493,18 @@ return jQuery;
     var index = 0;
     var source = "__p+='";
     text.replace(matcher, function(match, escape, interpolate, evaluate, offset) {
-      source += text.slice(index, offset)
-        .replace(escaper, function(match) { return '\\' + escapes[match]; });
+      source += text.slice(index, offset).replace(escaper, escapeChar);
+      index = offset + match.length;
 
       if (escape) {
         source += "'+\n((__t=(" + escape + "))==null?'':_.escape(__t))+\n'";
-      }
-      if (interpolate) {
+      } else if (interpolate) {
         source += "'+\n((__t=(" + interpolate + "))==null?'':__t)+\n'";
-      }
-      if (evaluate) {
+      } else if (evaluate) {
         source += "';\n" + evaluate + "\n__p+='";
       }
-      index = offset + match.length;
+
+      // Adobe VMs need the match returned to produce the correct offest.
       return match;
     });
     source += "';\n";
@@ -10446,29 +10514,31 @@ return jQuery;
 
     source = "var __t,__p='',__j=Array.prototype.join," +
       "print=function(){__p+=__j.call(arguments,'');};\n" +
-      source + "return __p;\n";
+      source + 'return __p;\n';
 
     try {
-      render = new Function(settings.variable || 'obj', '_', source);
+      var render = new Function(settings.variable || 'obj', '_', source);
     } catch (e) {
       e.source = source;
       throw e;
     }
 
-    if (data) return render(data, _);
     var template = function(data) {
       return render.call(this, data, _);
     };
 
-    // Provide the compiled function source as a convenience for precompilation.
-    template.source = 'function(' + (settings.variable || 'obj') + '){\n' + source + '}';
+    // Provide the compiled source as a convenience for precompilation.
+    var argument = settings.variable || 'obj';
+    template.source = 'function(' + argument + '){\n' + source + '}';
 
     return template;
   };
 
-  // Add a "chain" function, which will delegate to the wrapper.
+  // Add a "chain" function. Start chaining a wrapped Underscore object.
   _.chain = function(obj) {
-    return _(obj).chain();
+    var instance = _(obj);
+    instance._chain = true;
+    return instance;
   };
 
   // OOP
@@ -10482,42 +10552,44 @@ return jQuery;
     return this._chain ? _(obj).chain() : obj;
   };
 
+  // Add your own custom functions to the Underscore object.
+  _.mixin = function(obj) {
+    _.each(_.functions(obj), function(name) {
+      var func = _[name] = obj[name];
+      _.prototype[name] = function() {
+        var args = [this._wrapped];
+        push.apply(args, arguments);
+        return result.call(this, func.apply(_, args));
+      };
+    });
+  };
+
   // Add all of the Underscore functions to the wrapper object.
   _.mixin(_);
 
   // Add all mutator Array functions to the wrapper.
-  each(['pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift'], function(name) {
+  _.each(['pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift'], function(name) {
     var method = ArrayProto[name];
     _.prototype[name] = function() {
       var obj = this._wrapped;
       method.apply(obj, arguments);
-      if ((name == 'shift' || name == 'splice') && obj.length === 0) delete obj[0];
+      if ((name === 'shift' || name === 'splice') && obj.length === 0) delete obj[0];
       return result.call(this, obj);
     };
   });
 
   // Add all accessor Array functions to the wrapper.
-  each(['concat', 'join', 'slice'], function(name) {
+  _.each(['concat', 'join', 'slice'], function(name) {
     var method = ArrayProto[name];
     _.prototype[name] = function() {
       return result.call(this, method.apply(this._wrapped, arguments));
     };
   });
 
-  _.extend(_.prototype, {
-
-    // Start chaining a wrapped Underscore object.
-    chain: function() {
-      this._chain = true;
-      return this;
-    },
-
-    // Extracts the result from a wrapped and chained object.
-    value: function() {
-      return this._wrapped;
-    }
-
-  });
+  // Extracts the result from a wrapped and chained object.
+  _.prototype.value = function() {
+    return this._wrapped;
+  };
 
   // AMD registration happens at the end for compatibility with AMD loaders
   // that may not enforce next-turn semantics on modules. Even though general
@@ -10531,7 +10603,7 @@ return jQuery;
       return _;
     });
   }
-}).call(this);
+}.call(this));
 
 //     Backbone.js 1.1.2
 
@@ -12144,7 +12216,7 @@ return jQuery;
 
 // Backbone.BabySitter
 // -------------------
-// v0.1.4
+// v0.1.5
 //
 // Copyright (c)2014 Derick Bailey, Muted Solutions, LLC.
 // Distributed under MIT license
@@ -12322,7 +12394,7 @@ return jQuery;
   })(Backbone, _);
   
 
-  Backbone.ChildViewContainer.VERSION = '0.1.4';
+  Backbone.ChildViewContainer.VERSION = '0.1.5';
 
   Backbone.ChildViewContainer.noConflict = function () {
     Backbone.ChildViewContainer = previousChildViewContainer;
@@ -12774,676 +12846,5779 @@ return jQuery;
 
 }));
 
-(function(root, factory) {
-
-  if (typeof define === 'function' && define.amd) {
-    define(['underscore', 'backbone', 'jquery'], function(_, Backbone, $) {
-      return factory(_, Backbone, $);
-    });
-  } else if (typeof exports !== 'undefined') {
-    var _ = require('underscore');
-    var Backbone = require('backbone');
-    var $ = require('jquery');
-    module.exports = factory(_, Backbone, $);
-  } else {
-    factory(root._, root.Backbone, root.jQuery);
-  }
-
-}(this, function(_, Backbone, $) {
+/**
+ * |-------------------|
+ * | Backbone-Mediator |
+ * |-------------------|
+ *  Backbone-Mediator is freely distributable under the MIT license.
+ *
+ *  <a href="https://github.com/chalbert/Backbone-Mediator">More details & documentation</a>
+ *
+ * @author Nicolas Gilbert
+ * 
+ * Support to channel wildcards added by
+ * @author Estevão Santos (tivie)
+ * 
+ * @requires _
+ * @requires Backbone
+ */
+(function(factory){
   'use strict';
 
-  var previousSyphon = Backbone.Syphon;
+  if (typeof define === 'function' && define.amd) {
+    define(['underscore', 'backbone'], factory);
+  } else {
+    factory(_, Backbone);
+  }
 
-  var Syphon = Backbone.Syphon = {};
+})(function (_, Backbone){
+  'use strict';
 
-  Syphon.VERSION = '0.5.0';
+  /**
+	 * @static
+	 */
+	var debug = false,
+		channels = {},
+		Subscriber,
+		/** @borrows Backbone.View#delegateEvents */
+		delegateEvents = Backbone.View.prototype.delegateEvents,
+		/** @borrows Backbone.View#delegateEvents */
+		undelegateEvents = Backbone.View.prototype.undelegateEvents;
 
-  Syphon.noConflict = function() {
-    Backbone.Syphon = previousSyphon;
-    return this;
+	/**
+	 * @class
+	 */
+	Backbone.Mediator = {
+		
+		/**
+		 * Enables/disables debug mode
+		 * @param Boolean flag True enables debugging mode, false disables it
+		 */
+		debugMode: function(flag) {
+			debug = (flag) ? true : false;
+		},
+			
+	    /**
+	     * Subscribe to a channel
+	     * @param channel
+	     */
+		subscribe: function(channel, subscription, context, once) {
+			
+		    if (!_.isObject(context)) {
+		         context = window;
+		    }
+			
+		    if (_.isUndefined(subscription)) {
+		    	return;
+		    }
+		    
+		    if (!_.isFunction(subscription) && !_.isFunction(context[subscription])) {
+		        if (debug) console.warn('Fuction passed as callback to channel subscription named  ' + channel + ' seems invalid! Skipped!');
+		        return;
+		    }
+			
+			if (!channels[channel]) channels[channel] = [];
+			channels[channel].push({fn: subscription, context: context || this, once: once});
+		},
+		
+		/**
+		 * Cancel subscription
+		 *
+		 * @param channel
+		 * @param fn
+		 * @param context
+		 */
+	    unsubscribe: function(channel, fn, context){
+	    	if (!channels[channel]) return;
+	
+	    	var subscription;
+	    	for (var i = 0; i < channels[channel].length; i++) {
+	    		subscription = channels[channel][i];
+	    		if (subscription.fn === fn && subscription.context === context) {
+	    			channels[channel].splice(i, 1);
+	    			i--;
+	    		}
+	    	}
+	    },
+		
+		
+		
+		/**
+	     * Trigger all callbacks for a channel
+	     *
+	     * @param channel
+	     * @params N Extra parametter to pass to handler
+	     */
+		publish: function(channel) {
+			
+			if (channel.indexOf('*') > -1) {
+		    	throw new Error('When publishing to a channel, you cannot use wildcards');
+		    }
+			
+			var params = [].slice.call(arguments, 1),
+				sentSpl = channel.split(':'),
+				eleNum  = sentSpl.length,
+				pubMe = function (foundChannels, args) {
+					for (var i = 0; i < foundChannels.length; i++) {
+						var subscription = foundChannels[i];
+						subscription.fn.apply(subscription.context, args);
+						if (subscription.once) {
+							Backbone.Mediator.unsubscribe(channel, subscription.fn, subscription.context);
+							i--;
+						}
+					}
+				};
+			for (var c in channels) {
+			    var cSpl = c.split(':');
+			    
+			    for (var i = 0; i < eleNum; ++i) {
+			        if (sentSpl[i] !== cSpl[i] && 
+			        	cSpl[i]    !== '*') { 
+			        	break; 
+			        }
+			        
+			        if (i === eleNum - 1) {
+			        	pubMe(channels[c], params);
+			        	
+			        }
+			    }
+			}
+		},
+
+
+
+	    /**
+	     * Subscribing to one event only
+	     *
+	     * @param channel
+	     * @param subscription
+	     * @param context
+	     */
+	    subscribeOnce: function (channel, subscription, context) {
+	    	Backbone.Mediator.subscribe(channel, subscription, context, true);
+	    }
+
+	};
+
+	/**
+	 * Allow to define convention-based subscriptions
+	 * as an 'subscriptions' hash on a view. Subscriptions
+	 * can then be easily setup and cleaned.
+	 *
+	 * @class
+	 */
+	Subscriber = {
+
+		/**
+     	 * Extend delegateEvents() to set subscriptions
+     	 */
+		delegateEvents: function () {
+			delegateEvents.apply(this, arguments);
+			this.setSubscriptions();
+		},
+
+		/**
+		 * Extend undelegateEvents() to unset subscriptions
+		 */
+		undelegateEvents: function() {
+			undelegateEvents.apply(this, arguments);
+			this.unsetSubscriptions();
+		},
+
+		/** 
+		 * @property {Object} List of subscriptions, to be defined 
+		 */
+		subscriptions: {},
+
+	    /**
+	     * Subscribe to each subscription
+	     * @param {Object} [subscriptions] An optional hash of subscription to add
+	     */
+	    setSubscriptions: function(subscriptions){
+		    if (subscriptions) _.extend(this.subscriptions || {}, subscriptions);
+		    subscriptions = subscriptions || this.subscriptions;
+		    if (!subscriptions || _.isEmpty(subscriptions)) return;
+		    // Just to be sure we don't set duplicate
+		    this.unsetSubscriptions(subscriptions);
+		
+		    _.each(subscriptions, function(subscription, channel) {
+		    	var once;
+		    	if (subscription.$once) {
+		    		subscription = subscription.$once;
+		    		once = true;
+		    	}
+		    	if (_.isString(subscription)) {
+		    		subscription = this[subscription];
+		    	}
+		    	Backbone.Mediator.subscribe(channel, subscription, this, once);
+		    	
+		    }, this);
+	    },
+
+	    /**
+	     * Unsubscribe to each subscription
+	     * @param {Object} [subscriptions] An optional hash of subscription to remove
+	     */
+	    unsetSubscriptions: function(subscriptions){
+	      subscriptions = subscriptions || this.subscriptions;
+	      if (!subscriptions || _.isEmpty(subscriptions)) return;
+	      _.each(subscriptions, function(subscription, channel){
+	        if (_.isString(subscription)) {
+	          subscription = this[subscription];
+	        }
+	        Backbone.Mediator.unsubscribe(channel, subscription.$once || subscription, this);
+	      }, this);
+	    }
+	  };
+
+	  /**
+	   * @lends Backbone.View.prototype
+	   */
+	  _.extend(Backbone.View.prototype, Subscriber);
+	
+	  /**
+	   * @lends Backbone.Mediator
+	   */
+	  _.extend(Backbone.Mediator, {
+	    /**
+	     * Shortcut for publish
+	     * @function
+	     */
+	    pub: Backbone.Mediator.publish,
+	    /**
+	     * Shortcut for subscribe
+	     * @function
+	     */
+	    sub: Backbone.Mediator.subscribe
+	  });
+
+	return Backbone;
+});
+
+/*!
+
+ handlebars v2.0.0
+
+Copyright (C) 2011-2014 by Yehuda Katz
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+@license
+*/
+/* exported Handlebars */
+(function (root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    define([], factory);
+  } else if (typeof exports === 'object') {
+    module.exports = factory();
+  } else {
+    root.Handlebars = root.Handlebars || factory();
+  }
+}(this, function () {
+// handlebars/safe-string.js
+var __module4__ = (function() {
+  "use strict";
+  var __exports__;
+  // Build out our basic SafeString type
+  function SafeString(string) {
+    this.string = string;
+  }
+
+  SafeString.prototype.toString = function() {
+    return "" + this.string;
   };
 
-  /* jshint maxstatements: 13, maxlen: 102, maxcomplexity: 8, latedef: false */
-  
-  // Ignore Element Types
-  // --------------------
-  
-  // Tell Syphon to ignore all elements of these types. You can
-  // push new types to ignore directly in to this array.
-  Syphon.ignoredTypes = ['button', 'submit', 'reset', 'fieldset'];
-  
-  // Syphon
-  // ------
-  
-  // Get a JSON object that represents
-  // all of the form inputs, in this view.
-  // Alternately, pass a form element directly
-  // in place of the view.
-  Syphon.serialize = function(view, options){
-    var data = {};
-  
-    // Build the configuration
-    var config = buildConfig(options);
-  
-    // Get all of the elements to process
-    var elements = getInputElements(view, config);
-  
-    // Process all of the elements
-    _.each(elements, function(el){
-      var $el = $(el);
-      var type = getElementType($el);
-  
-      // Get the key for the input
-      var keyExtractor = config.keyExtractors.get(type);
-      var key = keyExtractor($el);
-  
-      // Get the value for the input
-      var inputReader = config.inputReaders.get(type);
-      var value = inputReader($el);
-  
-      // Get the key assignment validator and make sure
-      // it's valid before assigning the value to the key
-      var validKeyAssignment = config.keyAssignmentValidators.get(type);
-      if (validKeyAssignment($el, key, value)){
-        var keychain = config.keySplitter(key);
-        data = assignKeyValue(data, keychain, value);
-      }
-    });
-  
-    // Done; send back the results.
-    return data;
+  __exports__ = SafeString;
+  return __exports__;
+})();
+
+// handlebars/utils.js
+var __module3__ = (function(__dependency1__) {
+  "use strict";
+  var __exports__ = {};
+  /*jshint -W004 */
+  var SafeString = __dependency1__;
+
+  var escape = {
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#x27;",
+    "`": "&#x60;"
   };
-  
-  // Use the given JSON object to populate
-  // all of the form inputs, in this view.
-  // Alternately, pass a form element directly
-  // in place of the view.
-  Syphon.deserialize = function(view, data, options){
-    // Build the configuration
-    var config = buildConfig(options);
-  
-    // Get all of the elements to process
-    var elements = getInputElements(view, config);
-  
-    // Flatten the data structure that we are deserializing
-    var flattenedData = flattenData(config, data);
-  
-    // Process all of the elements
-    _.each(elements, function(el){
-      var $el = $(el);
-      var type = getElementType($el);
-  
-      // Get the key for the input
-      var keyExtractor = config.keyExtractors.get(type);
-      var key = keyExtractor($el);
-  
-      // Get the input writer and the value to write
-      var inputWriter = config.inputWriters.get(type);
-      var value = flattenedData[key];
-  
-      // Write the value to the input
-      inputWriter($el, value);
-    });
-  };
-  
-  // Helpers
-  // -------
-  
-  // Retrieve all of the form inputs
-  // from the form
-  var getInputElements = function(view, config){
-    var form = getForm(view);
-    var elements = form.elements;
-  
-    elements = _.reject(elements, function(el){
-      var reject;
-      var type = getElementType(el);
-      var extractor = config.keyExtractors.get(type);
-      var identifier = extractor($(el));
-  
-      var foundInIgnored = _.include(config.ignoredTypes, type);
-      var foundInInclude = _.include(config.include, identifier);
-      var foundInExclude = _.include(config.exclude, identifier);
-  
-      if (foundInInclude){
-        reject = false;
-      } else {
-        if (config.include){
-          reject = true;
-        } else {
-          reject = (foundInExclude || foundInIgnored);
+
+  var badChars = /[&<>"'`]/g;
+  var possible = /[&<>"'`]/;
+
+  function escapeChar(chr) {
+    return escape[chr];
+  }
+
+  function extend(obj /* , ...source */) {
+    for (var i = 1; i < arguments.length; i++) {
+      for (var key in arguments[i]) {
+        if (Object.prototype.hasOwnProperty.call(arguments[i], key)) {
+          obj[key] = arguments[i][key];
         }
       }
-  
-      return reject;
-    });
-  
-    return elements;
-  };
-  
-  // Determine what type of element this is. It
-  // will either return the `type` attribute of
-  // an `<input>` element, or the `tagName` of
-  // the element when the element is not an `<input>`.
-  var getElementType = function(el){
-    var typeAttr;
-    var $el = $(el);
-    var tagName = $el[0].tagName;
-    var type = tagName;
-  
-    if (tagName.toLowerCase() === 'input'){
-      typeAttr = $el.attr('type');
-      if (typeAttr){
-        type = typeAttr;
-      } else {
-        type = 'text';
-      }
     }
-  
-    // Always return the type as lowercase
-    // so it can be matched to lowercase
-    // type registrations.
-    return type.toLowerCase();
-  };
-  
-  // If a form element is given, just return it.
-  // Otherwise, get the form element from the view.
-  var getForm = function(viewOrForm){
-    if (_.isUndefined(viewOrForm.$el) && viewOrForm.tagName.toLowerCase() === 'form'){
-      return viewOrForm;
-    } else {
-      return viewOrForm.$el.is('form') ? viewOrForm.el : viewOrForm.$('form')[0];
-    }
-  };
-  
-  // Build a configuration object and initialize
-  // default values.
-  var buildConfig = function(options){
-    var config = _.clone(options) || {};
-  
-    config.ignoredTypes = _.clone(Syphon.ignoredTypes);
-    config.inputReaders = config.inputReaders || Syphon.InputReaders;
-    config.inputWriters = config.inputWriters || Syphon.InputWriters;
-    config.keyExtractors = config.keyExtractors || Syphon.KeyExtractors;
-    config.keySplitter = config.keySplitter || Syphon.KeySplitter;
-    config.keyJoiner = config.keyJoiner || Syphon.KeyJoiner;
-    config.keyAssignmentValidators = config.keyAssignmentValidators || Syphon.KeyAssignmentValidators;
-  
-    return config;
-  };
-  
-  // Assigns `value` to a parsed JSON key.
-  //
-  // The first parameter is the object which will be
-  // modified to store the key/value pair.
-  //
-  // The second parameter accepts an array of keys as a
-  // string with an option array containing a
-  // single string as the last option.
-  //
-  // The third parameter is the value to be assigned.
-  //
-  // Examples:
-  //
-  // `['foo', 'bar', 'baz'] => {foo: {bar: {baz: 'value'}}}`
-  //
-  // `['foo', 'bar', ['baz']] => {foo: {bar: {baz: ['value']}}}`
-  //
-  // When the final value is an array with a string, the key
-  // becomes an array, and values are pushed in to the array,
-  // allowing multiple fields with the same name to be
-  // assigned to the array.
-  var assignKeyValue = function(obj, keychain, value) {
-    if (!keychain){ return obj; }
-  
-    var key = keychain.shift();
-  
-    // build the current object we need to store data
-    if (!obj[key]){
-      obj[key] = _.isArray(key) ? [] : {};
-    }
-  
-    // if it's the last key in the chain, assign the value directly
-    if (keychain.length === 0){
-      if (_.isArray(obj[key])){
-        obj[key].push(value);
-      } else {
-        obj[key] = value;
-      }
-    }
-  
-    // recursive parsing of the array, depth-first
-    if (keychain.length > 0){
-      assignKeyValue(obj[key], keychain, value);
-    }
-  
-    return obj;
-  };
-  
-  // Flatten the data structure in to nested strings, using the
-  // provided `KeyJoiner` function.
-  //
-  // Example:
-  //
-  // This input:
-  //
-  // ```js
-  // {
-  //   widget: 'wombat',
-  //   foo: {
-  //     bar: 'baz',
-  //     baz: {
-  //       quux: 'qux'
-  //     },
-  //     quux: ['foo', 'bar']
-  //   }
-  // }
-  // ```
-  //
-  // With a KeyJoiner that uses [ ] square brackets,
-  // should produce this output:
-  //
-  // ```js
-  // {
-  //  'widget': 'wombat',
-  //  'foo[bar]': 'baz',
-  //  'foo[baz][quux]': 'qux',
-  //  'foo[quux]': ['foo', 'bar']
-  // }
-  // ```
-  var flattenData = function(config, data, parentKey){
-    var flatData = {};
-  
-    _.each(data, function(value, keyName){
-      var hash = {};
-  
-      // If there is a parent key, join it with
-      // the current, child key.
-      if (parentKey){
-        keyName = config.keyJoiner(parentKey, keyName);
-      }
-  
-      if (_.isArray(value)){
-        keyName += '[]';
-        hash[keyName] = value;
-      } else if (_.isObject(value)){
-        hash = flattenData(config, value, keyName);
-      } else {
-        hash[keyName] = value;
-      }
-  
-      // Store the resulting key/value pairs in the
-      // final flattened data object
-      _.extend(flatData, hash);
-    });
-  
-    return flatData;
-  };
-  
-  // Type Registry
-  // -------------
-  
-  // Type Registries allow you to register something to
-  // an input type, and retrieve either the item registered
-  // for a specific type or the default registration
-  var TypeRegistry = Syphon.TypeRegistry = function() {
-    this.registeredTypes = {};
-  };
-  
-  // Borrow Backbone's `extend` keyword for our TypeRegistry
-  TypeRegistry.extend = Backbone.Model.extend;
-  
-  _.extend(TypeRegistry.prototype, {
-  
-    // Get the registered item by type. If nothing is
-    // found for the specified type, the default is
-    // returned.
-    get: function(type){
-      return this.registeredTypes[type] || this.registeredTypes['default'];
-    },
-  
-    // Register a new item for a specified type
-    register: function(type, item) {
-      this.registeredTypes[type] = item;
-    },
-  
-    // Register a default item to be used when no
-    // item for a specified type is found
-    registerDefault: function(item) {
-      this.registeredTypes['default'] = item;
-    },
-  
-    // Remove an item from a given type registration
-    unregister: function(type) {
-      if (this.registeredTypes[type]) {
-        delete this.registeredTypes[type];
-      }
-    }
-  });
-  
-  // Key Extractors
-  // --------------
-  
-  // Key extractors produce the "key" in `{key: "value"}`
-  // pairs, when serializing.
-  var KeyExtractorSet = Syphon.KeyExtractorSet = TypeRegistry.extend();
-  
-  // Built-in Key Extractors
-  var KeyExtractors = Syphon.KeyExtractors = new KeyExtractorSet();
-  
-  // The default key extractor, which uses the
-  // input element's "name" attribute
-  KeyExtractors.registerDefault(function($el) {
-    return $el.prop('name') || '';
-  });
-  
-  // Input Readers
-  // -------------
-  
-  // Input Readers are used to extract the value from
-  // an input element, for the serialized object result
-  var InputReaderSet = Syphon.InputReaderSet = TypeRegistry.extend();
-  
-  // Built-in Input Readers
-  var InputReaders = Syphon.InputReaders = new InputReaderSet();
-  
-  // The default input reader, which uses an input
-  // element's "value"
-  InputReaders.registerDefault(function($el){
-    return $el.val();
-  });
-  
-  // Checkbox reader, returning a boolean value for
-  // whether or not the checkbox is checked.
-  InputReaders.register('checkbox', function($el) {
-    return $el.prop('checked');
-  });
-  
-  // Input Writers
-  // -------------
-  
-  // Input Writers are used to insert a value from an
-  // object into an input element.
-  var InputWriterSet = Syphon.InputWriterSet = TypeRegistry.extend();
-  
-  // Built-in Input Writers
-  var InputWriters = Syphon.InputWriters = new InputWriterSet();
-  
-  // The default input writer, which sets an input
-  // element's "value"
-  InputWriters.registerDefault(function($el, value) {
-    $el.val(value);
-  });
-  
-  // Checkbox writer, set whether or not the checkbox is checked
-  // depending on the boolean value.
-  InputWriters.register('checkbox', function($el, value) {
-    $el.prop('checked', value);
-  });
-  
-  // Radio button writer, set whether or not the radio button is
-  // checked.  The button should only be checked if it's value
-  // equals the given value.
-  InputWriters.register('radio', function($el, value) {
-    $el.prop('checked', $el.val() === value.toString());
-  });
-  
-  // Key Assignment Validators
-  // -------------------------
-  
-  // Key Assignment Validators are used to determine whether or not a
-  // key should be assigned to a value, after the key and value have been
-  // extracted from the element. This is the last opportunity to prevent
-  // bad data from getting serialized to your object.
-  
-  var KeyAssignmentValidatorSet = Syphon.KeyAssignmentValidatorSet = TypeRegistry.extend();
-  
-  // Build-in Key Assignment Validators
-  var KeyAssignmentValidators = Syphon.KeyAssignmentValidators = new KeyAssignmentValidatorSet();
-  
-  // Everything is valid by default
-  KeyAssignmentValidators.registerDefault(function() {
-    return true;
-  });
-  
-  // But only the "checked" radio button for a given
-  // radio button group is valid
-  KeyAssignmentValidators.register('radio', function($el, key, value) {
-    return $el.prop('checked');
-  });
-  
-  // Backbone.Syphon.KeySplitter
-  // ---------------------------
-  
-  // This function is used to split DOM element keys in to an array
-  // of parts, which are then used to create a nested result structure.
-  // returning `["foo", "bar"]` results in `{foo: { bar: "value" }}`.
-  //
-  // Override this method to use a custom key splitter, such as:
-  // `<input name="foo.bar.baz">`, `return key.split(".")`
-  Syphon.KeySplitter = function(key) {
-    var matches = key.match(/[^\[\]]+/g);
-    var lastKey;
-  
-    if (key.indexOf('[]') === key.length - 2) {
-      lastKey = matches.pop();
-      matches.push([lastKey]);
-    }
-  
-    return matches;
-  };
-  
-  // Backbone.Syphon.KeyJoiner
-  // -------------------------
-  
-  // Take two segments of a key and join them together, to create the
-  // de-normalized key name, when deserializing a data structure back
-  // in to a form.
-  //
-  // Example:
-  //
-  // With this data strucutre `{foo: { bar: {baz: "value", quux: "another"} } }`,
-  // the key joiner will be called with these parameters, and assuming the
-  // join happens with "[ ]" square brackets, the specified output:
-  //
-  // `KeyJoiner("foo", "bar")` //=> "foo[bar]"
-  // `KeyJoiner("foo[bar]", "baz")` //=> "foo[bar][baz]"
-  // `KeyJoiner("foo[bar]", "quux")` //=> "foo[bar][quux]"
-  
-  Syphon.KeyJoiner = function(parentKey, childKey) {
-    return parentKey + '[' + childKey + ']';
-  };
-  
 
-  return Backbone.Syphon;
+    return obj;
+  }
+
+  __exports__.extend = extend;var toString = Object.prototype.toString;
+  __exports__.toString = toString;
+  // Sourced from lodash
+  // https://github.com/bestiejs/lodash/blob/master/LICENSE.txt
+  var isFunction = function(value) {
+    return typeof value === 'function';
+  };
+  // fallback for older versions of Chrome and Safari
+  /* istanbul ignore next */
+  if (isFunction(/x/)) {
+    isFunction = function(value) {
+      return typeof value === 'function' && toString.call(value) === '[object Function]';
+    };
+  }
+  var isFunction;
+  __exports__.isFunction = isFunction;
+  /* istanbul ignore next */
+  var isArray = Array.isArray || function(value) {
+    return (value && typeof value === 'object') ? toString.call(value) === '[object Array]' : false;
+  };
+  __exports__.isArray = isArray;
+
+  function escapeExpression(string) {
+    // don't escape SafeStrings, since they're already safe
+    if (string instanceof SafeString) {
+      return string.toString();
+    } else if (string == null) {
+      return "";
+    } else if (!string) {
+      return string + '';
+    }
+
+    // Force a string conversion as this will be done by the append regardless and
+    // the regex test will do this transparently behind the scenes, causing issues if
+    // an object's to string has escaped characters in it.
+    string = "" + string;
+
+    if(!possible.test(string)) { return string; }
+    return string.replace(badChars, escapeChar);
+  }
+
+  __exports__.escapeExpression = escapeExpression;function isEmpty(value) {
+    if (!value && value !== 0) {
+      return true;
+    } else if (isArray(value) && value.length === 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  __exports__.isEmpty = isEmpty;function appendContextPath(contextPath, id) {
+    return (contextPath ? contextPath + '.' : '') + id;
+  }
+
+  __exports__.appendContextPath = appendContextPath;
+  return __exports__;
+})(__module4__);
+
+// handlebars/exception.js
+var __module5__ = (function() {
+  "use strict";
+  var __exports__;
+
+  var errorProps = ['description', 'fileName', 'lineNumber', 'message', 'name', 'number', 'stack'];
+
+  function Exception(message, node) {
+    var line;
+    if (node && node.firstLine) {
+      line = node.firstLine;
+
+      message += ' - ' + line + ':' + node.firstColumn;
+    }
+
+    var tmp = Error.prototype.constructor.call(this, message);
+
+    // Unfortunately errors are not enumerable in Chrome (at least), so `for prop in tmp` doesn't work.
+    for (var idx = 0; idx < errorProps.length; idx++) {
+      this[errorProps[idx]] = tmp[errorProps[idx]];
+    }
+
+    if (line) {
+      this.lineNumber = line;
+      this.column = node.firstColumn;
+    }
+  }
+
+  Exception.prototype = new Error();
+
+  __exports__ = Exception;
+  return __exports__;
+})();
+
+// handlebars/base.js
+var __module2__ = (function(__dependency1__, __dependency2__) {
+  "use strict";
+  var __exports__ = {};
+  var Utils = __dependency1__;
+  var Exception = __dependency2__;
+
+  var VERSION = "2.0.0";
+  __exports__.VERSION = VERSION;var COMPILER_REVISION = 6;
+  __exports__.COMPILER_REVISION = COMPILER_REVISION;
+  var REVISION_CHANGES = {
+    1: '<= 1.0.rc.2', // 1.0.rc.2 is actually rev2 but doesn't report it
+    2: '== 1.0.0-rc.3',
+    3: '== 1.0.0-rc.4',
+    4: '== 1.x.x',
+    5: '== 2.0.0-alpha.x',
+    6: '>= 2.0.0-beta.1'
+  };
+  __exports__.REVISION_CHANGES = REVISION_CHANGES;
+  var isArray = Utils.isArray,
+      isFunction = Utils.isFunction,
+      toString = Utils.toString,
+      objectType = '[object Object]';
+
+  function HandlebarsEnvironment(helpers, partials) {
+    this.helpers = helpers || {};
+    this.partials = partials || {};
+
+    registerDefaultHelpers(this);
+  }
+
+  __exports__.HandlebarsEnvironment = HandlebarsEnvironment;HandlebarsEnvironment.prototype = {
+    constructor: HandlebarsEnvironment,
+
+    logger: logger,
+    log: log,
+
+    registerHelper: function(name, fn) {
+      if (toString.call(name) === objectType) {
+        if (fn) { throw new Exception('Arg not supported with multiple helpers'); }
+        Utils.extend(this.helpers, name);
+      } else {
+        this.helpers[name] = fn;
+      }
+    },
+    unregisterHelper: function(name) {
+      delete this.helpers[name];
+    },
+
+    registerPartial: function(name, partial) {
+      if (toString.call(name) === objectType) {
+        Utils.extend(this.partials,  name);
+      } else {
+        this.partials[name] = partial;
+      }
+    },
+    unregisterPartial: function(name) {
+      delete this.partials[name];
+    }
+  };
+
+  function registerDefaultHelpers(instance) {
+    instance.registerHelper('helperMissing', function(/* [args, ]options */) {
+      if(arguments.length === 1) {
+        // A missing field in a {{foo}} constuct.
+        return undefined;
+      } else {
+        // Someone is actually trying to call something, blow up.
+        throw new Exception("Missing helper: '" + arguments[arguments.length-1].name + "'");
+      }
+    });
+
+    instance.registerHelper('blockHelperMissing', function(context, options) {
+      var inverse = options.inverse,
+          fn = options.fn;
+
+      if(context === true) {
+        return fn(this);
+      } else if(context === false || context == null) {
+        return inverse(this);
+      } else if (isArray(context)) {
+        if(context.length > 0) {
+          if (options.ids) {
+            options.ids = [options.name];
+          }
+
+          return instance.helpers.each(context, options);
+        } else {
+          return inverse(this);
+        }
+      } else {
+        if (options.data && options.ids) {
+          var data = createFrame(options.data);
+          data.contextPath = Utils.appendContextPath(options.data.contextPath, options.name);
+          options = {data: data};
+        }
+
+        return fn(context, options);
+      }
+    });
+
+    instance.registerHelper('each', function(context, options) {
+      if (!options) {
+        throw new Exception('Must pass iterator to #each');
+      }
+
+      var fn = options.fn, inverse = options.inverse;
+      var i = 0, ret = "", data;
+
+      var contextPath;
+      if (options.data && options.ids) {
+        contextPath = Utils.appendContextPath(options.data.contextPath, options.ids[0]) + '.';
+      }
+
+      if (isFunction(context)) { context = context.call(this); }
+
+      if (options.data) {
+        data = createFrame(options.data);
+      }
+
+      if(context && typeof context === 'object') {
+        if (isArray(context)) {
+          for(var j = context.length; i<j; i++) {
+            if (data) {
+              data.index = i;
+              data.first = (i === 0);
+              data.last  = (i === (context.length-1));
+
+              if (contextPath) {
+                data.contextPath = contextPath + i;
+              }
+            }
+            ret = ret + fn(context[i], { data: data });
+          }
+        } else {
+          for(var key in context) {
+            if(context.hasOwnProperty(key)) {
+              if(data) {
+                data.key = key;
+                data.index = i;
+                data.first = (i === 0);
+
+                if (contextPath) {
+                  data.contextPath = contextPath + key;
+                }
+              }
+              ret = ret + fn(context[key], {data: data});
+              i++;
+            }
+          }
+        }
+      }
+
+      if(i === 0){
+        ret = inverse(this);
+      }
+
+      return ret;
+    });
+
+    instance.registerHelper('if', function(conditional, options) {
+      if (isFunction(conditional)) { conditional = conditional.call(this); }
+
+      // Default behavior is to render the positive path if the value is truthy and not empty.
+      // The `includeZero` option may be set to treat the condtional as purely not empty based on the
+      // behavior of isEmpty. Effectively this determines if 0 is handled by the positive path or negative.
+      if ((!options.hash.includeZero && !conditional) || Utils.isEmpty(conditional)) {
+        return options.inverse(this);
+      } else {
+        return options.fn(this);
+      }
+    });
+
+    instance.registerHelper('unless', function(conditional, options) {
+      return instance.helpers['if'].call(this, conditional, {fn: options.inverse, inverse: options.fn, hash: options.hash});
+    });
+
+    instance.registerHelper('with', function(context, options) {
+      if (isFunction(context)) { context = context.call(this); }
+
+      var fn = options.fn;
+
+      if (!Utils.isEmpty(context)) {
+        if (options.data && options.ids) {
+          var data = createFrame(options.data);
+          data.contextPath = Utils.appendContextPath(options.data.contextPath, options.ids[0]);
+          options = {data:data};
+        }
+
+        return fn(context, options);
+      } else {
+        return options.inverse(this);
+      }
+    });
+
+    instance.registerHelper('log', function(message, options) {
+      var level = options.data && options.data.level != null ? parseInt(options.data.level, 10) : 1;
+      instance.log(level, message);
+    });
+
+    instance.registerHelper('lookup', function(obj, field) {
+      return obj && obj[field];
+    });
+  }
+
+  var logger = {
+    methodMap: { 0: 'debug', 1: 'info', 2: 'warn', 3: 'error' },
+
+    // State enum
+    DEBUG: 0,
+    INFO: 1,
+    WARN: 2,
+    ERROR: 3,
+    level: 3,
+
+    // can be overridden in the host environment
+    log: function(level, message) {
+      if (logger.level <= level) {
+        var method = logger.methodMap[level];
+        if (typeof console !== 'undefined' && console[method]) {
+          console[method].call(console, message);
+        }
+      }
+    }
+  };
+  __exports__.logger = logger;
+  var log = logger.log;
+  __exports__.log = log;
+  var createFrame = function(object) {
+    var frame = Utils.extend({}, object);
+    frame._parent = object;
+    return frame;
+  };
+  __exports__.createFrame = createFrame;
+  return __exports__;
+})(__module3__, __module5__);
+
+// handlebars/runtime.js
+var __module6__ = (function(__dependency1__, __dependency2__, __dependency3__) {
+  "use strict";
+  var __exports__ = {};
+  var Utils = __dependency1__;
+  var Exception = __dependency2__;
+  var COMPILER_REVISION = __dependency3__.COMPILER_REVISION;
+  var REVISION_CHANGES = __dependency3__.REVISION_CHANGES;
+  var createFrame = __dependency3__.createFrame;
+
+  function checkRevision(compilerInfo) {
+    var compilerRevision = compilerInfo && compilerInfo[0] || 1,
+        currentRevision = COMPILER_REVISION;
+
+    if (compilerRevision !== currentRevision) {
+      if (compilerRevision < currentRevision) {
+        var runtimeVersions = REVISION_CHANGES[currentRevision],
+            compilerVersions = REVISION_CHANGES[compilerRevision];
+        throw new Exception("Template was precompiled with an older version of Handlebars than the current runtime. "+
+              "Please update your precompiler to a newer version ("+runtimeVersions+") or downgrade your runtime to an older version ("+compilerVersions+").");
+      } else {
+        // Use the embedded version info since the runtime doesn't know about this revision yet
+        throw new Exception("Template was precompiled with a newer version of Handlebars than the current runtime. "+
+              "Please update your runtime to a newer version ("+compilerInfo[1]+").");
+      }
+    }
+  }
+
+  __exports__.checkRevision = checkRevision;// TODO: Remove this line and break up compilePartial
+
+  function template(templateSpec, env) {
+    /* istanbul ignore next */
+    if (!env) {
+      throw new Exception("No environment passed to template");
+    }
+    if (!templateSpec || !templateSpec.main) {
+      throw new Exception('Unknown template object: ' + typeof templateSpec);
+    }
+
+    // Note: Using env.VM references rather than local var references throughout this section to allow
+    // for external users to override these as psuedo-supported APIs.
+    env.VM.checkRevision(templateSpec.compiler);
+
+    var invokePartialWrapper = function(partial, indent, name, context, hash, helpers, partials, data, depths) {
+      if (hash) {
+        context = Utils.extend({}, context, hash);
+      }
+
+      var result = env.VM.invokePartial.call(this, partial, name, context, helpers, partials, data, depths);
+
+      if (result == null && env.compile) {
+        var options = { helpers: helpers, partials: partials, data: data, depths: depths };
+        partials[name] = env.compile(partial, { data: data !== undefined, compat: templateSpec.compat }, env);
+        result = partials[name](context, options);
+      }
+      if (result != null) {
+        if (indent) {
+          var lines = result.split('\n');
+          for (var i = 0, l = lines.length; i < l; i++) {
+            if (!lines[i] && i + 1 === l) {
+              break;
+            }
+
+            lines[i] = indent + lines[i];
+          }
+          result = lines.join('\n');
+        }
+        return result;
+      } else {
+        throw new Exception("The partial " + name + " could not be compiled when running in runtime-only mode");
+      }
+    };
+
+    // Just add water
+    var container = {
+      lookup: function(depths, name) {
+        var len = depths.length;
+        for (var i = 0; i < len; i++) {
+          if (depths[i] && depths[i][name] != null) {
+            return depths[i][name];
+          }
+        }
+      },
+      lambda: function(current, context) {
+        return typeof current === 'function' ? current.call(context) : current;
+      },
+
+      escapeExpression: Utils.escapeExpression,
+      invokePartial: invokePartialWrapper,
+
+      fn: function(i) {
+        return templateSpec[i];
+      },
+
+      programs: [],
+      program: function(i, data, depths) {
+        var programWrapper = this.programs[i],
+            fn = this.fn(i);
+        if (data || depths) {
+          programWrapper = program(this, i, fn, data, depths);
+        } else if (!programWrapper) {
+          programWrapper = this.programs[i] = program(this, i, fn);
+        }
+        return programWrapper;
+      },
+
+      data: function(data, depth) {
+        while (data && depth--) {
+          data = data._parent;
+        }
+        return data;
+      },
+      merge: function(param, common) {
+        var ret = param || common;
+
+        if (param && common && (param !== common)) {
+          ret = Utils.extend({}, common, param);
+        }
+
+        return ret;
+      },
+
+      noop: env.VM.noop,
+      compilerInfo: templateSpec.compiler
+    };
+
+    var ret = function(context, options) {
+      options = options || {};
+      var data = options.data;
+
+      ret._setup(options);
+      if (!options.partial && templateSpec.useData) {
+        data = initData(context, data);
+      }
+      var depths;
+      if (templateSpec.useDepths) {
+        depths = options.depths ? [context].concat(options.depths) : [context];
+      }
+
+      return templateSpec.main.call(container, context, container.helpers, container.partials, data, depths);
+    };
+    ret.isTop = true;
+
+    ret._setup = function(options) {
+      if (!options.partial) {
+        container.helpers = container.merge(options.helpers, env.helpers);
+
+        if (templateSpec.usePartial) {
+          container.partials = container.merge(options.partials, env.partials);
+        }
+      } else {
+        container.helpers = options.helpers;
+        container.partials = options.partials;
+      }
+    };
+
+    ret._child = function(i, data, depths) {
+      if (templateSpec.useDepths && !depths) {
+        throw new Exception('must pass parent depths');
+      }
+
+      return program(container, i, templateSpec[i], data, depths);
+    };
+    return ret;
+  }
+
+  __exports__.template = template;function program(container, i, fn, data, depths) {
+    var prog = function(context, options) {
+      options = options || {};
+
+      return fn.call(container, context, container.helpers, container.partials, options.data || data, depths && [context].concat(depths));
+    };
+    prog.program = i;
+    prog.depth = depths ? depths.length : 0;
+    return prog;
+  }
+
+  __exports__.program = program;function invokePartial(partial, name, context, helpers, partials, data, depths) {
+    var options = { partial: true, helpers: helpers, partials: partials, data: data, depths: depths };
+
+    if(partial === undefined) {
+      throw new Exception("The partial " + name + " could not be found");
+    } else if(partial instanceof Function) {
+      return partial(context, options);
+    }
+  }
+
+  __exports__.invokePartial = invokePartial;function noop() { return ""; }
+
+  __exports__.noop = noop;function initData(context, data) {
+    if (!data || !('root' in data)) {
+      data = data ? createFrame(data) : {};
+      data.root = context;
+    }
+    return data;
+  }
+  return __exports__;
+})(__module3__, __module5__, __module2__);
+
+// handlebars.runtime.js
+var __module1__ = (function(__dependency1__, __dependency2__, __dependency3__, __dependency4__, __dependency5__) {
+  "use strict";
+  var __exports__;
+  /*globals Handlebars: true */
+  var base = __dependency1__;
+
+  // Each of these augment the Handlebars object. No need to setup here.
+  // (This is done to easily share code between commonjs and browse envs)
+  var SafeString = __dependency2__;
+  var Exception = __dependency3__;
+  var Utils = __dependency4__;
+  var runtime = __dependency5__;
+
+  // For compatibility and usage outside of module systems, make the Handlebars object a namespace
+  var create = function() {
+    var hb = new base.HandlebarsEnvironment();
+
+    Utils.extend(hb, base);
+    hb.SafeString = SafeString;
+    hb.Exception = Exception;
+    hb.Utils = Utils;
+    hb.escapeExpression = Utils.escapeExpression;
+
+    hb.VM = runtime;
+    hb.template = function(spec) {
+      return runtime.template(spec, hb);
+    };
+
+    return hb;
+  };
+
+  var Handlebars = create();
+  Handlebars.create = create;
+
+  Handlebars['default'] = Handlebars;
+
+  __exports__ = Handlebars;
+  return __exports__;
+})(__module2__, __module4__, __module5__, __module3__, __module6__);
+
+// handlebars/compiler/ast.js
+var __module7__ = (function(__dependency1__) {
+  "use strict";
+  var __exports__;
+  var Exception = __dependency1__;
+
+  function LocationInfo(locInfo) {
+    locInfo = locInfo || {};
+    this.firstLine   = locInfo.first_line;
+    this.firstColumn = locInfo.first_column;
+    this.lastColumn  = locInfo.last_column;
+    this.lastLine    = locInfo.last_line;
+  }
+
+  var AST = {
+    ProgramNode: function(statements, strip, locInfo) {
+      LocationInfo.call(this, locInfo);
+      this.type = "program";
+      this.statements = statements;
+      this.strip = strip;
+    },
+
+    MustacheNode: function(rawParams, hash, open, strip, locInfo) {
+      LocationInfo.call(this, locInfo);
+      this.type = "mustache";
+      this.strip = strip;
+
+      // Open may be a string parsed from the parser or a passed boolean flag
+      if (open != null && open.charAt) {
+        // Must use charAt to support IE pre-10
+        var escapeFlag = open.charAt(3) || open.charAt(2);
+        this.escaped = escapeFlag !== '{' && escapeFlag !== '&';
+      } else {
+        this.escaped = !!open;
+      }
+
+      if (rawParams instanceof AST.SexprNode) {
+        this.sexpr = rawParams;
+      } else {
+        // Support old AST API
+        this.sexpr = new AST.SexprNode(rawParams, hash);
+      }
+
+      // Support old AST API that stored this info in MustacheNode
+      this.id = this.sexpr.id;
+      this.params = this.sexpr.params;
+      this.hash = this.sexpr.hash;
+      this.eligibleHelper = this.sexpr.eligibleHelper;
+      this.isHelper = this.sexpr.isHelper;
+    },
+
+    SexprNode: function(rawParams, hash, locInfo) {
+      LocationInfo.call(this, locInfo);
+
+      this.type = "sexpr";
+      this.hash = hash;
+
+      var id = this.id = rawParams[0];
+      var params = this.params = rawParams.slice(1);
+
+      // a mustache is definitely a helper if:
+      // * it is an eligible helper, and
+      // * it has at least one parameter or hash segment
+      this.isHelper = !!(params.length || hash);
+
+      // a mustache is an eligible helper if:
+      // * its id is simple (a single part, not `this` or `..`)
+      this.eligibleHelper = this.isHelper || id.isSimple;
+
+      // if a mustache is an eligible helper but not a definite
+      // helper, it is ambiguous, and will be resolved in a later
+      // pass or at runtime.
+    },
+
+    PartialNode: function(partialName, context, hash, strip, locInfo) {
+      LocationInfo.call(this, locInfo);
+      this.type         = "partial";
+      this.partialName  = partialName;
+      this.context      = context;
+      this.hash = hash;
+      this.strip = strip;
+
+      this.strip.inlineStandalone = true;
+    },
+
+    BlockNode: function(mustache, program, inverse, strip, locInfo) {
+      LocationInfo.call(this, locInfo);
+
+      this.type = 'block';
+      this.mustache = mustache;
+      this.program  = program;
+      this.inverse  = inverse;
+      this.strip = strip;
+
+      if (inverse && !program) {
+        this.isInverse = true;
+      }
+    },
+
+    RawBlockNode: function(mustache, content, close, locInfo) {
+      LocationInfo.call(this, locInfo);
+
+      if (mustache.sexpr.id.original !== close) {
+        throw new Exception(mustache.sexpr.id.original + " doesn't match " + close, this);
+      }
+
+      content = new AST.ContentNode(content, locInfo);
+
+      this.type = 'block';
+      this.mustache = mustache;
+      this.program = new AST.ProgramNode([content], {}, locInfo);
+    },
+
+    ContentNode: function(string, locInfo) {
+      LocationInfo.call(this, locInfo);
+      this.type = "content";
+      this.original = this.string = string;
+    },
+
+    HashNode: function(pairs, locInfo) {
+      LocationInfo.call(this, locInfo);
+      this.type = "hash";
+      this.pairs = pairs;
+    },
+
+    IdNode: function(parts, locInfo) {
+      LocationInfo.call(this, locInfo);
+      this.type = "ID";
+
+      var original = "",
+          dig = [],
+          depth = 0,
+          depthString = '';
+
+      for(var i=0,l=parts.length; i<l; i++) {
+        var part = parts[i].part;
+        original += (parts[i].separator || '') + part;
+
+        if (part === ".." || part === "." || part === "this") {
+          if (dig.length > 0) {
+            throw new Exception("Invalid path: " + original, this);
+          } else if (part === "..") {
+            depth++;
+            depthString += '../';
+          } else {
+            this.isScoped = true;
+          }
+        } else {
+          dig.push(part);
+        }
+      }
+
+      this.original = original;
+      this.parts    = dig;
+      this.string   = dig.join('.');
+      this.depth    = depth;
+      this.idName   = depthString + this.string;
+
+      // an ID is simple if it only has one part, and that part is not
+      // `..` or `this`.
+      this.isSimple = parts.length === 1 && !this.isScoped && depth === 0;
+
+      this.stringModeValue = this.string;
+    },
+
+    PartialNameNode: function(name, locInfo) {
+      LocationInfo.call(this, locInfo);
+      this.type = "PARTIAL_NAME";
+      this.name = name.original;
+    },
+
+    DataNode: function(id, locInfo) {
+      LocationInfo.call(this, locInfo);
+      this.type = "DATA";
+      this.id = id;
+      this.stringModeValue = id.stringModeValue;
+      this.idName = '@' + id.stringModeValue;
+    },
+
+    StringNode: function(string, locInfo) {
+      LocationInfo.call(this, locInfo);
+      this.type = "STRING";
+      this.original =
+        this.string =
+        this.stringModeValue = string;
+    },
+
+    NumberNode: function(number, locInfo) {
+      LocationInfo.call(this, locInfo);
+      this.type = "NUMBER";
+      this.original =
+        this.number = number;
+      this.stringModeValue = Number(number);
+    },
+
+    BooleanNode: function(bool, locInfo) {
+      LocationInfo.call(this, locInfo);
+      this.type = "BOOLEAN";
+      this.bool = bool;
+      this.stringModeValue = bool === "true";
+    },
+
+    CommentNode: function(comment, locInfo) {
+      LocationInfo.call(this, locInfo);
+      this.type = "comment";
+      this.comment = comment;
+
+      this.strip = {
+        inlineStandalone: true
+      };
+    }
+  };
+
+
+  // Must be exported as an object rather than the root of the module as the jison lexer
+  // most modify the object to operate properly.
+  __exports__ = AST;
+  return __exports__;
+})(__module5__);
+
+// handlebars/compiler/parser.js
+var __module9__ = (function() {
+  "use strict";
+  var __exports__;
+  /* jshint ignore:start */
+  /* istanbul ignore next */
+  /* Jison generated parser */
+  var handlebars = (function(){
+  var parser = {trace: function trace() { },
+  yy: {},
+  symbols_: {"error":2,"root":3,"program":4,"EOF":5,"program_repetition0":6,"statement":7,"mustache":8,"block":9,"rawBlock":10,"partial":11,"CONTENT":12,"COMMENT":13,"openRawBlock":14,"END_RAW_BLOCK":15,"OPEN_RAW_BLOCK":16,"sexpr":17,"CLOSE_RAW_BLOCK":18,"openBlock":19,"block_option0":20,"closeBlock":21,"openInverse":22,"block_option1":23,"OPEN_BLOCK":24,"CLOSE":25,"OPEN_INVERSE":26,"inverseAndProgram":27,"INVERSE":28,"OPEN_ENDBLOCK":29,"path":30,"OPEN":31,"OPEN_UNESCAPED":32,"CLOSE_UNESCAPED":33,"OPEN_PARTIAL":34,"partialName":35,"param":36,"partial_option0":37,"partial_option1":38,"sexpr_repetition0":39,"sexpr_option0":40,"dataName":41,"STRING":42,"NUMBER":43,"BOOLEAN":44,"OPEN_SEXPR":45,"CLOSE_SEXPR":46,"hash":47,"hash_repetition_plus0":48,"hashSegment":49,"ID":50,"EQUALS":51,"DATA":52,"pathSegments":53,"SEP":54,"$accept":0,"$end":1},
+  terminals_: {2:"error",5:"EOF",12:"CONTENT",13:"COMMENT",15:"END_RAW_BLOCK",16:"OPEN_RAW_BLOCK",18:"CLOSE_RAW_BLOCK",24:"OPEN_BLOCK",25:"CLOSE",26:"OPEN_INVERSE",28:"INVERSE",29:"OPEN_ENDBLOCK",31:"OPEN",32:"OPEN_UNESCAPED",33:"CLOSE_UNESCAPED",34:"OPEN_PARTIAL",42:"STRING",43:"NUMBER",44:"BOOLEAN",45:"OPEN_SEXPR",46:"CLOSE_SEXPR",50:"ID",51:"EQUALS",52:"DATA",54:"SEP"},
+  productions_: [0,[3,2],[4,1],[7,1],[7,1],[7,1],[7,1],[7,1],[7,1],[10,3],[14,3],[9,4],[9,4],[19,3],[22,3],[27,2],[21,3],[8,3],[8,3],[11,5],[11,4],[17,3],[17,1],[36,1],[36,1],[36,1],[36,1],[36,1],[36,3],[47,1],[49,3],[35,1],[35,1],[35,1],[41,2],[30,1],[53,3],[53,1],[6,0],[6,2],[20,0],[20,1],[23,0],[23,1],[37,0],[37,1],[38,0],[38,1],[39,0],[39,2],[40,0],[40,1],[48,1],[48,2]],
+  performAction: function anonymous(yytext,yyleng,yylineno,yy,yystate,$$,_$) {
+
+  var $0 = $$.length - 1;
+  switch (yystate) {
+  case 1: yy.prepareProgram($$[$0-1].statements, true); return $$[$0-1]; 
+  break;
+  case 2:this.$ = new yy.ProgramNode(yy.prepareProgram($$[$0]), {}, this._$);
+  break;
+  case 3:this.$ = $$[$0];
+  break;
+  case 4:this.$ = $$[$0];
+  break;
+  case 5:this.$ = $$[$0];
+  break;
+  case 6:this.$ = $$[$0];
+  break;
+  case 7:this.$ = new yy.ContentNode($$[$0], this._$);
+  break;
+  case 8:this.$ = new yy.CommentNode($$[$0], this._$);
+  break;
+  case 9:this.$ = new yy.RawBlockNode($$[$0-2], $$[$0-1], $$[$0], this._$);
+  break;
+  case 10:this.$ = new yy.MustacheNode($$[$0-1], null, '', '', this._$);
+  break;
+  case 11:this.$ = yy.prepareBlock($$[$0-3], $$[$0-2], $$[$0-1], $$[$0], false, this._$);
+  break;
+  case 12:this.$ = yy.prepareBlock($$[$0-3], $$[$0-2], $$[$0-1], $$[$0], true, this._$);
+  break;
+  case 13:this.$ = new yy.MustacheNode($$[$0-1], null, $$[$0-2], yy.stripFlags($$[$0-2], $$[$0]), this._$);
+  break;
+  case 14:this.$ = new yy.MustacheNode($$[$0-1], null, $$[$0-2], yy.stripFlags($$[$0-2], $$[$0]), this._$);
+  break;
+  case 15:this.$ = { strip: yy.stripFlags($$[$0-1], $$[$0-1]), program: $$[$0] };
+  break;
+  case 16:this.$ = {path: $$[$0-1], strip: yy.stripFlags($$[$0-2], $$[$0])};
+  break;
+  case 17:this.$ = new yy.MustacheNode($$[$0-1], null, $$[$0-2], yy.stripFlags($$[$0-2], $$[$0]), this._$);
+  break;
+  case 18:this.$ = new yy.MustacheNode($$[$0-1], null, $$[$0-2], yy.stripFlags($$[$0-2], $$[$0]), this._$);
+  break;
+  case 19:this.$ = new yy.PartialNode($$[$0-3], $$[$0-2], $$[$0-1], yy.stripFlags($$[$0-4], $$[$0]), this._$);
+  break;
+  case 20:this.$ = new yy.PartialNode($$[$0-2], undefined, $$[$0-1], yy.stripFlags($$[$0-3], $$[$0]), this._$);
+  break;
+  case 21:this.$ = new yy.SexprNode([$$[$0-2]].concat($$[$0-1]), $$[$0], this._$);
+  break;
+  case 22:this.$ = new yy.SexprNode([$$[$0]], null, this._$);
+  break;
+  case 23:this.$ = $$[$0];
+  break;
+  case 24:this.$ = new yy.StringNode($$[$0], this._$);
+  break;
+  case 25:this.$ = new yy.NumberNode($$[$0], this._$);
+  break;
+  case 26:this.$ = new yy.BooleanNode($$[$0], this._$);
+  break;
+  case 27:this.$ = $$[$0];
+  break;
+  case 28:$$[$0-1].isHelper = true; this.$ = $$[$0-1];
+  break;
+  case 29:this.$ = new yy.HashNode($$[$0], this._$);
+  break;
+  case 30:this.$ = [$$[$0-2], $$[$0]];
+  break;
+  case 31:this.$ = new yy.PartialNameNode($$[$0], this._$);
+  break;
+  case 32:this.$ = new yy.PartialNameNode(new yy.StringNode($$[$0], this._$), this._$);
+  break;
+  case 33:this.$ = new yy.PartialNameNode(new yy.NumberNode($$[$0], this._$));
+  break;
+  case 34:this.$ = new yy.DataNode($$[$0], this._$);
+  break;
+  case 35:this.$ = new yy.IdNode($$[$0], this._$);
+  break;
+  case 36: $$[$0-2].push({part: $$[$0], separator: $$[$0-1]}); this.$ = $$[$0-2]; 
+  break;
+  case 37:this.$ = [{part: $$[$0]}];
+  break;
+  case 38:this.$ = [];
+  break;
+  case 39:$$[$0-1].push($$[$0]);
+  break;
+  case 48:this.$ = [];
+  break;
+  case 49:$$[$0-1].push($$[$0]);
+  break;
+  case 52:this.$ = [$$[$0]];
+  break;
+  case 53:$$[$0-1].push($$[$0]);
+  break;
+  }
+  },
+  table: [{3:1,4:2,5:[2,38],6:3,12:[2,38],13:[2,38],16:[2,38],24:[2,38],26:[2,38],31:[2,38],32:[2,38],34:[2,38]},{1:[3]},{5:[1,4]},{5:[2,2],7:5,8:6,9:7,10:8,11:9,12:[1,10],13:[1,11],14:16,16:[1,20],19:14,22:15,24:[1,18],26:[1,19],28:[2,2],29:[2,2],31:[1,12],32:[1,13],34:[1,17]},{1:[2,1]},{5:[2,39],12:[2,39],13:[2,39],16:[2,39],24:[2,39],26:[2,39],28:[2,39],29:[2,39],31:[2,39],32:[2,39],34:[2,39]},{5:[2,3],12:[2,3],13:[2,3],16:[2,3],24:[2,3],26:[2,3],28:[2,3],29:[2,3],31:[2,3],32:[2,3],34:[2,3]},{5:[2,4],12:[2,4],13:[2,4],16:[2,4],24:[2,4],26:[2,4],28:[2,4],29:[2,4],31:[2,4],32:[2,4],34:[2,4]},{5:[2,5],12:[2,5],13:[2,5],16:[2,5],24:[2,5],26:[2,5],28:[2,5],29:[2,5],31:[2,5],32:[2,5],34:[2,5]},{5:[2,6],12:[2,6],13:[2,6],16:[2,6],24:[2,6],26:[2,6],28:[2,6],29:[2,6],31:[2,6],32:[2,6],34:[2,6]},{5:[2,7],12:[2,7],13:[2,7],16:[2,7],24:[2,7],26:[2,7],28:[2,7],29:[2,7],31:[2,7],32:[2,7],34:[2,7]},{5:[2,8],12:[2,8],13:[2,8],16:[2,8],24:[2,8],26:[2,8],28:[2,8],29:[2,8],31:[2,8],32:[2,8],34:[2,8]},{17:21,30:22,41:23,50:[1,26],52:[1,25],53:24},{17:27,30:22,41:23,50:[1,26],52:[1,25],53:24},{4:28,6:3,12:[2,38],13:[2,38],16:[2,38],24:[2,38],26:[2,38],28:[2,38],29:[2,38],31:[2,38],32:[2,38],34:[2,38]},{4:29,6:3,12:[2,38],13:[2,38],16:[2,38],24:[2,38],26:[2,38],28:[2,38],29:[2,38],31:[2,38],32:[2,38],34:[2,38]},{12:[1,30]},{30:32,35:31,42:[1,33],43:[1,34],50:[1,26],53:24},{17:35,30:22,41:23,50:[1,26],52:[1,25],53:24},{17:36,30:22,41:23,50:[1,26],52:[1,25],53:24},{17:37,30:22,41:23,50:[1,26],52:[1,25],53:24},{25:[1,38]},{18:[2,48],25:[2,48],33:[2,48],39:39,42:[2,48],43:[2,48],44:[2,48],45:[2,48],46:[2,48],50:[2,48],52:[2,48]},{18:[2,22],25:[2,22],33:[2,22],46:[2,22]},{18:[2,35],25:[2,35],33:[2,35],42:[2,35],43:[2,35],44:[2,35],45:[2,35],46:[2,35],50:[2,35],52:[2,35],54:[1,40]},{30:41,50:[1,26],53:24},{18:[2,37],25:[2,37],33:[2,37],42:[2,37],43:[2,37],44:[2,37],45:[2,37],46:[2,37],50:[2,37],52:[2,37],54:[2,37]},{33:[1,42]},{20:43,27:44,28:[1,45],29:[2,40]},{23:46,27:47,28:[1,45],29:[2,42]},{15:[1,48]},{25:[2,46],30:51,36:49,38:50,41:55,42:[1,52],43:[1,53],44:[1,54],45:[1,56],47:57,48:58,49:60,50:[1,59],52:[1,25],53:24},{25:[2,31],42:[2,31],43:[2,31],44:[2,31],45:[2,31],50:[2,31],52:[2,31]},{25:[2,32],42:[2,32],43:[2,32],44:[2,32],45:[2,32],50:[2,32],52:[2,32]},{25:[2,33],42:[2,33],43:[2,33],44:[2,33],45:[2,33],50:[2,33],52:[2,33]},{25:[1,61]},{25:[1,62]},{18:[1,63]},{5:[2,17],12:[2,17],13:[2,17],16:[2,17],24:[2,17],26:[2,17],28:[2,17],29:[2,17],31:[2,17],32:[2,17],34:[2,17]},{18:[2,50],25:[2,50],30:51,33:[2,50],36:65,40:64,41:55,42:[1,52],43:[1,53],44:[1,54],45:[1,56],46:[2,50],47:66,48:58,49:60,50:[1,59],52:[1,25],53:24},{50:[1,67]},{18:[2,34],25:[2,34],33:[2,34],42:[2,34],43:[2,34],44:[2,34],45:[2,34],46:[2,34],50:[2,34],52:[2,34]},{5:[2,18],12:[2,18],13:[2,18],16:[2,18],24:[2,18],26:[2,18],28:[2,18],29:[2,18],31:[2,18],32:[2,18],34:[2,18]},{21:68,29:[1,69]},{29:[2,41]},{4:70,6:3,12:[2,38],13:[2,38],16:[2,38],24:[2,38],26:[2,38],29:[2,38],31:[2,38],32:[2,38],34:[2,38]},{21:71,29:[1,69]},{29:[2,43]},{5:[2,9],12:[2,9],13:[2,9],16:[2,9],24:[2,9],26:[2,9],28:[2,9],29:[2,9],31:[2,9],32:[2,9],34:[2,9]},{25:[2,44],37:72,47:73,48:58,49:60,50:[1,74]},{25:[1,75]},{18:[2,23],25:[2,23],33:[2,23],42:[2,23],43:[2,23],44:[2,23],45:[2,23],46:[2,23],50:[2,23],52:[2,23]},{18:[2,24],25:[2,24],33:[2,24],42:[2,24],43:[2,24],44:[2,24],45:[2,24],46:[2,24],50:[2,24],52:[2,24]},{18:[2,25],25:[2,25],33:[2,25],42:[2,25],43:[2,25],44:[2,25],45:[2,25],46:[2,25],50:[2,25],52:[2,25]},{18:[2,26],25:[2,26],33:[2,26],42:[2,26],43:[2,26],44:[2,26],45:[2,26],46:[2,26],50:[2,26],52:[2,26]},{18:[2,27],25:[2,27],33:[2,27],42:[2,27],43:[2,27],44:[2,27],45:[2,27],46:[2,27],50:[2,27],52:[2,27]},{17:76,30:22,41:23,50:[1,26],52:[1,25],53:24},{25:[2,47]},{18:[2,29],25:[2,29],33:[2,29],46:[2,29],49:77,50:[1,74]},{18:[2,37],25:[2,37],33:[2,37],42:[2,37],43:[2,37],44:[2,37],45:[2,37],46:[2,37],50:[2,37],51:[1,78],52:[2,37],54:[2,37]},{18:[2,52],25:[2,52],33:[2,52],46:[2,52],50:[2,52]},{12:[2,13],13:[2,13],16:[2,13],24:[2,13],26:[2,13],28:[2,13],29:[2,13],31:[2,13],32:[2,13],34:[2,13]},{12:[2,14],13:[2,14],16:[2,14],24:[2,14],26:[2,14],28:[2,14],29:[2,14],31:[2,14],32:[2,14],34:[2,14]},{12:[2,10]},{18:[2,21],25:[2,21],33:[2,21],46:[2,21]},{18:[2,49],25:[2,49],33:[2,49],42:[2,49],43:[2,49],44:[2,49],45:[2,49],46:[2,49],50:[2,49],52:[2,49]},{18:[2,51],25:[2,51],33:[2,51],46:[2,51]},{18:[2,36],25:[2,36],33:[2,36],42:[2,36],43:[2,36],44:[2,36],45:[2,36],46:[2,36],50:[2,36],52:[2,36],54:[2,36]},{5:[2,11],12:[2,11],13:[2,11],16:[2,11],24:[2,11],26:[2,11],28:[2,11],29:[2,11],31:[2,11],32:[2,11],34:[2,11]},{30:79,50:[1,26],53:24},{29:[2,15]},{5:[2,12],12:[2,12],13:[2,12],16:[2,12],24:[2,12],26:[2,12],28:[2,12],29:[2,12],31:[2,12],32:[2,12],34:[2,12]},{25:[1,80]},{25:[2,45]},{51:[1,78]},{5:[2,20],12:[2,20],13:[2,20],16:[2,20],24:[2,20],26:[2,20],28:[2,20],29:[2,20],31:[2,20],32:[2,20],34:[2,20]},{46:[1,81]},{18:[2,53],25:[2,53],33:[2,53],46:[2,53],50:[2,53]},{30:51,36:82,41:55,42:[1,52],43:[1,53],44:[1,54],45:[1,56],50:[1,26],52:[1,25],53:24},{25:[1,83]},{5:[2,19],12:[2,19],13:[2,19],16:[2,19],24:[2,19],26:[2,19],28:[2,19],29:[2,19],31:[2,19],32:[2,19],34:[2,19]},{18:[2,28],25:[2,28],33:[2,28],42:[2,28],43:[2,28],44:[2,28],45:[2,28],46:[2,28],50:[2,28],52:[2,28]},{18:[2,30],25:[2,30],33:[2,30],46:[2,30],50:[2,30]},{5:[2,16],12:[2,16],13:[2,16],16:[2,16],24:[2,16],26:[2,16],28:[2,16],29:[2,16],31:[2,16],32:[2,16],34:[2,16]}],
+  defaultActions: {4:[2,1],44:[2,41],47:[2,43],57:[2,47],63:[2,10],70:[2,15],73:[2,45]},
+  parseError: function parseError(str, hash) {
+      throw new Error(str);
+  },
+  parse: function parse(input) {
+      var self = this, stack = [0], vstack = [null], lstack = [], table = this.table, yytext = "", yylineno = 0, yyleng = 0, recovering = 0, TERROR = 2, EOF = 1;
+      this.lexer.setInput(input);
+      this.lexer.yy = this.yy;
+      this.yy.lexer = this.lexer;
+      this.yy.parser = this;
+      if (typeof this.lexer.yylloc == "undefined")
+          this.lexer.yylloc = {};
+      var yyloc = this.lexer.yylloc;
+      lstack.push(yyloc);
+      var ranges = this.lexer.options && this.lexer.options.ranges;
+      if (typeof this.yy.parseError === "function")
+          this.parseError = this.yy.parseError;
+      function popStack(n) {
+          stack.length = stack.length - 2 * n;
+          vstack.length = vstack.length - n;
+          lstack.length = lstack.length - n;
+      }
+      function lex() {
+          var token;
+          token = self.lexer.lex() || 1;
+          if (typeof token !== "number") {
+              token = self.symbols_[token] || token;
+          }
+          return token;
+      }
+      var symbol, preErrorSymbol, state, action, a, r, yyval = {}, p, len, newState, expected;
+      while (true) {
+          state = stack[stack.length - 1];
+          if (this.defaultActions[state]) {
+              action = this.defaultActions[state];
+          } else {
+              if (symbol === null || typeof symbol == "undefined") {
+                  symbol = lex();
+              }
+              action = table[state] && table[state][symbol];
+          }
+          if (typeof action === "undefined" || !action.length || !action[0]) {
+              var errStr = "";
+              if (!recovering) {
+                  expected = [];
+                  for (p in table[state])
+                      if (this.terminals_[p] && p > 2) {
+                          expected.push("'" + this.terminals_[p] + "'");
+                      }
+                  if (this.lexer.showPosition) {
+                      errStr = "Parse error on line " + (yylineno + 1) + ":\n" + this.lexer.showPosition() + "\nExpecting " + expected.join(", ") + ", got '" + (this.terminals_[symbol] || symbol) + "'";
+                  } else {
+                      errStr = "Parse error on line " + (yylineno + 1) + ": Unexpected " + (symbol == 1?"end of input":"'" + (this.terminals_[symbol] || symbol) + "'");
+                  }
+                  this.parseError(errStr, {text: this.lexer.match, token: this.terminals_[symbol] || symbol, line: this.lexer.yylineno, loc: yyloc, expected: expected});
+              }
+          }
+          if (action[0] instanceof Array && action.length > 1) {
+              throw new Error("Parse Error: multiple actions possible at state: " + state + ", token: " + symbol);
+          }
+          switch (action[0]) {
+          case 1:
+              stack.push(symbol);
+              vstack.push(this.lexer.yytext);
+              lstack.push(this.lexer.yylloc);
+              stack.push(action[1]);
+              symbol = null;
+              if (!preErrorSymbol) {
+                  yyleng = this.lexer.yyleng;
+                  yytext = this.lexer.yytext;
+                  yylineno = this.lexer.yylineno;
+                  yyloc = this.lexer.yylloc;
+                  if (recovering > 0)
+                      recovering--;
+              } else {
+                  symbol = preErrorSymbol;
+                  preErrorSymbol = null;
+              }
+              break;
+          case 2:
+              len = this.productions_[action[1]][1];
+              yyval.$ = vstack[vstack.length - len];
+              yyval._$ = {first_line: lstack[lstack.length - (len || 1)].first_line, last_line: lstack[lstack.length - 1].last_line, first_column: lstack[lstack.length - (len || 1)].first_column, last_column: lstack[lstack.length - 1].last_column};
+              if (ranges) {
+                  yyval._$.range = [lstack[lstack.length - (len || 1)].range[0], lstack[lstack.length - 1].range[1]];
+              }
+              r = this.performAction.call(yyval, yytext, yyleng, yylineno, this.yy, action[1], vstack, lstack);
+              if (typeof r !== "undefined") {
+                  return r;
+              }
+              if (len) {
+                  stack = stack.slice(0, -1 * len * 2);
+                  vstack = vstack.slice(0, -1 * len);
+                  lstack = lstack.slice(0, -1 * len);
+              }
+              stack.push(this.productions_[action[1]][0]);
+              vstack.push(yyval.$);
+              lstack.push(yyval._$);
+              newState = table[stack[stack.length - 2]][stack[stack.length - 1]];
+              stack.push(newState);
+              break;
+          case 3:
+              return true;
+          }
+      }
+      return true;
+  }
+  };
+  /* Jison generated lexer */
+  var lexer = (function(){
+  var lexer = ({EOF:1,
+  parseError:function parseError(str, hash) {
+          if (this.yy.parser) {
+              this.yy.parser.parseError(str, hash);
+          } else {
+              throw new Error(str);
+          }
+      },
+  setInput:function (input) {
+          this._input = input;
+          this._more = this._less = this.done = false;
+          this.yylineno = this.yyleng = 0;
+          this.yytext = this.matched = this.match = '';
+          this.conditionStack = ['INITIAL'];
+          this.yylloc = {first_line:1,first_column:0,last_line:1,last_column:0};
+          if (this.options.ranges) this.yylloc.range = [0,0];
+          this.offset = 0;
+          return this;
+      },
+  input:function () {
+          var ch = this._input[0];
+          this.yytext += ch;
+          this.yyleng++;
+          this.offset++;
+          this.match += ch;
+          this.matched += ch;
+          var lines = ch.match(/(?:\r\n?|\n).*/g);
+          if (lines) {
+              this.yylineno++;
+              this.yylloc.last_line++;
+          } else {
+              this.yylloc.last_column++;
+          }
+          if (this.options.ranges) this.yylloc.range[1]++;
+
+          this._input = this._input.slice(1);
+          return ch;
+      },
+  unput:function (ch) {
+          var len = ch.length;
+          var lines = ch.split(/(?:\r\n?|\n)/g);
+
+          this._input = ch + this._input;
+          this.yytext = this.yytext.substr(0, this.yytext.length-len-1);
+          //this.yyleng -= len;
+          this.offset -= len;
+          var oldLines = this.match.split(/(?:\r\n?|\n)/g);
+          this.match = this.match.substr(0, this.match.length-1);
+          this.matched = this.matched.substr(0, this.matched.length-1);
+
+          if (lines.length-1) this.yylineno -= lines.length-1;
+          var r = this.yylloc.range;
+
+          this.yylloc = {first_line: this.yylloc.first_line,
+            last_line: this.yylineno+1,
+            first_column: this.yylloc.first_column,
+            last_column: lines ?
+                (lines.length === oldLines.length ? this.yylloc.first_column : 0) + oldLines[oldLines.length - lines.length].length - lines[0].length:
+                this.yylloc.first_column - len
+            };
+
+          if (this.options.ranges) {
+              this.yylloc.range = [r[0], r[0] + this.yyleng - len];
+          }
+          return this;
+      },
+  more:function () {
+          this._more = true;
+          return this;
+      },
+  less:function (n) {
+          this.unput(this.match.slice(n));
+      },
+  pastInput:function () {
+          var past = this.matched.substr(0, this.matched.length - this.match.length);
+          return (past.length > 20 ? '...':'') + past.substr(-20).replace(/\n/g, "");
+      },
+  upcomingInput:function () {
+          var next = this.match;
+          if (next.length < 20) {
+              next += this._input.substr(0, 20-next.length);
+          }
+          return (next.substr(0,20)+(next.length > 20 ? '...':'')).replace(/\n/g, "");
+      },
+  showPosition:function () {
+          var pre = this.pastInput();
+          var c = new Array(pre.length + 1).join("-");
+          return pre + this.upcomingInput() + "\n" + c+"^";
+      },
+  next:function () {
+          if (this.done) {
+              return this.EOF;
+          }
+          if (!this._input) this.done = true;
+
+          var token,
+              match,
+              tempMatch,
+              index,
+              col,
+              lines;
+          if (!this._more) {
+              this.yytext = '';
+              this.match = '';
+          }
+          var rules = this._currentRules();
+          for (var i=0;i < rules.length; i++) {
+              tempMatch = this._input.match(this.rules[rules[i]]);
+              if (tempMatch && (!match || tempMatch[0].length > match[0].length)) {
+                  match = tempMatch;
+                  index = i;
+                  if (!this.options.flex) break;
+              }
+          }
+          if (match) {
+              lines = match[0].match(/(?:\r\n?|\n).*/g);
+              if (lines) this.yylineno += lines.length;
+              this.yylloc = {first_line: this.yylloc.last_line,
+                             last_line: this.yylineno+1,
+                             first_column: this.yylloc.last_column,
+                             last_column: lines ? lines[lines.length-1].length-lines[lines.length-1].match(/\r?\n?/)[0].length : this.yylloc.last_column + match[0].length};
+              this.yytext += match[0];
+              this.match += match[0];
+              this.matches = match;
+              this.yyleng = this.yytext.length;
+              if (this.options.ranges) {
+                  this.yylloc.range = [this.offset, this.offset += this.yyleng];
+              }
+              this._more = false;
+              this._input = this._input.slice(match[0].length);
+              this.matched += match[0];
+              token = this.performAction.call(this, this.yy, this, rules[index],this.conditionStack[this.conditionStack.length-1]);
+              if (this.done && this._input) this.done = false;
+              if (token) return token;
+              else return;
+          }
+          if (this._input === "") {
+              return this.EOF;
+          } else {
+              return this.parseError('Lexical error on line '+(this.yylineno+1)+'. Unrecognized text.\n'+this.showPosition(),
+                      {text: "", token: null, line: this.yylineno});
+          }
+      },
+  lex:function lex() {
+          var r = this.next();
+          if (typeof r !== 'undefined') {
+              return r;
+          } else {
+              return this.lex();
+          }
+      },
+  begin:function begin(condition) {
+          this.conditionStack.push(condition);
+      },
+  popState:function popState() {
+          return this.conditionStack.pop();
+      },
+  _currentRules:function _currentRules() {
+          return this.conditions[this.conditionStack[this.conditionStack.length-1]].rules;
+      },
+  topState:function () {
+          return this.conditionStack[this.conditionStack.length-2];
+      },
+  pushState:function begin(condition) {
+          this.begin(condition);
+      }});
+  lexer.options = {};
+  lexer.performAction = function anonymous(yy,yy_,$avoiding_name_collisions,YY_START) {
+
+
+  function strip(start, end) {
+    return yy_.yytext = yy_.yytext.substr(start, yy_.yyleng-end);
+  }
+
+
+  var YYSTATE=YY_START
+  switch($avoiding_name_collisions) {
+  case 0:
+                                     if(yy_.yytext.slice(-2) === "\\\\") {
+                                       strip(0,1);
+                                       this.begin("mu");
+                                     } else if(yy_.yytext.slice(-1) === "\\") {
+                                       strip(0,1);
+                                       this.begin("emu");
+                                     } else {
+                                       this.begin("mu");
+                                     }
+                                     if(yy_.yytext) return 12;
+                                   
+  break;
+  case 1:return 12;
+  break;
+  case 2:
+                                     this.popState();
+                                     return 12;
+                                   
+  break;
+  case 3:
+                                    yy_.yytext = yy_.yytext.substr(5, yy_.yyleng-9);
+                                    this.popState();
+                                    return 15;
+                                   
+  break;
+  case 4: return 12; 
+  break;
+  case 5:strip(0,4); this.popState(); return 13;
+  break;
+  case 6:return 45;
+  break;
+  case 7:return 46;
+  break;
+  case 8: return 16; 
+  break;
+  case 9:
+                                    this.popState();
+                                    this.begin('raw');
+                                    return 18;
+                                   
+  break;
+  case 10:return 34;
+  break;
+  case 11:return 24;
+  break;
+  case 12:return 29;
+  break;
+  case 13:this.popState(); return 28;
+  break;
+  case 14:this.popState(); return 28;
+  break;
+  case 15:return 26;
+  break;
+  case 16:return 26;
+  break;
+  case 17:return 32;
+  break;
+  case 18:return 31;
+  break;
+  case 19:this.popState(); this.begin('com');
+  break;
+  case 20:strip(3,5); this.popState(); return 13;
+  break;
+  case 21:return 31;
+  break;
+  case 22:return 51;
+  break;
+  case 23:return 50;
+  break;
+  case 24:return 50;
+  break;
+  case 25:return 54;
+  break;
+  case 26:// ignore whitespace
+  break;
+  case 27:this.popState(); return 33;
+  break;
+  case 28:this.popState(); return 25;
+  break;
+  case 29:yy_.yytext = strip(1,2).replace(/\\"/g,'"'); return 42;
+  break;
+  case 30:yy_.yytext = strip(1,2).replace(/\\'/g,"'"); return 42;
+  break;
+  case 31:return 52;
+  break;
+  case 32:return 44;
+  break;
+  case 33:return 44;
+  break;
+  case 34:return 43;
+  break;
+  case 35:return 50;
+  break;
+  case 36:yy_.yytext = strip(1,2); return 50;
+  break;
+  case 37:return 'INVALID';
+  break;
+  case 38:return 5;
+  break;
+  }
+  };
+  lexer.rules = [/^(?:[^\x00]*?(?=(\{\{)))/,/^(?:[^\x00]+)/,/^(?:[^\x00]{2,}?(?=(\{\{|\\\{\{|\\\\\{\{|$)))/,/^(?:\{\{\{\{\/[^\s!"#%-,\.\/;->@\[-\^`\{-~]+(?=[=}\s\/.])\}\}\}\})/,/^(?:[^\x00]*?(?=(\{\{\{\{\/)))/,/^(?:[\s\S]*?--\}\})/,/^(?:\()/,/^(?:\))/,/^(?:\{\{\{\{)/,/^(?:\}\}\}\})/,/^(?:\{\{(~)?>)/,/^(?:\{\{(~)?#)/,/^(?:\{\{(~)?\/)/,/^(?:\{\{(~)?\^\s*(~)?\}\})/,/^(?:\{\{(~)?\s*else\s*(~)?\}\})/,/^(?:\{\{(~)?\^)/,/^(?:\{\{(~)?\s*else\b)/,/^(?:\{\{(~)?\{)/,/^(?:\{\{(~)?&)/,/^(?:\{\{!--)/,/^(?:\{\{![\s\S]*?\}\})/,/^(?:\{\{(~)?)/,/^(?:=)/,/^(?:\.\.)/,/^(?:\.(?=([=~}\s\/.)])))/,/^(?:[\/.])/,/^(?:\s+)/,/^(?:\}(~)?\}\})/,/^(?:(~)?\}\})/,/^(?:"(\\["]|[^"])*")/,/^(?:'(\\[']|[^'])*')/,/^(?:@)/,/^(?:true(?=([~}\s)])))/,/^(?:false(?=([~}\s)])))/,/^(?:-?[0-9]+(?:\.[0-9]+)?(?=([~}\s)])))/,/^(?:([^\s!"#%-,\.\/;->@\[-\^`\{-~]+(?=([=~}\s\/.)]))))/,/^(?:\[[^\]]*\])/,/^(?:.)/,/^(?:$)/];
+  lexer.conditions = {"mu":{"rules":[6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38],"inclusive":false},"emu":{"rules":[2],"inclusive":false},"com":{"rules":[5],"inclusive":false},"raw":{"rules":[3,4],"inclusive":false},"INITIAL":{"rules":[0,1,38],"inclusive":true}};
+  return lexer;})()
+  parser.lexer = lexer;
+  function Parser () { this.yy = {}; }Parser.prototype = parser;parser.Parser = Parser;
+  return new Parser;
+  })();__exports__ = handlebars;
+  /* jshint ignore:end */
+  return __exports__;
+})();
+
+// handlebars/compiler/helpers.js
+var __module10__ = (function(__dependency1__) {
+  "use strict";
+  var __exports__ = {};
+  var Exception = __dependency1__;
+
+  function stripFlags(open, close) {
+    return {
+      left: open.charAt(2) === '~',
+      right: close.charAt(close.length-3) === '~'
+    };
+  }
+
+  __exports__.stripFlags = stripFlags;
+  function prepareBlock(mustache, program, inverseAndProgram, close, inverted, locInfo) {
+    /*jshint -W040 */
+    if (mustache.sexpr.id.original !== close.path.original) {
+      throw new Exception(mustache.sexpr.id.original + ' doesn\'t match ' + close.path.original, mustache);
+    }
+
+    var inverse = inverseAndProgram && inverseAndProgram.program;
+
+    var strip = {
+      left: mustache.strip.left,
+      right: close.strip.right,
+
+      // Determine the standalone candiacy. Basically flag our content as being possibly standalone
+      // so our parent can determine if we actually are standalone
+      openStandalone: isNextWhitespace(program.statements),
+      closeStandalone: isPrevWhitespace((inverse || program).statements)
+    };
+
+    if (mustache.strip.right) {
+      omitRight(program.statements, null, true);
+    }
+
+    if (inverse) {
+      var inverseStrip = inverseAndProgram.strip;
+
+      if (inverseStrip.left) {
+        omitLeft(program.statements, null, true);
+      }
+      if (inverseStrip.right) {
+        omitRight(inverse.statements, null, true);
+      }
+      if (close.strip.left) {
+        omitLeft(inverse.statements, null, true);
+      }
+
+      // Find standalone else statments
+      if (isPrevWhitespace(program.statements)
+          && isNextWhitespace(inverse.statements)) {
+
+        omitLeft(program.statements);
+        omitRight(inverse.statements);
+      }
+    } else {
+      if (close.strip.left) {
+        omitLeft(program.statements, null, true);
+      }
+    }
+
+    if (inverted) {
+      return new this.BlockNode(mustache, inverse, program, strip, locInfo);
+    } else {
+      return new this.BlockNode(mustache, program, inverse, strip, locInfo);
+    }
+  }
+
+  __exports__.prepareBlock = prepareBlock;
+  function prepareProgram(statements, isRoot) {
+    for (var i = 0, l = statements.length; i < l; i++) {
+      var current = statements[i],
+          strip = current.strip;
+
+      if (!strip) {
+        continue;
+      }
+
+      var _isPrevWhitespace = isPrevWhitespace(statements, i, isRoot, current.type === 'partial'),
+          _isNextWhitespace = isNextWhitespace(statements, i, isRoot),
+
+          openStandalone = strip.openStandalone && _isPrevWhitespace,
+          closeStandalone = strip.closeStandalone && _isNextWhitespace,
+          inlineStandalone = strip.inlineStandalone && _isPrevWhitespace && _isNextWhitespace;
+
+      if (strip.right) {
+        omitRight(statements, i, true);
+      }
+      if (strip.left) {
+        omitLeft(statements, i, true);
+      }
+
+      if (inlineStandalone) {
+        omitRight(statements, i);
+
+        if (omitLeft(statements, i)) {
+          // If we are on a standalone node, save the indent info for partials
+          if (current.type === 'partial') {
+            current.indent = (/([ \t]+$)/).exec(statements[i-1].original) ? RegExp.$1 : '';
+          }
+        }
+      }
+      if (openStandalone) {
+        omitRight((current.program || current.inverse).statements);
+
+        // Strip out the previous content node if it's whitespace only
+        omitLeft(statements, i);
+      }
+      if (closeStandalone) {
+        // Always strip the next node
+        omitRight(statements, i);
+
+        omitLeft((current.inverse || current.program).statements);
+      }
+    }
+
+    return statements;
+  }
+
+  __exports__.prepareProgram = prepareProgram;function isPrevWhitespace(statements, i, isRoot) {
+    if (i === undefined) {
+      i = statements.length;
+    }
+
+    // Nodes that end with newlines are considered whitespace (but are special
+    // cased for strip operations)
+    var prev = statements[i-1],
+        sibling = statements[i-2];
+    if (!prev) {
+      return isRoot;
+    }
+
+    if (prev.type === 'content') {
+      return (sibling || !isRoot ? (/\r?\n\s*?$/) : (/(^|\r?\n)\s*?$/)).test(prev.original);
+    }
+  }
+  function isNextWhitespace(statements, i, isRoot) {
+    if (i === undefined) {
+      i = -1;
+    }
+
+    var next = statements[i+1],
+        sibling = statements[i+2];
+    if (!next) {
+      return isRoot;
+    }
+
+    if (next.type === 'content') {
+      return (sibling || !isRoot ? (/^\s*?\r?\n/) : (/^\s*?(\r?\n|$)/)).test(next.original);
+    }
+  }
+
+  // Marks the node to the right of the position as omitted.
+  // I.e. {{foo}}' ' will mark the ' ' node as omitted.
+  //
+  // If i is undefined, then the first child will be marked as such.
+  //
+  // If mulitple is truthy then all whitespace will be stripped out until non-whitespace
+  // content is met.
+  function omitRight(statements, i, multiple) {
+    var current = statements[i == null ? 0 : i + 1];
+    if (!current || current.type !== 'content' || (!multiple && current.rightStripped)) {
+      return;
+    }
+
+    var original = current.string;
+    current.string = current.string.replace(multiple ? (/^\s+/) : (/^[ \t]*\r?\n?/), '');
+    current.rightStripped = current.string !== original;
+  }
+
+  // Marks the node to the left of the position as omitted.
+  // I.e. ' '{{foo}} will mark the ' ' node as omitted.
+  //
+  // If i is undefined then the last child will be marked as such.
+  //
+  // If mulitple is truthy then all whitespace will be stripped out until non-whitespace
+  // content is met.
+  function omitLeft(statements, i, multiple) {
+    var current = statements[i == null ? statements.length - 1 : i - 1];
+    if (!current || current.type !== 'content' || (!multiple && current.leftStripped)) {
+      return;
+    }
+
+    // We omit the last node if it's whitespace only and not preceeded by a non-content node.
+    var original = current.string;
+    current.string = current.string.replace(multiple ? (/\s+$/) : (/[ \t]+$/), '');
+    current.leftStripped = current.string !== original;
+    return current.leftStripped;
+  }
+  return __exports__;
+})(__module5__);
+
+// handlebars/compiler/base.js
+var __module8__ = (function(__dependency1__, __dependency2__, __dependency3__, __dependency4__) {
+  "use strict";
+  var __exports__ = {};
+  var parser = __dependency1__;
+  var AST = __dependency2__;
+  var Helpers = __dependency3__;
+  var extend = __dependency4__.extend;
+
+  __exports__.parser = parser;
+
+  var yy = {};
+  extend(yy, Helpers, AST);
+
+  function parse(input) {
+    // Just return if an already-compile AST was passed in.
+    if (input.constructor === AST.ProgramNode) { return input; }
+
+    parser.yy = yy;
+
+    return parser.parse(input);
+  }
+
+  __exports__.parse = parse;
+  return __exports__;
+})(__module9__, __module7__, __module10__, __module3__);
+
+// handlebars/compiler/compiler.js
+var __module11__ = (function(__dependency1__, __dependency2__) {
+  "use strict";
+  var __exports__ = {};
+  var Exception = __dependency1__;
+  var isArray = __dependency2__.isArray;
+
+  var slice = [].slice;
+
+  function Compiler() {}
+
+  __exports__.Compiler = Compiler;// the foundHelper register will disambiguate helper lookup from finding a
+  // function in a context. This is necessary for mustache compatibility, which
+  // requires that context functions in blocks are evaluated by blockHelperMissing,
+  // and then proceed as if the resulting value was provided to blockHelperMissing.
+
+  Compiler.prototype = {
+    compiler: Compiler,
+
+    equals: function(other) {
+      var len = this.opcodes.length;
+      if (other.opcodes.length !== len) {
+        return false;
+      }
+
+      for (var i = 0; i < len; i++) {
+        var opcode = this.opcodes[i],
+            otherOpcode = other.opcodes[i];
+        if (opcode.opcode !== otherOpcode.opcode || !argEquals(opcode.args, otherOpcode.args)) {
+          return false;
+        }
+      }
+
+      // We know that length is the same between the two arrays because they are directly tied
+      // to the opcode behavior above.
+      len = this.children.length;
+      for (i = 0; i < len; i++) {
+        if (!this.children[i].equals(other.children[i])) {
+          return false;
+        }
+      }
+
+      return true;
+    },
+
+    guid: 0,
+
+    compile: function(program, options) {
+      this.opcodes = [];
+      this.children = [];
+      this.depths = {list: []};
+      this.options = options;
+      this.stringParams = options.stringParams;
+      this.trackIds = options.trackIds;
+
+      // These changes will propagate to the other compiler components
+      var knownHelpers = this.options.knownHelpers;
+      this.options.knownHelpers = {
+        'helperMissing': true,
+        'blockHelperMissing': true,
+        'each': true,
+        'if': true,
+        'unless': true,
+        'with': true,
+        'log': true,
+        'lookup': true
+      };
+      if (knownHelpers) {
+        for (var name in knownHelpers) {
+          this.options.knownHelpers[name] = knownHelpers[name];
+        }
+      }
+
+      return this.accept(program);
+    },
+
+    accept: function(node) {
+      return this[node.type](node);
+    },
+
+    program: function(program) {
+      var statements = program.statements;
+
+      for(var i=0, l=statements.length; i<l; i++) {
+        this.accept(statements[i]);
+      }
+      this.isSimple = l === 1;
+
+      this.depths.list = this.depths.list.sort(function(a, b) {
+        return a - b;
+      });
+
+      return this;
+    },
+
+    compileProgram: function(program) {
+      var result = new this.compiler().compile(program, this.options);
+      var guid = this.guid++, depth;
+
+      this.usePartial = this.usePartial || result.usePartial;
+
+      this.children[guid] = result;
+
+      for(var i=0, l=result.depths.list.length; i<l; i++) {
+        depth = result.depths.list[i];
+
+        if(depth < 2) { continue; }
+        else { this.addDepth(depth - 1); }
+      }
+
+      return guid;
+    },
+
+    block: function(block) {
+      var mustache = block.mustache,
+          program = block.program,
+          inverse = block.inverse;
+
+      if (program) {
+        program = this.compileProgram(program);
+      }
+
+      if (inverse) {
+        inverse = this.compileProgram(inverse);
+      }
+
+      var sexpr = mustache.sexpr;
+      var type = this.classifySexpr(sexpr);
+
+      if (type === "helper") {
+        this.helperSexpr(sexpr, program, inverse);
+      } else if (type === "simple") {
+        this.simpleSexpr(sexpr);
+
+        // now that the simple mustache is resolved, we need to
+        // evaluate it by executing `blockHelperMissing`
+        this.opcode('pushProgram', program);
+        this.opcode('pushProgram', inverse);
+        this.opcode('emptyHash');
+        this.opcode('blockValue', sexpr.id.original);
+      } else {
+        this.ambiguousSexpr(sexpr, program, inverse);
+
+        // now that the simple mustache is resolved, we need to
+        // evaluate it by executing `blockHelperMissing`
+        this.opcode('pushProgram', program);
+        this.opcode('pushProgram', inverse);
+        this.opcode('emptyHash');
+        this.opcode('ambiguousBlockValue');
+      }
+
+      this.opcode('append');
+    },
+
+    hash: function(hash) {
+      var pairs = hash.pairs, i, l;
+
+      this.opcode('pushHash');
+
+      for(i=0, l=pairs.length; i<l; i++) {
+        this.pushParam(pairs[i][1]);
+      }
+      while(i--) {
+        this.opcode('assignToHash', pairs[i][0]);
+      }
+      this.opcode('popHash');
+    },
+
+    partial: function(partial) {
+      var partialName = partial.partialName;
+      this.usePartial = true;
+
+      if (partial.hash) {
+        this.accept(partial.hash);
+      } else {
+        this.opcode('push', 'undefined');
+      }
+
+      if (partial.context) {
+        this.accept(partial.context);
+      } else {
+        this.opcode('getContext', 0);
+        this.opcode('pushContext');
+      }
+
+      this.opcode('invokePartial', partialName.name, partial.indent || '');
+      this.opcode('append');
+    },
+
+    content: function(content) {
+      if (content.string) {
+        this.opcode('appendContent', content.string);
+      }
+    },
+
+    mustache: function(mustache) {
+      this.sexpr(mustache.sexpr);
+
+      if(mustache.escaped && !this.options.noEscape) {
+        this.opcode('appendEscaped');
+      } else {
+        this.opcode('append');
+      }
+    },
+
+    ambiguousSexpr: function(sexpr, program, inverse) {
+      var id = sexpr.id,
+          name = id.parts[0],
+          isBlock = program != null || inverse != null;
+
+      this.opcode('getContext', id.depth);
+
+      this.opcode('pushProgram', program);
+      this.opcode('pushProgram', inverse);
+
+      this.ID(id);
+
+      this.opcode('invokeAmbiguous', name, isBlock);
+    },
+
+    simpleSexpr: function(sexpr) {
+      var id = sexpr.id;
+
+      if (id.type === 'DATA') {
+        this.DATA(id);
+      } else if (id.parts.length) {
+        this.ID(id);
+      } else {
+        // Simplified ID for `this`
+        this.addDepth(id.depth);
+        this.opcode('getContext', id.depth);
+        this.opcode('pushContext');
+      }
+
+      this.opcode('resolvePossibleLambda');
+    },
+
+    helperSexpr: function(sexpr, program, inverse) {
+      var params = this.setupFullMustacheParams(sexpr, program, inverse),
+          id = sexpr.id,
+          name = id.parts[0];
+
+      if (this.options.knownHelpers[name]) {
+        this.opcode('invokeKnownHelper', params.length, name);
+      } else if (this.options.knownHelpersOnly) {
+        throw new Exception("You specified knownHelpersOnly, but used the unknown helper " + name, sexpr);
+      } else {
+        id.falsy = true;
+
+        this.ID(id);
+        this.opcode('invokeHelper', params.length, id.original, id.isSimple);
+      }
+    },
+
+    sexpr: function(sexpr) {
+      var type = this.classifySexpr(sexpr);
+
+      if (type === "simple") {
+        this.simpleSexpr(sexpr);
+      } else if (type === "helper") {
+        this.helperSexpr(sexpr);
+      } else {
+        this.ambiguousSexpr(sexpr);
+      }
+    },
+
+    ID: function(id) {
+      this.addDepth(id.depth);
+      this.opcode('getContext', id.depth);
+
+      var name = id.parts[0];
+      if (!name) {
+        // Context reference, i.e. `{{foo .}}` or `{{foo ..}}`
+        this.opcode('pushContext');
+      } else {
+        this.opcode('lookupOnContext', id.parts, id.falsy, id.isScoped);
+      }
+    },
+
+    DATA: function(data) {
+      this.options.data = true;
+      this.opcode('lookupData', data.id.depth, data.id.parts);
+    },
+
+    STRING: function(string) {
+      this.opcode('pushString', string.string);
+    },
+
+    NUMBER: function(number) {
+      this.opcode('pushLiteral', number.number);
+    },
+
+    BOOLEAN: function(bool) {
+      this.opcode('pushLiteral', bool.bool);
+    },
+
+    comment: function() {},
+
+    // HELPERS
+    opcode: function(name) {
+      this.opcodes.push({ opcode: name, args: slice.call(arguments, 1) });
+    },
+
+    addDepth: function(depth) {
+      if(depth === 0) { return; }
+
+      if(!this.depths[depth]) {
+        this.depths[depth] = true;
+        this.depths.list.push(depth);
+      }
+    },
+
+    classifySexpr: function(sexpr) {
+      var isHelper   = sexpr.isHelper;
+      var isEligible = sexpr.eligibleHelper;
+      var options    = this.options;
+
+      // if ambiguous, we can possibly resolve the ambiguity now
+      // An eligible helper is one that does not have a complex path, i.e. `this.foo`, `../foo` etc.
+      if (isEligible && !isHelper) {
+        var name = sexpr.id.parts[0];
+
+        if (options.knownHelpers[name]) {
+          isHelper = true;
+        } else if (options.knownHelpersOnly) {
+          isEligible = false;
+        }
+      }
+
+      if (isHelper) { return "helper"; }
+      else if (isEligible) { return "ambiguous"; }
+      else { return "simple"; }
+    },
+
+    pushParams: function(params) {
+      for(var i=0, l=params.length; i<l; i++) {
+        this.pushParam(params[i]);
+      }
+    },
+
+    pushParam: function(val) {
+      if (this.stringParams) {
+        if(val.depth) {
+          this.addDepth(val.depth);
+        }
+        this.opcode('getContext', val.depth || 0);
+        this.opcode('pushStringParam', val.stringModeValue, val.type);
+
+        if (val.type === 'sexpr') {
+          // Subexpressions get evaluated and passed in
+          // in string params mode.
+          this.sexpr(val);
+        }
+      } else {
+        if (this.trackIds) {
+          this.opcode('pushId', val.type, val.idName || val.stringModeValue);
+        }
+        this.accept(val);
+      }
+    },
+
+    setupFullMustacheParams: function(sexpr, program, inverse) {
+      var params = sexpr.params;
+      this.pushParams(params);
+
+      this.opcode('pushProgram', program);
+      this.opcode('pushProgram', inverse);
+
+      if (sexpr.hash) {
+        this.hash(sexpr.hash);
+      } else {
+        this.opcode('emptyHash');
+      }
+
+      return params;
+    }
+  };
+
+  function precompile(input, options, env) {
+    if (input == null || (typeof input !== 'string' && input.constructor !== env.AST.ProgramNode)) {
+      throw new Exception("You must pass a string or Handlebars AST to Handlebars.precompile. You passed " + input);
+    }
+
+    options = options || {};
+    if (!('data' in options)) {
+      options.data = true;
+    }
+    if (options.compat) {
+      options.useDepths = true;
+    }
+
+    var ast = env.parse(input);
+    var environment = new env.Compiler().compile(ast, options);
+    return new env.JavaScriptCompiler().compile(environment, options);
+  }
+
+  __exports__.precompile = precompile;function compile(input, options, env) {
+    if (input == null || (typeof input !== 'string' && input.constructor !== env.AST.ProgramNode)) {
+      throw new Exception("You must pass a string or Handlebars AST to Handlebars.compile. You passed " + input);
+    }
+
+    options = options || {};
+
+    if (!('data' in options)) {
+      options.data = true;
+    }
+    if (options.compat) {
+      options.useDepths = true;
+    }
+
+    var compiled;
+
+    function compileInput() {
+      var ast = env.parse(input);
+      var environment = new env.Compiler().compile(ast, options);
+      var templateSpec = new env.JavaScriptCompiler().compile(environment, options, undefined, true);
+      return env.template(templateSpec);
+    }
+
+    // Template is only compiled on first use and cached after that point.
+    var ret = function(context, options) {
+      if (!compiled) {
+        compiled = compileInput();
+      }
+      return compiled.call(this, context, options);
+    };
+    ret._setup = function(options) {
+      if (!compiled) {
+        compiled = compileInput();
+      }
+      return compiled._setup(options);
+    };
+    ret._child = function(i, data, depths) {
+      if (!compiled) {
+        compiled = compileInput();
+      }
+      return compiled._child(i, data, depths);
+    };
+    return ret;
+  }
+
+  __exports__.compile = compile;function argEquals(a, b) {
+    if (a === b) {
+      return true;
+    }
+
+    if (isArray(a) && isArray(b) && a.length === b.length) {
+      for (var i = 0; i < a.length; i++) {
+        if (!argEquals(a[i], b[i])) {
+          return false;
+        }
+      }
+      return true;
+    }
+  }
+  return __exports__;
+})(__module5__, __module3__);
+
+// handlebars/compiler/javascript-compiler.js
+var __module12__ = (function(__dependency1__, __dependency2__) {
+  "use strict";
+  var __exports__;
+  var COMPILER_REVISION = __dependency1__.COMPILER_REVISION;
+  var REVISION_CHANGES = __dependency1__.REVISION_CHANGES;
+  var Exception = __dependency2__;
+
+  function Literal(value) {
+    this.value = value;
+  }
+
+  function JavaScriptCompiler() {}
+
+  JavaScriptCompiler.prototype = {
+    // PUBLIC API: You can override these methods in a subclass to provide
+    // alternative compiled forms for name lookup and buffering semantics
+    nameLookup: function(parent, name /* , type*/) {
+      if (JavaScriptCompiler.isValidJavaScriptVariableName(name)) {
+        return parent + "." + name;
+      } else {
+        return parent + "['" + name + "']";
+      }
+    },
+    depthedLookup: function(name) {
+      this.aliases.lookup = 'this.lookup';
+
+      return 'lookup(depths, "' + name + '")';
+    },
+
+    compilerInfo: function() {
+      var revision = COMPILER_REVISION,
+          versions = REVISION_CHANGES[revision];
+      return [revision, versions];
+    },
+
+    appendToBuffer: function(string) {
+      if (this.environment.isSimple) {
+        return "return " + string + ";";
+      } else {
+        return {
+          appendToBuffer: true,
+          content: string,
+          toString: function() { return "buffer += " + string + ";"; }
+        };
+      }
+    },
+
+    initializeBuffer: function() {
+      return this.quotedString("");
+    },
+
+    namespace: "Handlebars",
+    // END PUBLIC API
+
+    compile: function(environment, options, context, asObject) {
+      this.environment = environment;
+      this.options = options;
+      this.stringParams = this.options.stringParams;
+      this.trackIds = this.options.trackIds;
+      this.precompile = !asObject;
+
+      this.name = this.environment.name;
+      this.isChild = !!context;
+      this.context = context || {
+        programs: [],
+        environments: []
+      };
+
+      this.preamble();
+
+      this.stackSlot = 0;
+      this.stackVars = [];
+      this.aliases = {};
+      this.registers = { list: [] };
+      this.hashes = [];
+      this.compileStack = [];
+      this.inlineStack = [];
+
+      this.compileChildren(environment, options);
+
+      this.useDepths = this.useDepths || environment.depths.list.length || this.options.compat;
+
+      var opcodes = environment.opcodes,
+          opcode,
+          i,
+          l;
+
+      for (i = 0, l = opcodes.length; i < l; i++) {
+        opcode = opcodes[i];
+
+        this[opcode.opcode].apply(this, opcode.args);
+      }
+
+      // Flush any trailing content that might be pending.
+      this.pushSource('');
+
+      /* istanbul ignore next */
+      if (this.stackSlot || this.inlineStack.length || this.compileStack.length) {
+        throw new Exception('Compile completed with content left on stack');
+      }
+
+      var fn = this.createFunctionContext(asObject);
+      if (!this.isChild) {
+        var ret = {
+          compiler: this.compilerInfo(),
+          main: fn
+        };
+        var programs = this.context.programs;
+        for (i = 0, l = programs.length; i < l; i++) {
+          if (programs[i]) {
+            ret[i] = programs[i];
+          }
+        }
+
+        if (this.environment.usePartial) {
+          ret.usePartial = true;
+        }
+        if (this.options.data) {
+          ret.useData = true;
+        }
+        if (this.useDepths) {
+          ret.useDepths = true;
+        }
+        if (this.options.compat) {
+          ret.compat = true;
+        }
+
+        if (!asObject) {
+          ret.compiler = JSON.stringify(ret.compiler);
+          ret = this.objectLiteral(ret);
+        }
+
+        return ret;
+      } else {
+        return fn;
+      }
+    },
+
+    preamble: function() {
+      // track the last context pushed into place to allow skipping the
+      // getContext opcode when it would be a noop
+      this.lastContext = 0;
+      this.source = [];
+    },
+
+    createFunctionContext: function(asObject) {
+      var varDeclarations = '';
+
+      var locals = this.stackVars.concat(this.registers.list);
+      if(locals.length > 0) {
+        varDeclarations += ", " + locals.join(", ");
+      }
+
+      // Generate minimizer alias mappings
+      for (var alias in this.aliases) {
+        if (this.aliases.hasOwnProperty(alias)) {
+          varDeclarations += ', ' + alias + '=' + this.aliases[alias];
+        }
+      }
+
+      var params = ["depth0", "helpers", "partials", "data"];
+
+      if (this.useDepths) {
+        params.push('depths');
+      }
+
+      // Perform a second pass over the output to merge content when possible
+      var source = this.mergeSource(varDeclarations);
+
+      if (asObject) {
+        params.push(source);
+
+        return Function.apply(this, params);
+      } else {
+        return 'function(' + params.join(',') + ') {\n  ' + source + '}';
+      }
+    },
+    mergeSource: function(varDeclarations) {
+      var source = '',
+          buffer,
+          appendOnly = !this.forceBuffer,
+          appendFirst;
+
+      for (var i = 0, len = this.source.length; i < len; i++) {
+        var line = this.source[i];
+        if (line.appendToBuffer) {
+          if (buffer) {
+            buffer = buffer + '\n    + ' + line.content;
+          } else {
+            buffer = line.content;
+          }
+        } else {
+          if (buffer) {
+            if (!source) {
+              appendFirst = true;
+              source = buffer + ';\n  ';
+            } else {
+              source += 'buffer += ' + buffer + ';\n  ';
+            }
+            buffer = undefined;
+          }
+          source += line + '\n  ';
+
+          if (!this.environment.isSimple) {
+            appendOnly = false;
+          }
+        }
+      }
+
+      if (appendOnly) {
+        if (buffer || !source) {
+          source += 'return ' + (buffer || '""') + ';\n';
+        }
+      } else {
+        varDeclarations += ", buffer = " + (appendFirst ? '' : this.initializeBuffer());
+        if (buffer) {
+          source += 'return buffer + ' + buffer + ';\n';
+        } else {
+          source += 'return buffer;\n';
+        }
+      }
+
+      if (varDeclarations) {
+        source = 'var ' + varDeclarations.substring(2) + (appendFirst ? '' : ';\n  ') + source;
+      }
+
+      return source;
+    },
+
+    // [blockValue]
+    //
+    // On stack, before: hash, inverse, program, value
+    // On stack, after: return value of blockHelperMissing
+    //
+    // The purpose of this opcode is to take a block of the form
+    // `{{#this.foo}}...{{/this.foo}}`, resolve the value of `foo`, and
+    // replace it on the stack with the result of properly
+    // invoking blockHelperMissing.
+    blockValue: function(name) {
+      this.aliases.blockHelperMissing = 'helpers.blockHelperMissing';
+
+      var params = [this.contextName(0)];
+      this.setupParams(name, 0, params);
+
+      var blockName = this.popStack();
+      params.splice(1, 0, blockName);
+
+      this.push('blockHelperMissing.call(' + params.join(', ') + ')');
+    },
+
+    // [ambiguousBlockValue]
+    //
+    // On stack, before: hash, inverse, program, value
+    // Compiler value, before: lastHelper=value of last found helper, if any
+    // On stack, after, if no lastHelper: same as [blockValue]
+    // On stack, after, if lastHelper: value
+    ambiguousBlockValue: function() {
+      this.aliases.blockHelperMissing = 'helpers.blockHelperMissing';
+
+      // We're being a bit cheeky and reusing the options value from the prior exec
+      var params = [this.contextName(0)];
+      this.setupParams('', 0, params, true);
+
+      this.flushInline();
+
+      var current = this.topStack();
+      params.splice(1, 0, current);
+
+      this.pushSource("if (!" + this.lastHelper + ") { " + current + " = blockHelperMissing.call(" + params.join(", ") + "); }");
+    },
+
+    // [appendContent]
+    //
+    // On stack, before: ...
+    // On stack, after: ...
+    //
+    // Appends the string value of `content` to the current buffer
+    appendContent: function(content) {
+      if (this.pendingContent) {
+        content = this.pendingContent + content;
+      }
+
+      this.pendingContent = content;
+    },
+
+    // [append]
+    //
+    // On stack, before: value, ...
+    // On stack, after: ...
+    //
+    // Coerces `value` to a String and appends it to the current buffer.
+    //
+    // If `value` is truthy, or 0, it is coerced into a string and appended
+    // Otherwise, the empty string is appended
+    append: function() {
+      // Force anything that is inlined onto the stack so we don't have duplication
+      // when we examine local
+      this.flushInline();
+      var local = this.popStack();
+      this.pushSource('if (' + local + ' != null) { ' + this.appendToBuffer(local) + ' }');
+      if (this.environment.isSimple) {
+        this.pushSource("else { " + this.appendToBuffer("''") + " }");
+      }
+    },
+
+    // [appendEscaped]
+    //
+    // On stack, before: value, ...
+    // On stack, after: ...
+    //
+    // Escape `value` and append it to the buffer
+    appendEscaped: function() {
+      this.aliases.escapeExpression = 'this.escapeExpression';
+
+      this.pushSource(this.appendToBuffer("escapeExpression(" + this.popStack() + ")"));
+    },
+
+    // [getContext]
+    //
+    // On stack, before: ...
+    // On stack, after: ...
+    // Compiler value, after: lastContext=depth
+    //
+    // Set the value of the `lastContext` compiler value to the depth
+    getContext: function(depth) {
+      this.lastContext = depth;
+    },
+
+    // [pushContext]
+    //
+    // On stack, before: ...
+    // On stack, after: currentContext, ...
+    //
+    // Pushes the value of the current context onto the stack.
+    pushContext: function() {
+      this.pushStackLiteral(this.contextName(this.lastContext));
+    },
+
+    // [lookupOnContext]
+    //
+    // On stack, before: ...
+    // On stack, after: currentContext[name], ...
+    //
+    // Looks up the value of `name` on the current context and pushes
+    // it onto the stack.
+    lookupOnContext: function(parts, falsy, scoped) {
+      /*jshint -W083 */
+      var i = 0,
+          len = parts.length;
+
+      if (!scoped && this.options.compat && !this.lastContext) {
+        // The depthed query is expected to handle the undefined logic for the root level that
+        // is implemented below, so we evaluate that directly in compat mode
+        this.push(this.depthedLookup(parts[i++]));
+      } else {
+        this.pushContext();
+      }
+
+      for (; i < len; i++) {
+        this.replaceStack(function(current) {
+          var lookup = this.nameLookup(current, parts[i], 'context');
+          // We want to ensure that zero and false are handled properly if the context (falsy flag)
+          // needs to have the special handling for these values.
+          if (!falsy) {
+            return ' != null ? ' + lookup + ' : ' + current;
+          } else {
+            // Otherwise we can use generic falsy handling
+            return ' && ' + lookup;
+          }
+        });
+      }
+    },
+
+    // [lookupData]
+    //
+    // On stack, before: ...
+    // On stack, after: data, ...
+    //
+    // Push the data lookup operator
+    lookupData: function(depth, parts) {
+      /*jshint -W083 */
+      if (!depth) {
+        this.pushStackLiteral('data');
+      } else {
+        this.pushStackLiteral('this.data(data, ' + depth + ')');
+      }
+
+      var len = parts.length;
+      for (var i = 0; i < len; i++) {
+        this.replaceStack(function(current) {
+          return ' && ' + this.nameLookup(current, parts[i], 'data');
+        });
+      }
+    },
+
+    // [resolvePossibleLambda]
+    //
+    // On stack, before: value, ...
+    // On stack, after: resolved value, ...
+    //
+    // If the `value` is a lambda, replace it on the stack by
+    // the return value of the lambda
+    resolvePossibleLambda: function() {
+      this.aliases.lambda = 'this.lambda';
+
+      this.push('lambda(' + this.popStack() + ', ' + this.contextName(0) + ')');
+    },
+
+    // [pushStringParam]
+    //
+    // On stack, before: ...
+    // On stack, after: string, currentContext, ...
+    //
+    // This opcode is designed for use in string mode, which
+    // provides the string value of a parameter along with its
+    // depth rather than resolving it immediately.
+    pushStringParam: function(string, type) {
+      this.pushContext();
+      this.pushString(type);
+
+      // If it's a subexpression, the string result
+      // will be pushed after this opcode.
+      if (type !== 'sexpr') {
+        if (typeof string === 'string') {
+          this.pushString(string);
+        } else {
+          this.pushStackLiteral(string);
+        }
+      }
+    },
+
+    emptyHash: function() {
+      this.pushStackLiteral('{}');
+
+      if (this.trackIds) {
+        this.push('{}'); // hashIds
+      }
+      if (this.stringParams) {
+        this.push('{}'); // hashContexts
+        this.push('{}'); // hashTypes
+      }
+    },
+    pushHash: function() {
+      if (this.hash) {
+        this.hashes.push(this.hash);
+      }
+      this.hash = {values: [], types: [], contexts: [], ids: []};
+    },
+    popHash: function() {
+      var hash = this.hash;
+      this.hash = this.hashes.pop();
+
+      if (this.trackIds) {
+        this.push('{' + hash.ids.join(',') + '}');
+      }
+      if (this.stringParams) {
+        this.push('{' + hash.contexts.join(',') + '}');
+        this.push('{' + hash.types.join(',') + '}');
+      }
+
+      this.push('{\n    ' + hash.values.join(',\n    ') + '\n  }');
+    },
+
+    // [pushString]
+    //
+    // On stack, before: ...
+    // On stack, after: quotedString(string), ...
+    //
+    // Push a quoted version of `string` onto the stack
+    pushString: function(string) {
+      this.pushStackLiteral(this.quotedString(string));
+    },
+
+    // [push]
+    //
+    // On stack, before: ...
+    // On stack, after: expr, ...
+    //
+    // Push an expression onto the stack
+    push: function(expr) {
+      this.inlineStack.push(expr);
+      return expr;
+    },
+
+    // [pushLiteral]
+    //
+    // On stack, before: ...
+    // On stack, after: value, ...
+    //
+    // Pushes a value onto the stack. This operation prevents
+    // the compiler from creating a temporary variable to hold
+    // it.
+    pushLiteral: function(value) {
+      this.pushStackLiteral(value);
+    },
+
+    // [pushProgram]
+    //
+    // On stack, before: ...
+    // On stack, after: program(guid), ...
+    //
+    // Push a program expression onto the stack. This takes
+    // a compile-time guid and converts it into a runtime-accessible
+    // expression.
+    pushProgram: function(guid) {
+      if (guid != null) {
+        this.pushStackLiteral(this.programExpression(guid));
+      } else {
+        this.pushStackLiteral(null);
+      }
+    },
+
+    // [invokeHelper]
+    //
+    // On stack, before: hash, inverse, program, params..., ...
+    // On stack, after: result of helper invocation
+    //
+    // Pops off the helper's parameters, invokes the helper,
+    // and pushes the helper's return value onto the stack.
+    //
+    // If the helper is not found, `helperMissing` is called.
+    invokeHelper: function(paramSize, name, isSimple) {
+      this.aliases.helperMissing = 'helpers.helperMissing';
+
+      var nonHelper = this.popStack();
+      var helper = this.setupHelper(paramSize, name);
+
+      var lookup = (isSimple ? helper.name + ' || ' : '') + nonHelper + ' || helperMissing';
+      this.push('((' + lookup + ').call(' + helper.callParams + '))');
+    },
+
+    // [invokeKnownHelper]
+    //
+    // On stack, before: hash, inverse, program, params..., ...
+    // On stack, after: result of helper invocation
+    //
+    // This operation is used when the helper is known to exist,
+    // so a `helperMissing` fallback is not required.
+    invokeKnownHelper: function(paramSize, name) {
+      var helper = this.setupHelper(paramSize, name);
+      this.push(helper.name + ".call(" + helper.callParams + ")");
+    },
+
+    // [invokeAmbiguous]
+    //
+    // On stack, before: hash, inverse, program, params..., ...
+    // On stack, after: result of disambiguation
+    //
+    // This operation is used when an expression like `{{foo}}`
+    // is provided, but we don't know at compile-time whether it
+    // is a helper or a path.
+    //
+    // This operation emits more code than the other options,
+    // and can be avoided by passing the `knownHelpers` and
+    // `knownHelpersOnly` flags at compile-time.
+    invokeAmbiguous: function(name, helperCall) {
+      this.aliases.functionType = '"function"';
+      this.aliases.helperMissing = 'helpers.helperMissing';
+      this.useRegister('helper');
+
+      var nonHelper = this.popStack();
+
+      this.emptyHash();
+      var helper = this.setupHelper(0, name, helperCall);
+
+      var helperName = this.lastHelper = this.nameLookup('helpers', name, 'helper');
+
+      this.push(
+        '((helper = (helper = ' + helperName + ' || ' + nonHelper + ') != null ? helper : helperMissing'
+          + (helper.paramsInit ? '),(' + helper.paramsInit : '') + '),'
+        + '(typeof helper === functionType ? helper.call(' + helper.callParams + ') : helper))');
+    },
+
+    // [invokePartial]
+    //
+    // On stack, before: context, ...
+    // On stack after: result of partial invocation
+    //
+    // This operation pops off a context, invokes a partial with that context,
+    // and pushes the result of the invocation back.
+    invokePartial: function(name, indent) {
+      var params = [this.nameLookup('partials', name, 'partial'), "'" + indent + "'", "'" + name + "'", this.popStack(), this.popStack(), "helpers", "partials"];
+
+      if (this.options.data) {
+        params.push("data");
+      } else if (this.options.compat) {
+        params.push('undefined');
+      }
+      if (this.options.compat) {
+        params.push('depths');
+      }
+
+      this.push("this.invokePartial(" + params.join(", ") + ")");
+    },
+
+    // [assignToHash]
+    //
+    // On stack, before: value, ..., hash, ...
+    // On stack, after: ..., hash, ...
+    //
+    // Pops a value off the stack and assigns it to the current hash
+    assignToHash: function(key) {
+      var value = this.popStack(),
+          context,
+          type,
+          id;
+
+      if (this.trackIds) {
+        id = this.popStack();
+      }
+      if (this.stringParams) {
+        type = this.popStack();
+        context = this.popStack();
+      }
+
+      var hash = this.hash;
+      if (context) {
+        hash.contexts.push("'" + key + "': " + context);
+      }
+      if (type) {
+        hash.types.push("'" + key + "': " + type);
+      }
+      if (id) {
+        hash.ids.push("'" + key + "': " + id);
+      }
+      hash.values.push("'" + key + "': (" + value + ")");
+    },
+
+    pushId: function(type, name) {
+      if (type === 'ID' || type === 'DATA') {
+        this.pushString(name);
+      } else if (type === 'sexpr') {
+        this.pushStackLiteral('true');
+      } else {
+        this.pushStackLiteral('null');
+      }
+    },
+
+    // HELPERS
+
+    compiler: JavaScriptCompiler,
+
+    compileChildren: function(environment, options) {
+      var children = environment.children, child, compiler;
+
+      for(var i=0, l=children.length; i<l; i++) {
+        child = children[i];
+        compiler = new this.compiler();
+
+        var index = this.matchExistingProgram(child);
+
+        if (index == null) {
+          this.context.programs.push('');     // Placeholder to prevent name conflicts for nested children
+          index = this.context.programs.length;
+          child.index = index;
+          child.name = 'program' + index;
+          this.context.programs[index] = compiler.compile(child, options, this.context, !this.precompile);
+          this.context.environments[index] = child;
+
+          this.useDepths = this.useDepths || compiler.useDepths;
+        } else {
+          child.index = index;
+          child.name = 'program' + index;
+        }
+      }
+    },
+    matchExistingProgram: function(child) {
+      for (var i = 0, len = this.context.environments.length; i < len; i++) {
+        var environment = this.context.environments[i];
+        if (environment && environment.equals(child)) {
+          return i;
+        }
+      }
+    },
+
+    programExpression: function(guid) {
+      var child = this.environment.children[guid],
+          depths = child.depths.list,
+          useDepths = this.useDepths,
+          depth;
+
+      var programParams = [child.index, 'data'];
+
+      if (useDepths) {
+        programParams.push('depths');
+      }
+
+      return 'this.program(' + programParams.join(', ') + ')';
+    },
+
+    useRegister: function(name) {
+      if(!this.registers[name]) {
+        this.registers[name] = true;
+        this.registers.list.push(name);
+      }
+    },
+
+    pushStackLiteral: function(item) {
+      return this.push(new Literal(item));
+    },
+
+    pushSource: function(source) {
+      if (this.pendingContent) {
+        this.source.push(this.appendToBuffer(this.quotedString(this.pendingContent)));
+        this.pendingContent = undefined;
+      }
+
+      if (source) {
+        this.source.push(source);
+      }
+    },
+
+    pushStack: function(item) {
+      this.flushInline();
+
+      var stack = this.incrStack();
+      this.pushSource(stack + " = " + item + ";");
+      this.compileStack.push(stack);
+      return stack;
+    },
+
+    replaceStack: function(callback) {
+      var prefix = '',
+          inline = this.isInline(),
+          stack,
+          createdStack,
+          usedLiteral;
+
+      /* istanbul ignore next */
+      if (!this.isInline()) {
+        throw new Exception('replaceStack on non-inline');
+      }
+
+      // We want to merge the inline statement into the replacement statement via ','
+      var top = this.popStack(true);
+
+      if (top instanceof Literal) {
+        // Literals do not need to be inlined
+        prefix = stack = top.value;
+        usedLiteral = true;
+      } else {
+        // Get or create the current stack name for use by the inline
+        createdStack = !this.stackSlot;
+        var name = !createdStack ? this.topStackName() : this.incrStack();
+
+        prefix = '(' + this.push(name) + ' = ' + top + ')';
+        stack = this.topStack();
+      }
+
+      var item = callback.call(this, stack);
+
+      if (!usedLiteral) {
+        this.popStack();
+      }
+      if (createdStack) {
+        this.stackSlot--;
+      }
+      this.push('(' + prefix + item + ')');
+    },
+
+    incrStack: function() {
+      this.stackSlot++;
+      if(this.stackSlot > this.stackVars.length) { this.stackVars.push("stack" + this.stackSlot); }
+      return this.topStackName();
+    },
+    topStackName: function() {
+      return "stack" + this.stackSlot;
+    },
+    flushInline: function() {
+      var inlineStack = this.inlineStack;
+      if (inlineStack.length) {
+        this.inlineStack = [];
+        for (var i = 0, len = inlineStack.length; i < len; i++) {
+          var entry = inlineStack[i];
+          if (entry instanceof Literal) {
+            this.compileStack.push(entry);
+          } else {
+            this.pushStack(entry);
+          }
+        }
+      }
+    },
+    isInline: function() {
+      return this.inlineStack.length;
+    },
+
+    popStack: function(wrapped) {
+      var inline = this.isInline(),
+          item = (inline ? this.inlineStack : this.compileStack).pop();
+
+      if (!wrapped && (item instanceof Literal)) {
+        return item.value;
+      } else {
+        if (!inline) {
+          /* istanbul ignore next */
+          if (!this.stackSlot) {
+            throw new Exception('Invalid stack pop');
+          }
+          this.stackSlot--;
+        }
+        return item;
+      }
+    },
+
+    topStack: function() {
+      var stack = (this.isInline() ? this.inlineStack : this.compileStack),
+          item = stack[stack.length - 1];
+
+      if (item instanceof Literal) {
+        return item.value;
+      } else {
+        return item;
+      }
+    },
+
+    contextName: function(context) {
+      if (this.useDepths && context) {
+        return 'depths[' + context + ']';
+      } else {
+        return 'depth' + context;
+      }
+    },
+
+    quotedString: function(str) {
+      return '"' + str
+        .replace(/\\/g, '\\\\')
+        .replace(/"/g, '\\"')
+        .replace(/\n/g, '\\n')
+        .replace(/\r/g, '\\r')
+        .replace(/\u2028/g, '\\u2028')   // Per Ecma-262 7.3 + 7.8.4
+        .replace(/\u2029/g, '\\u2029') + '"';
+    },
+
+    objectLiteral: function(obj) {
+      var pairs = [];
+
+      for (var key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          pairs.push(this.quotedString(key) + ':' + obj[key]);
+        }
+      }
+
+      return '{' + pairs.join(',') + '}';
+    },
+
+    setupHelper: function(paramSize, name, blockHelper) {
+      var params = [],
+          paramsInit = this.setupParams(name, paramSize, params, blockHelper);
+      var foundHelper = this.nameLookup('helpers', name, 'helper');
+
+      return {
+        params: params,
+        paramsInit: paramsInit,
+        name: foundHelper,
+        callParams: [this.contextName(0)].concat(params).join(", ")
+      };
+    },
+
+    setupOptions: function(helper, paramSize, params) {
+      var options = {}, contexts = [], types = [], ids = [], param, inverse, program;
+
+      options.name = this.quotedString(helper);
+      options.hash = this.popStack();
+
+      if (this.trackIds) {
+        options.hashIds = this.popStack();
+      }
+      if (this.stringParams) {
+        options.hashTypes = this.popStack();
+        options.hashContexts = this.popStack();
+      }
+
+      inverse = this.popStack();
+      program = this.popStack();
+
+      // Avoid setting fn and inverse if neither are set. This allows
+      // helpers to do a check for `if (options.fn)`
+      if (program || inverse) {
+        if (!program) {
+          program = 'this.noop';
+        }
+
+        if (!inverse) {
+          inverse = 'this.noop';
+        }
+
+        options.fn = program;
+        options.inverse = inverse;
+      }
+
+      // The parameters go on to the stack in order (making sure that they are evaluated in order)
+      // so we need to pop them off the stack in reverse order
+      var i = paramSize;
+      while (i--) {
+        param = this.popStack();
+        params[i] = param;
+
+        if (this.trackIds) {
+          ids[i] = this.popStack();
+        }
+        if (this.stringParams) {
+          types[i] = this.popStack();
+          contexts[i] = this.popStack();
+        }
+      }
+
+      if (this.trackIds) {
+        options.ids = "[" + ids.join(",") + "]";
+      }
+      if (this.stringParams) {
+        options.types = "[" + types.join(",") + "]";
+        options.contexts = "[" + contexts.join(",") + "]";
+      }
+
+      if (this.options.data) {
+        options.data = "data";
+      }
+
+      return options;
+    },
+
+    // the params and contexts arguments are passed in arrays
+    // to fill in
+    setupParams: function(helperName, paramSize, params, useRegister) {
+      var options = this.objectLiteral(this.setupOptions(helperName, paramSize, params));
+
+      if (useRegister) {
+        this.useRegister('options');
+        params.push('options');
+        return 'options=' + options;
+      } else {
+        params.push(options);
+        return '';
+      }
+    }
+  };
+
+  var reservedWords = (
+    "break else new var" +
+    " case finally return void" +
+    " catch for switch while" +
+    " continue function this with" +
+    " default if throw" +
+    " delete in try" +
+    " do instanceof typeof" +
+    " abstract enum int short" +
+    " boolean export interface static" +
+    " byte extends long super" +
+    " char final native synchronized" +
+    " class float package throws" +
+    " const goto private transient" +
+    " debugger implements protected volatile" +
+    " double import public let yield"
+  ).split(" ");
+
+  var compilerWords = JavaScriptCompiler.RESERVED_WORDS = {};
+
+  for(var i=0, l=reservedWords.length; i<l; i++) {
+    compilerWords[reservedWords[i]] = true;
+  }
+
+  JavaScriptCompiler.isValidJavaScriptVariableName = function(name) {
+    return !JavaScriptCompiler.RESERVED_WORDS[name] && /^[a-zA-Z_$][0-9a-zA-Z_$]*$/.test(name);
+  };
+
+  __exports__ = JavaScriptCompiler;
+  return __exports__;
+})(__module2__, __module5__);
+
+// handlebars.js
+var __module0__ = (function(__dependency1__, __dependency2__, __dependency3__, __dependency4__, __dependency5__) {
+  "use strict";
+  var __exports__;
+  /*globals Handlebars: true */
+  var Handlebars = __dependency1__;
+
+  // Compiler imports
+  var AST = __dependency2__;
+  var Parser = __dependency3__.parser;
+  var parse = __dependency3__.parse;
+  var Compiler = __dependency4__.Compiler;
+  var compile = __dependency4__.compile;
+  var precompile = __dependency4__.precompile;
+  var JavaScriptCompiler = __dependency5__;
+
+  var _create = Handlebars.create;
+  var create = function() {
+    var hb = _create();
+
+    hb.compile = function(input, options) {
+      return compile(input, options, hb);
+    };
+    hb.precompile = function (input, options) {
+      return precompile(input, options, hb);
+    };
+
+    hb.AST = AST;
+    hb.Compiler = Compiler;
+    hb.JavaScriptCompiler = JavaScriptCompiler;
+    hb.Parser = Parser;
+    hb.parse = parse;
+
+    return hb;
+  };
+
+  Handlebars = create();
+  Handlebars.create = create;
+
+  Handlebars['default'] = Handlebars;
+
+  __exports__ = Handlebars;
+  return __exports__;
+})(__module1__, __module7__, __module8__, __module11__, __module12__);
+
+  return __module0__;
 }));
 
-// Backbone.Picky, v0.2.0
-// Copyright (c)2013 Derick Bailey, Muted Solutions, LLC.
-// Distributed under MIT license
-// http://github.com/derickbailey/backbone.picky
+/**
+ * Backbone Forms v0.13.0
+ *
+ * Copyright (c) 2013 Charles Davison, Pow Media Ltd
+ *
+ * License and more information at:
+ * http://github.com/powmedia/backbone-forms
+ */
+;(function(root) {
 
-Backbone.Picky = (function (Backbone, _) {
-  var Picky = {};
+  //DEPENDENCIES
+  //CommonJS
+  if (typeof exports !== 'undefined' && typeof require !== 'undefined') {
+    var $ = root.jQuery || root.Zepto || root.ender || require('jquery'),
+        _ = root._ || require('underscore'),
+        Backbone = root.Backbone || require('backbone');
+  }
 
-  // Picky.SingleSelect
-  // ------------------
-  // A single-select mixin for Backbone.Collection, allowing a single
-  // model to be selected within a collection. Selection of another
-  // model within the collection causes the previous model to be
-  // deselected.
+  //Browser
+  else {
+    var $ = root.jQuery,
+        _ = root._,
+        Backbone = root.Backbone;
+  }
 
-  Picky.SingleSelect = function(collection){
-    this.collection = collection;
-  };
 
-  _.extend(Picky.SingleSelect.prototype, {
+  //SOURCE
+  //==================================================================================================
+//FORM
+//==================================================================================================
 
-    // Select a model, deselecting any previously
-    // selected model
-    select: function(model){
-      if (model && this.selected === model) { return; }
+var Form = Backbone.View.extend({
 
-      this.deselect();
+  /**
+   * Constructor
+   * 
+   * @param {Object} [options.schema]
+   * @param {Backbone.Model} [options.model]
+   * @param {Object} [options.data]
+   * @param {String[]|Object[]} [options.fieldsets]
+   * @param {String[]} [options.fields]
+   * @param {String} [options.idPrefix]
+   * @param {Form.Field} [options.Field]
+   * @param {Form.Fieldset} [options.Fieldset]
+   * @param {Function} [options.template]
+   */
+  initialize: function(options) {
+    var self = this;
 
-      this.selected = model;
-      this.selected.select();
-      this.trigger("select:one", model);
-    },
+    options = options || {};
 
-    // Deselect a model, resulting in no model
-    // being selected
-    deselect: function(model){
-      if (!this.selected){ return; }
+    //Find the schema to use
+    var schema = this.schema = (function() {
+      //Prefer schema from options
+      if (options.schema) return _.result(options, 'schema');
 
-      model = model || this.selected;
-      if (this.selected !== model){ return; }
+      //Then schema on model
+      var model = options.model;
+      if (model && model.schema) {
+        return (_.isFunction(model.schema)) ? model.schema() : model.schema;
+      }
 
-      this.selected.deselect();
-      this.trigger("deselect:one", this.selected);
-      delete this.selected;
+      //Then built-in schema
+      if (self.schema) {
+        return (_.isFunction(self.schema)) ? self.schema() : self.schema;
+      }
+
+      //Fallback to empty schema
+      return {};
+    })();
+
+    //Store important data
+    _.extend(this, _.pick(options, 'model', 'data', 'idPrefix', 'templateData'));
+
+    //Override defaults
+    var constructor = this.constructor;
+    this.template = options.template || this.template || constructor.template;
+    this.Fieldset = options.Fieldset || this.Fieldset || constructor.Fieldset;
+    this.Field = options.Field || this.Field || constructor.Field;
+    this.NestedField = options.NestedField || this.NestedField || constructor.NestedField;
+
+    //Check which fields will be included (defaults to all)
+    var selectedFields = this.selectedFields = options.fields || _.keys(schema);
+
+    //Create fields
+    var fields = this.fields = {};
+
+    _.each(selectedFields, function(key) {
+      var fieldSchema = schema[key];
+      fields[key] = this.createField(key, fieldSchema);
+    }, this);
+
+    //Create fieldsets
+    var fieldsetSchema = options.fieldsets || [selectedFields],
+        fieldsets = this.fieldsets = [];
+
+    _.each(fieldsetSchema, function(itemSchema) {
+      this.fieldsets.push(this.createFieldset(itemSchema));
+    }, this);
+  },
+
+  /**
+   * Creates a Fieldset instance
+   *
+   * @param {String[]|Object[]} schema       Fieldset schema
+   *
+   * @return {Form.Fieldset}
+   */
+  createFieldset: function(schema) {
+    var options = {
+      schema: schema,
+      fields: this.fields
+    };
+
+    return new this.Fieldset(options);
+  },
+
+  /**
+   * Creates a Field instance
+   *
+   * @param {String} key
+   * @param {Object} schema       Field schema
+   *
+   * @return {Form.Field}
+   */
+  createField: function(key, schema) {
+    var options = {
+      form: this,
+      key: key,
+      schema: schema,
+      idPrefix: this.idPrefix
+    };
+
+    if (this.model) {
+      options.model = this.model;
+    } else if (this.data) {
+      options.value = this.data[key];
+    } else {
+      options.value = null;
     }
 
-  });
+    var field = new this.Field(options);
 
-  // Picky.MultiSelect
-  // -----------------
-  // A mult-select mixin for Backbone.Collection, allowing a collection to
-  // have multiple items selected, including `selectAll` and `selectNone`
-  // capabilities.
+    this.listenTo(field.editor, 'all', this.handleEditorEvent);
 
-  Picky.MultiSelect = function (collection) {
-    this.collection = collection;
-    this.selected = {};
+    return field;
+  },
+
+  /**
+   * Callback for when an editor event is fired.
+   * Re-triggers events on the form as key:event and triggers additional form-level events
+   *
+   * @param {String} event
+   * @param {Editor} editor
+   */
+  handleEditorEvent: function(event, editor) {
+    //Re-trigger editor events on the form
+    var formEvent = editor.key+':'+event;
+
+    this.trigger.call(this, formEvent, this, editor, Array.prototype.slice.call(arguments, 2));
+
+    //Trigger additional events
+    switch (event) {
+      case 'change':
+        this.trigger('change', this);
+        break;
+
+      case 'focus':
+        if (!this.hasFocus) this.trigger('focus', this);
+        break;
+
+      case 'blur':
+        if (this.hasFocus) {
+          //TODO: Is the timeout etc needed?
+          var self = this;
+          setTimeout(function() {
+            var focusedField = _.find(self.fields, function(field) {
+              return field.editor.hasFocus;
+            });
+
+            if (!focusedField) self.trigger('blur', self);
+          }, 0);
+        }
+        break;
+    }
+  },
+
+  render: function() {
+    var self = this,
+        fields = this.fields;
+
+    //Render form
+    var $form = $($.trim(this.template(_.result(this, 'templateData'))));
+
+    //Render standalone editors
+    $form.find('[data-editors]').add($form).each(function(i, el) {
+      var $container = $(el),
+          selection = $container.attr('data-editors');
+
+      if (_.isUndefined(selection)) return;
+
+      //Work out which fields to include
+      var keys = (selection == '*')
+        ? self.selectedFields || _.keys(fields)
+        : selection.split(',');
+
+      //Add them
+      _.each(keys, function(key) {
+        var field = fields[key];
+
+        $container.append(field.editor.render().el);
+      });
+    });
+
+    //Render standalone fields
+    $form.find('[data-fields]').add($form).each(function(i, el) {
+      var $container = $(el),
+          selection = $container.attr('data-fields');
+
+      if (_.isUndefined(selection)) return;
+
+      //Work out which fields to include
+      var keys = (selection == '*')
+        ? self.selectedFields || _.keys(fields)
+        : selection.split(',');
+
+      //Add them
+      _.each(keys, function(key) {
+        var field = fields[key];
+
+        $container.append(field.render().el);
+      });
+    });
+
+    //Render fieldsets
+    $form.find('[data-fieldsets]').add($form).each(function(i, el) {
+      var $container = $(el),
+          selection = $container.attr('data-fieldsets');
+
+      if (_.isUndefined(selection)) return;
+
+      _.each(self.fieldsets, function(fieldset) {
+        $container.append(fieldset.render().el);
+      });
+    });
+
+    //Set the main element
+    this.setElement($form);
+    
+    //Set class
+    $form.addClass(this.className);
+
+    return this;
+  },
+
+  /**
+   * Validate the data
+   *
+   * @return {Object}       Validation errors
+   */
+  validate: function(options) {
+    var self = this,
+        fields = this.fields,
+        model = this.model,
+        errors = {};
+
+    options = options || {};
+
+    //Collect errors from schema validation
+    _.each(fields, function(field) {
+      var error = field.validate();
+      if (error) {
+        errors[field.key] = error;
+      }
+    });
+
+    //Get errors from default Backbone model validator
+    if (!options.skipModelValidate && model && model.validate) {
+      var modelErrors = model.validate(this.getValue());
+
+      if (modelErrors) {
+        var isDictionary = _.isObject(modelErrors) && !_.isArray(modelErrors);
+
+        //If errors are not in object form then just store on the error object
+        if (!isDictionary) {
+          errors._others = errors._others || [];
+          errors._others.push(modelErrors);
+        }
+
+        //Merge programmatic errors (requires model.validate() to return an object e.g. { fieldKey: 'error' })
+        if (isDictionary) {
+          _.each(modelErrors, function(val, key) {
+            //Set error on field if there isn't one already
+            if (fields[key] && !errors[key]) {
+              fields[key].setError(val);
+              errors[key] = val;
+            }
+
+            else {
+              //Otherwise add to '_others' key
+              errors._others = errors._others || [];
+              var tmpErr = {};
+              tmpErr[key] = val;
+              errors._others.push(tmpErr);
+            }
+          });
+        }
+      }
+    }
+
+    return _.isEmpty(errors) ? null : errors;
+  },
+
+  /**
+   * Update the model with all latest values.
+   *
+   * @param {Object} [options]  Options to pass to Model#set (e.g. { silent: true })
+   *
+   * @return {Object}  Validation errors
+   */
+  commit: function(options) {
+    //Validate
+    options = options || {};
+
+    var validateOptions = {
+        skipModelValidate: !options.validate
+    };
+
+    var errors = this.validate(validateOptions);
+    if (errors) return errors;
+
+    //Commit
+    var modelError;
+
+    var setOptions = _.extend({
+      error: function(model, e) {
+        modelError = e;
+      }
+    }, options);
+
+    this.model.set(this.getValue(), setOptions);
+    
+    if (modelError) return modelError;
+  },
+
+  /**
+   * Get all the field values as an object.
+   * Use this method when passing data instead of objects
+   *
+   * @param {String} [key]    Specific field value to get
+   */
+  getValue: function(key) {
+    //Return only given key if specified
+    if (key) return this.fields[key].getValue();
+
+    //Otherwise return entire form
+    var values = {};
+    _.each(this.fields, function(field) {
+      values[field.key] = field.getValue();
+    });
+
+    return values;
+  },
+
+  /**
+   * Update field values, referenced by key
+   *
+   * @param {Object|String} key     New values to set, or property to set
+   * @param val                     Value to set
+   */
+  setValue: function(prop, val) {
+    var data = {};
+    if (typeof prop === 'string') {
+      data[prop] = val;
+    } else {
+      data = prop;
+    }
+
+    var key;
+    for (key in this.schema) {
+      if (data[key] !== undefined) {
+        this.fields[key].setValue(data[key]);
+      }
+    }
+  },
+
+  /**
+   * Returns the editor for a given field key
+   *
+   * @param {String} key
+   *
+   * @return {Editor}
+   */
+  getEditor: function(key) {
+    var field = this.fields[key];
+    if (!field) throw new Error('Field not found: '+key);
+
+    return field.editor;
+  },
+
+  /**
+   * Gives the first editor in the form focus
+   */
+  focus: function() {
+    if (this.hasFocus) return;
+
+    //Get the first field
+    var fieldset = this.fieldsets[0],
+        field = fieldset.getFieldAt(0);
+
+    if (!field) return;
+
+    //Set focus
+    field.editor.focus();
+  },
+
+  /**
+   * Removes focus from the currently focused editor
+   */
+  blur: function() {
+    if (!this.hasFocus) return;
+
+    var focusedField = _.find(this.fields, function(field) {
+      return field.editor.hasFocus;
+    });
+
+    if (focusedField) focusedField.editor.blur();
+  },
+
+  /**
+   * Manages the hasFocus property
+   *
+   * @param {String} event
+   */
+  trigger: function(event) {
+    if (event === 'focus') {
+      this.hasFocus = true;
+    }
+    else if (event === 'blur') {
+      this.hasFocus = false;
+    }
+
+    return Backbone.View.prototype.trigger.apply(this, arguments);
+  },
+
+  /**
+   * Override default remove function in order to remove embedded views
+   *
+   * TODO: If editors are included directly with data-editors="x", they need to be removed
+   * May be best to use XView to manage adding/removing views
+   */
+  remove: function() {
+    _.each(this.fieldsets, function(fieldset) {
+      fieldset.remove();
+    });
+
+    _.each(this.fields, function(field) {
+      field.remove();
+    });
+
+    return Backbone.View.prototype.remove.apply(this, arguments);
+  }
+
+}, {
+
+  //STATICS
+  template: _.template('\
+    <form data-fieldsets></form>\
+  ', null, this.templateSettings),
+
+  templateSettings: {
+    evaluate: /<%([\s\S]+?)%>/g, 
+    interpolate: /<%=([\s\S]+?)%>/g, 
+    escape: /<%-([\s\S]+?)%>/g
+  },
+
+  editors: {}
+
+});
+
+  
+//==================================================================================================
+//VALIDATORS
+//==================================================================================================
+
+Form.validators = (function() {
+
+  var validators = {};
+
+  validators.errMessages = {
+    required: 'Required',
+    regexp: 'Invalid',
+    email: 'Invalid email address',
+    url: 'Invalid URL',
+    match: _.template('Must match field "<%= field %>"', null, Form.templateSettings)
+  };
+  
+  validators.required = function(options) {
+    options = _.extend({
+      type: 'required',
+      message: this.errMessages.required
+    }, options);
+     
+    return function required(value) {
+      options.value = value;
+      
+      var err = {
+        type: options.type,
+        message: _.isFunction(options.message) ? options.message(options) : options.message
+      };
+      
+      if (value === null || value === undefined || value === false || value === '') return err;
+    };
+  };
+  
+  validators.regexp = function(options) {
+    if (!options.regexp) throw new Error('Missing required "regexp" option for "regexp" validator');
+  
+    options = _.extend({
+      type: 'regexp',
+      message: this.errMessages.regexp
+    }, options);
+    
+    return function regexp(value) {
+      options.value = value;
+      
+      var err = {
+        type: options.type,
+        message: _.isFunction(options.message) ? options.message(options) : options.message
+      };
+      
+      //Don't check empty values (add a 'required' validator for this)
+      if (value === null || value === undefined || value === '') return;
+
+      if (!options.regexp.test(value)) return err;
+    };
+  };
+  
+  validators.email = function(options) {
+    options = _.extend({
+      type: 'email',
+      message: this.errMessages.email,
+      regexp: /^[\w\-]{1,}([\w\-\+.]{1,1}[\w\-]{1,}){0,}[@][\w\-]{1,}([.]([\w\-]{1,})){1,3}$/
+    }, options);
+    
+    return validators.regexp(options);
+  };
+  
+  validators.url = function(options) {
+    options = _.extend({
+      type: 'url',
+      message: this.errMessages.url,
+      regexp: /^(http|https):\/\/(([A-Z0-9][A-Z0-9_\-]*)(\.[A-Z0-9][A-Z0-9_\-]*)+)(:(\d+))?\/?/i
+    }, options);
+    
+    return validators.regexp(options);
+  };
+  
+  validators.match = function(options) {
+    if (!options.field) throw new Error('Missing required "field" options for "match" validator');
+    
+    options = _.extend({
+      type: 'match',
+      message: this.errMessages.match
+    }, options);
+    
+    return function match(value, attrs) {
+      options.value = value;
+      
+      var err = {
+        type: options.type,
+        message: _.isFunction(options.message) ? options.message(options) : options.message
+      };
+      
+      //Don't check empty values (add a 'required' validator for this)
+      if (value === null || value === undefined || value === '') return;
+      
+      if (value !== attrs[options.field]) return err;
+    };
   };
 
-  _.extend(Picky.MultiSelect.prototype, {
 
-    // Select a specified model, make sure the
-    // model knows it's selected, and hold on to
-    // the selected model.
-    select: function (model) {
-      if (this.selected[model.cid]) { return; }
+  return validators;
 
-      this.selected[model.cid] = model;
-      model.select();
-      calculateSelectedLength(this);
+})();
+
+
+//==================================================================================================
+//FIELDSET
+//==================================================================================================
+
+Form.Fieldset = Backbone.View.extend({
+
+  /**
+   * Constructor
+   *
+   * Valid fieldset schemas:
+   *   ['field1', 'field2']
+   *   { legend: 'Some Fieldset', fields: ['field1', 'field2'] }
+   *
+   * @param {String[]|Object[]} options.schema      Fieldset schema
+   * @param {Object} options.fields           Form fields
+   */
+  initialize: function(options) {
+    options = options || {};
+
+    //Create the full fieldset schema, merging defaults etc.
+    var schema = this.schema = this.createSchema(options.schema);
+
+    //Store the fields for this fieldset
+    this.fields = _.pick(options.fields, schema.fields);
+    
+    //Override defaults
+    this.template = options.template || this.constructor.template;
+  },
+
+  /**
+   * Creates the full fieldset schema, normalising, merging defaults etc.
+   *
+   * @param {String[]|Object[]} schema
+   *
+   * @return {Object}
+   */
+  createSchema: function(schema) {
+    //Normalise to object
+    if (_.isArray(schema)) {
+      schema = { fields: schema };
+    }
+
+    //Add null legend to prevent template error
+    schema.legend = schema.legend || null;
+
+    return schema;
+  },
+
+  /**
+   * Returns the field for a given index
+   *
+   * @param {Number} index
+   *
+   * @return {Field}
+   */
+  getFieldAt: function(index) {
+    var key = this.schema.fields[index];
+
+    return this.fields[key];
+  },
+
+  /**
+   * Returns data to pass to template
+   *
+   * @return {Object}
+   */
+  templateData: function() {
+    return this.schema;
+  },
+
+  /**
+   * Renders the fieldset and fields
+   *
+   * @return {Fieldset} this
+   */
+  render: function() {
+    var schema = this.schema,
+        fields = this.fields;
+
+    //Render fieldset
+    var $fieldset = $($.trim(this.template(_.result(this, 'templateData'))));
+
+    //Render fields
+    $fieldset.find('[data-fields]').add($fieldset).each(function(i, el) {
+      var $container = $(el),
+          selection = $container.attr('data-fields');
+
+      if (_.isUndefined(selection)) return;
+
+      _.each(fields, function(field) {
+        $container.append(field.render().el);
+      });
+    });
+
+    this.setElement($fieldset);
+
+    return this;
+  },
+
+  /**
+   * Remove embedded views then self
+   */
+  remove: function() {
+    _.each(this.fields, function(field) {
+      field.remove();
+    });
+
+    Backbone.View.prototype.remove.call(this);
+  }
+  
+}, {
+  //STATICS
+
+  template: _.template('\
+    <fieldset data-fields>\
+      <% if (legend) { %>\
+        <legend><%= legend %></legend>\
+      <% } %>\
+    </fieldset>\
+  ', null, Form.templateSettings)
+
+});
+
+
+//==================================================================================================
+//FIELD
+//==================================================================================================
+
+Form.Field = Backbone.View.extend({
+
+  /**
+   * Constructor
+   * 
+   * @param {Object} options.key
+   * @param {Object} options.form
+   * @param {Object} [options.schema]
+   * @param {Function} [options.schema.template]
+   * @param {Backbone.Model} [options.model]
+   * @param {Object} [options.value]
+   * @param {String} [options.idPrefix]
+   * @param {Function} [options.template]
+   * @param {Function} [options.errorClassName]
+   */
+  initialize: function(options) {
+    options = options || {};
+
+    //Store important data
+    _.extend(this, _.pick(options, 'form', 'key', 'model', 'value', 'idPrefix'));
+
+    //Create the full field schema, merging defaults etc.
+    var schema = this.schema = this.createSchema(options.schema);
+
+    //Override defaults
+    this.template = options.template || schema.template || this.constructor.template;
+    this.errorClassName = options.errorClassName || this.constructor.errorClassName;
+
+    //Create editor
+    this.editor = this.createEditor();
+  },
+
+  /**
+   * Creates the full field schema, merging defaults etc.
+   *
+   * @param {Object|String} schema
+   *
+   * @return {Object}
+   */
+  createSchema: function(schema) {
+    if (_.isString(schema)) schema = { type: schema };
+
+    //Set defaults
+    schema = _.extend({
+      type: 'Text',
+      title: this.createTitle()
+    }, schema);
+
+    //Get the real constructor function i.e. if type is a string such as 'Text'
+    schema.type = (_.isString(schema.type)) ? Form.editors[schema.type] : schema.type;
+
+    return schema;
+  },
+
+  /**
+   * Creates the editor specified in the schema; either an editor string name or
+   * a constructor function
+   *
+   * @return {View}
+   */
+  createEditor: function() {
+    var options = _.extend(
+      _.pick(this, 'schema', 'form', 'key', 'model', 'value'),
+      { id: this.createEditorId() }
+    );
+
+    var constructorFn = this.schema.type;
+
+    return new constructorFn(options);
+  },
+
+  /**
+   * Creates the ID that will be assigned to the editor
+   *
+   * @return {String}
+   */
+  createEditorId: function() {
+    var prefix = this.idPrefix,
+        id = this.key;
+
+    //Replace periods with underscores (e.g. for when using paths)
+    id = id.replace(/\./g, '_');
+
+    //If a specific ID prefix is set, use it
+    if (_.isString(prefix) || _.isNumber(prefix)) return prefix + id;
+    if (_.isNull(prefix)) return id;
+
+    //Otherwise, if there is a model use it's CID to avoid conflicts when multiple forms are on the page
+    if (this.model) return this.model.cid + '_' + id;
+
+    return id;
+  },
+
+  /**
+   * Create the default field title (label text) from the key name.
+   * (Converts 'camelCase' to 'Camel Case')
+   *
+   * @return {String}
+   */
+  createTitle: function() {
+    var str = this.key;
+
+    //Add spaces
+    str = str.replace(/([A-Z])/g, ' $1');
+
+    //Uppercase first character
+    str = str.replace(/^./, function(str) { return str.toUpperCase(); });
+
+    return str;
+  },
+
+  /**
+   * Returns the data to be passed to the template
+   *
+   * @return {Object}
+   */
+  templateData: function() {
+    var schema = this.schema;
+
+    return {
+      help: schema.help || '',
+      title: schema.title,
+      fieldAttrs: schema.fieldAttrs,
+      editorAttrs: schema.editorAttrs,
+      key: this.key,
+      editorId: this.editor.id
+    };
+  },
+
+  /**
+   * Render the field and editor
+   *
+   * @return {Field} self
+   */
+  render: function() {
+    var schema = this.schema,
+        editor = this.editor;
+
+    //Only render the editor if Hidden
+    if (schema.type == Form.editors.Hidden) {
+      return this.setElement(editor.render().el);
+    }
+
+    //Render field
+    var $field = $($.trim(this.template(_.result(this, 'templateData'))));
+
+    if (schema.fieldClass) $field.addClass(schema.fieldClass);
+    if (schema.fieldAttrs) $field.attr(schema.fieldAttrs);
+
+    //Render editor
+    $field.find('[data-editor]').add($field).each(function(i, el) {
+      var $container = $(el),
+          selection = $container.attr('data-editor');
+
+      if (_.isUndefined(selection)) return;
+
+      $container.append(editor.render().el);
+    });
+
+    this.setElement($field);
+
+    return this;
+  },
+
+  /**
+   * Check the validity of the field
+   *
+   * @return {String}
+   */
+  validate: function() {
+    var error = this.editor.validate();
+
+    if (error) {
+      this.setError(error.message);
+    } else {
+      this.clearError();
+    }
+
+    return error;
+  },
+
+  /**
+   * Set the field into an error state, adding the error class and setting the error message
+   *
+   * @param {String} msg     Error message
+   */
+  setError: function(msg) {
+    //Nested form editors (e.g. Object) set their errors internally
+    if (this.editor.hasNestedForm) return;
+
+    //Add error CSS class
+    this.$el.addClass(this.errorClassName);
+
+    //Set error message
+    this.$('[data-error]').html(msg);
+  },
+
+  /**
+   * Clear the error state and reset the help message
+   */
+  clearError: function() {
+    //Remove error CSS class
+    this.$el.removeClass(this.errorClassName);
+
+    //Clear error message
+    this.$('[data-error]').empty();
+  },
+
+  /**
+   * Update the model with the new value from the editor
+   *
+   * @return {Mixed}
+   */
+  commit: function() {
+    return this.editor.commit();
+  },
+
+  /**
+   * Get the value from the editor
+   *
+   * @return {Mixed}
+   */
+  getValue: function() {
+    return this.editor.getValue();
+  },
+
+  /**
+   * Set/change the value of the editor
+   *
+   * @param {Mixed} value
+   */
+  setValue: function(value) {
+    this.editor.setValue(value);
+  },
+
+  /**
+   * Give the editor focus
+   */
+  focus: function() {
+    this.editor.focus();
+  },
+
+  /**
+   * Remove focus from the editor
+   */
+  blur: function() {
+    this.editor.blur();
+  },
+
+  /**
+   * Remove the field and editor views
+   */
+  remove: function() {
+    this.editor.remove();
+
+    Backbone.View.prototype.remove.call(this);
+  }
+
+}, {
+  //STATICS
+
+  template: _.template('\
+    <div>\
+      <label for="<%= editorId %>"><%= title %></label>\
+      <div>\
+        <span data-editor></span>\
+        <div data-error></div>\
+        <div><%= help %></div>\
+      </div>\
+    </div>\
+  ', null, Form.templateSettings),
+
+  /**
+   * CSS class name added to the field when there is a validation error
+   */
+  errorClassName: 'error'
+
+});
+
+
+//==================================================================================================
+//NESTEDFIELD
+//==================================================================================================
+
+Form.NestedField = Form.Field.extend({
+
+  template: _.template($.trim('\
+    <div>\
+      <span data-editor></span>\
+      <% if (help) { %>\
+        <div><%= help %></div>\
+      <% } %>\
+      <div data-error></div>\
+    </div>\
+  '), null, Form.templateSettings)
+
+});
+
+/**
+ * Base editor (interface). To be extended, not used directly
+ *
+ * @param {Object} options
+ * @param {String} [options.id]         Editor ID
+ * @param {Model} [options.model]       Use instead of value, and use commit()
+ * @param {String} [options.key]        The model attribute key. Required when using 'model'
+ * @param {Mixed} [options.value]       When not using a model. If neither provided, defaultValue will be used
+ * @param {Object} [options.schema]     Field schema; may be required by some editors
+ * @param {Object} [options.validators] Validators; falls back to those stored on schema
+ * @param {Object} [options.form]       The form
+ */
+Form.Editor = Form.editors.Base = Backbone.View.extend({
+
+  defaultValue: null,
+
+  hasFocus: false,
+
+  initialize: function(options) {
+    var options = options || {};
+
+    //Set initial value
+    if (options.model) {
+      if (!options.key) throw new Error("Missing option: 'key'");
+
+      this.model = options.model;
+
+      this.value = this.model.get(options.key);
+    }
+    else if (options.value !== undefined) {
+      this.value = options.value;
+    }
+
+    if (this.value === undefined) this.value = this.defaultValue;
+
+    //Store important data
+    _.extend(this, _.pick(options, 'key', 'form'));
+
+    var schema = this.schema = options.schema || {};
+
+    this.validators = options.validators || schema.validators;
+
+    //Main attributes
+    this.$el.attr('id', this.id);
+    this.$el.attr('name', this.getName());
+    if (schema.editorClass) this.$el.addClass(schema.editorClass);
+    if (schema.editorAttrs) this.$el.attr(schema.editorAttrs);
+  },
+
+  /**
+   * Get the value for the form input 'name' attribute
+   *
+   * @return {String}
+   *
+   * @api private
+   */
+  getName: function() {
+    var key = this.key || '';
+
+    //Replace periods with underscores (e.g. for when using paths)
+    return key.replace(/\./g, '_');
+  },
+
+  /**
+   * Get editor value
+   * Extend and override this method to reflect changes in the DOM
+   *
+   * @return {Mixed}
+   */
+  getValue: function() {
+    return this.value;
+  },
+
+  /**
+   * Set editor value
+   * Extend and override this method to reflect changes in the DOM
+   *
+   * @param {Mixed} value
+   */
+  setValue: function(value) {
+    this.value = value;
+  },
+
+  /**
+   * Give the editor focus
+   * Extend and override this method
+   */
+  focus: function() {
+    throw new Error('Not implemented');
+  },
+  
+  /**
+   * Remove focus from the editor
+   * Extend and override this method
+   */
+  blur: function() {
+    throw new Error('Not implemented');
+  },
+
+  /**
+   * Update the model with the current value
+   *
+   * @param {Object} [options]              Options to pass to model.set()
+   * @param {Boolean} [options.validate]    Set to true to trigger built-in model validation
+   *
+   * @return {Mixed} error
+   */
+  commit: function(options) {
+    var error = this.validate();
+    if (error) return error;
+
+    this.listenTo(this.model, 'invalid', function(model, e) {
+      error = e;
+    });
+    this.model.set(this.key, this.getValue(), options);
+
+    if (error) return error;
+  },
+
+  /**
+   * Check validity
+   *
+   * @return {Object|Undefined}
+   */
+  validate: function() {
+    var $el = this.$el,
+        error = null,
+        value = this.getValue(),
+        formValues = this.form ? this.form.getValue() : {},
+        validators = this.validators,
+        getValidator = this.getValidator;
+
+    if (validators) {
+      //Run through validators until an error is found
+      _.every(validators, function(validator) {
+        error = getValidator(validator)(value, formValues);
+
+        return error ? false : true;
+      });
+    }
+
+    return error;
+  },
+
+  /**
+   * Set this.hasFocus, or call parent trigger()
+   *
+   * @param {String} event
+   */
+  trigger: function(event) {
+    if (event === 'focus') {
+      this.hasFocus = true;
+    }
+    else if (event === 'blur') {
+      this.hasFocus = false;
+    }
+
+    return Backbone.View.prototype.trigger.apply(this, arguments);
+  },
+
+  /**
+   * Returns a validation function based on the type defined in the schema
+   *
+   * @param {RegExp|String|Function} validator
+   * @return {Function}
+   */
+  getValidator: function(validator) {
+    var validators = Form.validators;
+
+    //Convert regular expressions to validators
+    if (_.isRegExp(validator)) {
+      return validators.regexp({ regexp: validator });
+    }
+    
+    //Use a built-in validator if given a string
+    if (_.isString(validator)) {
+      if (!validators[validator]) throw new Error('Validator "'+validator+'" not found');
+      
+      return validators[validator]();
+    }
+
+    //Functions can be used directly
+    if (_.isFunction(validator)) return validator;
+
+    //Use a customised built-in validator if given an object
+    if (_.isObject(validator) && validator.type) {
+      var config = validator;
+      
+      return validators[config.type](config);
+    }
+    
+    //Unkown validator type
+    throw new Error('Invalid validator: ' + validator);
+  }
+});
+
+/**
+ * Text
+ * 
+ * Text input with focus, blur and change events
+ */
+Form.editors.Text = Form.Editor.extend({
+
+  tagName: 'input',
+
+  defaultValue: '',
+
+  previousValue: '',
+
+  events: {
+    'keyup':    'determineChange',
+    'keypress': function(event) {
+      var self = this;
+      setTimeout(function() {
+        self.determineChange();
+      }, 0);
     },
-
-    // Deselect a specified model, make sure the
-    // model knows it has been deselected, and remove
-    // the model from the selected list.
-    deselect: function (model) {
-      if (!this.selected[model.cid]) { return; }
-
-      delete this.selected[model.cid];
-      model.deselect();
-      calculateSelectedLength(this);
+    'select':   function(event) {
+      this.trigger('select', this);
     },
-
-    // Select all models in this collection
-    selectAll: function () {
-      this.each(function (model) { model.select(); });
-      calculateSelectedLength(this);
+    'focus':    function(event) {
+      this.trigger('focus', this);
     },
+    'blur':     function(event) {
+      this.trigger('blur', this);
+    }
+  },
 
-    // Deselect all models in this collection
-    selectNone: function () {
-      if (this.selectedLength === 0) { return; }
-      this.each(function (model) { model.deselect(); });
-      calculateSelectedLength(this);
+  initialize: function(options) {
+    Form.editors.Base.prototype.initialize.call(this, options);
+
+    var schema = this.schema;
+
+    //Allow customising text type (email, phone etc.) for HTML5 browsers
+    var type = 'text';
+
+    if (schema && schema.editorAttrs && schema.editorAttrs.type) type = schema.editorAttrs.type;
+    if (schema && schema.dataType) type = schema.dataType;
+
+    this.$el.attr('type', type);
+  },
+
+  /**
+   * Adds the editor to the DOM
+   */
+  render: function() {
+    this.setValue(this.value);
+
+    return this;
+  },
+
+  determineChange: function(event) {
+    var currentValue = this.$el.val();
+    var changed = (currentValue !== this.previousValue);
+
+    if (changed) {
+      this.previousValue = currentValue;
+
+      this.trigger('change', this);
+    }
+  },
+
+  /**
+   * Returns the current editor value
+   * @return {String}
+   */
+  getValue: function() {
+    return this.$el.val();
+  },
+
+  /**
+   * Sets the value of the form element
+   * @param {String}
+   */
+  setValue: function(value) {
+    this.$el.val(value);
+  },
+
+  focus: function() {
+    if (this.hasFocus) return;
+
+    this.$el.focus();
+  },
+
+  blur: function() {
+    if (!this.hasFocus) return;
+
+    this.$el.blur();
+  },
+
+  select: function() {
+    this.$el.select();
+  }
+
+});
+
+/**
+ * TextArea editor
+ */
+Form.editors.TextArea = Form.editors.Text.extend({
+
+  tagName: 'textarea',
+
+  /**
+   * Override Text constructor so type property isn't set (issue #261)
+   */
+  initialize: function(options) {
+    Form.editors.Base.prototype.initialize.call(this, options);
+  }
+
+});
+
+/**
+ * Password editor
+ */
+Form.editors.Password = Form.editors.Text.extend({
+
+  initialize: function(options) {
+    Form.editors.Text.prototype.initialize.call(this, options);
+
+    this.$el.attr('type', 'password');
+  }
+
+});
+
+/**
+ * NUMBER
+ * 
+ * Normal text input that only allows a number. Letters etc. are not entered.
+ */
+Form.editors.Number = Form.editors.Text.extend({
+
+  defaultValue: 0,
+
+  events: _.extend({}, Form.editors.Text.prototype.events, {
+    'keypress': 'onKeyPress',
+    'change': 'onKeyPress'
+  }),
+
+  initialize: function(options) {
+    Form.editors.Text.prototype.initialize.call(this, options);
+
+    var schema = this.schema;
+
+    this.$el.attr('type', 'number');
+
+    if (!schema || !schema.editorAttrs || !schema.editorAttrs.step) {
+      // provide a default for `step` attr,
+      // but don't overwrite if already specified
+      this.$el.attr('step', 'any');
+    }
+  },
+
+  /**
+   * Check value is numeric
+   */
+  onKeyPress: function(event) {
+    var self = this,
+        delayedDetermineChange = function() {
+          setTimeout(function() {
+            self.determineChange();
+          }, 0);
+        };
+
+    //Allow backspace
+    if (event.charCode === 0) {
+      delayedDetermineChange();
+      return;
+    }
+
+    //Get the whole new value so that we can prevent things like double decimals points etc.
+    var newVal = this.$el.val()
+    if( event.charCode != undefined ) {
+      newVal = newVal + String.fromCharCode(event.charCode);
+    }
+
+    var numeric = /^[0-9]*\.?[0-9]*?$/.test(newVal);
+
+    if (numeric) {
+      delayedDetermineChange();
+    }
+    else {
+      event.preventDefault();
+    }
+  },
+
+  getValue: function() {
+    var value = this.$el.val();
+
+    return value === "" ? null : parseFloat(value, 10);
+  },
+
+  setValue: function(value) {
+    value = (function() {
+      if (_.isNumber(value)) return value;
+
+      if (_.isString(value) && value !== '') return parseFloat(value, 10);
+
+      return null;
+    })();
+
+    if (_.isNaN(value)) value = null;
+
+    Form.editors.Text.prototype.setValue.call(this, value);
+  }
+
+});
+
+/**
+ * Hidden editor
+ */
+Form.editors.Hidden = Form.editors.Text.extend({
+
+  defaultValue: '',
+
+  initialize: function(options) {
+    Form.editors.Text.prototype.initialize.call(this, options);
+
+    this.$el.attr('type', 'hidden');
+  },
+
+  focus: function() {
+
+  },
+
+  blur: function() {
+
+  }
+
+});
+
+/**
+ * Checkbox editor
+ *
+ * Creates a single checkbox, i.e. boolean value
+ */
+Form.editors.Checkbox = Form.editors.Base.extend({
+
+  defaultValue: false,
+
+  tagName: 'input',
+
+  events: {
+    'click':  function(event) {
+      this.trigger('change', this);
     },
+    'focus':  function(event) {
+      this.trigger('focus', this);
+    },
+    'blur':   function(event) {
+      this.trigger('blur', this);
+    }
+  },
 
-    // Toggle select all / none. If some are selected, it
-    // will select all. If all are selected, it will select 
-    // none. If none are selected, it will select all.
-    toggleSelectAll: function () {
-      if (this.selectedLength === this.length) {
-        this.selectNone();
+  initialize: function(options) {
+    Form.editors.Base.prototype.initialize.call(this, options);
+
+    this.$el.attr('type', 'checkbox');
+  },
+
+  /**
+   * Adds the editor to the DOM
+   */
+  render: function() {
+    this.setValue(this.value);
+
+    return this;
+  },
+
+  getValue: function() {
+    return this.$el.prop('checked');
+  },
+
+  setValue: function(value) {
+    if (value) {
+      this.$el.prop('checked', true);
+    }else{
+      this.$el.prop('checked', false);
+    }
+  },
+
+  focus: function() {
+    if (this.hasFocus) return;
+
+    this.$el.focus();
+  },
+
+  blur: function() {
+    if (!this.hasFocus) return;
+
+    this.$el.blur();
+  }
+
+});
+
+/**
+ * Select editor
+ *
+ * Renders a <select> with given options
+ *
+ * Requires an 'options' value on the schema.
+ *  Can be an array of options, a function that calls back with the array of options, a string of HTML
+ *  or a Backbone collection. If a collection, the models must implement a toString() method
+ */
+Form.editors.Select = Form.editors.Base.extend({
+
+  tagName: 'select',
+
+  events: {
+    'change': function(event) {
+      this.trigger('change', this);
+    },
+    'focus':  function(event) {
+      this.trigger('focus', this);
+    },
+    'blur':   function(event) {
+      this.trigger('blur', this);
+    }
+  },
+
+  initialize: function(options) {
+    Form.editors.Base.prototype.initialize.call(this, options);
+
+    if (!this.schema || !this.schema.options) throw new Error("Missing required 'schema.options'");
+  },
+
+  render: function() {
+    this.setOptions(this.schema.options);
+
+    return this;
+  },
+
+  /**
+   * Sets the options that populate the <select>
+   *
+   * @param {Mixed} options
+   */
+  setOptions: function(options) {
+    var self = this;
+
+    //If a collection was passed, check if it needs fetching
+    if (options instanceof Backbone.Collection) {
+      var collection = options;
+
+      //Don't do the fetch if it's already populated
+      if (collection.length > 0) {
+        this.renderOptions(options);
       } else {
-        this.selectAll();
+        collection.fetch({
+          success: function(collection) {
+            self.renderOptions(options);
+          }
+        });
       }
     }
-  });
 
-  // Picky.Selectable
-  // ----------------
-  // A selectable mixin for Backbone.Model, allowing a model to be selected,
-  // enabling it to work with Picky.MultiSelect or on it's own
+    //If a function was passed, run it to get the options
+    else if (_.isFunction(options)) {
+      options(function(result) {
+        self.renderOptions(result);
+      }, self);
+    }
 
-  Picky.Selectable = function (model) {
-    this.model = model;
-  };
+    //Otherwise, ready to go straight to renderOptions
+    else {
+      this.renderOptions(options);
+    }
+  },
 
-  _.extend(Picky.Selectable.prototype, {
+  /**
+   * Adds the <option> html to the DOM
+   * @param {Mixed}   Options as a simple array e.g. ['option1', 'option2']
+   *                      or as an array of objects e.g. [{val: 543, label: 'Title for object 543'}]
+   *                      or as a string of <option> HTML to insert into the <select>
+   *                      or any object
+   */
+  renderOptions: function(options) {
+    var $select = this.$el,
+        html;
 
-    // Select this model, and tell our
-    // collection that we're selected
-    select: function () {
-      if (this.selected) { return; }
+    html = this._getOptionsHtml(options);
 
-      this.selected = true;
-      this.trigger("selected", this);
+    //Insert options
+    $select.html(html);
 
-      if (this.collection) {
-        this.collection.select(this);
+    //Select correct option
+    this.setValue(this.value);
+  },
+
+  _getOptionsHtml: function(options) {
+    var html;
+    //Accept string of HTML
+    if (_.isString(options)) {
+      html = options;
+    }
+
+    //Or array
+    else if (_.isArray(options)) {
+      html = this._arrayToHtml(options);
+    }
+
+    //Or Backbone collection
+    else if (options instanceof Backbone.Collection) {
+      html = this._collectionToHtml(options);
+    }
+
+    else if (_.isFunction(options)) {
+      var newOptions;
+
+      options(function(opts) {
+        newOptions = opts;
+      }, this);
+
+      html = this._getOptionsHtml(newOptions);
+    //Or any object
+    }else{
+      html=this._objectToHtml(options);
+    }
+
+    return html;
+  },
+
+
+  getValue: function() {
+    return this.$el.val();
+  },
+
+  setValue: function(value) {
+    this.$el.val(value);
+  },
+
+  focus: function() {
+    if (this.hasFocus) return;
+
+    this.$el.focus();
+  },
+
+  blur: function() {
+    if (!this.hasFocus) return;
+
+    this.$el.blur();
+  },
+
+  /**
+   * Transforms a collection into HTML ready to use in the renderOptions method
+   * @param {Backbone.Collection}
+   * @return {String}
+   */
+  _collectionToHtml: function(collection) {
+    //Convert collection to array first
+    var array = [];
+    collection.each(function(model) {
+      array.push({ val: model.id, label: model.toString() });
+    });
+
+    //Now convert to HTML
+    var html = this._arrayToHtml(array);
+
+    return html;
+  },
+  /**
+   * Transforms an object into HTML ready to use in the renderOptions method
+   * @param {Object}
+   * @return {String}
+   */
+  _objectToHtml: function(obj) {
+    //Convert object to array first
+    var array = [];
+    for(var key in obj){
+      if( obj.hasOwnProperty( key ) ) {
+        array.push({ val: key, label: obj[key] });
       }
+    }
+
+    //Now convert to HTML
+    var html = this._arrayToHtml(array);
+
+    return html;
+  },
+
+
+
+  /**
+   * Create the <option> HTML
+   * @param {Array}   Options as a simple array e.g. ['option1', 'option2']
+   *                      or as an array of objects e.g. [{val: 543, label: 'Title for object 543'}]
+   * @return {String} HTML
+   */
+  _arrayToHtml: function(array) {
+    var html = [];
+
+    //Generate HTML
+    _.each(array, function(option) {
+      if (_.isObject(option)) {
+        if (option.group) {
+          html.push('<optgroup label="'+option.group+'">');
+          html.push(this._getOptionsHtml(option.options))
+          html.push('</optgroup>');
+        } else {
+          var val = (option.val || option.val === 0) ? option.val : '';
+          html.push('<option value="'+val+'">'+option.label+'</option>');
+        }
+      }
+      else {
+        html.push('<option>'+option+'</option>');
+      }
+    }, this);
+
+    return html.join('');
+  }
+
+});
+
+/**
+ * Radio editor
+ *
+ * Renders a <ul> with given options represented as <li> objects containing radio buttons
+ *
+ * Requires an 'options' value on the schema.
+ *  Can be an array of options, a function that calls back with the array of options, a string of HTML
+ *  or a Backbone collection. If a collection, the models must implement a toString() method
+ */
+Form.editors.Radio = Form.editors.Select.extend({
+
+  tagName: 'ul',
+
+  events: {
+    'change input[type=radio]': function() {
+      this.trigger('change', this);
     },
-
-    // Deselect this model, and tell our
-    // collection that we're deselected
-    deselect: function () {
-      if (!this.selected) { return; }
-
-      this.selected = false;
-      this.trigger("deselected", this);
-
-      if (this.collection) {
-        this.collection.deselect(this);
-      }
+    'focus input[type=radio]': function() {
+      if (this.hasFocus) return;
+      this.trigger('focus', this);
     },
+    'blur input[type=radio]': function() {
+      if (!this.hasFocus) return;
+      var self = this;
+      setTimeout(function() {
+        if (self.$('input[type=radio]:focus')[0]) return;
+        self.trigger('blur', self);
+      }, 0);
+    }
+  },
 
-    // Change selected to the opposite of what
-    // it currently is
-    toggleSelected: function () {
-      if (this.selected) {
-        this.deselect();
-      } else {
-        this.select();
+  getValue: function() {
+    return this.$('input[type=radio]:checked').val();
+  },
+
+  setValue: function(value) {
+    this.$('input[type=radio]').val([value]);
+  },
+
+  focus: function() {
+    if (this.hasFocus) return;
+
+    var checked = this.$('input[type=radio]:checked');
+    if (checked[0]) {
+      checked.focus();
+      return;
+    }
+
+    this.$('input[type=radio]').first().focus();
+  },
+
+  blur: function() {
+    if (!this.hasFocus) return;
+
+    this.$('input[type=radio]:focus').blur();
+  },
+
+  /**
+   * Create the radio list HTML
+   * @param {Array}   Options as a simple array e.g. ['option1', 'option2']
+   *                      or as an array of objects e.g. [{val: 543, label: 'Title for object 543'}]
+   * @return {String} HTML
+   */
+  _arrayToHtml: function (array) {
+    var html = [];
+    var self = this;
+
+    _.each(array, function(option, index) {
+      var itemHtml = '<li>';
+      if (_.isObject(option)) {
+        var val = (option.val || option.val === 0) ? option.val : '';
+        itemHtml += ('<input type="radio" name="'+self.getName()+'" value="'+val+'" id="'+self.id+'-'+index+'" />');
+        itemHtml += ('<label for="'+self.id+'-'+index+'">'+option.label+'</label>');
       }
+      else {
+        itemHtml += ('<input type="radio" name="'+self.getName()+'" value="'+option+'" id="'+self.id+'-'+index+'" />');
+        itemHtml += ('<label for="'+self.id+'-'+index+'">'+option+'</label>');
+      }
+      itemHtml += '</li>';
+      html.push(itemHtml);
+    });
+
+    return html.join('');
+  }
+
+});
+
+/**
+ * Checkboxes editor
+ *
+ * Renders a <ul> with given options represented as <li> objects containing checkboxes
+ *
+ * Requires an 'options' value on the schema.
+ *  Can be an array of options, a function that calls back with the array of options, a string of HTML
+ *  or a Backbone collection. If a collection, the models must implement a toString() method
+ */
+Form.editors.Checkboxes = Form.editors.Select.extend({
+
+  tagName: 'ul',
+
+  groupNumber: 0,
+
+  events: {
+    'click input[type=checkbox]': function() {
+      this.trigger('change', this);
+    },
+    'focus input[type=checkbox]': function() {
+      if (this.hasFocus) return;
+      this.trigger('focus', this);
+    },
+    'blur input[type=checkbox]':  function() {
+      if (!this.hasFocus) return;
+      var self = this;
+      setTimeout(function() {
+        if (self.$('input[type=checkbox]:focus')[0]) return;
+        self.trigger('blur', self);
+      }, 0);
     }
-  });
+  },
 
-  // Helper Methods
-  // --------------
+  getValue: function() {
+    var values = [];
+    this.$('input[type=checkbox]:checked').each(function() {
+      values.push($(this).val());
+    });
+    return values;
+  },
 
-  // Calculate the number of selected items in a collection
-  // and update the collection with that length. Trigger events
-  // from the collection based on the number of selected items.
-  var calculateSelectedLength = function (collection) {
-    collection.selectedLength = _.size(collection.selected);
+  setValue: function(values) {
+    if (!_.isArray(values)) values = [values];
+    this.$('input[type=checkbox]').val(values);
+  },
 
-    var selectedLength = collection.selectedLength;
-    var length = collection.length;
+  focus: function() {
+    if (this.hasFocus) return;
 
-    if (selectedLength === length) {
-      collection.trigger("select:all", collection);
-      return;
+    this.$('input[type=checkbox]').first().focus();
+  },
+
+  blur: function() {
+    if (!this.hasFocus) return;
+
+    this.$('input[type=checkbox]:focus').blur();
+  },
+
+  /**
+   * Create the checkbox list HTML
+   * @param {Array}   Options as a simple array e.g. ['option1', 'option2']
+   *                      or as an array of objects e.g. [{val: 543, label: 'Title for object 543'}]
+   * @return {String} HTML
+   */
+  _arrayToHtml: function (array) {
+    var html = [];
+    var self = this;
+
+    _.each(array, function(option, index) {
+      var itemHtml = '<li>';
+			var close = true;
+      if (_.isObject(option)) {
+        if (option.group) {
+          var originalId = self.id;
+          self.id += "-" + self.groupNumber++; 
+          itemHtml = ('<fieldset class="group"> <legend>'+option.group+'</legend>');
+          itemHtml += (self._arrayToHtml(option.options));
+          itemHtml += ('</fieldset>');
+          self.id = originalId;
+					close = false;
+        }else{
+          var val = (option.val || option.val === 0) ? option.val : '';
+          itemHtml += ('<input type="checkbox" name="'+self.getName()+'" value="'+val+'" id="'+self.id+'-'+index+'" />');
+          itemHtml += ('<label for="'+self.id+'-'+index+'">'+option.label+'</label>');
+        }
+      }
+      else {
+        itemHtml += ('<input type="checkbox" name="'+self.getName()+'" value="'+option+'" id="'+self.id+'-'+index+'" />');
+        itemHtml += ('<label for="'+self.id+'-'+index+'">'+option+'</label>');
+      }
+			if(close){
+				itemHtml += '</li>';
+			}
+      html.push(itemHtml);
+    });
+
+    return html.join('');
+  }
+
+});
+
+/**
+ * Object editor
+ *
+ * Creates a child form. For editing Javascript objects
+ *
+ * @param {Object} options
+ * @param {Form} options.form                 The form this editor belongs to; used to determine the constructor for the nested form
+ * @param {Object} options.schema             The schema for the object
+ * @param {Object} options.schema.subSchema   The schema for the nested form
+ */
+Form.editors.Object = Form.editors.Base.extend({
+  //Prevent error classes being set on the main control; they are internally on the individual fields
+  hasNestedForm: true,
+
+  initialize: function(options) {
+    //Set default value for the instance so it's not a shared object
+    this.value = {};
+
+    //Init
+    Form.editors.Base.prototype.initialize.call(this, options);
+
+    //Check required options
+    if (!this.form) throw new Error('Missing required option "form"');
+    if (!this.schema.subSchema) throw new Error("Missing required 'schema.subSchema' option for Object editor");
+  },
+
+  render: function() {
+    //Get the constructor for creating the nested form; i.e. the same constructor as used by the parent form
+    var NestedForm = this.form.constructor;
+
+    //Create the nested form
+    this.nestedForm = new NestedForm({
+      schema: this.schema.subSchema,
+      data: this.value,
+      idPrefix: this.id + '_',
+      Field: NestedForm.NestedField
+    });
+
+    this._observeFormEvents();
+
+    this.$el.html(this.nestedForm.render().el);
+
+    if (this.hasFocus) this.trigger('blur', this);
+
+    return this;
+  },
+
+  getValue: function() {
+    if (this.nestedForm) return this.nestedForm.getValue();
+
+    return this.value;
+  },
+
+  setValue: function(value) {
+    this.value = value;
+
+    this.render();
+  },
+
+  focus: function() {
+    if (this.hasFocus) return;
+
+    this.nestedForm.focus();
+  },
+
+  blur: function() {
+    if (!this.hasFocus) return;
+
+    this.nestedForm.blur();
+  },
+
+  remove: function() {
+    this.nestedForm.remove();
+
+    Backbone.View.prototype.remove.call(this);
+  },
+
+  validate: function() {
+    return this.nestedForm.validate();
+  },
+
+  _observeFormEvents: function() {
+    if (!this.nestedForm) return;
+    
+    this.nestedForm.on('all', function() {
+      // args = ["key:change", form, fieldEditor]
+      var args = _.toArray(arguments);
+      args[1] = this;
+      // args = ["key:change", this=objectEditor, fieldEditor]
+
+      this.trigger.apply(this, args);
+    }, this);
+  }
+
+});
+
+/**
+ * NestedModel editor
+ *
+ * Creates a child form. For editing nested Backbone models
+ *
+ * Special options:
+ *   schema.model:   Embedded model constructor
+ */
+Form.editors.NestedModel = Form.editors.Object.extend({
+  initialize: function(options) {
+    Form.editors.Base.prototype.initialize.call(this, options);
+
+    if (!this.form) throw new Error('Missing required option "form"');
+    if (!options.schema.model) throw new Error('Missing required "schema.model" option for NestedModel editor');
+  },
+
+  render: function() {
+    //Get the constructor for creating the nested form; i.e. the same constructor as used by the parent form
+    var NestedForm = this.form.constructor;
+
+    var data = this.value || {},
+        key = this.key,
+        nestedModel = this.schema.model;
+
+    //Wrap the data in a model if it isn't already a model instance
+    var modelInstance = (data.constructor === nestedModel) ? data : new nestedModel(data);
+
+    this.nestedForm = new NestedForm({
+      model: modelInstance,
+      idPrefix: this.id + '_',
+      fieldTemplate: 'nestedField'
+    });
+
+    this._observeFormEvents();
+
+    //Render form
+    this.$el.html(this.nestedForm.render().el);
+
+    if (this.hasFocus) this.trigger('blur', this);
+
+    return this;
+  },
+
+  /**
+   * Update the embedded model, checking for nested validation errors and pass them up
+   * Then update the main model if all OK
+   *
+   * @return {Error|null} Validation error or null
+   */
+  commit: function() {
+    var error = this.nestedForm.commit();
+    if (error) {
+      this.$el.addClass('error');
+      return error;
     }
 
-    if (selectedLength === 0) {
-      collection.trigger("select:none", collection);
-      return;
+    return Form.editors.Object.prototype.commit.call(this);
+  }
+
+});
+
+/**
+ * Date editor
+ *
+ * Schema options
+ * @param {Number|String} [options.schema.yearStart]  First year in list. Default: 100 years ago
+ * @param {Number|String} [options.schema.yearEnd]    Last year in list. Default: current year
+ *
+ * Config options (if not set, defaults to options stored on the main Date class)
+ * @param {Boolean} [options.showMonthNames]  Use month names instead of numbers. Default: true
+ * @param {String[]} [options.monthNames]     Month names. Default: Full English names
+ */
+Form.editors.Date = Form.editors.Base.extend({
+
+  events: {
+    'change select':  function() {
+      this.updateHidden();
+      this.trigger('change', this);
+    },
+    'focus select':   function() {
+      if (this.hasFocus) return;
+      this.trigger('focus', this);
+    },
+    'blur select':    function() {
+      if (!this.hasFocus) return;
+      var self = this;
+      setTimeout(function() {
+        if (self.$('select:focus')[0]) return;
+        self.trigger('blur', self);
+      }, 0);
+    }
+  },
+
+  initialize: function(options) {
+    options = options || {};
+
+    Form.editors.Base.prototype.initialize.call(this, options);
+
+    var Self = Form.editors.Date,
+        today = new Date();
+
+    //Option defaults
+    this.options = _.extend({
+      monthNames: Self.monthNames,
+      showMonthNames: Self.showMonthNames
+    }, options);
+
+    //Schema defaults
+    this.schema = _.extend({
+      yearStart: today.getFullYear() - 100,
+      yearEnd: today.getFullYear()
+    }, options.schema || {});
+
+    //Cast to Date
+    if (this.value && !_.isDate(this.value)) {
+      this.value = new Date(this.value);
     }
 
-    if (selectedLength > 0 && selectedLength < length) {
-      collection.trigger("select:some", collection);
-      return;
-    }
-  };
+    //Set default date
+    if (!this.value) {
+      var date = new Date();
+      date.setSeconds(0);
+      date.setMilliseconds(0);
 
-  return Picky;
-})(Backbone, _);
+      this.value = date;
+    }
+
+    //Template
+    this.template = options.template || this.constructor.template;
+  },
+
+  render: function() {
+    var options = this.options,
+        schema = this.schema;
+
+    var datesOptions = _.map(_.range(1, 32), function(date) {
+      return '<option value="'+date+'">' + date + '</option>';
+    });
+
+    var monthsOptions = _.map(_.range(0, 12), function(month) {
+      var value = (options.showMonthNames)
+          ? options.monthNames[month]
+          : (month + 1);
+
+      return '<option value="'+month+'">' + value + '</option>';
+    });
+
+    var yearRange = (schema.yearStart < schema.yearEnd)
+      ? _.range(schema.yearStart, schema.yearEnd + 1)
+      : _.range(schema.yearStart, schema.yearEnd - 1, -1);
+
+    var yearsOptions = _.map(yearRange, function(year) {
+      return '<option value="'+year+'">' + year + '</option>';
+    });
+
+    //Render the selects
+    var $el = $($.trim(this.template({
+      dates: datesOptions.join(''),
+      months: monthsOptions.join(''),
+      years: yearsOptions.join('')
+    })));
+
+    //Store references to selects
+    this.$date = $el.find('[data-type="date"]');
+    this.$month = $el.find('[data-type="month"]');
+    this.$year = $el.find('[data-type="year"]');
+
+    //Create the hidden field to store values in case POSTed to server
+    this.$hidden = $('<input type="hidden" name="'+this.key+'" />');
+    $el.append(this.$hidden);
+
+    //Set value on this and hidden field
+    this.setValue(this.value);
+
+    //Remove the wrapper tag
+    this.setElement($el);
+    this.$el.attr('id', this.id);
+    this.$el.attr('name', this.getName());
+
+    if (this.hasFocus) this.trigger('blur', this);
+
+    return this;
+  },
+
+  /**
+   * @return {Date}   Selected date
+   */
+  getValue: function() {
+    var year = this.$year.val(),
+        month = this.$month.val(),
+        date = this.$date.val();
+
+    if (!year || !month || !date) return null;
+
+    return new Date(year, month, date);
+  },
+
+  /**
+   * @param {Date} date
+   */
+  setValue: function(date) {
+    this.$date.val(date.getDate());
+    this.$month.val(date.getMonth());
+    this.$year.val(date.getFullYear());
+
+    this.updateHidden();
+  },
+
+  focus: function() {
+    if (this.hasFocus) return;
+
+    this.$('select').first().focus();
+  },
+
+  blur: function() {
+    if (!this.hasFocus) return;
+
+    this.$('select:focus').blur();
+  },
+
+  /**
+   * Update the hidden input which is maintained for when submitting a form
+   * via a normal browser POST
+   */
+  updateHidden: function() {
+    var val = this.getValue();
+
+    if (_.isDate(val)) val = val.toISOString();
+
+    this.$hidden.val(val);
+  }
+
+}, {
+  //STATICS
+  template: _.template('\
+    <div>\
+      <select data-type="date"><%= dates %></select>\
+      <select data-type="month"><%= months %></select>\
+      <select data-type="year"><%= years %></select>\
+    </div>\
+  ', null, Form.templateSettings),
+
+  //Whether to show month names instead of numbers
+  showMonthNames: true,
+
+  //Month names to use if showMonthNames is true
+  //Replace for localisation, e.g. Form.editors.Date.monthNames = ['Janvier', 'Fevrier'...]
+  monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+});
+
+/**
+ * DateTime editor
+ *
+ * @param {Editor} [options.DateEditor]           Date editor view to use (not definition)
+ * @param {Number} [options.schema.minsInterval]  Interval between minutes. Default: 15
+ */
+Form.editors.DateTime = Form.editors.Base.extend({
+
+  events: {
+    'change select':  function() {
+      this.updateHidden();
+      this.trigger('change', this);
+    },
+    'focus select':   function() {
+      if (this.hasFocus) return;
+      this.trigger('focus', this);
+    },
+    'blur select':    function() {
+      if (!this.hasFocus) return;
+      var self = this;
+      setTimeout(function() {
+        if (self.$('select:focus')[0]) return;
+        self.trigger('blur', self);
+      }, 0);
+    }
+  },
+
+  initialize: function(options) {
+    options = options || {};
+
+    Form.editors.Base.prototype.initialize.call(this, options);
+
+    //Option defaults
+    this.options = _.extend({
+      DateEditor: Form.editors.DateTime.DateEditor
+    }, options);
+
+    //Schema defaults
+    this.schema = _.extend({
+      minsInterval: 15
+    }, options.schema || {});
+
+    //Create embedded date editor
+    this.dateEditor = new this.options.DateEditor(options);
+
+    this.value = this.dateEditor.value;
+
+    //Template
+    this.template = options.template || this.constructor.template;
+  },
+
+  render: function() {
+    function pad(n) {
+      return n < 10 ? '0' + n : n;
+    }
+
+    var schema = this.schema;
+
+    //Create options
+    var hoursOptions = _.map(_.range(0, 24), function(hour) {
+      return '<option value="'+hour+'">' + pad(hour) + '</option>';
+    });
+
+    var minsOptions = _.map(_.range(0, 60, schema.minsInterval), function(min) {
+      return '<option value="'+min+'">' + pad(min) + '</option>';
+    });
+
+    //Render time selects
+    var $el = $($.trim(this.template({
+      hours: hoursOptions.join(),
+      mins: minsOptions.join()
+    })));
+
+    //Include the date editor
+    $el.find('[data-date]').append(this.dateEditor.render().el);
+
+    //Store references to selects
+    this.$hour = $el.find('select[data-type="hour"]');
+    this.$min = $el.find('select[data-type="min"]');
+
+    //Get the hidden date field to store values in case POSTed to server
+    this.$hidden = $el.find('input[type="hidden"]');
+
+    //Set time
+    this.setValue(this.value);
+
+    this.setElement($el);
+    this.$el.attr('id', this.id);
+    this.$el.attr('name', this.getName());
+
+    if (this.hasFocus) this.trigger('blur', this);
+
+    return this;
+  },
+
+  /**
+   * @return {Date}   Selected datetime
+   */
+  getValue: function() {
+    var date = this.dateEditor.getValue();
+
+    var hour = this.$hour.val(),
+        min = this.$min.val();
+
+    if (!date || !hour || !min) return null;
+
+    date.setHours(hour);
+    date.setMinutes(min);
+
+    return date;
+  },
+
+  /**
+   * @param {Date}
+   */
+  setValue: function(date) {
+    if (!_.isDate(date)) date = new Date(date);
+
+    this.dateEditor.setValue(date);
+
+    this.$hour.val(date.getHours());
+    this.$min.val(date.getMinutes());
+
+    this.updateHidden();
+  },
+
+  focus: function() {
+    if (this.hasFocus) return;
+
+    this.$('select').first().focus();
+  },
+
+  blur: function() {
+    if (!this.hasFocus) return;
+
+    this.$('select:focus').blur();
+  },
+
+  /**
+   * Update the hidden input which is maintained for when submitting a form
+   * via a normal browser POST
+   */
+  updateHidden: function() {
+    var val = this.getValue();
+    if (_.isDate(val)) val = val.toISOString();
+
+    this.$hidden.val(val);
+  },
+
+  /**
+   * Remove the Date editor before removing self
+   */
+  remove: function() {
+    this.dateEditor.remove();
+
+    Form.editors.Base.prototype.remove.call(this);
+  }
+
+}, {
+  //STATICS
+  template: _.template('\
+    <div class="bbf-datetime">\
+      <div class="bbf-date-container" data-date></div>\
+      <select data-type="hour"><%= hours %></select>\
+      :\
+      <select data-type="min"><%= mins %></select>\
+    </div>\
+  ', null, Form.templateSettings),
+
+  //The date editor to use (constructor function, not instance)
+  DateEditor: Form.editors.Date
+});
+
+
+
+  //Metadata
+  Form.VERSION = '0.13.0';
+
+
+  //Exports
+  Backbone.Form = Form;
+  if (typeof exports !== 'undefined') exports = Form;
+
+})(window || global || this);
 
 // MarionetteJS (Backbone.Marionette)
 // ----------------------------------
@@ -16553,248 +21728,3 @@ Backbone.Picky = (function (Backbone, _) {
 
   return Marionette;
 }));
-
-// Marionette.Gauntlet v0.0.0
-// --------------------------
-//
-// Build wizard-style workflows with an event-emitting state machine
-// Requires Backbone.Picky (http://github.com/derickbailey/backbone.picky)
-//
-// Copyright (C) 2012 Muted Solutions, LLC.
-// Distributed under MIT license
-
-Marionette.Gauntlet = (function(Backbone, Picky, Marionette, $, _){
-  // Wizard Steps
-  // ------------
-  
-  // A selectable model that represents an individual step
-  // in the wizard / workflow 
-  var WizardStep = Backbone.Model.extend({
-    initialize: function(){
-      var selectable = new Picky.Selectable(this);
-      _.extend(this, selectable);
-    }
-  });
-
-  // A collection of wizard steps, defining the over-all workflow
-  // of the wizard.
-  var WizardStepCollection = Backbone.Collection.extend({
-    model: WizardStep,
-
-    initialize: function(){
-      this.emptyStep = new this.model({isEmpty: true});
-      this.finalStep = new this.model({isFinal: true, name: "Done"});
-
-      var selectable = new Picky.SingleSelect(this);
-      _.extend(this, selectable);
-    },
-
-    // Get the next step in the workflow
-    getNext: function(){
-      var index, nextIndex, nextStep;
-
-      if (!this.selected){
-        index = 0;
-      } else {
-        index = this.indexOf(this.selected);
-      }
-
-      if (index < this.length-1){
-        nextIndex = index + 1;
-        nextStep = this.at(nextIndex) || this.emptyStep;
-      } else {
-        nextStep = this.finalStep;
-      }
-
-      return nextStep;
-    },
-
-    // Get the previous step in the workflow
-    getPrevious: function(){
-      var index, nextIndex;
-
-      if (!this.selected){
-        index = 0;
-      } else {
-        index = this.indexOf(this.selected);
-      }
-
-      if (index > 0){
-        nextIndex = index - 1;
-      } else {
-        nextIndex = -1;
-      }
-
-      return this.at(nextIndex) || this.emptyStep;
-    }
-  });
-
-  // Guantlet Controller
-  // -------------------
-
-  var Gauntlet = Marionette.Controller.extend({
-    constructor: function(options){
-      Marionette.Controller.prototype.constructor.apply(this, arguments);
-
-      if (!options || !options.workflowSteps){
-        var error = new Error("Wizard needs `workflowSteps` badly.")
-        error.name = "NoWorkflowStepsError";
-        throw error;
-      }
-
-      this.steps = new WizardStepCollection(options.workflowSteps);
-      this.filters = {};
-      this.onSteps = {};
-    },
-
-    // Get the list of steps that run this workflow
-    getSteps: function(){
-      return this.steps;
-    },
-
-    // Update the list of steps that run this workflow
-    updateSteps: function(workflowSteps) {
-      var _currentStep = this._currentStep;
-      var currentStepId = _currentStep ? _currentStep.id : null;
-      var currentStep = null;
-
-      this.steps.reset(workflowSteps);
-
-      if (currentStepId && (currentStep = this.steps.get(currentStepId))) {
-        this._setCurrentStep(currentStep);
-      }
-    },
-
-    // Move to the next step in the workflow
-    nextStep: function(){
-      var nextStep = this.steps.getNext();
-      this.moveTo(nextStep);
-    },
-
-    // Move to the previous step in the workflow
-    previousStep: function(){
-      var previousStep = this.steps.getPrevious();
-      this.moveTo(previousStep);
-    },
-
-    // Complete the workflow and move on
-    complete: function(){
-      var onComplete = this.filters.onComplete;
-
-      if (_.isObject(onComplete)){
-        onComplete.fn.call(onComplete.context);
-      } 
-
-      this.trigger("complete");
-      this._clearCurrentStep();
-    },
-    
-    // Add a step handler by key, providing a handler
-    // callback function and an optional context object
-    // for executing the handler callback
-    onStep: function(stepKey, handler, context){
-      var stepList = this.onSteps[stepKey];
-
-      if (!stepList){
-        stepList = [];
-        this.onSteps[stepKey] = stepList;
-      }
-
-      stepList.push({
-        handler: handler,
-        context: context
-      });
-    },
-
-    // Run a callback before moving to another step
-    beforeMove: function(fn, context){
-      this.filters.beforeMove = {fn: fn, context: context};
-    },
-
-    // Run a callback after the workflow has been completed
-    onComplete: function(fn, context){
-      this.filters.onComplete = {fn: fn, context: context};
-    },
-
-    // Move to a given step by the step's "key"
-    setStepByKey: function(stepKey){
-      stepKey = stepKey || "";
-      var step = this.steps.where({key: stepKey})[0];
-      if (step){ 
-        this._setCurrentStep(step);
-      }
-    },
-
-    // Move to a specified step
-    moveTo: function(step){
-
-      // build a function to call when we're ready to move
-      var done = _.bind(function(){
-
-        // set the current step, then run all the step callbacks
-        this._setCurrentStep(step, function(){
-          var key = step.get("key");
-          this._runStepCallbacks(key);
-        });
-
-      }, this);
-
-      // only run the beforeMove filter if this is not the first
-      // step to be shown in this instance of the gauntlet
-      var isFirstUse = (!this._currentStep);
-      var beforeMove = this.filters.beforeMove;
-      
-      if (!isFirstUse && _.isObject(beforeMove)){
-        beforeMove.fn.call(beforeMove.context, done);
-      } else {
-        done();
-      }
-    },
-
-    // Set the current step and optionally run a callback
-    // function after the current step has been set.
-    _setCurrentStep: function(step, cb){
-      var key = step.get("key");
-
-      this.trigger("step", key);
-      this.trigger("step:" + key);
-
-      if (this._currentStep !== step){
-        this._currentStep = step;
-        step.select();
-        if (cb){ cb.apply(this); }
-      }
-    },
-
-    // Clear the current step
-    _clearCurrentStep: function(){
-      if (this._currentStep){
-        delete this._currentStep;
-      }
-    },
-
-    _runStepCallbacks: function(stepKey){
-      var stepList = this.onSteps[stepKey];
-      if (!stepList){ return; }
-
-      var length = stepList.length;
-      for (var i=0; i<length; i++){
-        var config = stepList[i];
-
-        if (!_.isFunction(config.handler)){
-          var error = new Error("Cannot run step for '" + stepKey + "'. Handler not found.");
-          error.name = "StepHandlerNotFound";
-          throw error;
-        }
-
-        config.handler.apply(config.context);
-      }
-    },
-
-  });
-
-  // Export Public API
-  // -----------------
-  return Gauntlet;
-
-})(Backbone, Backbone.Picky, Marionette, $, _);

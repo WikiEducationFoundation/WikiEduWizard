@@ -6,8 +6,8 @@
     "underscore": "~1.7.0",
     "backbone": "~1.1.2",
     "backbone.marionette": "~2.2.1",
-    "marionette.backbone.syphon": "~0.5.0",
-    "backbone.picky": "backbone.picky",
-    "marionette.gauntlet": "marionette.gauntlet"
+    "backbone-mediator": "~1.0.0",
+    "handlebars": "~2.0.0",
+    "backbone-forms": "~0.14.0"
   }
 }
