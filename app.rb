@@ -60,11 +60,11 @@ get '/client' do
 
   res = @access_token.post('http://test2.wikipedia.org/w/api.php', {:action => 'query', :meta => 'userinfo', :format => 'json' } )
 
-  redirect to '/app'
+  redirect to '/welcome'
   
 end
 
-get '/app' do
+get '/welcome' do
   haml :app
 end
 

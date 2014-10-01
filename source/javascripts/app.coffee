@@ -5,8 +5,9 @@ window.Behaviors = {}
 window.Behaviors.Closeable = require './behaviors/Closeable'
 
 ToggleableRegion = require './regions/ToggleableRegion'
-AppView = require './views/AppView'
-TodoModule = require('./modules/todo/TodoModule')
+AppLayout = require './views/AppLayout'
+StepModule = require('./modules/step/StepModule')
+
 
 class App extends Backbone.Marionette.Application
   initialize: =>
@@ -15,15 +16,15 @@ class App extends Backbone.Marionette.Application
     @router = new Backbone.Marionette.AppRouter()
 
     @addInitializer( (options) =>
-      (new AppView()).render()
+      (new AppLayout()).render()
     )
 
     @addInitializer( (options) =>
       @addRegions({ 
-        todoRegion: { 
-          selector: "#todos"
+        stepRegion: {
+          selector: "#steps"
           regionClass: ToggleableRegion
-          module: @submodules.Todo
+          module: @submodules.Step
         }
       })
     )
@@ -33,8 +34,11 @@ class App extends Backbone.Marionette.Application
       console.log Backbone.history
     )
 
-    @module('Todo', TodoModule)
 
-    @start()
+    @module('Step', StepModule)
+
+
+
+    @start({})
 
 module.exports = App

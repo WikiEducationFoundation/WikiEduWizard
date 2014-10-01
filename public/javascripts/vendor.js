@@ -13258,6 +13258,193 @@ return jQuery;
   return Backbone.Syphon;
 }));
 
+// Backbone.Picky, v0.2.0
+// Copyright (c)2013 Derick Bailey, Muted Solutions, LLC.
+// Distributed under MIT license
+// http://github.com/derickbailey/backbone.picky
+
+Backbone.Picky = (function (Backbone, _) {
+  var Picky = {};
+
+  // Picky.SingleSelect
+  // ------------------
+  // A single-select mixin for Backbone.Collection, allowing a single
+  // model to be selected within a collection. Selection of another
+  // model within the collection causes the previous model to be
+  // deselected.
+
+  Picky.SingleSelect = function(collection){
+    this.collection = collection;
+  };
+
+  _.extend(Picky.SingleSelect.prototype, {
+
+    // Select a model, deselecting any previously
+    // selected model
+    select: function(model){
+      if (model && this.selected === model) { return; }
+
+      this.deselect();
+
+      this.selected = model;
+      this.selected.select();
+      this.trigger("select:one", model);
+    },
+
+    // Deselect a model, resulting in no model
+    // being selected
+    deselect: function(model){
+      if (!this.selected){ return; }
+
+      model = model || this.selected;
+      if (this.selected !== model){ return; }
+
+      this.selected.deselect();
+      this.trigger("deselect:one", this.selected);
+      delete this.selected;
+    }
+
+  });
+
+  // Picky.MultiSelect
+  // -----------------
+  // A mult-select mixin for Backbone.Collection, allowing a collection to
+  // have multiple items selected, including `selectAll` and `selectNone`
+  // capabilities.
+
+  Picky.MultiSelect = function (collection) {
+    this.collection = collection;
+    this.selected = {};
+  };
+
+  _.extend(Picky.MultiSelect.prototype, {
+
+    // Select a specified model, make sure the
+    // model knows it's selected, and hold on to
+    // the selected model.
+    select: function (model) {
+      if (this.selected[model.cid]) { return; }
+
+      this.selected[model.cid] = model;
+      model.select();
+      calculateSelectedLength(this);
+    },
+
+    // Deselect a specified model, make sure the
+    // model knows it has been deselected, and remove
+    // the model from the selected list.
+    deselect: function (model) {
+      if (!this.selected[model.cid]) { return; }
+
+      delete this.selected[model.cid];
+      model.deselect();
+      calculateSelectedLength(this);
+    },
+
+    // Select all models in this collection
+    selectAll: function () {
+      this.each(function (model) { model.select(); });
+      calculateSelectedLength(this);
+    },
+
+    // Deselect all models in this collection
+    selectNone: function () {
+      if (this.selectedLength === 0) { return; }
+      this.each(function (model) { model.deselect(); });
+      calculateSelectedLength(this);
+    },
+
+    // Toggle select all / none. If some are selected, it
+    // will select all. If all are selected, it will select 
+    // none. If none are selected, it will select all.
+    toggleSelectAll: function () {
+      if (this.selectedLength === this.length) {
+        this.selectNone();
+      } else {
+        this.selectAll();
+      }
+    }
+  });
+
+  // Picky.Selectable
+  // ----------------
+  // A selectable mixin for Backbone.Model, allowing a model to be selected,
+  // enabling it to work with Picky.MultiSelect or on it's own
+
+  Picky.Selectable = function (model) {
+    this.model = model;
+  };
+
+  _.extend(Picky.Selectable.prototype, {
+
+    // Select this model, and tell our
+    // collection that we're selected
+    select: function () {
+      if (this.selected) { return; }
+
+      this.selected = true;
+      this.trigger("selected", this);
+
+      if (this.collection) {
+        this.collection.select(this);
+      }
+    },
+
+    // Deselect this model, and tell our
+    // collection that we're deselected
+    deselect: function () {
+      if (!this.selected) { return; }
+
+      this.selected = false;
+      this.trigger("deselected", this);
+
+      if (this.collection) {
+        this.collection.deselect(this);
+      }
+    },
+
+    // Change selected to the opposite of what
+    // it currently is
+    toggleSelected: function () {
+      if (this.selected) {
+        this.deselect();
+      } else {
+        this.select();
+      }
+    }
+  });
+
+  // Helper Methods
+  // --------------
+
+  // Calculate the number of selected items in a collection
+  // and update the collection with that length. Trigger events
+  // from the collection based on the number of selected items.
+  var calculateSelectedLength = function (collection) {
+    collection.selectedLength = _.size(collection.selected);
+
+    var selectedLength = collection.selectedLength;
+    var length = collection.length;
+
+    if (selectedLength === length) {
+      collection.trigger("select:all", collection);
+      return;
+    }
+
+    if (selectedLength === 0) {
+      collection.trigger("select:none", collection);
+      return;
+    }
+
+    if (selectedLength > 0 && selectedLength < length) {
+      collection.trigger("select:some", collection);
+      return;
+    }
+  };
+
+  return Picky;
+})(Backbone, _);
+
 // MarionetteJS (Backbone.Marionette)
 // ----------------------------------
 // v2.2.1
@@ -16366,3 +16553,248 @@ return jQuery;
 
   return Marionette;
 }));
+
+// Marionette.Gauntlet v0.0.0
+// --------------------------
+//
+// Build wizard-style workflows with an event-emitting state machine
+// Requires Backbone.Picky (http://github.com/derickbailey/backbone.picky)
+//
+// Copyright (C) 2012 Muted Solutions, LLC.
+// Distributed under MIT license
+
+Marionette.Gauntlet = (function(Backbone, Picky, Marionette, $, _){
+  // Wizard Steps
+  // ------------
+  
+  // A selectable model that represents an individual step
+  // in the wizard / workflow 
+  var WizardStep = Backbone.Model.extend({
+    initialize: function(){
+      var selectable = new Picky.Selectable(this);
+      _.extend(this, selectable);
+    }
+  });
+
+  // A collection of wizard steps, defining the over-all workflow
+  // of the wizard.
+  var WizardStepCollection = Backbone.Collection.extend({
+    model: WizardStep,
+
+    initialize: function(){
+      this.emptyStep = new this.model({isEmpty: true});
+      this.finalStep = new this.model({isFinal: true, name: "Done"});
+
+      var selectable = new Picky.SingleSelect(this);
+      _.extend(this, selectable);
+    },
+
+    // Get the next step in the workflow
+    getNext: function(){
+      var index, nextIndex, nextStep;
+
+      if (!this.selected){
+        index = 0;
+      } else {
+        index = this.indexOf(this.selected);
+      }
+
+      if (index < this.length-1){
+        nextIndex = index + 1;
+        nextStep = this.at(nextIndex) || this.emptyStep;
+      } else {
+        nextStep = this.finalStep;
+      }
+
+      return nextStep;
+    },
+
+    // Get the previous step in the workflow
+    getPrevious: function(){
+      var index, nextIndex;
+
+      if (!this.selected){
+        index = 0;
+      } else {
+        index = this.indexOf(this.selected);
+      }
+
+      if (index > 0){
+        nextIndex = index - 1;
+      } else {
+        nextIndex = -1;
+      }
+
+      return this.at(nextIndex) || this.emptyStep;
+    }
+  });
+
+  // Guantlet Controller
+  // -------------------
+
+  var Gauntlet = Marionette.Controller.extend({
+    constructor: function(options){
+      Marionette.Controller.prototype.constructor.apply(this, arguments);
+
+      if (!options || !options.workflowSteps){
+        var error = new Error("Wizard needs `workflowSteps` badly.")
+        error.name = "NoWorkflowStepsError";
+        throw error;
+      }
+
+      this.steps = new WizardStepCollection(options.workflowSteps);
+      this.filters = {};
+      this.onSteps = {};
+    },
+
+    // Get the list of steps that run this workflow
+    getSteps: function(){
+      return this.steps;
+    },
+
+    // Update the list of steps that run this workflow
+    updateSteps: function(workflowSteps) {
+      var _currentStep = this._currentStep;
+      var currentStepId = _currentStep ? _currentStep.id : null;
+      var currentStep = null;
+
+      this.steps.reset(workflowSteps);
+
+      if (currentStepId && (currentStep = this.steps.get(currentStepId))) {
+        this._setCurrentStep(currentStep);
+      }
+    },
+
+    // Move to the next step in the workflow
+    nextStep: function(){
+      var nextStep = this.steps.getNext();
+      this.moveTo(nextStep);
+    },
+
+    // Move to the previous step in the workflow
+    previousStep: function(){
+      var previousStep = this.steps.getPrevious();
+      this.moveTo(previousStep);
+    },
+
+    // Complete the workflow and move on
+    complete: function(){
+      var onComplete = this.filters.onComplete;
+
+      if (_.isObject(onComplete)){
+        onComplete.fn.call(onComplete.context);
+      } 
+
+      this.trigger("complete");
+      this._clearCurrentStep();
+    },
+    
+    // Add a step handler by key, providing a handler
+    // callback function and an optional context object
+    // for executing the handler callback
+    onStep: function(stepKey, handler, context){
+      var stepList = this.onSteps[stepKey];
+
+      if (!stepList){
+        stepList = [];
+        this.onSteps[stepKey] = stepList;
+      }
+
+      stepList.push({
+        handler: handler,
+        context: context
+      });
+    },
+
+    // Run a callback before moving to another step
+    beforeMove: function(fn, context){
+      this.filters.beforeMove = {fn: fn, context: context};
+    },
+
+    // Run a callback after the workflow has been completed
+    onComplete: function(fn, context){
+      this.filters.onComplete = {fn: fn, context: context};
+    },
+
+    // Move to a given step by the step's "key"
+    setStepByKey: function(stepKey){
+      stepKey = stepKey || "";
+      var step = this.steps.where({key: stepKey})[0];
+      if (step){ 
+        this._setCurrentStep(step);
+      }
+    },
+
+    // Move to a specified step
+    moveTo: function(step){
+
+      // build a function to call when we're ready to move
+      var done = _.bind(function(){
+
+        // set the current step, then run all the step callbacks
+        this._setCurrentStep(step, function(){
+          var key = step.get("key");
+          this._runStepCallbacks(key);
+        });
+
+      }, this);
+
+      // only run the beforeMove filter if this is not the first
+      // step to be shown in this instance of the gauntlet
+      var isFirstUse = (!this._currentStep);
+      var beforeMove = this.filters.beforeMove;
+      
+      if (!isFirstUse && _.isObject(beforeMove)){
+        beforeMove.fn.call(beforeMove.context, done);
+      } else {
+        done();
+      }
+    },
+
+    // Set the current step and optionally run a callback
+    // function after the current step has been set.
+    _setCurrentStep: function(step, cb){
+      var key = step.get("key");
+
+      this.trigger("step", key);
+      this.trigger("step:" + key);
+
+      if (this._currentStep !== step){
+        this._currentStep = step;
+        step.select();
+        if (cb){ cb.apply(this); }
+      }
+    },
+
+    // Clear the current step
+    _clearCurrentStep: function(){
+      if (this._currentStep){
+        delete this._currentStep;
+      }
+    },
+
+    _runStepCallbacks: function(stepKey){
+      var stepList = this.onSteps[stepKey];
+      if (!stepList){ return; }
+
+      var length = stepList.length;
+      for (var i=0; i<length; i++){
+        var config = stepList[i];
+
+        if (!_.isFunction(config.handler)){
+          var error = new Error("Cannot run step for '" + stepKey + "'. Handler not found.");
+          error.name = "StepHandlerNotFound";
+          throw error;
+        }
+
+        config.handler.apply(config.context);
+      }
+    },
+
+  });
+
+  // Export Public API
+  // -----------------
+  return Gauntlet;
+
+})(Backbone, Backbone.Picky, Marionette, $, _);
