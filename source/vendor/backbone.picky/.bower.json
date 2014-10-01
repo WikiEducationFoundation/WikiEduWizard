@@ -1,0 +1,16 @@
+{
+  "name": "backbone.picky",
+  "homepage": "https://github.com/derickbailey/backbone.picky",
+  "main": "./lib/backbone.picky.js",
+  "version": "0.2.0",
+  "_release": "0.2.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.2.0",
+    "commit": "4d44309f6a70f325d30ebc07ffdd91693930ab3d"
+  },
+  "_source": "git://github.com/derickbailey/backbone.picky.git",
+  "_target": "~0.2.0",
+  "_originalSource": "backbone.picky",
+  "_direct": true
+}
