@@ -14,6 +14,8 @@ module.exports = class StepView extends View
 
   className: 'step'
 
+  tagName: 'section'
+
   template: template
 
   events:

@@ -8,6 +8,227 @@ Author: matt@wintr.us
 --------------------------------------------- */
 /* Imports
 --------------------------------------------- */
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+.body-content,
+p {
+  font-size: 15px;
+  line-height: 24px;
+  letter-spacing: 0.11px;
+}
+.body-content--large,
+p--large,
+p.large {
+  font-size: 18px;
+  line-height: 28px;
+  letter-spacing: 0.1px;
+}
+.list-content {
+  font-size: 14px;
+  line-height: 30px;
+  letter-spacing: 0.5px;
+}
+.form-content,
+h2,
+.step-nav a {
+  font-size: 18px;
+  line-height: 21px;
+  letter-spacing: 1.29px;
+}
+.form-content--small,
+h2--small,
+.step-nav a--small {
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: 0.78px;
+}
+.large-heading,
+h3 {
+  font-size: 36px;
+  line-height: 43px;
+  letter-spacing: 0.45px;
+}
+.medium-heading,
+h4 {
+  font-size: 24px;
+  line-height: 28px;
+  letter-spacing: 0.38px;
+}
+.small-heading,
+h5 {
+  font-size: 18px;
+  line-height: 30px;
+  letter-spacing: 1px;
+}
+.font-blue {
+  color: #858daa;
+}
+.font-blue--light {
+  color: #babccb;
+}
+.font-blue--lightest {
+  color: #e1e3e8;
+}
+.font-blue--dark {
+  color: #505a80;
+}
+.font-red {
+  color: #e36945;
+}
+.font-red--light {
+  color: #e79167;
+}
+.font-red--lightest {
+  color: #fadbc6;
+}
+.font-red--dark {
+  color: #d95229;
+}
+.font-yellow {
+  color: #f9c622;
+}
+.font-yellow--light {
+  color: #f8c879;
+}
+.font-yellow--lightest {
+  color: #feecb9;
+}
+.font-yellow--dark {
+  color: #f0a92a;
+}
+.font-green {
+  color: #97c65b;
+}
+.font-green--light {
+  color: #b6d1a8;
+}
+.font-green--lightest {
+  color: #e4eecc;
+}
+.font-green--dark {
+  color: #3e9740;
+}
 .no-mobile {
   display: none;
   display: block;
@@ -16,9 +237,159 @@ Author: matt@wintr.us
   display: block;
   display: none;
 }
-body {
-  background: transparent;
+* {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
-.step-actions {
-  margin-top: 35px;
+html {
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  height: 100%;
+}
+body {
+  font-family: 'Droid Serif', serif;
+  width: 100%;
+  height: 100%;
+}
+h1,
+h2,
+h3,
+h4,
+h5 {
+  margin: 0;
+}
+p {
+  margin: 25px auto;
+}
+p:first-child {
+  margin-top: 0;
+}
+p:last-child {
+  margin-bottom: 0;
+}
+ul {
+  list-style: disc;
+  margin-left: 20px;
+}
+a {
+  color: #fff;
+  text-decoration: none;
+}
+strong,
+em {
+  font-style: italic;
+}
+.container {
+  height: 100%;
+}
+.container #app {
+  height: 100%;
+}
+.container #app .home-view,
+.container #app .app-view {
+  height: 100%;
+}
+.content {
+  position: relative;
+  display: block;
+  width: 1200px;
+  height: 100%;
+  margin: 0 auto 50px;
+  background: transparent no-repeat top left;
+}
+.main-logo {
+  width: 60px;
+  height: 60px;
+  background: transparent url("/images/wiki-logo.png") no-repeat center center;
+  background-size: 100% auto;
+  overflow: hidden;
+  text-indent: -9999px;
+}
+.step-nav {
+  *zoom: 1;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 545px;
+  height: 80px;
+  border-top: 1px solid #fff;
+  z-index: 5;
+}
+.step-nav:before,
+.step-nav:after {
+  content: '';
+  display: table;
+}
+.step-nav:after {
+  clear: both;
+}
+.step-nav a {
+  display: inline-block;
+  width: 50%;
+  height: 80px;
+  text-align: center;
+  color: #fff;
+  float: left;
+  line-height: 80px;
+  background-size: 45px auto;
+}
+.step-nav a:first-child {
+  border-right: 1px solid #fff;
+}
+.step-nav-prev {
+  background: #858daa url("/images/arrow--left.png") no-repeat center left;
+  background-position: 30px 50%;
+}
+.step-nav-next {
+  background: #858daa url("/images/arrow--right.png") no-repeat center right;
+  background-position: 198px 50%;
+}
+.step {
+  *zoom: 1;
+}
+.step:before,
+.step:after {
+  content: '';
+  display: table;
+}
+.step:after {
+  clear: both;
+}
+.step-form {
+  position: absolute;
+  width: 545px;
+  height: 100%;
+  top: 0;
+  left: 0;
+  padding: 80px 50px 80px 125px;
+  background: #858daa;
+  color: #fff;
+  z-index: 2;
+}
+.step-form__title {
+  margin-bottom: 30px;
+}
+.step-form-inner {
+  position: relative;
+}
+.step-info {
+  position: absolute;
+  width: 655px;
+  height: 100%;
+  top: 0;
+  right: 0;
+  padding: 170px 100px 80px 80px;
+  color: #000;
+  background: #fff;
+  z-index: 1;
+}
+.step-info .main-logo {
+  position: absolute;
+  display: inline-block;
+  top: 90px;
+  right: 110px;
+  z-index: 5;
+}
+.step-info-inner {
+  margin-top: 30px;
 }

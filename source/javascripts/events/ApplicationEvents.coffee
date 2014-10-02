@@ -1,11 +1,8 @@
-###
- * Application Events
- * 
- * @langversion CoffeeScript
- * 
- * @author 
- * @since  
- ###
+
+#########################################################
+# Title:  ApplicationEvents
+# Author: kevin@wintr.us @ WINTR
+#########################################################
 
 class ApplicationEvents
 

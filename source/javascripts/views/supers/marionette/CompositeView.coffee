@@ -1,9 +1,6 @@
-
 #########################################################
-# Title:  StepModel
+# Title:  HomeView
 # Author: kevin@wintr.us @ WINTR
 #########################################################
 
-Model = require('../models/supers/Model')
-
-module.exports = class StepModel extends Model
+module.exports = class CompositeView extends Backbone.Marionette.CompositeView

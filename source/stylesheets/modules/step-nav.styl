@@ -1,0 +1,31 @@
+.step-nav
+  cf()
+  position absolute
+  bottom 0
+  left 0
+  width 545px
+  height 80px
+  border-top 1px solid white
+  z-index 5
+
+  
+  a 
+    @extend .form-content
+    display inline-block
+    width 50%
+    height 80px
+    text-align center
+    color white
+    float left
+    line-height 80px
+    background-size 45px auto
+    
+    &:first-child
+      border-right 1px solid white
+      
+  &-prev
+    background blue url('/images/arrow--left.png') no-repeat center left
+    background-position 30px 50%
+  &-next
+    background blue url('/images/arrow--right.png') no-repeat center right
+    background-position 198px 50%

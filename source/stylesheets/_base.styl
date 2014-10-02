@@ -5,5 +5,93 @@ Only single elements. No classes or ids.
 
 ///////////////////////////////////////////////////// */
 
-body
-  background transparent
+
+* 
+  -moz-box-sizing border-box
+  -webkit-box-sizing border-box
+  box-sizing border-box
+
+
+html 
+  -webkit-text-size-adjust 100%
+  -webkit-font-smoothing antialiased
+  height 100%
+
+body 
+  font-family body-font
+  width 100%
+  height 100%
+  
+  
+
+     
+   
+h1, h2, h3, h4, h5 
+  margin 0
+
+h2 
+  @extend .form-content
+
+h3 
+  @extend .large-heading
+  
+h4
+  @extend .medium-heading
+
+h5
+  @extend .small-heading
+   
+  
+ // p, ol, ul
+   
+
+p
+  @extend .body-content
+  margin 25px auto 
+  
+  &:first-child
+    margin-top 0
+  
+  &:last-child
+    margin-bottom 0
+    
+  &.large
+    @extend .body-content--large
+
+// ol 
+
+ul 
+  list-style disc
+  margin-left global-margin
+
+a 
+  color white
+  text-decoration none
+  
+strong
+ 
+em
+  font-style italic
+
+hr
+ // 
+
+blockquote
+ // 
+
+form
+ // 
+
+label 
+ //
+
+input 
+
+input[type=text] 
+ //
+
+textarea 
+ // 
+
+select
+ // 

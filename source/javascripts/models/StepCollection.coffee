@@ -1,11 +1,8 @@
-###
- * Question and Answer Model (QA)
- * 
- * @langversion CoffeeScript
- * 
- * @author 
- * @since  
- ###
+
+#########################################################
+# Title:  StepCollection
+# Author: kevin@wintr.us @ WINTR
+#########################################################
 
 Collection = require('../models/supers/Collection')
 StepModel = require('../models/StepModel')
