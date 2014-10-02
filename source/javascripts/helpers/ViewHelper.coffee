@@ -1,24 +1,9 @@
-###
- * Handlebars Template Helpers
- * 
- * @langversion CoffeeScript
- * 
- * @author 
- * @since  
- ###
 
+#########################################################
+# Title:  ViewHelper
+# Author: kevin@wintr.us @ WINTR
+#########################################################
 
-###//--------------------------------------
-//+ PUBLIC PROPERTIES / CONSTANTS
-//--------------------------------------###
-
-###//--------------------------------------
-//+ PUBLIC METHODS / GETTERS / SETTERS
-//--------------------------------------###
-
-#
-# @return String
-#
 Handlebars.registerHelper( 'link', ( text, url ) ->
 
   text = Handlebars.Utils.escapeExpression( text )

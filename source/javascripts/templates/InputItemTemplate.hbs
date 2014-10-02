@@ -1,0 +1,141 @@
+<!--
+  Author: 
+  Date: 
+
+  Description: 
+
+INPUT FIELD TYPES - TEMPLATE DATA SCHEMA
+
+{
+  checkbox: {
+    data: {
+      id: 'string'
+      selected: true | false
+      label: 'string'
+    }
+  }
+
+  text: {
+    data: {
+      id: 'string'
+      type: 'string'
+      label: 'string'
+      value: 'string'
+    }
+  }
+
+  textarea: {
+    data: {
+      id: 'string'
+      rows: 'string'
+      label: 'string'
+      placeholder: 'string'
+    }
+  }
+
+  select: {
+    data: {
+      id: 'string'
+      multiple: true | false
+      label: 'string'
+      options: [
+        {
+          label: 'string'
+          value: 'string'
+        }
+      ]
+    }
+  }
+
+  radio: {
+    data: {
+      id: 'string'
+      label: 'string'
+      options: [
+        {
+          label: 'string'
+          value: 'string'
+        }
+      ]
+    }
+  }
+
+  checkboxGroup: {
+    data: {
+      id: 'string'
+      label: 'string'
+      options: [
+        {
+          id: 'string'
+          label: 'string'
+          selected: true | false
+        }
+      ]
+    }
+  }
+  
+}
+
+  
+-->
+
+{{!-- CHECKBOX --}}
+{{#if type.checkbox}}
+<div class="custom-input custom-input--checkbox">
+  <label for="{{data.id}}">{{data.label}}</label>
+  <input name="{{data.id}}" type="checkbox" {{#if data.selected}} checked {{/if}} />
+</div>
+{{/if}}
+
+{{!-- CHECKBOX GROUP --}}
+{{#if type.checkboxGroup}}
+<div class="custom-input-checkbox-group" data-checkbox-group="{{data.id}}">
+  <div class="custom-input-checkbox-group__label">{{data.label}}</div>
+  {{#each data.options}}
+  <div class="custom-input custom-input--checkbox">
+    <label for="{{id}}">{{label}}</label>
+    <input name="{{id}}" type="checkbox" {{#if selected}} checked {{/if}} />
+  </div>
+  {{/each}}
+</div>
+{{/if}}
+
+{{!-- SELECT --}}
+{{#if type.select}}
+<div class="custom-input custum-input--select {{#if data.multiple}} custum-input--select--multi {{/if}}">
+  <label for="{{data.id}}">{{data.label}}</label>
+  <select name="{{data.id}}" {{#if data.multiple}} multiple {{/if}}>
+    {{#each data.options}}
+      <option value="{{value}}">{{label}}</option>
+    {{/each}}
+  </select>
+</div>
+{{/if}}
+
+{{!-- TEXT --}}
+{{#if type.text}}
+<div class="custom-input custom-input--text">
+  <label for="{{data.id}}">{{data.label}}</label>
+  <input name="{{data.id}}" type="{{data.type}}" value="{{data.value}}" placeholder="{{data.placeholder}}" />
+</div>
+{{/if}}
+
+{{!-- TEXTAREA --}}
+{{#if type.textarea}}
+<div class="custom-input custom-input--textarea">
+  <label for="{{data.id}}">{{data.label}}</label>
+  <textarea name="{{data.id}}" placeholder="{{data.placeholder}}" rows="{{data.rows}}"></textarea>
+</div>
+{{/if}}
+
+{{!-- RADIO --}}
+{{#if type.radio}}
+<div class="custom-input custom-input--radio">
+  <label for="{{data.id}}">{{data.label}}</label>
+  {{#each data.options}}
+    <div class="custom-input--radio-item">
+      <input name="{{id}}" value="{{value}}" type="radio"><span> {{label}}</span>
+    </div>
+  {{/each}}
+</div>
+{{/if}}

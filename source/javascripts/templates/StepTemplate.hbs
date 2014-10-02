@@ -1,7 +1,32 @@
 
 
-<h3>{{stepNumber}}. {{{title}}}</h3>
-<input type="checkbox" name="done" class="done" data-model="done" {{#if done}} checked {{/if}} />
-<label for="done">Done?</label>
-<input type="checkbox" name="include" class="done" data-model="include" {{#if include}} checked {{/if}} />
-<label for="include">Include?</label>
+<div class="step-form">
+
+  <h3 class="step-form__title">{{{title}}}</h3>
+
+  <div class="step-form-inner">
+    <input type="checkbox" name="done" class="done" data-model="done" {{#if done}} checked {{/if}} />
+    <label for="done">Done?</label>
+    <input type="checkbox" name="include" class="done" data-model="include" {{#if include}} checked {{/if}} />
+    <label for="include">Include?</label>
+  </div>
+
+</div>
+
+
+<div class="step-info">
+  <a class="main-logo" href="http://wikiedu.org" target="_blank">WIKIEDU.ORG</a>
+  <div class="step-info-inner">
+  {{#if instructions}}
+    <p class="large">{{{instructions}}}</p>
+  {{/if}}
+    {{#each sections}}
+      {{#if title}}
+      <h2 class="font-blue">{{{title}}}</h2>
+      {{/if}}
+      {{#each content}}
+        <p>{{{this}}}</p>
+      {{/each}}
+    {{/each}}
+  </div>
+</div>

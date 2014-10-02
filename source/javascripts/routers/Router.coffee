@@ -1,27 +1,26 @@
-###
- * Backbone Primary Router
- * 
- * @langversion CoffeeScript
- * 
- * @author 
- * @since  
- ###
+
+#########################################################
+# Title:  WIKIEDU ASSIGNMENT - Router
+# Author: kevin@wintr.us @ WINTR
+#########################################################
 
 application = require( '../App' )
 
 module.exports = class Router extends Backbone.Router
 
-  ###//--------------------------------------
-    //+ Routes
-    //--------------------------------------###
+#--------------------------------------------------------
+# Routes
+#--------------------------------------------------------
     
   routes:
     '' : 'home'
 
-  ###//--------------------------------------
-  //+ Route Handlers
-  //--------------------------------------###
+#--------------------------------------------------------
+# Handlers
+#--------------------------------------------------------
 
   home: ->
     $( '#app' ).html( application.homeView.render().el )
+    # application.inputItemView.inputType = 'text'
+    # $( '#app' ).html( application.inputItemView.render().el )
 
