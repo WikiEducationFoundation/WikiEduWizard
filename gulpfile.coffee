@@ -289,7 +289,7 @@ gulp.task "default", ["dev"]
 gulp.task "dev", ->
   runSequence "clean", [
     "copy-images"
-    # "bower"
+    "bower"
     "javascripts"
     "stylesheets"
   ], [
@@ -300,7 +300,7 @@ gulp.task "dev", ->
 gulp.task "build", ->
   runSequence "clean", [
     "copy-images"
-    # "bower"
+    "bower"
     "javascripts"
     "bootstrap"
     "stylesheets"
