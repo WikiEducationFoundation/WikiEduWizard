@@ -1,3 +1,9 @@
+#########################################################
+# Title:  InputItemView
+# Author: kevin@wintr.us @ WINTR
+#########################################################
+
+
 
 View = require('../views/supers/View')
 template = require('../templates/InputItemTemplate.hbs')

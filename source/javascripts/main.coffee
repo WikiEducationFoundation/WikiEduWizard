@@ -1,11 +1,7 @@
-###
- * Application Initializer
- * 
- * @langversion CoffeeScript
- * 
- * @author 
- * @since  
- ###
+#########################################################
+# Title:  WIKIEDU - Application Inititializer
+# Author: kevin@wintr.us @ WINTR
+#########################################################
 
 application = require('./App')
 mainView = require('./views/MainView')
@@ -14,8 +10,6 @@ $ ->
   
   # Initialize Application
   application.initialize()
-
-  # mainView.initialize()
 
   # Start Backbone router
   Backbone.history.start()

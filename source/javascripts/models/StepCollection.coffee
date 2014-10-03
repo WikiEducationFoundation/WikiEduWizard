@@ -1,6 +1,6 @@
 
 #########################################################
-# Title:  StepCollection
+# Title:  StepCollection Base Class
 # Author: kevin@wintr.us @ WINTR
 #########################################################
 

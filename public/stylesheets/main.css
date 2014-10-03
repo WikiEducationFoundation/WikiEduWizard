@@ -259,7 +259,7 @@ h5 {
   margin: 0;
 }
 p {
-  margin: 25px auto;
+  margin: 5px auto;
 }
 p:first-child {
   margin-top: 0;
@@ -269,7 +269,7 @@ p:last-child {
 }
 ul {
   list-style: disc;
-  margin-left: 20px;
+  margin-left: global-margin;
 }
 a {
   color: #fff;
@@ -344,6 +344,9 @@ em {
   background: #858daa url("/images/arrow--right.png") no-repeat center right;
   background-position: 198px 50%;
 }
+.steps {
+  width: 100%;
+}
 .step {
   *zoom: 1;
 }
@@ -382,6 +385,9 @@ em {
   color: #000;
   background: #fff;
   z-index: 1;
+}
+.step-info p {
+  margin: 25px auto;
 }
 .step-info .main-logo {
   position: absolute;

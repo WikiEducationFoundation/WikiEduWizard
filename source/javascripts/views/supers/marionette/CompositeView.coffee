@@ -1,5 +1,5 @@
 #########################################################
-# Title:  HomeView
+# Title:  Composite View Base Class
 # Author: kevin@wintr.us @ WINTR
 #########################################################
 

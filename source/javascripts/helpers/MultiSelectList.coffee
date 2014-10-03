@@ -1,6 +1,7 @@
 #########################################################
 # Title:  MultiSelectView - HELPER
 # Author: kevin@wintr.us @ WINTR
+# NOTE: NOT YET IMPLEMENTED
 #########################################################
 
 

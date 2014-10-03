@@ -1,4 +1,8 @@
 
+#########################################################
+# Title:  Model Base Class
+# Author: kevin@wintr.us @ WINTR
+#########################################################
 
 module.exports = class Model extends Backbone.Model
 

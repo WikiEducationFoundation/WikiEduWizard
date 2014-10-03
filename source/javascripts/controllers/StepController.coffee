@@ -2,6 +2,7 @@
 # Title:  StepController
 # Description: 
 # Author: kevin@wintr.us @ WINTR
+# NOTE: NOT YET IMPLEMNETED - 10/3
 #########################################################
 
 application = require( '../App' )
