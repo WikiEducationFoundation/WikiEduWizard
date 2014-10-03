@@ -1,5 +1,5 @@
 #########################################################
-# Title:  HomeView
+# Title: ItemView Marionette Base Class
 # Author: kevin@wintr.us @ WINTR
 #########################################################
 

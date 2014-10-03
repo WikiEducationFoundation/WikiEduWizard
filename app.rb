@@ -28,7 +28,6 @@ $config = Hash.to_ostructs(YAML.load_file(File.join(Dir.pwd, 'config.yml')))
 
 
 # BUILD OMNIAUTH PROVIDER
-
 use OmniAuth::Builder do
   provider :mediawiki, $config.wiki_creds.development.key, $config.wiki_creds.development.secret
 end
@@ -67,8 +66,6 @@ end
 get '/welcome' do
   haml :app
 end
-
-
 
 
 # WIZARD STEP ONE

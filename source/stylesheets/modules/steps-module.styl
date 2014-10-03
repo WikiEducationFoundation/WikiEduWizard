@@ -1,14 +1,13 @@
 /* /////////////////////////////////////////////////////
 
-MODULES
-// Use class names for all modules
-// Use class names for all non-semantic children (divs, spans, etc). 
-// Child class names prefixed by module name (ex: news-item-title)
-// Keep nesting to a minimum
-// Put a comment description before each module
+STEP MODULE
 
 ///////////////////////////////////////////////////// */
 
+/* Steps Module
+--------------------------------------------- */
+.steps 
+  width 100%
 
 /* Step Module
 --------------------------------------------- */
@@ -34,8 +33,6 @@ MODULES
     &-inner
       position relative
 
-  
-
   &-info
     position absolute
     width 655px
@@ -46,6 +43,10 @@ MODULES
     color black
     background white
     z-index 1
+    
+    p 
+      margin 25px auto
+    
 
     .main-logo
       position absolute

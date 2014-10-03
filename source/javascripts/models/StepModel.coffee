@@ -1,6 +1,6 @@
 
 #########################################################
-# Title:  StepModel
+# Title:  StepModel Base Class
 # Author: kevin@wintr.us @ WINTR
 #########################################################
 

@@ -1,11 +1,8 @@
-###
- * View Base Class
- * 
- * @langversion CoffeeScript
- * 
- * @author 
- * @since  
- ###
+#########################################################
+# Title:  Base View Class
+# Author: kevin@wintr.us @ WINTR
+#########################################################
+
 
 require('../../helpers/ViewHelper')
 
