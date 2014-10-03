@@ -4,7 +4,7 @@
 #########################################################
 
 application = require('./App')
-mainView = require('./views/MainView')
+
 
 $ ->
   
