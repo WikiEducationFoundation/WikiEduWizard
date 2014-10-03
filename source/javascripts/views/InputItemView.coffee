@@ -16,6 +16,9 @@ module.exports = class InputItemView extends View
   events: 
     'click *' : 'itemClickHandler'
 
+  itemClickHandler: (e) ->
+    console.log e.currentTarget
+
   getInputTypeObject: ->
     returnData = {}
     returnData[@inputType] = true
