@@ -29,7 +29,6 @@ outputPath = "public"
 # Views directory
 viewsPath = "views"
 
-
 # Directory where vendor files live
 vendorPath = "vendor"
 
@@ -164,23 +163,26 @@ gulp.task "minify", ->
 
 gulp.task "watch", ->
 
-  plugins.watch glob: "#{sourcePath}/#{cssDirectory}/**/*.{styl,sass,scss,css}", ->
+  plugins.watch "#{sourcePath}/#{cssDirectory}/**/*.{styl,sass,scss,css}", ->
     gulp.start "stylesheets"
 
-  plugins.watch glob: "#{sourcePath}/#{imagesDirectory}/**/*.{svg,jpg,gif,png}", ->
+  plugins.watch "#{sourcePath}/#{imagesDirectory}/**/*.{svg,jpg,gif,png}", ->
     gulp.start "copy-images"
 
-  plugins.watch glob: "#{sourcePath}/#{jsDirectory}/**/*.{coffee,js,haml,hbs,jade}", ->
+  plugins.watch "#{sourcePath}/#{jsDirectory}/**/*.{coffee,js,haml,hbs,jade}", ->
     gulp.start "javascripts"
 
-  plugins.watch glob: "#{sourcePath}/#{vendorPath}/**/*", ->
+  plugins.watch "#{sourcePath}/#{vendorPath}/**/*", ->
     gulp.start "bower"
 
   server = plugins.livereload()
+  plugins.livereload.listen()
 
-  plugins.watch glob: "#{outputPath}/**/*.{css,js,svg,jpg,gif,png}"
+  plugins.watch "#{outputPath}/**/*.{css,js,svg,jpg,gif,png}"
     .pipe plugins.livereload()
 
+  plugins.watch "#{viewsPath}/**/*.haml", ->
+    server.changed()
 
 
 #--------------------------------------------------------
