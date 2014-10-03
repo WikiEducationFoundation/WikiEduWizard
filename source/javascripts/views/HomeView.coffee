@@ -12,6 +12,8 @@ StepController = require('../controllers/StepController')
 StepView = require('../views/StepView')
 StepModel = require('../models/StepModel')
 
+StepNavView = require('../views/StepNavView')
+
 
 module.exports = class HomeView extends View
 
@@ -31,9 +33,10 @@ module.exports = class HomeView extends View
     @currentStep = 0
     @render = _.bind( @render, @ )
 
-  events: ->
-    'click .next' : 'nextClickHandler'
-    'click .prev' : 'prevClickHandler'
+
+  subscriptions:
+    'step:next' : 'nextClickHandler'
+    'step:prev' : 'prevClickHandler'
 
 
   render: ->
@@ -44,9 +47,24 @@ module.exports = class HomeView extends View
 
   afterRender: ->
 
-    @$stepsContainer = @$el.find('.steps')
+    #SUBVIEWS
+    @StepNav = new StepNavView()
 
-    @stepViews = []
+    # THE FOLLWING COULD PROBABLY HAPPEN IN A COLLETION VIEW CLASS TO CONTROL ALL STEPS
+    @$stepsContainer = @$el.find('.steps')
+    @$innerContainer = @$el.find('.content')
+
+    @$innerContainer.append(@StepNav.render().el)
+
+    @stepViews = @setupSteps()
+
+    if @stepViews.length > 0
+      @showCurrentStep()
+    
+
+  setupSteps: ->
+    
+    views = []
 
     _.each(application.data,(step, index) =>
       newmodel = new StepModel()
@@ -57,17 +75,19 @@ module.exports = class HomeView extends View
         model: newmodel
       )
       newview.model.set('stepNumber', index + 1)
+
       @$stepsContainer.append(newview.render().hide().el)
-      @stepViews.push(newview)
+
+      views.push(newview)
     )
 
-    if @stepViews.length > 0
-      @showCurrentStep()
+    return views
 
-    @StepController = new StepController(
-      el: @$stepsContainer
-      childViews: @stepViews
-    )
+
+    
+    
+    
+
 
 
   getRenderData: ->
@@ -114,15 +134,11 @@ module.exports = class HomeView extends View
   # EVENT HANDLERS
   #--------------------------------------------------------
 
-  nextClickHandler: (e) ->
-    e.preventDefault()
+  nextClickHandler: ->
     @advanceStep()
 
-  prevClickHandler: (e) ->
-    e.preventDefault()
+  prevClickHandler: ->
     @decrementStep()
 
-  appLoadedHandler: (e) ->
-    console.log 'app loaded'
 
 
