@@ -11,13 +11,22 @@ template = require('../templates/InputItemTemplate.hbs')
 module.exports = class InputItemView extends View 
   template: template
 
-  className: 'inputs'
+  className: 'custom-input-wrapper'
 
   events: 
-    'click *' : 'itemClickHandler'
+    'change input' : 'itemChangeHandler'
+    'keyup input[type="text"]' : 'itemChangeHandler'
 
-  itemClickHandler: (e) ->
-    console.log e.currentTarget
+  itemChangeHandler: (e) ->
+    
+    value = $(e.currentTarget).val()
+
+    if value.length > 0
+      @$el.addClass('open')
+    else
+      @$el.removeClass('open')
+
+  debounceItemChanged: ->
 
   getInputTypeObject: ->
     returnData = {}
@@ -160,7 +169,7 @@ module.exports = class InputItemView extends View
           id: 'text1'
           type: 'text'
           label: 'Input Some Text'
-          value: 'initial value'
+          value: ''
           placeholder: ''
         }
       }
