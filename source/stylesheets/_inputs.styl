@@ -1,0 +1,81 @@
+
+
+.custom-input
+  display block
+  position relative
+  border-bottom 1px solid blue-border
+  height auto
+  max-width 450px
+  margin 0 auto
+  
+  
+  &:before
+    content: ''
+    display block
+    width 5px
+    height 3px
+    border-left 1px solid blue-border
+    border-bottom 1px solid blue-border
+    position absolute
+    bottom -1px
+    left -5px
+  
+  &:after
+    content: ''
+    display block
+    width 5px
+    height 3px
+    border-right 1px solid blue-border
+    border-bottom 1px solid blue-border
+    position absolute
+    bottom -1px
+    right -5px
+  
+  
+  label
+    @extend .form-content
+    display block
+    width 100%
+    height 100%
+    position absolute
+    top 0
+    left 0
+    z-index 2
+    letter-spacing 1px
+    pointer-events none
+    color grey
+  
+  input
+    @extend .form-content
+    width 100%
+    transition padding-top 0.2s
+    display block
+    appearance none
+    border none
+    outline none
+    letter-spacing 1px
+    z-index 1
+    padding-top 0
+    font-family body-font
+    line-height 1
+    
+    
+  
+    // &.open
+    //   padding-top 30px
+    
+    &:focus
+      padding-top 30px
+    
+
+.custom-input-wrapper
+  position relative
+  height 60px
+  padding-top 30px
+  
+  &.open
+    
+    input
+      padding-top 30px
+      
+
