@@ -199,10 +199,6 @@ gulp.task "lint", ->
     .pipe plugins.csslint()
     .pipe plugins.csslint.reporter()
   
-  # gulp.src("#{publicPath}/**/*.html")
-  #   .pipe(plugins.htmlhint("id-class-value": "dash"))
-  #   .pipe plugins.htmlhint.reporter()
-
 
 #--------------------------------------------------------
 # Icon Font
@@ -246,30 +242,6 @@ gulp.task "icon-font", ->
     ).pipe gulp.dest "#{outputPath}/#{fontsDirectory}"
 
 
-#--------------------------------------------------------
-# Tests
-#--------------------------------------------------------
-
-# gulp.task "test", ->
-#   child = spawn('casperjs', ['test', 'test/tests/', '--includes=test/config.coffee'])
-#   child.stdout.pipe(process.stdout)
-#   child.on "close", (code) ->
-#     plugins.connect.serverClose() if serverRunning
-#     serverRunning = false
-#     process.exit(code)
-
-# gulp.task "build-server", ->
-#   serverRunning = true
-#   plugins.connect.server
-#      host: null
-#      port: 4567
-#      root: buildPath
-
-# gulp.task "travis", ->
-#   runSequence [
-#     "build-server",
-#     "test"
-#   ]
 
 #--------------------------------------------------------
 # Sinatra/Shotgun Server

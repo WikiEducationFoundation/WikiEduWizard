@@ -1,15 +1,9 @@
-require 'data_mapper'
-require 'dm-core'
-require 'dm-migrations'
-require 'dm-sqlite-adapter'
-require 'dm-timestamps'
 require 'ostruct'
 require 'omniauth'
 require 'omniauth-mediawiki'
 require "mediawiki_api"
 require 'jbuilder'
 require 'debugger'
-require 'wikicloth'
 require 'rest_client'
 require 'oauth'
 

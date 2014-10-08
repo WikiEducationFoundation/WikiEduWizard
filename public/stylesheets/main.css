@@ -409,11 +409,11 @@ em {
 .step-nav a:first-child {
   border-right: 1px solid #fff;
 }
-.step-nav-prev {
+.step-nav--prev {
   background: #858daa url("/images/arrow--left.png") no-repeat center left;
   background-position: 30px 50%;
 }
-.step-nav-next {
+.step-nav--next {
   background: #858daa url("/images/arrow--right.png") no-repeat center right;
   background-position: 198px 50%;
 }
