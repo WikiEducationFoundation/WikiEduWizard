@@ -9,7 +9,7 @@ require 'rest_client'
 require 'oauth'
 
 ## CLASSES
-require './utils/Hash'
+require './sinatra/utils/Hash'
 
 
 
