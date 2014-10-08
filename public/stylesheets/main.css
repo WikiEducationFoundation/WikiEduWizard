@@ -409,19 +409,11 @@ em {
 .step-nav a:first-child {
   border-right: 1px solid #fff;
 }
-<<<<<<< HEAD
 .step-nav--prev {
   background: #858daa url("/images/arrow--left.png") no-repeat center left;
   background-position: 30px 50%;
 }
 .step-nav--next {
-=======
-.step-nav-prev {
-  background: #858daa url("/images/arrow--left.png") no-repeat center left;
-  background-position: 30px 50%;
-}
-.step-nav-next {
->>>>>>> 417475f9cb3f36451cd127772630c419e0a53deb
   background: #858daa url("/images/arrow--right.png") no-repeat center right;
   background-position: 198px 50%;
 }
@@ -479,6 +471,6 @@ em {
   right: 110px;
   z-index: 5;
 }
-.step-info-inner {
+.step-info .step-info-inner {
   margin-top: 30px;
 }
