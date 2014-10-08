@@ -1,9 +1,9 @@
 WizardData = [
   {
-    title: 'Welcome'
+    title: 'Welcome to the Wikipedia Assignment Wizard!'
     done: true
     include: true
-    instructions: 'Depending on the learning goals you have for your course and how much time you want to devote to your Wikipedia project, there are many effective ways to use Wikipedia in your course. The classic Wikipedia writing assignment involves students learning the basics of Wikipedia, then planning, researching, writing, and revising a previously missing or poor quality Wikipedia article, with milestones spread over the whole term. This often takes the place of a traditional term paper or research project. There are also many smaller assignments you can use to help students engage with and think critically about Wikipedia.'
+    instructions: 'Since Wikipedia began in 2001, professors around the world have integrated the free encyclopedia that anyone can edit into their curriculum.<br/><br/>This interactive wizard will take you through the required steps to create a custom assignment for your class. Please begin by filling in the following fields:'
     inputs: [
       {
         type: 'text'
@@ -35,18 +35,16 @@ WizardData = [
       }
     ]
     sections: [
-      {
-        content: [
-          'Experienced instructors say it is crucial for students who are going to be editing Wikipedia to become comfortable not only with the markup, but also the community. Introducing the Wikipedia project early in the term and requiring milestones throughout the term will acclimate students to the site and head off procrastination.'
-          'To make the the most of your Wikipedia project, try to integrate your Wikipedia assignment with the course themes. Engage your students with questions of media literacy and knowledge construction throughout your course.'
-        ]
-      }
+      
     ]
   }
   {
     title: 'Assignment type selection'
     done: false
     include: true
+    infoTitle: 'About assignment selections'
+    formTitle: 'Available assignments'
+    instructions: 'Depending on the learning goals you have for your course and how much time you want to devote to your Wikipedia project, there are many effective ways to use Wikipedia in your course. '
     inputs: [
       { 
         type: 'checkbox'
@@ -92,33 +90,11 @@ WizardData = [
       }      
     ]
     sections: [
-      
       {
-        title: 'Description'
+        title: ''
         content: [
-          'Working individually or in small teams with your guidance, students choose course-related topics that are not covered well on Wikipedia. After assessing Wikipedia\'s current coverage, the students research their topics to find high-quality secondary sources, then propose an outline for how the topic ought to be covered. They draft their articles, give and respond to peer feedback, take their work live on Wikipedia, and then keep improving their articles until the end of the term. Along the way, students will often work alongside experienced Wikipedia editors who offer critical feedback and help make sure articles meet Wikipedia\'s standards and follow its style conventions. Students who do great work may have the opportunity to have their articles featured on Wikipedia\'s main page. Solid articles will have a long term impact, with thousands of readers in the coming months and years.'
-          'Optionally, students may be asked to write a reflective paper about their Wikipedia experience, present their Wikipedia contributions in class, or develop their own ideas and arguments about their topics in a separate essay.'
-        ]
-      }
-      {
-        title: 'Requirements'
-        content: [
-          'Minimum timeline: 6 weeks'
-          'Recommended timeline: at least 12 weeks'
-          'Not appropriate for large survey courses.'
-          'Typically not appropriate for intro courses.'
-          'Works best for: graduate students, advanced undergraduates'
-        ]
-      }
-      {
-        title: 'Learning objectives'
-        content: [
-          'Master course content : 4/4 stars'
-          'Develop writing skills : 4/4 stars'
-          'Increase media and information fluency : 4/4 stars'
-          'Improve critical thinking and research skills : 4/4 stars'
-          'Foster collaboration : 4/4 stars'
-          'Develop technical and communication skills : 4/4 stars'
+          'Experienced instructors say it is crucial for students who are going to be editing Wikipedia to become comfortable not only with the markup, but also the community. Introducing the Wikipedia project early in the term and requiring milestones throughout the term will acclimate students to the site and head off procrastination.'
+          'To make the the most of your Wikipedia project, try to integrate your Wikipedia assignment with the course themes. Engage your students with questions of media literacy and knowledge construction throughout your course.'
         ]
       }
     ]
@@ -127,6 +103,7 @@ WizardData = [
     title: 'Learning Wiki Essentials'
     done: false
     include: true
+    infoTitle: 'About wiki essentials'
     instructions: 'To get started, you\'ll want to introduce your students to the basic rules of writing Wikipedia articles and working with the Wikipedia community. As their first Wikipedia assignment milestone, you can ask the students to create accounts and then complete the online training for students. '
     inputs: [
       {
@@ -179,17 +156,15 @@ WizardData = [
           'To practice editing and communicating on Wikipedia, introduce yourself to any Wikipedians helping your class (such as a Wikipedia Ambassador), and leave a message for a classmate on their user talk page.'
         ]
       }
-      {
-        content: [
-          'Will completion of the student training be part of your students\' grades?'
-        ]
-      }
     ]
   }
   {
     title: 'Getting Started with Editing'
     done: true
     include: true
+    infoTitle: 'About editing'
+    instructions: "It is important for students to start editing Wikipedia right away. That way, they become familiar with Wikipedia's markup (\"wikisyntax\", \"wikimarkup\", or \"wikicode\") and the mechanics of editing and communicating on the site. We recommend assigning a few basic Wikipedia tasks early on."
+    formTitle: 'Which basic assignments would you like to include in your course?'
     inputs: [
       {
         type: 'checkbox'
@@ -222,11 +197,8 @@ WizardData = [
     ]
     sections: [
       {
-        title: 'About This Step'
+        title: ''
         content: [
-          "It is important for students to start editing Wikipedia right away. That way, they become familiar with Wikipedia's markup (\"wikisyntax\", \"wikimarkup\", or \"wikicode\") and the mechanics of editing and communicating on the site. We recommend assigning a few basic Wikipedia tasks early on."
-          "Which basic assignments would you like to include in your course?"
-          "<em>Each of these is an optional assignment, which the instructor can select or unselect. By default, the first two are selected.</em>"
         ]
       }
     ]
@@ -235,6 +207,8 @@ WizardData = [
     title: 'Choosing Articles'
     done: false
     include: true
+    infoTitle: 'About choosing articles'
+    instructions: 'Choosing the right (or wrong) articles to work on can make (or break) a Wikipedia writing assignment.'
     inputs: [
       {
         type: 'radio'
@@ -258,9 +232,8 @@ WizardData = [
     ]
     sections: [
       {
-        title: 'Choosing Articles'
+        title: ''
         content: [
-          'Choosing the right (or wrong) articles to work on can make (or break) a Wikipedia writing assignment.'
           'Some articles may initially look easy to improve, but quality references to expand them may be difficult to find. Finding topics with the right balance between poor Wikipedia coverage and available literature from which to expand that coverage can be tricky. Here are some guidelines to keep in mind when selecting articles for improvement.'
         ]
       }
@@ -304,6 +277,7 @@ WizardData = [
     title: 'Research & Planning'
     done: false
     include: true
+    infoTitle: 'About research & planning'
     instructions:  "Students often wait until the last minute to do their research, or choose sources unsuited for Wikipedia. That's why we recommend asking students to put together a bibliography of materials they want to use in editing the article, which can then be assessed by you and other Wikipedians."
     sections: [
       {
@@ -352,6 +326,7 @@ WizardData = [
     title: 'Drafts & Mainspace'
     done: false
     include: true
+    infoTitle: 'About drafts & mainspace'
     instructions: 'Once students have gotten a grip on their topics and the sources they will use to write about them, it’s time to start writing on Wikipedia. You can ask them to jump right in and edit live, or start them off in their own sandboxes. There are pros and cons to each approach.'
     sections: [
       {
@@ -389,6 +364,8 @@ WizardData = [
     title: 'Peer Feedback'
     done: false
     include: true
+    infoTitle: 'About peer feedback'
+    formTitle: ""
     instructions: "Collaboration is a critical element of contributing to Wikipedia. For some students, this will happen spontaneously; their choice of topics will attract interested Wikipedians who will pitch in with ideas, copyedits, or even substantial contributions to the students’ articles."
     sections: [
       {
@@ -396,7 +373,7 @@ WizardData = [
         content: [
           "Online Ambassadors with an interest in the students' topics can also make great collaborators. In many cases, however, there will be little spontaneous editing of students’ articles before the end of the term."
           "Fortunately, you have a classroom full of peer reviewers. You can make the most of this by assigning students to review each others’ articles soon after full-length drafts are posted. This gives students plenty of time to act on the advice of their peers."
-          "<em>How many peer reviews will you ask each student to contribute during the course?</em>"
+          
         ]
       }
     ]
@@ -446,6 +423,7 @@ WizardData = [
     title: 'Supplementary Assignments'
     done: false
     include: true
+    infoTitle: 'About supplementary assignments'
     instructions: "By the time students have made improvements based on classmates' review comments — and ideally suggestions from you as well — students should have produced nearly complete articles. Now is the chance to encourage them to wade a little deeper into Wikipedia and its norms and criteria for great content. You’ll probably have discussed many of the core principles of Wikipedia—and related issues you want to focus on—but now that they’ve experienced first-hand how Wikipedia works, this is a good time to return to topics like neutrality, media fluency, and the impact and limits of Wikipedia. "
     sections: [
       {
@@ -528,21 +506,25 @@ WizardData = [
     title: 'DYK / GA Submission'
     done: false
     include: true
+    infoTitle: 'About Did You Know & Good Articles'
+    formTitle: "Do either of these processes make sense for students in your class?"
     sections: [
       {
-        title: 'Did You Know (DYK)'
+        title: ''
         content: [
+          "<h5>Did You Know (DYK)</h5>"
           "Advanced students’ articles may qualify for submission to Did You Know (DYK), a section on Wikipedia’s main page featuring new content. The general criteria for DYK eligibility are that an article is larger than 1,500 characters of original, well-sourced content (about four paragraphs) and that it has been created or expanded (by a factor of 5x) within the last seven days."
           "The short window of eligibility, and the strict rules of the nomination process, can make it challenging to incorporate DYK into a classroom project. The DYK process should not be a required part of your assignment, but can be a great opportunity to get students excited about their work. A typical DYK article will be viewed hundreds or thousands of times during its ~6 hours in the spotlight."
           "We strongly recommend trying for DYK status yourself beforehand, or working with experienced Wikipedians to help your students navigate the DYK process smoothly. If your students are working on a related set of articles, it can help to combine multiple article nominations into a single hook; this helps keep your students’ work from swamping the process or antagonizing the editors who maintain it."
         ]
       }
       {
-        title: 'Good Article (GA)'
+        title: ''
         content: [
+          "<h5>Good Article (GA)</h5>"
           "Well-developed articles that have passed a Good Article (GA) review are a substantial achievement in their own right, and can also qualify for DYK. This peer review process involves checking a polished article against Wikipedia's GA criteria: articles must be well-written, verifiable and well-sourced with no original research, broad in coverage, neutral, stable, and appropriately illustrated (when possible). Practically speaking, a potential Good Article should look and sound like other well-developed Wikipedia articles, and it should provide a solid, well-balanced treatment of its subject."
           "The Good Article nominations process generally takes some time — between several days and several weeks, depending on the interest of reviewers and the size of the review backlog in the subject area — and should only be undertaken for articles that are already very good. Typically, reviewers will identify further specific areas for improvement, and the article will be promoted to Good Article status if all the reviewers' concerns are addressed. Because of the uncertain timeline and the frequent need to make substantial changes to articles, Good Article nominations usually only make sense for articles that reach a mature state several weeks before the end of term."
-          "<em>Do either of these processes make sense for students in your class?</em>"
+          
         ]
       }
     ]
@@ -567,6 +549,8 @@ WizardData = [
     title: 'Grading'
     done: false
     include: true
+    formTitle: "How will students' grades for the Wikipedia assignment be determined?"
+    infoTitle: "About grading"
     instructions: 'Grading Wikipedia assignments can be a challenge. Here are some tips for grading your Wikipedia assignments:'
     sections: [
       {
@@ -587,7 +571,7 @@ WizardData = [
         content: [
           "You can see a student's contributions in the article history, even if some writing was removed by the community (or the student). A student’s content could be edited for many reasons, and can even be evidence of a student reflecting critically on their own contributions. Furthermore, if students feel they must defend control of an article for the sake of their grade, this can lead to conflict with other editors."
           "Wikipedia is a collaborative writing environment driven by verifiability, noteworthiness and neutral point of view – all of which have created challenges for students familiar with a persuasive writing format in classrooms. Encourage students to reflect on edits to improve their understanding of the process and the community."
-          "<em>How will students' grades for the Wikipedia assignment be determined?</em>"
+          
         ]
       }
     ]
@@ -662,7 +646,7 @@ WizardData = [
       {
         title: 'Short Description'
         content: [
-          "<textarea rows='8'></textarea>"
+          "<textarea rows='8' style='width:100%;'></textarea>"
         ]
       }
     ]

@@ -8,9 +8,11 @@
 <div class="step-form">
 
   <h3 class="step-form__title">{{{title}}}</h3>
-
+  {{#if formTitle}}
+  <h4 class="step-form__subtitle">{{{formTitle}}}</h4>
+  {{/if}}
   <div class="step-form-inner">
-
+  
   </div>
 
 </div>
@@ -19,12 +21,15 @@
 <div class="step-info">
   <a class="main-logo" href="http://wikiedu.org" target="_blank" title="wikiedu.org">WIKIEDU.ORG</a>
   <div class="step-info-inner">
+  {{#if infoTitle}}
+    <h2 class="font-blue--dark">{{{infoTitle}}}</h2>
+  {{/if}}
   {{#if instructions}}
     <p class="large">{{{instructions}}}</p>
   {{/if}}
     {{#each sections}}
       {{#if title}}
-      <h2 class="font-blue">{{{title}}}</h2>
+      <h2 class="font-blue--dark">{{{title}}}</h2>
       {{/if}}
       {{#each content}}
         <p>{{{this}}}</p>

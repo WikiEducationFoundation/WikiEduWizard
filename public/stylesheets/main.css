@@ -193,7 +193,7 @@ h5 {
   color: #e1e3e8;
 }
 .font-blue--dark {
-  color: #505a80;
+  color: #4e587f;
 }
 .font-red {
   color: #e36945;
@@ -252,6 +252,7 @@ body {
   font-family: 'Droid Serif', serif;
   width: 100%;
   height: 100%;
+  color: #555;
 }
 h1,
 h2,
@@ -262,6 +263,7 @@ h5 {
 }
 p {
   margin: 5px auto;
+  color: #555;
 }
 p:first-child {
   margin-top: 0;
@@ -341,7 +343,7 @@ em {
 .custom-input--text {
   display: block;
   position: relative;
-  border-bottom: 1px solid #505a80;
+  border-bottom: 1px solid #4e587f;
   height: auto;
   max-width: 450px;
   margin: 0 auto;
@@ -351,8 +353,8 @@ em {
   display: block;
   width: 5px;
   height: 3px;
-  border-left: 1px solid #505a80;
-  border-bottom: 1px solid #505a80;
+  border-left: 1px solid #4e587f;
+  border-bottom: 1px solid #4e587f;
   position: absolute;
   bottom: -1px;
   left: -5px;
@@ -362,8 +364,8 @@ em {
   display: block;
   width: 5px;
   height: 3px;
-  border-right: 1px solid #505a80;
-  border-bottom: 1px solid #505a80;
+  border-right: 1px solid #4e587f;
+  border-bottom: 1px solid #4e587f;
   position: absolute;
   bottom: -1px;
   right: -5px;
@@ -466,6 +468,14 @@ em {
 .step-form__title {
   margin-bottom: 30px;
 }
+.step-form__subtitle {
+  font-family: 'Droid Serif', serif;
+  font-size: 18px;
+  line-height: 21px;
+  color: #4e587f;
+  letter-spacing: 1.29px;
+  margin: 0 auto 10px;
+}
 .step-form-inner {
   position: relative;
 }
@@ -477,8 +487,8 @@ em {
   height: 100%;
   top: 0;
   right: 0;
-  padding: 170px 40px 40px 40px;
-  color: #000;
+  padding: 170px 40px 40px 0;
+  color: #555;
   background: #fff;
   z-index: 1;
 }
@@ -489,7 +499,7 @@ em {
   position: absolute;
   display: inline-block;
   top: 90px;
-  right: 110px;
+  right: 40px;
   z-index: 5;
 }
 .step-info .step-info-inner {
