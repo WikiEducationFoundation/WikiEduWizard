@@ -1,12 +1,35 @@
 
+.custom-input 
+  margin 10px auto
+  &--checkbox, &--radio-item, &--radio
+    border none
+    
+    label
+      position relative
+      pointer-events auto
+      line-height 1.3
+      
+    &:before,
+    &:after
+      display none
+      
 
-.custom-input
+  &--checkbox
+    &.disabled
+      opacity 0.5
+  
+  &--radio-item
+    margin 10px auto
+
+.custom-input--text
   display block
   position relative
   border-bottom 1px solid blue-border
   height auto
   max-width 450px
   margin 0 auto
+  
+  
   
   
   &:before
@@ -37,16 +60,13 @@
     display block
     width 100%
     height 100%
-    position absolute
-    top 0
-    left 0
-    z-index 2
+    position relative
     letter-spacing 1px
-    pointer-events none
     color white
   
   input[type="text"]
     @extend .form-content
+    position relative
     width 100%
     transition padding-top 0.2s
     display block
@@ -56,27 +76,26 @@
     letter-spacing 1px
     z-index 1
     padding-top 0
-    font-family body-font
     line-height 1
     background transparent
     color white
+    font-weight normal
+    -webkit-text-size-adjust 100%
+    -webkit-font-smoothing antialiased
     
+    
+
+      
   
-    // &.open
-    //   padding-top 30px
-    
-    &:focus
-      padding-top 30px
-    
 
 .custom-input-wrapper
   position relative
   height 60px
-  padding-top 30px
+  // padding-top 30px
   
-  &.open
+  // &.open
     
-    input
-      padding-top 30px
+  //   input
+  //     padding-top 30px
       
 

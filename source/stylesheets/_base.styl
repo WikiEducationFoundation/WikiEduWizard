@@ -57,6 +57,20 @@ p
 
 // ol 
 
+li
+  @extend .body-content
+  margin-left 20px
+  margin-bottom 0.5em
+  
+  &:first-child
+    margin-top 0
+  
+  &:last-child
+    margin-bottom 0
+    
+  &.large
+    @extend .body-content--large
+
 ul 
   list-style disc
   margin-left global-margin

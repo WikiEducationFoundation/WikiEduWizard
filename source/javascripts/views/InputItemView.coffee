@@ -16,6 +16,7 @@ module.exports = class InputItemView extends View
   events: 
     'change input' : 'itemChangeHandler'
     'keyup input[type="text"]' : 'itemChangeHandler'
+    'label click' : 'labelClickHandler'
 
   itemChangeHandler: (e) ->
     
@@ -115,47 +116,7 @@ module.exports = class InputItemView extends View
     else if @inputType == 'radio'
       return {
         type: inputTypeObject
-        data: {
-          id: 'radio1'
-          label: 'RADIO BUTTONS'
-          options: [
-            {
-              id: 'radio1'
-              label: 'Item 1'
-              value: 'item1'
-            }
-            {
-              id: 'radio1'
-              label: 'Item 2'
-              value: 'item2'
-            }
-            {
-              id: 'radio1'
-              label: 'Item 3'
-              value: 'item3'
-            }
-            {
-              id: 'radio1'
-              label: 'Item 4'
-              value: 'item4'
-            }
-            {
-              id: 'radio1'
-              label: 'Item 5'
-              value: 'item5'
-            }
-            {
-              id: 'radio1'
-              label: 'Item 6'
-              value: 'item6'
-            }
-            {
-              id: 'radio1'
-              label: 'Item 7'
-              value: 'item7'
-            }
-          ]
-        }
+        data: @model
       }
     else if @inputType == 'text'
       return {
@@ -172,6 +133,9 @@ module.exports = class InputItemView extends View
           placeholder: 'placeholder'
         }
       }
+
+  labelClickHandler: (e) ->
+    return false
       
     
       

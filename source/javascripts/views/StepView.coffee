@@ -29,6 +29,7 @@ module.exports = class StepView extends View
     @inputSection = @$el.find('.step-form-inner')
     @inputData = @model.attributes.inputs
 
+
     _.each(@inputData, (input) =>
       inputView = new InputItemView(
         model: input
@@ -41,6 +42,7 @@ module.exports = class StepView extends View
     
 
   afterRender: ->
+    @$inputContainers = @$el.find('.custom-input')
     # @$doneButton = @$el.find('input.done').first()
     # @model.on 'change', =>
     #   Backbone.Mediator.publish('step:updated', @)
@@ -58,9 +60,28 @@ module.exports = class StepView extends View
 
   inputHandler: (e) ->
     $target = $(e.currentTarget)
-    attribute = $target.data('model')
-    console.log $target
-    @model.set(attribute, $target.is(':checked'))
+    $parent = $target.parents('.custom-input')
+    
+    if $parent.data('exclusive')
+      if $target.is(':checked') 
+        @$inputContainers.not($parent).addClass('disabled')
+      else
+        @$inputContainers.find('input').not($target).prop('checked', false)
+        @$inputContainers.not($parent).removeClass('disabled')
+    else
+      $exclusive = @$el.find('[data-exclusive="true"]')
+
+      if $exclusive.length > 0
+        if $target.is(':checked')
+          $exclusive.addClass('disabled')
+        else
+          $exclusive.removeClass('disabled')
+
+
+
+    # attribute = $target.data('model')
+    # console.log $target
+    # @model.set(attribute, $target.is(':checked'))
 
     
     
