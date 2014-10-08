@@ -26,7 +26,6 @@ module.exports = class InputItemView extends View
     else
       @$el.removeClass('open')
 
-  debounceItemChanged: ->
 
   getInputTypeObject: ->
     returnData = {}
@@ -76,11 +75,7 @@ module.exports = class InputItemView extends View
     else if @inputType == 'checkbox'
       return {
         type: inputTypeObject
-        data: {
-          id: 'choice1'
-          selected: false
-          label: 'Yes?'
-        }
+        data: @model
       }
     else if @inputType == 'select'
       return {
@@ -165,13 +160,7 @@ module.exports = class InputItemView extends View
     else if @inputType == 'text'
       return {
         type: inputTypeObject
-        data: {
-          id: 'text1'
-          type: 'text'
-          label: 'Input Some Text'
-          value: ''
-          placeholder: ''
-        }
+        data: @model
       }
     else if @inputType == 'textarea'
       return {
