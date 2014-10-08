@@ -71,7 +71,7 @@ end
 # WIZARD STEP ONE
 get '/begin' do
   if session['session_id']
-
+    redirect to '/welcome'
   else
     redirect to '/auth/mediawiki'
   end

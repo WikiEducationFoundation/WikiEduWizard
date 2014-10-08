@@ -152,7 +152,7 @@ p.large {
 .form-content,
 h2,
 .custom-input label,
-.custom-input input,
+.custom-input input[type="text"],
 .step-nav a {
   font-size: 18px;
   line-height: 21px;
@@ -161,7 +161,7 @@ h2,
 .form-content--small,
 h2--small,
 .custom-input label--small,
-.custom-input input--small,
+.custom-input input[type="text"]--small,
 .step-nav a--small {
   font-size: 14px;
   line-height: 16px;
@@ -298,7 +298,7 @@ em {
   display: block;
   width: 1200px;
   height: 100%;
-  margin: 0 auto 50px;
+  margin: 0 0 50px;
   background: transparent no-repeat top left;
 }
 .custom-input {
@@ -341,9 +341,9 @@ em {
   z-index: 2;
   letter-spacing: 1px;
   pointer-events: none;
-  color: #a7a7a7;
+  color: #fff;
 }
-.custom-input input {
+.custom-input input[type="text"] {
   width: 100%;
   -webkit-transition: padding-top 0.2s;
           transition: padding-top 0.2s;
@@ -356,8 +356,10 @@ em {
   padding-top: 0;
   font-family: 'Droid Serif', serif;
   line-height: 1;
+  background: transparent;
+  color: #fff;
 }
-.custom-input input:focus {
+.custom-input input[type="text"]:focus {
   padding-top: 30px;
 }
 .custom-input-wrapper {
@@ -448,7 +450,9 @@ em {
 }
 .step-info {
   position: absolute;
-  width: 655px;
+  width: 100%;
+  min-width: 600px;
+  max-width: 700px;
   height: 100%;
   top: 0;
   right: 0;

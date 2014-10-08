@@ -4,6 +4,36 @@ WizardData = [
     done: true
     include: true
     instructions: 'Depending on the learning goals you have for your course and how much time you want to devote to your Wikipedia project, there are many effective ways to use Wikipedia in your course. The classic Wikipedia writing assignment involves students learning the basics of Wikipedia, then planning, researching, writing, and revising a previously missing or poor quality Wikipedia article, with milestones spread over the whole term. This often takes the place of a traditional term paper or research project. There are also many smaller assignments you can use to help students engage with and think critically about Wikipedia.'
+    inputs: [
+      {
+        type: 'text'
+        label: 'Teacher Name'
+        id: 'teacher'
+        value: ''
+        placeholder: ''
+      }
+      {
+        type: 'text'
+        label: 'University'
+        id: 'school'
+        value: ''
+        placeholder: ''
+      }
+      {
+        type: 'text'
+        label: 'Subject'
+        id: 'subject'
+        value: ''
+        placeholder: ''
+      }
+      {
+        type: 'text'
+        label: 'Approximate number of students'
+        id: 'students'
+        value: ''
+        placeholder: ''
+      }
+    ]
     sections: [
       {
         content: [
@@ -17,6 +47,50 @@ WizardData = [
     title: 'Assignment type selection'
     done: false
     include: true
+    inputs: [
+      { 
+        type: 'checkbox'
+        id: 'write'
+        selected: false
+        label: 'Research and write an article'
+        exclusive: true
+      }
+      { 
+        type: 'checkbox'
+        id: 'evaluate'
+        selected: false
+        label: 'Evaluate articles'
+        exclusive: false
+      }
+      { 
+        type: 'checkbox'
+        id: 'media'
+        selected: false
+        label: 'Add images & multimedia'
+        exclusive: false
+      }
+      { 
+        type: 'checkbox'
+        id: 'source'
+        selected: false
+        label: 'Source-centered additions'
+        exclusive: false
+      }
+      { 
+        type: 'checkbox'
+        id: 'edit'
+        selected: false
+        label: 'Copy/edit articles'
+        exclusive: false
+      }
+      { 
+        type: 'checkbox'
+        id: 'fix'
+        selected: false
+        label: 'Find and fix errors'
+        exclusive: false
+      }      
+    ]
     sections: [
       
       {
