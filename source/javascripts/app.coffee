@@ -25,10 +25,5 @@ Application =
     @inputItemView = new InputItemView()
     @router = new Router()
     
-
-
-
-    Object.freeze? this
-
-
+    
 module.exports = Application

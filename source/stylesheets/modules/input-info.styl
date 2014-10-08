@@ -1,0 +1,43 @@
+.input-info
+  position relative
+  dispaly block
+
+  
+.input-info-block
+  cf()
+  position relative
+  margin-bottom 25px
+  
+  &__title
+    color blue-dark
+    position relative
+    margin-bottom 10px
+  
+  &__text
+    position relative
+  
+  &__stat
+    font-size 16px
+    line-height 19px
+    letter-spacing 0.25px
+    color rgba(94,94,94,1.0)
+  
+
+    
+  &--two-columns
+    col(1/2, cycle: 2, gutter: 3.5)
+    border-bottom 2px solid rgba(81,85,102,0.1)
+    padding-bottom 15px
+    margin 0 auto 10px
+    
+  &--grid
+    display block
+    border-bottom 2px solid rgba(81,85,102,0.1)
+    
+    .input-info-block__stat
+      line-height 30px
+      letter-spacing 0.57px
+      
+    
+
+  
