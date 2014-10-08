@@ -12,15 +12,15 @@ Project Setup
 - Install Gulp globally
  - `sudo npm install -g gulp`
 - Clone and cd into the repo
- - `git clone https://github.com/WINTR/gulp-frontend-scaffold.git && cd gulp-frontend-scaffold`
+ - `git clone git@github.com:WINTR/WikiEduWizard.git && cd WikiEduWizard`
 - Then install Gulp task dependencies
  - `npm install`
 
 Development Tasks
 -----------------
 
-- For development: `gulp dev` then navigate to `http://localhost:3000` (or IP address).
-- For deploy: `grunt build`
+- For development: `gulp dev` then navigate to `http://localhost:9393` (or IP address).
+- For deploy: `gulp build`
 
 This concatinates and minifies all CoffeeScripts and SASS and moves the project into 'dist' for production deploy.
 
