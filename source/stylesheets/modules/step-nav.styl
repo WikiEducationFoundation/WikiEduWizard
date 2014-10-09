@@ -4,6 +4,12 @@ Step Navigation Controls
 
 ///////////////////////////////////////////////////// */
 
+indicator-height = 35px
+indicator-margin = 0 3px
+indicator-size = 14px
+indicator-active-color = white
+indicator-inactive-color = rgba(80,90,128.0.5)
+
 
 .step-nav
   cf()
@@ -16,8 +22,9 @@ Step Navigation Controls
   z-index 5
 
   
-  a 
+  &__button 
     @extend .form-content
+    transition all 0.2s
     display inline-block
     width 50%
     height 80px
@@ -29,10 +36,46 @@ Step Navigation Controls
     
     &:first-child
       border-right 1px solid white
+    
+    &.inactive
+      pointer-events: none
+      color rgba(255,255,225,0.25)
+  
+    // &.step-nav
+        
+    //   &--prev
+    //     background blue url('/images/arrow--left.png') no-repeat center left
+    //     background-position 30px 50%
+    //   &--next
+    //     background blue url('/images/arrow--right.png') no-repeat center right
+    //     background-position 198px 50%
+        
+
+
+  .step-nav-indicators
+    position absolute
+    width 100%
+    height indicator-height
+    left 0
+    top -(indicator-height)
+    text-align center
+    
+    &__item
+      position relative
+      display inline-block
+      margin indicator-margin
+      color blue-light
+      line-height indicator-height
+      width indicator-size
+      height indicator-size
+      background indicator-inactive-color
+      border-radius indicator-size
+      text-indent -9999px
+      cursor pointer
       
-  // &--prev
-  //   background blue url('/images/arrow--left.png') no-repeat center left
-  //   background-position 30px 50%
-  // &--next
-  //   background blue url('/images/arrow--right.png') no-repeat center right
-  //   background-position 198px 50%
+      &.active
+        background indicator-active-color
+      
+
+      
+  

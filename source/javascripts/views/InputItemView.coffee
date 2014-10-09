@@ -6,10 +6,11 @@
 
 
 View = require('../views/supers/View')
-template = require('../templates/InputItemTemplate.hbs')
+InputItemTemplate = require('../templates/InputItemTemplate.hbs')
 
 module.exports = class InputItemView extends View 
-  template: template
+
+  template: InputItemTemplate
 
   className: 'custom-input-wrapper'
 
@@ -17,14 +18,23 @@ module.exports = class InputItemView extends View
     'change input' : 'itemChangeHandler'
     'keyup input[type="text"]' : 'itemChangeHandler'
     'label click' : 'labelClickHandler'
-    'mouseover' : 'hoverHandler'
+    'mouseover' : 'showTooltip'
+    'mouseout' : 'hideTooltip'
+
 
   #--------------------------------------------------------
   # Event Handlers
   #--------------------------------------------------------
 
-  hoverHandlers: (e) ->
+  hoverHandler: (e) ->
     console.log e.target
+
+  showTooltip: ->
+    $(".step-info-tip").removeClass('visible')
+    $(".step-info-tip[data-item-index='#{@itemIndex}']").addClass('visible')
+
+  hideTooltip: ->
+    $(".step-info-tip").removeClass('visible') 
 
   labelClickHandler: (e) ->
     return false
@@ -57,17 +67,17 @@ module.exports = class InputItemView extends View
     if @inputType == 'checkbox'
       return {
         type: inputTypeObject
-        data: @model
+        data: @model.attributes
       }
     else if @inputType == 'radio'
       return {
         type: inputTypeObject
-        data: @model
+        data: @model.attributes
       }
     else if @inputType == 'text'
       return {
         type: inputTypeObject
-        data: @model
+        data: @model.attributes
       }
 
     # else if @inputType == 'checkboxGroup'

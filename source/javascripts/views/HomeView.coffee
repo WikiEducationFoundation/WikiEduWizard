@@ -14,6 +14,8 @@ StepModel = require('../models/StepModel')
 
 StepNavView = require('../views/StepNavView')
 
+OutputTemplate = require('../templates/OutputTemplate.hbs')
+
 
 module.exports = class HomeView extends View
 
@@ -31,17 +33,20 @@ module.exports = class HomeView extends View
 
   initialize: ->
     @currentStep = 0
-    @render = _.bind( @render, @ )
-
+    @stepsRendered = false
+    
 
   subscriptions:
     'step:next' : 'nextClickHandler'
     'step:prev' : 'prevClickHandler'
+    'step:goto' : 'gotoClickHandler'
 
 
   render: ->
     @$el.html( @template( @getRenderData()))
-    @afterRender()
+
+    unless @stepsRendered
+      @afterRender()
 
     return @
 
@@ -52,53 +57,56 @@ module.exports = class HomeView extends View
 
     # THE FOLLWING COULD PROBABLY HAPPEN IN A COLLETION VIEW CLASS TO CONTROL ALL STEPS
     @$stepsContainer = @$el.find('.steps')
+
     @$innerContainer = @$el.find('.content')
 
-    @$innerContainer.append(@StepNav.render().el)
+    # SETUP STEPS AND RETURN ARRAY OF VIEWS
+    @stepViews = @_setupStepViews()
 
-    @stepViews = @setupSteps()
+    @StepNav.stepViews = @stepViews
+    @StepNav.totalSteps = @stepViews.length
+
+    @$innerContainer.append(@StepNav.el)
 
     if @stepViews.length > 0
       @showCurrentStep()
     
 
-  setupSteps: ->
+  _setupStepViews: ->
     
-    views = []
+    _views = []
 
     _.each(application.data,(step, index) =>
       newmodel = new StepModel()
+
       _.map(step,(value, key, list) -> 
         newmodel.set(key,value)
       )
+
       newview = new StepView(
         model: newmodel
       )
+
       newview.model.set('stepNumber', index + 1)
 
       @$stepsContainer.append(newview.render().hide().el)
 
-      views.push(newview)
+      _views.push(newview)
     )
 
-    return views
-
-
-    
-    
-    
-
+    return _views
 
 
   getRenderData: ->
     return {
-      content: "WikiEdu Assignment Design Wizard"
+      content: "This is special content"
     }
     
 
   #--------------------------------------------------------
   # CUSTOM FUNCTIONS
   #--------------------------------------------------------
+
 
   advanceStep: ->
     @currentStep+=1
@@ -109,6 +117,7 @@ module.exports = class HomeView extends View
     @hideAllSteps()
     @showCurrentStep()
 
+
   decrementStep: ->
     @currentStep-=1
 
@@ -118,11 +127,22 @@ module.exports = class HomeView extends View
     @hideAllSteps()
     @showCurrentStep()
 
+  updateStep: (index) ->
+    @currentStep = index
+    @hideAllSteps()
+    @showCurrentStep()
+
+
+
   showCurrentStep: ->
     @stepViews[@currentStep].show()
+    Backbone.Mediator.publish('step:update', @currentStep)
+    return @
+
 
   currentStepView: ->
     return @stepViews[@currentStep]
+
 
   hideAllSteps: ->
     _.each(@stepViews,(stepView) =>
@@ -139,6 +159,9 @@ module.exports = class HomeView extends View
 
   prevClickHandler: ->
     @decrementStep()
+
+  gotoClickHandler: (index) ->
+    @updateStep(index)
 
 
 

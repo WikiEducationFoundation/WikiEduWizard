@@ -40,19 +40,32 @@ get '/' do
   haml :login
 end
 
+post '/publish' do
+  @wizardData = params['text']
+
+  @conn = OAuth::Consumer.new($config.wiki_creds.development.key, $config.wiki_creds.development.secret)
+  @access_token = OAuth::AccessToken.new(@conn, session['access_token'], session['access_token_secret'])
+  get_token = @access_token.get('https://en.wikipedia.org/w/api.php?action=query&meta=tokens&format=json')
+  token_response = JSON.parse(get_token.body)
+  csrf_token = token_response['query']['tokens']['csrftoken']
+  res = @access_token.post('http://en.wikipedia.org/w/api.php', {:action => 'edit', :title => 'Course Wizard Test', :text => @wizardData, :format => 'json', :token => csrf_token } )
+
+  return res.body
+end
+
 
 get '/client' do
 
   @conn = OAuth::Consumer.new($config.wiki_creds.development.key, $config.wiki_creds.development.secret)
   @access_token = OAuth::AccessToken.new(@conn, session['access_token'], session['access_token_secret'])
 
-  get_token = @access_token.get('https://test2.wikipedia.org/w/api.php?action=query&meta=tokens&format=json')
+  get_token = @access_token.get('https://en.wikipedia.org/w/api.php?action=query&meta=tokens&format=json')
 
   token_response = JSON.parse(get_token.body)
 
   csrf_token = token_response['query']['tokens']['csrftoken']
 
-  res = @access_token.post('http://test2.wikipedia.org/w/api.php', {:action => 'query', :meta => 'userinfo', :format => 'json' } )
+  res = @access_token.post('http://en.wikipedia.org/w/api.php', {:action => 'query', :meta => 'userinfo', :format => 'json' } )
 
   redirect to '/welcome'
   

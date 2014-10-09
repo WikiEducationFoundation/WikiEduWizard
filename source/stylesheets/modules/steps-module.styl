@@ -8,6 +8,7 @@ STEP MODULE
 --------------------------------------------- */
 .steps 
   width 100%
+  height 100%
 
 /* Step Module
 --------------------------------------------- */
@@ -15,6 +16,9 @@ STEP MODULE
 
 .step
   cf()
+  width 100%
+  height 100%
+
 
 
 .step-form
@@ -43,14 +47,12 @@ STEP MODULE
     position relative
 
 .step-info
-  position absolute
-  width 100%
-  min-width 600px
-  max-width 700px
+  position relative
+  width auto
+  max-width 1200px
+  min-width 1100px
   height 100%
-  top 0
-  right 0
-  padding 170px 40px 40px 0
+  padding 170px 40px 40px 500px
   color body-font-color
   background white
   z-index 1
@@ -67,11 +69,30 @@ STEP MODULE
     display inline-block
     top 90px
     right 40px
-    z-index 5
+    z-index 1000
     
   .step-info-inner
     margin-top 30px
-
+    max-width 700px
+  
+  .step-info-tip
+    transition opacity 0.33s 
+    display block
+    position absolute
+    width 100%
+    height 100%
+    top 0
+    left 0
+    z-index 500
+    opacity 0
+    
+    &__inner
+      @extend .step-info
+      background white
+    
+    &.visible
+      opacity 1
+    
     
     
     

@@ -52,6 +52,9 @@ WizardData = [
         selected: false
         label: 'Research and write an article'
         exclusive: true
+        courseInfo: 
+          title: ''
+          content: 'Research and write an article'
       }
       { 
         type: 'checkbox'
@@ -59,6 +62,9 @@ WizardData = [
         selected: false
         label: 'Evaluate articles'
         exclusive: false
+        courseInfo: 
+          title: 'Evaluate articles'
+          content: ''
       }
       { 
         type: 'checkbox'
@@ -66,6 +72,9 @@ WizardData = [
         selected: false
         label: 'Add images & multimedia'
         exclusive: false
+        courseInfo: 
+          title: 'Add images & multimedia'
+          content: ''
       }
       { 
         type: 'checkbox'
@@ -73,6 +82,9 @@ WizardData = [
         selected: false
         label: 'Source-centered additions'
         exclusive: false
+        courseInfo: 
+          title: 'Source-centered additions'
+          content: ''
       }
       { 
         type: 'checkbox'
@@ -80,6 +92,9 @@ WizardData = [
         selected: false
         label: 'Copy/edit articles'
         exclusive: false
+        courseInfo: 
+          title: 'Copy/edit articles'
+          content: ''
       }
       { 
         type: 'checkbox'
@@ -87,6 +102,9 @@ WizardData = [
         selected: false
         label: 'Find and fix errors'
         exclusive: false
+        courseInfo: 
+          title: 'Find and fix errors'
+          content: ''
       }      
     ]
     sections: [
@@ -433,36 +451,6 @@ WizardData = [
           "In addition to the Wikipedia article writing itself, you may want to use a supplementary assignment. These assignments can reinforce and deepen your course's learning outcomes, and also help you to understand and evaluate the students' Wikipedia work. Here are some of the effective supplementary assignments that instructors often use."
         ]
       }
-      {
-        title: 'Class blog or class discussion'
-        content: [
-          "Many instructors ask students to keep a running blog about their experiences. Giving them prompts every week or every two weeks, such as “To what extent are the editors on Wikipedia a self-selecting group and why?” will help them begin to think about the larger issues surrounding this online encyclopedia community. It will also give you material both on the wiki and off the wiki to grade. If you have time in class, these discussions can be particularly constructive in person."
-        ]
-      }
-      {
-        title: 'In-class presentation of Wikipedia work'
-        content: [
-          "Each student or group prepares a short presentation for the class, explaining what they worked on, what went well and what didn't, and what they learned. These presentations can make excellent fodder for class discussions to reinforce your course's learning goals."
-        ]
-      }
-      {
-        title: 'Reflective essay'
-        content: [
-          "After the assignment is over, ask students to write a short reflective essay on their experiences using Wikipedia. This works well for both short and long Wikipedia projects. An interesting iteration of this is to have students write a short version of the essay before they begin editing Wikipedia, outlining their expectations, and then have them reflect on whether or not those expectations were met after they have completed the assignment."
-        ]
-      }
-      {
-        title: 'Wikipedia portfolio'
-        content: [
-          "Students organize their Wikipedia work into a portfolio, including a narrative of the contributions they made — and how they were received, and possibly changed, by other Wikipedians — and links to their key edits. Composing this portfolio will help students think more deeply about their Wikipedia experiences, and also provides a lens through which to understand — and grade — their work."
-        ]
-      }
-      {
-        title: 'Original analytical paper'
-        content: [
-          "In courses that emphasize traditional research skills and the development of original ideas through a term paper, Wikipedia's policy of \"no original research\" may be too restrictive. Many instructors pair Wikipedia writing with complementary analytical paper; students’ Wikipedia articles as a literature review, and the students go on to develop their own ideas and arguments in the offline analytical paper."
-        ]
-      }
     ]
     inputs: [
       {
@@ -471,6 +459,9 @@ WizardData = [
         selected: false
         label: 'Class Blog or Discussion'
         exclusive: false
+        tipInfo: 
+          title: 'Class blog or class discussion'
+          content: 'Many instructors ask students to keep a running blog about their experiences. Giving them prompts every week or every two weeks, such as “To what extent are the editors on Wikipedia a self-selecting group and why?” will help them begin to think about the larger issues surrounding this online encyclopedia community. It will also give you material both on the wiki and off the wiki to grade. If you have time in class, these discussions can be particularly constructive in person.'
       }
       {
         type: 'checkbox'
@@ -478,6 +469,9 @@ WizardData = [
         selected: false
         label: 'In-Class Presentation'
         exclusive: false
+        tipInfo:  
+          title: 'In-class presentation of Wikipedia work'
+          content: "Each student or group prepares a short presentation for the class, explaining what they worked on, what went well and what didn't, and what they learned. These presentations can make excellent fodder for class discussions to reinforce your course's learning goals."
       }
       {
         type: 'checkbox'
@@ -485,6 +479,9 @@ WizardData = [
         selected: false
         label: 'Reflective Essay'
         exclusive: false
+        tipInfo:  
+          title: 'Reflective essay'
+          content: "After the assignment is over, ask students to write a short reflective essay on their experiences using Wikipedia. This works well for both short and long Wikipedia projects. An interesting iteration of this is to have students write a short version of the essay before they begin editing Wikipedia, outlining their expectations, and then have them reflect on whether or not those expectations were met after they have completed the assignment."
       }
       {
         type: 'checkbox'
@@ -492,6 +489,9 @@ WizardData = [
         selected: false
         label: 'Wikipedia Portfolio'
         exclusive: false
+        tipInfo:  
+          title: 'Wikipedia Portfolio'
+          content: "Students organize their Wikipedia work into a portfolio, including a narrative of the contributions they made — and how they were received, and possibly changed, by other Wikipedians — and links to their key edits. Composing this portfolio will help students think more deeply about their Wikipedia experiences, and also provides a lens through which to understand — and grade — their work."
       }
       {
         type: 'checkbox'
@@ -499,6 +499,9 @@ WizardData = [
         selected: false
         label: 'Original Analytical Paper'
         exclusive: false
+        tipInfo:  
+          title: 'Original Analytical Paper'
+          content: "In courses that emphasize traditional research skills and the development of original ideas through a term paper, Wikipedia's policy of \"no original research\" may be too restrictive. Many instructors pair Wikipedia writing with complementary analytical paper; students’ Wikipedia articles as a literature review, and the students go on to develop their own ideas and arguments in the offline analytical paper."
       }
     ]
   }
@@ -509,24 +512,6 @@ WizardData = [
     infoTitle: 'About Did You Know & Good Articles'
     formTitle: "Do either of these processes make sense for students in your class?"
     sections: [
-      {
-        title: ''
-        content: [
-          "<h5>Did You Know (DYK)</h5>"
-          "Advanced students’ articles may qualify for submission to Did You Know (DYK), a section on Wikipedia’s main page featuring new content. The general criteria for DYK eligibility are that an article is larger than 1,500 characters of original, well-sourced content (about four paragraphs) and that it has been created or expanded (by a factor of 5x) within the last seven days."
-          "The short window of eligibility, and the strict rules of the nomination process, can make it challenging to incorporate DYK into a classroom project. The DYK process should not be a required part of your assignment, but can be a great opportunity to get students excited about their work. A typical DYK article will be viewed hundreds or thousands of times during its ~6 hours in the spotlight."
-          "We strongly recommend trying for DYK status yourself beforehand, or working with experienced Wikipedians to help your students navigate the DYK process smoothly. If your students are working on a related set of articles, it can help to combine multiple article nominations into a single hook; this helps keep your students’ work from swamping the process or antagonizing the editors who maintain it."
-        ]
-      }
-      {
-        title: ''
-        content: [
-          "<h5>Good Article (GA)</h5>"
-          "Well-developed articles that have passed a Good Article (GA) review are a substantial achievement in their own right, and can also qualify for DYK. This peer review process involves checking a polished article against Wikipedia's GA criteria: articles must be well-written, verifiable and well-sourced with no original research, broad in coverage, neutral, stable, and appropriately illustrated (when possible). Practically speaking, a potential Good Article should look and sound like other well-developed Wikipedia articles, and it should provide a solid, well-balanced treatment of its subject."
-          "The Good Article nominations process generally takes some time — between several days and several weeks, depending on the interest of reviewers and the size of the review backlog in the subject area — and should only be undertaken for articles that are already very good. Typically, reviewers will identify further specific areas for improvement, and the article will be promoted to Good Article status if all the reviewers' concerns are addressed. Because of the uncertain timeline and the frequent need to make substantial changes to articles, Good Article nominations usually only make sense for articles that reach a mature state several weeks before the end of term."
-          
-        ]
-      }
     ]
     inputs: [
       {
@@ -535,6 +520,11 @@ WizardData = [
         selected: false
         label: 'Include DYK Submissions as an Extracurricular Task'
         exclusive: false
+        tipInfo: 
+          title: 'Did You Know (DYK)'
+          content: "<p>Advanced students’ articles may qualify for submission to Did You Know (DYK), a section on Wikipedia’s main page featuring new content. The general criteria for DYK eligibility are that an article is larger than 1,500 characters of original, well-sourced content (about four paragraphs) and that it has been created or expanded (by a factor of 5x) within the last seven days.</p>
+          <p>The short window of eligibility, and the strict rules of the nomination process, can make it challenging to incorporate DYK into a classroom project. The DYK process should not be a required part of your assignment, but can be a great opportunity to get students excited about their work. A typical DYK article will be viewed hundreds or thousands of times during its ~6 hours in the spotlight.</p>
+          <p>We strongly recommend trying for DYK status yourself beforehand, or working with experienced Wikipedians to help your students navigate the DYK process smoothly. If your students are working on a related set of articles, it can help to combine multiple article nominations into a single hook; this helps keep your students’ work from swamping the process or antagonizing the editors who maintain it.</p>"
       }
       {
         type: 'checkbox'
@@ -542,6 +532,10 @@ WizardData = [
         selected: false
         label: 'Include Good Article Submission as an Extracurricular Task'
         exclusive: false
+        tipInfo: 
+          title: 'Good Article (GA)'
+          content: "<p>Well-developed articles that have passed a Good Article (GA) review are a substantial achievement in their own right, and can also qualify for DYK. This peer review process involves checking a polished article against Wikipedia's GA criteria: articles must be well-written, verifiable and well-sourced with no original research, broad in coverage, neutral, stable, and appropriately illustrated (when possible). Practically speaking, a potential Good Article should look and sound like other well-developed Wikipedia articles, and it should provide a solid, well-balanced treatment of its subject.</p>
+          <p>The Good Article nominations process generally takes some time — between several days and several weeks, depending on the interest of reviewers and the size of the review backlog in the subject area — and should only be undertaken for articles that are already very good. Typically, reviewers will identify further specific areas for improvement, and the article will be promoted to Good Article status if all the reviewers' concerns are addressed. Because of the uncertain timeline and the frequent need to make substantial changes to articles, Good Article nominations usually only make sense for articles that reach a mature state several weeks before the end of term.</p>"
       }
     ]
   }
@@ -647,6 +641,12 @@ WizardData = [
         title: 'Short Description'
         content: [
           "<textarea rows='8' style='width:100%;'></textarea>"
+        ]
+      }
+      {
+        title: ''
+        content: [
+          "<button id='publish' style='display:inline-block;text-align:center;'>Publish</button>"
         ]
       }
     ]

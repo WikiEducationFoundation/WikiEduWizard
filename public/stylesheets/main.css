@@ -150,7 +150,7 @@ li.large {
 h2,
 .custom-input--text label,
 .custom-input--text input[type="text"],
-.step-nav a {
+.step-nav__button {
   font-family: 'Droid Serif', serif;
   font-size: 18px;
   line-height: 21px;
@@ -160,7 +160,7 @@ h2,
 h2--small,
 .custom-input--text label--small,
 .custom-input--text input[type="text"]--small,
-.step-nav a--small {
+.step-nav__button--small {
   font-size: 14px;
   line-height: 16px;
   letter-spacing: 0.78px;
@@ -241,7 +241,7 @@ h5 {
 }
 * {
   -moz-box-sizing: border-box;
-  box-sizing: border-box;
+       box-sizing: border-box;
 }
 html {
   -webkit-text-size-adjust: 100%;
@@ -294,19 +294,22 @@ em {
   font-style: italic;
 }
 .container {
+  width: 100%;
   height: 100%;
 }
 .container #app {
+  width: 100%;
   height: 100%;
 }
 .container #app .home-view,
 .container #app .app-view {
+  width: 100%;
   height: 100%;
 }
 .content {
   position: relative;
   display: block;
-  width: 1200px;
+  width: auto;
   height: 100%;
   margin: 0;
   background: transparent no-repeat top left;
@@ -494,7 +497,9 @@ em {
 .step-nav:after {
   clear: both;
 }
-.step-nav a {
+.step-nav__button {
+  -webkit-transition: all 0.2s;
+          transition: all 0.2s;
   display: inline-block;
   width: 50%;
   height: 80px;
@@ -504,14 +509,45 @@ em {
   line-height: 80px;
   background-size: 45px auto;
 }
-.step-nav a:first-child {
+.step-nav__button:first-child {
   border-right: 1px solid #fff;
+}
+.step-nav__button.inactive {
+  pointer-events: none;
+  color: rgba(255,255,225,0.25);
+}
+.step-nav .step-nav-indicators {
+  position: absolute;
+  width: 100%;
+  height: 35px;
+  left: 0;
+  top: -35px;
+  text-align: center;
+}
+.step-nav .step-nav-indicators__item {
+  position: relative;
+  display: inline-block;
+  margin: 0 3px;
+  color: #babccb;
+  line-height: 35px;
+  width: 14px;
+  height: 14px;
+  background: rgba(80,90,128,0.5);
+  border-radius: 14px;
+  text-indent: -9999px;
+  cursor: pointer;
+}
+.step-nav .step-nav-indicators__item.active {
+  background: #fff;
 }
 .steps {
   width: 100%;
+  height: 100%;
 }
 .step {
   *zoom: 1;
+  width: 100%;
+  height: 100%;
 }
 .step:before,
 .step:after {
@@ -546,35 +582,61 @@ em {
 .step-form-inner {
   position: relative;
 }
-.step-info {
-  position: absolute;
-  width: 100%;
-  min-width: 600px;
-  max-width: 700px;
+.step-info,
+.step-info .step-info-tip__inner {
+  position: relative;
+  width: auto;
+  max-width: 1200px;
+  min-width: 1100px;
   height: 100%;
-  top: 0;
-  right: 0;
-  padding: 170px 40px 40px 0;
+  padding: 170px 40px 40px 500px;
   color: #555;
   background: #fff;
   z-index: 1;
 }
-.step-info p {
+.step-info p,
+.step-info .step-info-tip__inner p {
   margin: 25px auto;
 }
-.step-info p:first-child {
+.step-info p:first-child,
+.step-info .step-info-tip__inner p:first-child {
   margin-top: 0;
 }
-.step-info p:last-child {
+.step-info p:last-child,
+.step-info .step-info-tip__inner p:last-child {
   margin-bottom: 0;
 }
-.step-info .main-logo {
+.step-info .main-logo,
+.step-info .step-info-tip__inner .main-logo {
   position: absolute;
   display: inline-block;
   top: 90px;
   right: 40px;
-  z-index: 5;
+  z-index: 1000;
 }
-.step-info .step-info-inner {
+.step-info .step-info-inner,
+.step-info .step-info-tip__inner .step-info-inner {
   margin-top: 30px;
+  max-width: 700px;
+}
+.step-info .step-info-tip,
+.step-info .step-info-tip__inner .step-info-tip {
+  -webkit-transition: opacity 0.33s;
+          transition: opacity 0.33s;
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 500;
+  opacity: 0;
+}
+.step-info .step-info-tip__inner,
+.step-info .step-info-tip__inner .step-info-tip__inner {
+  background: #fff;
+}
+.step-info .step-info-tip.visible,
+.step-info .step-info-tip__inner .step-info-tip.visible {
+  opacity: 1;
 }

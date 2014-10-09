@@ -18,12 +18,15 @@ Application =
     Router = require('./routers/Router')
 
     InputItemView = require('./views/InputItemView')
+    OutputView = require('./views/OutputView')
 
 
     # Initialize views
     @homeView = new HomeView()
     @inputItemView = new InputItemView()
+    @outputView = new OutputView()
     @router = new Router()
+
     
     
 module.exports = Application
