@@ -57,14 +57,16 @@
 
 {{!-- RADIO --}}
 {{#if type.radio}}
-<form>
-<div class="custom-input custom-input--radio">
-  <label for="{{data.id}}">{{data.label}}</label>
+
+<div class="custom-input-radio-inner">
+  <div class="custom-input-radio-inner__header">
+    <h2 class="font-blue--dark">{{data.label}}</h2>
+  </div>
   {{#each data.options}}
-    <div class="custom-input--radio-item">
+    <div class="custom-input custom-input--radio">
       <input name="{{id}}" id="{{value}}" value="{{value}}" type="radio" {{#if data.selected}} checked {{/if}}/><label for="{{value}}">{{label}}</label>
     </div>
   {{/each}}
 </div>
-</form>
+
 {{/if}}

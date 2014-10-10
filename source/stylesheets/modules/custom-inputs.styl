@@ -1,0 +1,187 @@
+
+// .custom-input 
+//   margin 10px auto
+//   &--checkbox, &--radio-item, &--radio
+//     border none
+    
+//     label
+//       position relative
+//       pointer-events auto
+//       line-height 1.3
+      
+//     &:before,
+//     &:after
+//       display none
+      
+
+//   &--checkbox
+//     &.disabled
+//       opacity 0.5
+  
+//   &--radio-item
+//     margin 10px auto
+
+// .custom-input--text
+//   display block
+//   position relative
+//   border-bottom 1px solid blue-border
+//   height auto
+//   max-width 450px
+//   margin 0 auto
+
+  
+//   &:before
+//     content: ''
+//     display block
+//     width 5px
+//     height 3px
+//     border-left 1px solid blue-border
+//     border-bottom 1px solid blue-border
+//     position absolute
+//     bottom -1px
+//     left -5px
+  
+//   &:after
+//     content: ''
+//     display block
+//     width 5px
+//     height 3px
+//     border-right 1px solid blue-border
+//     border-bottom 1px solid blue-border
+//     position absolute
+//     bottom -1px
+//     right -5px
+  
+  
+//   label
+//     @extend .form-content
+//     display block
+//     width 100%
+//     height 100%
+//     position relative
+//     letter-spacing 1px
+//     color white
+  
+//   input[type="text"]
+//     @extend .form-content
+//     position relative
+//     width 100%
+//     transition padding-top 0.2s
+//     display block
+//     appearance none
+//     border none
+//     outline none
+//     letter-spacing 1px
+//     z-index 1
+//     padding-top 0
+//     line-height 1
+//     background transparent
+//     color white
+//     font-weight normal
+//     -webkit-text-size-adjust 100%
+//     -webkit-font-smoothing antialiased
+
+ci-font-size = 18px
+ci-checkbox-height = auto //65px
+ci-line-height = 21px //ci-checkbox-height
+ci-checkbox-border-color = rgba(78,88,127,0.2)
+ci-checkbox-background-active = rgba(105,114,148,1.0)
+ci-font-color-active = white
+ci-font-color-inactive = rgba(255,255,255,0.1)
+ci-padding = 20px 45px
+
+
+
+
+.custom-input--checkbox, .custom-input--radio
+  display block
+  width 100%
+  height ci-checkbox-height
+  line-height ci-checkbox-height
+  color ci-font-color-active
+  border-top 1px solid ci-checkbox-border-color
+  border-bottom 1px solid ci-checkbox-border-color
+  font-size ci-font-size
+  padding ci-padding
+
+  
+.custom-input-radio-inner
+  border-top 1px solid ci-checkbox-border-color
+  
+  .custom-input--radio
+    border 1px solid ci-checkbox-border-color
+    
+    &:last-child
+      border-bottom 2px solid ci-checkbox-border-color
+  
+
+
+  
+.custom-input-wrapper
+  position relative
+  width auto
+  height auto
+
+  
+  &:first-child
+    .custom-input--checkbox
+      border-top 2px solid ci-checkbox-border-color
+  
+  &:last-child
+    .custom-input--checkbox
+      border-bottom 2px solid ci-checkbox-border-color
+
+
+  &.has-info
+    cursor pointer
+    
+    *
+      cursor pointer
+      
+    &.selected
+      overflow-x visible
+
+
+      .custom-input--checkbox
+        background ci-checkbox-background-active
+        border-color rgba(78,88,127,0)
+      
+
+      &:before
+        content ''
+        position absolute
+        top 0
+        left 100%
+        display block
+        width 15px
+        height 100%
+        background transparent url('/images/tooltip-arrow--right.svg') no-repeat top left
+        background-size auto 100%
+  
+        
+  
+
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

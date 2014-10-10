@@ -20,6 +20,7 @@ STEP MODULE
   height 100%
 
 
+//STEP FORM SECTION
 
 .step-form
   position absolute
@@ -27,14 +28,16 @@ STEP MODULE
   height 100%
   top 0
   left 0
-  padding 80px 45px 80px 45px
+  padding 80px 0 80px 0
   background blue
   color white
   z-index 2
 
+
   &__title
     margin-bottom 30px
     
+
   &__subtitle
     font-family body-font
     font-size 18px
@@ -43,8 +46,18 @@ STEP MODULE
     letter-spacing 1.29px
     margin 0 auto 10px
     
-  &-inner
-    position relative
+
+
+.step-form-inner
+  position relative
+  
+
+
+.step-form-header
+  padding 0 45px
+
+
+//STEP INFO SECTION
 
 .step-info
   position relative
@@ -64,6 +77,7 @@ STEP MODULE
     &:last-child
       margin-bottom 0
 
+
   .main-logo
     position absolute
     display inline-block
@@ -71,10 +85,12 @@ STEP MODULE
     right 40px
     z-index 1000
     
+
   .step-info-inner
     margin-top 30px
     max-width 700px
   
+
   .step-info-tip
     transition opacity 0.33s 
     display block
@@ -86,10 +102,12 @@ STEP MODULE
     z-index 500
     opacity 0
     
+
     &__inner
       @extend .step-info
       background white
     
+
     &.visible
       opacity 1
     

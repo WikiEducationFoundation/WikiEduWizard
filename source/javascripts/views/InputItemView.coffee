@@ -30,11 +30,15 @@ module.exports = class InputItemView extends View
     console.log e.target
 
   showTooltip: ->
-    $(".step-info-tip").removeClass('visible')
-    $(".step-info-tip[data-item-index='#{@itemIndex}']").addClass('visible')
+    if @hasInfo
+      @$el.addClass('selected')
+      @parentStep.$el.find(".step-info-tip").removeClass('visible')
+      @parentStep.$el.find(".step-info-tip[data-item-index='#{@itemIndex}']").addClass('visible')
 
   hideTooltip: ->
-    $(".step-info-tip").removeClass('visible') 
+    if @hasInfo
+      @$el.removeClass('selected')
+      @parentStep.$el.find(".step-info-tip").removeClass('visible') 
 
   labelClickHandler: (e) ->
     return false
@@ -47,6 +51,13 @@ module.exports = class InputItemView extends View
       @$el.addClass('open')
     else
       @$el.removeClass('open')
+
+  #--------------------------------------------------------
+  # Private Methods
+  #--------------------------------------------------------
+
+  hasInfo: ->
+    return $el.hasClass('has-info')
 
   #--------------------------------------------------------
   # Public Methods

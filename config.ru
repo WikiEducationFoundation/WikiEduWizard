@@ -6,6 +6,7 @@ require 'mediawiki_api'
 require './app'
 
 
+
 set :views, './sinatra/views'
 set :environment, :development
 set :run, false

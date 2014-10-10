@@ -1,3 +1,6 @@
 _CoffeeComments.coffee
 /node_modules
 config.yml
+
+# Ignore application configuration
+/config/application.yml

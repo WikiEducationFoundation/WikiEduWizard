@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'figaro'
 gem 'rack'
 gem 'sass', '3.2.1'
 gem 'jwt'

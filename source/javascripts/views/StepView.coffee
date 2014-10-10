@@ -51,6 +51,8 @@ module.exports = class StepView extends View
 
       inputView.itemIndex = index
 
+      inputView.parentStep = @
+
       @inputSection.append(inputView.render().el)
 
       if input.tipInfo
@@ -63,6 +65,9 @@ module.exports = class StepView extends View
 
         @$tipSection.append($tipEl)
 
+        inputView.$el.addClass('has-info')
+
+
 
       else if input.courseInfo
         _.extend(input.courseInfo, {id: index} )
@@ -70,6 +75,8 @@ module.exports = class StepView extends View
         $tipEl = @courseInfoTemplate(input.courseInfo)
 
         @$tipSection.append($tipEl)
+
+        inputView.$el.addClass('has-info')
 
     )
 

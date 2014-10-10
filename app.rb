@@ -1,4 +1,3 @@
-
 require 'yaml'
 require 'ostruct'
 require 'omniauth'
@@ -43,6 +42,7 @@ end
 post '/publish' do
   @wizardData = params['text']
 
+  # PROBABLY SHOULD BE BROKEN OUT INTO A SEPERATE FUNCTION
   @conn = OAuth::Consumer.new($config.wiki_creds.development.key, $config.wiki_creds.development.secret)
   @access_token = OAuth::AccessToken.new(@conn, session['access_token'], session['access_token_secret'])
   get_token = @access_token.get('https://en.wikipedia.org/w/api.php?action=query&meta=tokens&format=json')
@@ -57,6 +57,7 @@ end
 
 get '/client' do
 
+  # PROBABLY SHOULD BE BROKEN OUT INTO A SEPERATE FUNCTION
   @conn = OAuth::Consumer.new($config.wiki_creds.development.key, $config.wiki_creds.development.secret)
   @access_token = OAuth::AccessToken.new(@conn, session['access_token'], session['access_token_secret'])
   get_token = @access_token.get('https://en.wikipedia.org/w/api.php?action=query&meta=tokens&format=json')

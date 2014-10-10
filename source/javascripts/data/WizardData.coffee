@@ -158,6 +158,9 @@ WizardData = [
         selected: false
         label: 'Include Completion of this Assignment as Part of the Students\'s Grade'
         exclusive: false
+        tipInfo: 
+          title: 'test'
+          content: 'test'
       }
     ]
     sections: [
@@ -238,6 +241,7 @@ WizardData = [
             label: 'Instructor Prepares a List with Appropriate Articles'
             value: 'prepare_list'
             selected: false
+
           }
           {
             id: 'choosing_articles'
