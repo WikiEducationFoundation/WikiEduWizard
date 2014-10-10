@@ -7,6 +7,7 @@ require 'jbuilder'
 require 'debugger'
 require 'rest_client'
 require 'oauth'
+require 'debugger'
 
 ## CLASSES
 require './sinatra/utils/Hash'
@@ -48,7 +49,7 @@ post '/publish' do
   get_token = @access_token.get('https://en.wikipedia.org/w/api.php?action=query&meta=tokens&format=json')
   token_response = JSON.parse(get_token.body)
   csrf_token = token_response['query']['tokens']['csrftoken']
-  res = @access_token.post('http://en.wikipedia.org/w/api.php', {:action => 'edit', :title => 'Course Wizard Test', :text => @wizardData, :format => 'json', :token => csrf_token } )
+  res = @access_token.post('http://en.wikipedia.org/w/api.php', {:action => 'edit', :title => 'User:Dmak78/Course Wizard Test', :text => @wizardData, :format => 'json', :token => csrf_token } )
 
   return res.body
 end
