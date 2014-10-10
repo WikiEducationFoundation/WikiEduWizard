@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 
-
 gem 'sass', '3.2.1'
 gem 'jwt'
 gem 'shotgun', '0.9'
@@ -13,7 +12,6 @@ gem 'jbuilder', '~> 2.0'
 gem 'wikicloth'
 gem 'rest_client'
 
-# other dependencies
 gem 'haml'                    # for instance, if you use haml
 gem 'activerecord', '~> 3.0'  # maybe you also need ActiveRecord 3.x
 
