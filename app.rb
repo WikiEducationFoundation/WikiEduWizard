@@ -8,14 +8,11 @@ require 'dotenv'
 require 'sinatra'
 require 'haml'
 require 'mediawiki_api'
-require 'yaml'
-require 'ostruct'
+require 'oauth'
 require 'omniauth'
 require 'omniauth-mediawiki'
-require "mediawiki_api"
 require 'jbuilder'
 require 'rest_client'
-require 'oauth'
 require './sinatra/utils/Hash'
 
 if settings.environment == :development
@@ -42,7 +39,7 @@ Dotenv.load
 # Rack Middleware
 #--------------------------------------------------------
 
-use Rack::Session::Cookie, :path => '/', :expire_after => 3600, :secret => 'dfgdsfgdfg87d8g79df'
+use Rack::Session::Cookie, :path => '/', :expire_after => 3600, :secret => ENV['SESSION_SECRET']
 
 # BUILD OMNIAUTH PROVIDER
 use OmniAuth::Builder do
