@@ -1,4 +1,5 @@
 
+require 'yaml'
 require 'ostruct'
 require 'omniauth'
 require 'omniauth-mediawiki'
@@ -6,7 +7,9 @@ require "mediawiki_api"
 require 'jbuilder'
 require 'rest_client'
 require 'oauth'
-require 'debugger'
+
+
+# require 'debugger'
 
 ## CLASSES
 require './sinatra/utils/Hash'

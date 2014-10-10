@@ -2,7 +2,6 @@ require 'rubygems'
 require 'bundler/setup'
 require 'sinatra'
 require 'haml'
-require 'yaml'
 require 'mediawiki_api'
 require './app'
 
