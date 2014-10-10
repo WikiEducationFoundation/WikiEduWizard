@@ -4,16 +4,12 @@ require 'omniauth'
 require 'omniauth-mediawiki'
 require "mediawiki_api"
 require 'jbuilder'
-require 'debugger'
 require 'rest_client'
 require 'oauth'
 require 'debugger'
 
 ## CLASSES
 require './sinatra/utils/Hash'
-
-
-
 
 
 use Rack::Session::Cookie, :path => '/', :expire_after => 3600, :secret => 'dfgdsfgdfg87d8g79df'
@@ -38,7 +34,7 @@ end
 # ROOT URL
 get '/' do
   @title = 'Wikiedu Wizard'
-  haml :login
+  redirect to '/begin'
 end
 
 post '/publish' do
@@ -49,7 +45,8 @@ post '/publish' do
   get_token = @access_token.get('https://en.wikipedia.org/w/api.php?action=query&meta=tokens&format=json')
   token_response = JSON.parse(get_token.body)
   csrf_token = token_response['query']['tokens']['csrftoken']
-  res = @access_token.post('http://en.wikipedia.org/w/api.php', {:action => 'edit', :title => 'User:Dmak78/Course Wizard Test', :text => @wizardData, :format => 'json', :token => csrf_token } )
+  
+  res = @access_token.post('http://en.wikipedia.org/w/api.php', {:action => 'edit', :title => "User:#{session["wiki_username"]}/Course Wizard Test", :text => @wizardData, :format => 'json', :token => csrf_token } )
 
   return res.body
 end
@@ -59,20 +56,24 @@ get '/client' do
 
   @conn = OAuth::Consumer.new($config.wiki_creds.development.key, $config.wiki_creds.development.secret)
   @access_token = OAuth::AccessToken.new(@conn, session['access_token'], session['access_token_secret'])
-
   get_token = @access_token.get('https://en.wikipedia.org/w/api.php?action=query&meta=tokens&format=json')
-
   token_response = JSON.parse(get_token.body)
-
   csrf_token = token_response['query']['tokens']['csrftoken']
-
+  
   res = @access_token.post('http://en.wikipedia.org/w/api.php', {:action => 'query', :meta => 'userinfo', :format => 'json' } )
+  
+  userdata = JSON.parse(res.body)
+
+  session['wiki_username'] = userdata['query']['userinfo']['name']
 
   redirect to '/welcome'
   
 end
 
 get '/welcome' do
+  unless session['wiki_username']
+    redirect to '/auth/mediawiki'
+  end
   haml :app
 end
 
@@ -91,9 +92,7 @@ end
 get '/auth/:provider/callback' do
 
   @title = 'Wikiedu Wizard - OAuth'
-
   @auth = request.env['omniauth.auth']
-
   @access_token = request.env["omniauth.auth"]["extra"]["access_token"]
 
   session['access_token'] = @access_token.token
