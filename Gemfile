@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+ruby "1.9.3"
 
 gem 'capistrano', '2.14.2'
 gem 'sass', '3.2.1'
