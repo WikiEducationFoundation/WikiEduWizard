@@ -1,9 +1,10 @@
 source 'https://rubygems.org'
 
-gem 'figaro'
+gem 'dotenv'
 gem 'rack'
 gem 'sass', '3.2.1'
 gem 'jwt'
+gem 'thin'
 gem 'shotgun', '0.9'
 gem 'sinatra', '1.3.5'
 gem 'faraday_middleware'
