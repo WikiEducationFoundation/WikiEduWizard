@@ -10,7 +10,6 @@ gem 'mediawiki_api'
 gem 'omniauth'
 gem 'omniauth-mediawiki'
 gem 'jbuilder', '~> 2.0'
-gem 'debugger'
 gem 'rest_client'
 
 # other dependencies
