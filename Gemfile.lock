@@ -93,6 +93,7 @@ DEPENDENCIES
   mediawiki_api
   omniauth
   omniauth-mediawiki
+  rack
   rest_client
   sass (= 3.2.1)
   shotgun (= 0.9)

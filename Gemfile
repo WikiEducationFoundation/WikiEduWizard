@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'rack'
 gem 'sass', '3.2.1'
 gem 'jwt'
 gem 'shotgun', '0.9'

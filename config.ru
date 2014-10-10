@@ -7,7 +7,7 @@ require './app'
 
 
 set :views, './sinatra/views'
-set :environment, :production
+set :environment, :development
 set :run, false
 set :raise_errors, true
 
