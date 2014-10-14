@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+ruby "1.9.3"
+
 gem 'dotenv'
 gem 'rack'
 gem 'sass', '3.2.1'
