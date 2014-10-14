@@ -9,6 +9,8 @@ require 'sinatra'
 require 'haml'
 require 'mediawiki_api'
 require 'oauth'
+require 'yaml'
+require 'ostruct'
 require 'omniauth'
 require 'omniauth-mediawiki'
 require 'jbuilder'
@@ -34,6 +36,11 @@ set :raise_errors, true
 
 Dotenv.load
 
+#--------------------------------------------------------
+# Rack Middleware
+#--------------------------------------------------------
+
+use Rack::Session::Cookie, :path => '/', :expire_after => 3600, :secret => 'dfgdsfgdfg87d8g79df'
 
 #--------------------------------------------------------
 # Rack Middleware
@@ -128,5 +135,6 @@ get '/auth/:provider/callback' do
   
   request.env.inspect
   # redirect to '/client'
-
 end
+
+
