@@ -120,12 +120,12 @@ get '/auth/:provider/callback' do
 
 
   @title = 'Wikiedu Wizard - OAuth'
-  @auth = request.env['omniauth.auth']
-  @access_token = request.env["omniauth.auth"]["extra"]["access_token"]
+  # @auth = request.env['omniauth.auth']
+  # @access_token = request.env["omniauth.auth"]["extra"]["access_token"]
 
-  session['access_token'] = @access_token.token
-  session['access_token_secret'] = @access_token.secret
+  # session['access_token'] = @access_token.token
+  # session['access_token_secret'] = @access_token.secret
   
-  redirect to '/client'
+  # redirect to '/client'
 
 end
