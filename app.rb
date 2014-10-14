@@ -32,18 +32,18 @@ set :raise_errors, true
 # ENV Config
 #--------------------------------------------------------
 
-# Dotenv.load
+Dotenv.load
 
 
 #--------------------------------------------------------
 # Rack Middleware
 #--------------------------------------------------------
 
-use Rack::Session::Cookie, :path => '/', :expire_after => 3600, :secret => 'sdfdsfdsf'
+use Rack::Session::Cookie, :path => '/', :expire_after => 3600, :secret => ENV['SESSION_SECRET']
 
 # BUILD OMNIAUTH PROVIDER
 use OmniAuth::Builder do
-  provider :mediawiki, 'fa1f3a6eb841e2c6dd88f9daa7ea60ac', '38952065074f58eb9c49d7668eeabfbedc9ba823'
+  provider :mediawiki, ENV["WIKI_KEY"], ENV["WIKI_SECRET"]
 end
 
 
@@ -53,7 +53,7 @@ end
 
 # SET USER AGENT
 before do
-  headers "User-Agent" => 'WikiEduWizard/1.0 (http://wikiedu.org/WikiEduWizard/; kevin@wintr.us) WikiEduWizard/1.0'
+  headers "User-Agent" => ENV["WIKI_USER_AGENT"]
 end
 
 # ROOT URL
@@ -66,7 +66,7 @@ post '/publish' do
   @wizardData = params['text']
 
   # PROBABLY SHOULD BE BROKEN OUT INTO A SEPERATE FUNCTION
-  @conn = OAuth::Consumer.new('fa1f3a6eb841e2c6dd88f9daa7ea60ac', '38952065074f58eb9c49d7668eeabfbedc9ba823')
+  @conn = OAuth::Consumer.new(ENV["WIKI_KEY"], ENV["WIKI_SECRET"])
   @access_token = OAuth::AccessToken.new(@conn, session['access_token'], session['access_token_secret'])
   get_token = @access_token.get('https://en.wikipedia.org/w/api.php?action=query&meta=tokens&format=json')
   token_response = JSON.parse(get_token.body)
@@ -81,7 +81,7 @@ end
 get '/client' do
 
   # PROBABLY SHOULD BE BROKEN OUT INTO A SEPERATE FUNCTION
-  @conn = OAuth::Consumer.new('fa1f3a6eb841e2c6dd88f9daa7ea60ac', '38952065074f58eb9c49d7668eeabfbedc9ba823')
+  @conn = OAuth::Consumer.new(ENV["WIKI_KEY"], ENV["WIKI_SECRET"])
   @access_token = OAuth::AccessToken.new(@conn, session['access_token'], session['access_token_secret'])
   get_token = @access_token.get('https://en.wikipedia.org/w/api.php?action=query&meta=tokens&format=json')
   token_response = JSON.parse(get_token.body)
@@ -98,9 +98,7 @@ get '/client' do
 end
 
 get '/welcome' do
-  unless session['wiki_username']
-    redirect to '/auth/mediawiki'
-  end
+
   haml :app
 end
 
@@ -118,14 +116,13 @@ end
 # MEDIAWIKI API OAUTH CALLBACK
 get '/auth/:provider/callback' do
 
-
   @title = 'Wikiedu Wizard - OAuth'
-  # @auth = request.env['omniauth.auth']
-  # @access_token = request.env["omniauth.auth"]["extra"]["access_token"]
+  @auth = request.env['omniauth.auth']
+  @access_token = request.env["omniauth.auth"]["extra"]["access_token"]
 
-  # session['access_token'] = @access_token.token
-  # session['access_token_secret'] = @access_token.secret
+  session['access_token'] = @access_token.token
+  session['access_token_secret'] = @access_token.secret
   
-  # redirect to '/client'
+  redirect to '/client'
 
 end
