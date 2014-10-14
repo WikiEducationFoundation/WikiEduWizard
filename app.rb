@@ -122,18 +122,26 @@ get '/begin' do
   end
 end
 
+get '/auth/' do
+
+  @title = 'Wikiedu Wizard - OAuth'
+  @auth = request.env['omniauth.auth']
+  @access_token = request.env["omniauth.auth"]["extra"]["access_token"]
+  request.env.inspect
+end
+
 
 # MEDIAWIKI API OAUTH CALLBACK
 get '/auth/:provider/callback' do
 
   @title = 'Wikiedu Wizard - OAuth'
-  # @auth = request.env['omniauth.auth']
-  # @access_token = request.env["omniauth.auth"]["extra"]["access_token"]
+  @auth = request.env['omniauth.auth']
+  @access_token = request.env["omniauth.auth"]["extra"]["access_token"]
   # @access_token.inspect
   # session['access_token'] = @access_token.token
   # session['access_token_secret'] = @access_token.secret
   
-
+  request.env.inspect
   # redirect to '/client'
 end
 
