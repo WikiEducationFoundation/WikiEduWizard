@@ -158,9 +158,6 @@ WizardData = [
         selected: false
         label: 'Include Completion of this Assignment as Part of the Students\'s Grade'
         exclusive: false
-        tipInfo: 
-          title: 'test'
-          content: 'test'
       }
     ]
     sections: [

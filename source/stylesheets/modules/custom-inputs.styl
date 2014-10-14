@@ -1,85 +1,72 @@
 
-// .custom-input 
-//   margin 10px auto
-//   &--checkbox, &--radio-item, &--radio
-//     border none
-    
-//     label
-//       position relative
-//       pointer-events auto
-//       line-height 1.3
-      
-//     &:before,
-//     &:after
-//       display none
-      
-
-//   &--checkbox
-//     &.disabled
-//       opacity 0.5
+.custom-input 
+  &--checkbox
+    &.disabled
+      color rgba(255,255,255,0.5)
   
 //   &--radio-item
 //     margin 10px auto
 
-// .custom-input--text
-//   display block
-//   position relative
-//   border-bottom 1px solid blue-border
-//   height auto
-//   max-width 450px
-//   margin 0 auto
+.custom-input--text
+  display block
+  position relative
+  border-bottom 1px solid blue-border
+  height auto
+  max-width 450px
+  margin 0 auto
+  padding 0 45px
 
   
-//   &:before
-//     content: ''
-//     display block
-//     width 5px
-//     height 3px
-//     border-left 1px solid blue-border
-//     border-bottom 1px solid blue-border
-//     position absolute
-//     bottom -1px
-//     left -5px
+  &:before
+    content: ''
+    display block
+    width 5px
+    height 3px
+    border-left 1px solid blue-border
+    border-bottom 1px solid blue-border
+    position absolute
+    bottom -1px
+    left -5px
   
-//   &:after
-//     content: ''
-//     display block
-//     width 5px
-//     height 3px
-//     border-right 1px solid blue-border
-//     border-bottom 1px solid blue-border
-//     position absolute
-//     bottom -1px
-//     right -5px
+  &:after
+    content: ''
+    display block
+    width 5px
+    height 3px
+    border-right 1px solid blue-border
+    border-bottom 1px solid blue-border
+    position absolute
+    bottom -1px
+    right -5px
   
   
-//   label
-//     @extend .form-content
-//     display block
-//     width 100%
-//     height 100%
-//     position relative
-//     letter-spacing 1px
-//     color white
+  label
+    @extend .form-content
+    display block
+    width 100%
+    height 100%
+    position relative
+    letter-spacing 1px
+    color white
   
-//   input[type="text"]
-//     @extend .form-content
-//     position relative
-//     width 100%
-//     transition padding-top 0.2s
-//     display block
-//     appearance none
-//     border none
-//     outline none
-//     letter-spacing 1px
-//     z-index 1
-//     padding-top 0
-//     line-height 1
-//     background transparent
-//     color white
-//     font-weight normal
-//     -webkit-text-size-adjust 100%
-//     -webkit-font-smoothing antialiased
+  input[type="text"]
+    @extend .form-content
+    position relative
+    width 100%
+    transition padding-top 0.2s
+    display block
+    appearance none
+    border none
+    outline none
+    letter-spacing 1px
+    z-index 1
+    padding-top 0
+    line-height 1
+    background transparent
+    color white
+    font-weight normal
+    -webkit-text-size-adjust 100%
+    -webkit-font-smoothing antialiased
 
 ci-font-size = 18px
 ci-checkbox-height = auto //65px
@@ -94,6 +81,7 @@ ci-padding = 20px 45px
 
 
 .custom-input--checkbox, .custom-input--radio
+  position relative
   display block
   width 100%
   height ci-checkbox-height
@@ -103,6 +91,27 @@ ci-padding = 20px 45px
   border-bottom 1px solid ci-checkbox-border-color
   font-size ci-font-size
   padding ci-padding
+  
+  input
+    display none
+  
+
+  .check-button
+    transition 0.12s all
+    content ''
+    display block
+    position absolute
+    top 50%
+    margin-top -8px
+    right 45px
+    width 18px
+    height 18px
+    border 2px solid white
+    background-color transparent
+    box-sizing border-box
+
+
+      
 
   
 .custom-input-radio-inner
@@ -121,15 +130,13 @@ ci-padding = 20px 45px
   position relative
   width auto
   height auto
+  
+  &.checked 
+    .custom-input--checkbox
+      .check-button
+        background-color white
 
-  
-  &:first-child
-    .custom-input--checkbox
-      border-top 2px solid ci-checkbox-border-color
-  
-  &:last-child
-    .custom-input--checkbox
-      border-bottom 2px solid ci-checkbox-border-color
+      
 
 
   &.has-info
@@ -138,6 +145,19 @@ ci-padding = 20px 45px
     *
       cursor pointer
       
+    &:before
+      content ''
+      position absolute
+      top 0
+      left 100%
+      display block
+      width 25px
+      height 100%
+      background transparent url('/images/tooltip-arrow--right.svg') no-repeat top left
+      background-size auto 100%
+      z-index 10
+      background-position-x -25px
+      
     &.selected
       overflow-x visible
 
@@ -145,19 +165,12 @@ ci-padding = 20px 45px
       .custom-input--checkbox
         background ci-checkbox-background-active
         border-color rgba(78,88,127,0)
+        
+      &:before
+        background-position-x -1px
       
 
-      &:before
-        content ''
-        position absolute
-        top 0
-        left 100%
-        display block
-        width 15px
-        height 100%
-        background transparent url('/images/tooltip-arrow--right.svg') no-repeat top left
-        background-size auto 100%
-  
+      
         
   
 

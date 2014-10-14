@@ -36,7 +36,8 @@ end
 # ROOT URL
 get '/' do
   @title = 'Wikiedu Wizard'
-  redirect to '/begin'
+  # redirect to '/begin'
+  haml :login
 end
 
 post '/publish' do
@@ -98,9 +99,9 @@ get '/auth/:provider/callback' do
   @title = 'Wikiedu Wizard - OAuth'
   @auth = request.env['omniauth.auth']
   @access_token = request.env["omniauth.auth"]["extra"]["access_token"]
-
-  session['access_token'] = @access_token.token
-  session['access_token_secret'] = @access_token.secret
+  @access_token.inspect
+  # session['access_token'] = @access_token.token
+  # session['access_token_secret'] = @access_token.secret
   
   redirect to '/client'
 

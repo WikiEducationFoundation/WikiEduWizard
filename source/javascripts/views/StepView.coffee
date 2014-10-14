@@ -27,11 +27,15 @@ module.exports = class StepView extends View
   events:
     'click input' : 'inputHandler'
     'click #publish' : 'publishHandler'
+    'click .step-info-tip' : 'hideTips'
 
   publishHandler: ->
     Backbone.Mediator.publish('wizard:publish')
   
   render: ->
+
+    @tipVisible = false
+
     @$el.html( @template( @model.attributes ) )
 
 
@@ -115,6 +119,10 @@ module.exports = class StepView extends View
           $exclusive.addClass('disabled')
         else
           $exclusive.removeClass('disabled')
+
+  hideTips: (e) ->
+    $('.step-info-tip').removeClass('visible')
+    $('.custom-input-wrapper').removeClass('selected')
 
 
 

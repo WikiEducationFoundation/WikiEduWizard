@@ -149,6 +149,13 @@ module.exports = class HomeView extends View
       stepView.hide()
     )
 
+  hideAllTips: (e) ->
+    _.each(@stepViews,(stepView) =>
+      stepView.tipVisible = false
+    )
+    $('.step-info-tip').removeClass('visible')
+    $('.custom-input-wrapper').removeClass('selected')
+
 
   #--------------------------------------------------------
   # EVENT HANDLERS
@@ -156,12 +163,15 @@ module.exports = class HomeView extends View
 
   nextClickHandler: ->
     @advanceStep()
+    @hideAllTips()
 
   prevClickHandler: ->
     @decrementStep()
+    @hideAllTips()
 
   gotoClickHandler: (index) ->
     @updateStep(index)
+    @hideAllTips()
 
 
 

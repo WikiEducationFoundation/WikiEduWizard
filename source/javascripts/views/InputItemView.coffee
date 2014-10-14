@@ -14,31 +14,59 @@ module.exports = class InputItemView extends View
 
   className: 'custom-input-wrapper'
 
+  hoverTime: 500
+
   events: 
     'change input' : 'itemChangeHandler'
     'keyup input[type="text"]' : 'itemChangeHandler'
     'label click' : 'labelClickHandler'
-    'mouseover' : 'showTooltip'
-    'mouseout' : 'hideTooltip'
+    'mouseover' : 'mouseoverHandler'
+    'mouseenter label' : 'hideShowTooltip'
+    'click' : 'hideShowTooltip'
+    'mouseout' : 'mouseoutHandler'
+    'click .check-button' : 'checkButtonClickHandler'
 
 
   #--------------------------------------------------------
   # Event Handlers
   #--------------------------------------------------------
 
+  checkButtonClickHandler: ->
+    $inputItem = @$el.find('input')
+    if $inputItem.is(':checked')
+      $inputItem.prop('checked', false)
+      $inputItem.trigger('change')
+    else 
+      $inputItem.prop('checked', true)
+      $inputItem.trigger('change')
+
   hoverHandler: (e) ->
     console.log e.target
 
+  mouseoverHandler: (e) ->
+    @isHovering = true
+      
+  mouseoutHandler: (e) ->
+    @isHovering = false
+
   showTooltip: ->
-    if @hasInfo
+    if @hasInfo && @parentStep.tipVisible == false
       @$el.addClass('selected')
+      @parentStep.tipVisible = true
       @parentStep.$el.find(".step-info-tip").removeClass('visible')
       @parentStep.$el.find(".step-info-tip[data-item-index='#{@itemIndex}']").addClass('visible')
 
   hideTooltip: ->
     if @hasInfo
       @$el.removeClass('selected')
+      @parentStep.tipVisible = false
       @parentStep.$el.find(".step-info-tip").removeClass('visible') 
+
+  hideShowTooltip: ->
+    $('.custom-input-wrapper').removeClass('selected')
+    @parentStep.tipVisible = false
+    @parentStep.$el.find(".step-info-tip").removeClass('visible')
+    @showTooltip()
 
   labelClickHandler: (e) ->
     return false
@@ -52,9 +80,18 @@ module.exports = class InputItemView extends View
     else
       @$el.removeClass('open')
 
+    if @$el.find('input').is(':checked')
+      @$el.addClass('checked')
+    else
+      @$el.removeClass('checked')
+
   #--------------------------------------------------------
   # Private Methods
   #--------------------------------------------------------
+
+  afterRender: ->
+    @hoverTimer = null
+    @isHovering = false
 
   hasInfo: ->
     return $el.hasClass('has-info')
