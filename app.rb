@@ -44,7 +44,7 @@ use Rack::Session::Cookie, :path => '/', :expire_after => 3600, :secret => ENV['
 
 # BUILD OMNIAUTH PROVIDER
 use OmniAuth::Builder do
-  provider :mediawiki, ENV["WIKI_KEY"], ENV["WIKI_SECRET"]
+  provider :mediawiki, ENV["WIKI_KEY"], ENV["WIKI_SECRET"], :client_options => {:site => 'https://en.wikipedia.org'}
 end
 
 
