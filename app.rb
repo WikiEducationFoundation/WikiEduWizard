@@ -122,7 +122,7 @@ get '/begin' do
   end
 end
 
-get '/auth/' do
+get '/auth' do
 
   @title = 'Wikiedu Wizard - OAuth'
   @auth = request.env['omniauth.auth']
