@@ -26,7 +26,8 @@ end
 
 set :views, './sinatra/views'
 set :raise_errors, true
-
+set :show_exceptions, true
+set :dump_errors, true
 
 #--------------------------------------------------------
 # ENV Config
@@ -125,6 +126,7 @@ get '/auth/:provider/callback' do
   session['access_token'] = @access_token.token
   session['access_token_secret'] = @access_token.secret
   
+
   redirect to '/client'
 
 end
