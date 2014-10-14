@@ -26,7 +26,8 @@ end
 
 set :views, './sinatra/views'
 set :raise_errors, true
-
+set :show_exceptions, true
+set :dump_errors, true
 
 #--------------------------------------------------------
 # ENV Config
