@@ -44,7 +44,7 @@ use Rack::Session::Cookie, :path => '/', :expire_after => 3600, :secret => ENV['
 
 # BUILD OMNIAUTH PROVIDER
 use OmniAuth::Builder do
-  provider :mediawiki, ENV["WIKI_KEY"], ENV["WIKI_SECRET"]
+  provider :mediawiki, ENV["WIKI_KEY"], ENV["WIKI_SECRET"], :client_options => {:site => 'https://en.wikipedia.org'}
 end
 
 
@@ -119,9 +119,11 @@ end
 # MEDIAWIKI API OAUTH CALLBACK
 get '/auth/:provider/callback' do
 
+
   @title = 'Wikiedu Wizard - OAuth'
   @auth = request.env['omniauth.auth']
   @access_token = request.env["omniauth.auth"]["extra"]["access_token"]
+
 
   session['access_token'] = @access_token.token
   session['access_token_secret'] = @access_token.secret
