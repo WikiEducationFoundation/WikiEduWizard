@@ -43,7 +43,7 @@ use Rack::Session::Cookie, :path => '/', :expire_after => 3600, :secret => 'sdfd
 
 # BUILD OMNIAUTH PROVIDER
 use OmniAuth::Builder do
-  provider :mediawiki, 'b4e468c3e7e78483ee080942ca60774a', '1fcf0b56648ec7cd165208ff6987f04064481d18'
+  provider :mediawiki, 'fa1f3a6eb841e2c6dd88f9daa7ea60ac', '38952065074f58eb9c49d7668eeabfbedc9ba823'
 end
 
 
@@ -66,7 +66,7 @@ post '/publish' do
   @wizardData = params['text']
 
   # PROBABLY SHOULD BE BROKEN OUT INTO A SEPERATE FUNCTION
-  @conn = OAuth::Consumer.new('b4e468c3e7e78483ee080942ca60774a', '1fcf0b56648ec7cd165208ff6987f04064481d18')
+  @conn = OAuth::Consumer.new('fa1f3a6eb841e2c6dd88f9daa7ea60ac', '38952065074f58eb9c49d7668eeabfbedc9ba823')
   @access_token = OAuth::AccessToken.new(@conn, session['access_token'], session['access_token_secret'])
   get_token = @access_token.get('https://en.wikipedia.org/w/api.php?action=query&meta=tokens&format=json')
   token_response = JSON.parse(get_token.body)
@@ -81,7 +81,7 @@ end
 get '/client' do
 
   # PROBABLY SHOULD BE BROKEN OUT INTO A SEPERATE FUNCTION
-  @conn = OAuth::Consumer.new('b4e468c3e7e78483ee080942ca60774a', '1fcf0b56648ec7cd165208ff6987f04064481d18')
+  @conn = OAuth::Consumer.new('fa1f3a6eb841e2c6dd88f9daa7ea60ac', '38952065074f58eb9c49d7668eeabfbedc9ba823')
   @access_token = OAuth::AccessToken.new(@conn, session['access_token'], session['access_token_secret'])
   get_token = @access_token.get('https://en.wikipedia.org/w/api.php?action=query&meta=tokens&format=json')
   token_response = JSON.parse(get_token.body)
