@@ -9,8 +9,6 @@ require 'sinatra'
 require 'haml'
 require 'mediawiki_api'
 require 'oauth'
-require 'yaml'
-require 'ostruct'
 require 'omniauth'
 require 'omniauth-mediawiki'
 require 'jbuilder'
@@ -36,11 +34,6 @@ set :raise_errors, true
 
 Dotenv.load
 
-#--------------------------------------------------------
-# Rack Middleware
-#--------------------------------------------------------
-
-use Rack::Session::Cookie, :path => '/', :expire_after => 3600, :secret => 'dfgdsfgdfg87d8g79df'
 
 #--------------------------------------------------------
 # Rack Middleware
@@ -66,8 +59,7 @@ end
 # ROOT URL
 get '/' do
   @title = 'Wikiedu Wizard'
-  # redirect to '/begin'
-  haml :login
+  redirect to '/begin'
 end
 
 post '/publish' do
@@ -106,9 +98,9 @@ get '/client' do
 end
 
 get '/welcome' do
-  # unless session['wiki_username']
-  #   redirect to '/auth/mediawiki'
-  # end
+  unless session['wiki_username']
+    redirect to '/auth/mediawiki'
+  end
   haml :app
 end
 
@@ -122,14 +114,6 @@ get '/begin' do
   end
 end
 
-get '/auth' do
-
-  @title = 'Wikiedu Wizard - OAuth'
-  @auth = request.env['omniauth.auth']
-  @access_token = request.env["omniauth.auth"]["extra"]["access_token"]
-  request.env.inspect
-end
-
 
 # MEDIAWIKI API OAUTH CALLBACK
 get '/auth/:provider/callback' do
@@ -137,12 +121,10 @@ get '/auth/:provider/callback' do
   @title = 'Wikiedu Wizard - OAuth'
   @auth = request.env['omniauth.auth']
   @access_token = request.env["omniauth.auth"]["extra"]["access_token"]
-  # @access_token.inspect
-  # session['access_token'] = @access_token.token
-  # session['access_token_secret'] = @access_token.secret
+
+  session['access_token'] = @access_token.token
+  session['access_token_secret'] = @access_token.secret
   
-  request.env.inspect
-  # redirect to '/client'
+  redirect to '/client'
+
 end
-
-
