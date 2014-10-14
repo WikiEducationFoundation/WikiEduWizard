@@ -1,37 +1,60 @@
-require 'yaml'
-require 'ostruct'
+#--------------------------------------------------------
+# Requirements
+#--------------------------------------------------------
+
+require 'rubygems'
+require 'bundler/setup'
+require 'dotenv'
+require 'sinatra'
+require 'haml'
+require 'mediawiki_api'
+require 'oauth'
 require 'omniauth'
 require 'omniauth-mediawiki'
-require "mediawiki_api"
 require 'jbuilder'
 require 'rest_client'
-require 'oauth'
-
-
-# require 'debugger'
-
-## CLASSES
 require './sinatra/utils/Hash'
 
-
-use Rack::Session::Cookie, :path => '/', :expire_after => 3600, :secret => 'dfgdsfgdfg87d8g79df'
-
-# LOAD CONFIG
-$config = Hash.to_ostructs(YAML.load_file(File.join(Dir.pwd, 'config.yml')))
+if settings.environment == :development
+  require 'debugger'
+end
 
 
+#--------------------------------------------------------
+# Sinatra Config
+#--------------------------------------------------------
+
+set :views, './sinatra/views'
+set :raise_errors, true
+
+
+#--------------------------------------------------------
+# ENV Config
+#--------------------------------------------------------
+
+Dotenv.load
+
+
+#--------------------------------------------------------
+# Rack Middleware
+#--------------------------------------------------------
+
+use Rack::Session::Cookie, :path => '/', :expire_after => 3600, :secret => ENV['SESSION_SECRET']
 
 # BUILD OMNIAUTH PROVIDER
 use OmniAuth::Builder do
-  provider :mediawiki, $config.wiki_creds.development.key, $config.wiki_creds.development.secret
+  provider :mediawiki, ENV["WIKI_KEY"], ENV["WIKI_SECRET"]
 end
 
+
+#--------------------------------------------------------
+# Routes
+#--------------------------------------------------------
 
 # SET USER AGENT
 before do
-  headers "User-Agent" => $config.wiki_creds.development.user_agent
+  headers "User-Agent" => ENV["WIKI_USER_AGENT"]
 end
-
 
 # ROOT URL
 get '/' do
@@ -44,7 +67,7 @@ post '/publish' do
   @wizardData = params['text']
 
   # PROBABLY SHOULD BE BROKEN OUT INTO A SEPERATE FUNCTION
-  @conn = OAuth::Consumer.new($config.wiki_creds.development.key, $config.wiki_creds.development.secret)
+  @conn = OAuth::Consumer.new(ENV["WIKI_KEY"], ENV["WIKI_SECRET"])
   @access_token = OAuth::AccessToken.new(@conn, session['access_token'], session['access_token_secret'])
   get_token = @access_token.get('https://en.wikipedia.org/w/api.php?action=query&meta=tokens&format=json')
   token_response = JSON.parse(get_token.body)
@@ -59,7 +82,7 @@ end
 get '/client' do
 
   # PROBABLY SHOULD BE BROKEN OUT INTO A SEPERATE FUNCTION
-  @conn = OAuth::Consumer.new($config.wiki_creds.development.key, $config.wiki_creds.development.secret)
+  @conn = OAuth::Consumer.new(ENV["WIKI_KEY"], ENV["WIKI_SECRET"])
   @access_token = OAuth::AccessToken.new(@conn, session['access_token'], session['access_token_secret'])
   get_token = @access_token.get('https://en.wikipedia.org/w/api.php?action=query&meta=tokens&format=json')
   token_response = JSON.parse(get_token.body)
@@ -99,17 +122,11 @@ get '/auth/:provider/callback' do
   @title = 'Wikiedu Wizard - OAuth'
   @auth = request.env['omniauth.auth']
   @access_token = request.env["omniauth.auth"]["extra"]["access_token"]
-  @access_token.inspect
-  # session['access_token'] = @access_token.token
-  # session['access_token_secret'] = @access_token.secret
+  # @access_token.inspect
+  session['access_token'] = @access_token.token
+  session['access_token_secret'] = @access_token.secret
   
-  redirect to '/client'
+  request.env.inspect
+  # redirect to '/client'
 
 end
-
-
-
-
-
-
-
