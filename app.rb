@@ -59,7 +59,7 @@ end
 # ROOT URL
 get '/' do
   @title = 'Wikiedu Wizard'
-  redirect to '/begin'
+  haml :login
 end
 
 post '/publish' do
@@ -98,7 +98,9 @@ get '/client' do
 end
 
 get '/welcome' do
-
+  unless session['wiki_username']
+    redirect to '/auth/mediawiki'
+  end
   haml :app
 end
 
