@@ -59,8 +59,9 @@ end
 
 # ROOT URL
 get '/' do
-  @title = 'Wikiedu Wizard'
-  redirect to '/begin'
+  return "#{ENV["WIKI_KEY"]} / #{ENV["WIKI_SECRET"]}"
+  # @title = 'Wikiedu Wizard'
+  # redirect to '/begin'
 end
 
 post '/publish' do
