@@ -118,9 +118,9 @@ end
 # MEDIAWIKI API OAUTH CALLBACK
 get '/auth/:provider/callback' do
   @title = 'Wikiedu Wizard - OAuth'
+  return "<pre>#{request.env.to_yaml}</pre>"
   @auth = request.env['omniauth.auth']
   @access_token = request.env["omniauth.auth"]["extra"]["access_token"]
-  return "<pre>#{request.env['omniauth.auth'].to_yaml}</pre>"
 
   # session['access_token'] = @access_token.token
   # session['access_token_secret'] = @access_token.secret
