@@ -1,8 +1,6 @@
 WizardData = [
   {
     title: 'Welcome to the Wikipedia Assignment Wizard!'
-    done: true
-    include: true
     instructions: 'Since Wikipedia began in 2001, professors around the world have integrated the free encyclopedia that anyone can edit into their curriculum.<br/><br/>This interactive wizard will take you through the required steps to create a custom assignment for your class. Please begin by filling in the following fields:'
     inputs: [
       {
@@ -40,8 +38,6 @@ WizardData = [
   }
   {
     title: 'Assignment type selection'
-    done: false
-    include: true
     infoTitle: 'About assignment selections'
     formTitle: 'Available assignments'
     instructions: 'Depending on the learning goals you have for your course and how much time you want to devote to your Wikipedia project, there are many effective ways to use Wikipedia in your course. '
@@ -119,8 +115,7 @@ WizardData = [
   }
   {
     title: 'Learning Wiki Essentials'
-    done: false
-    include: true
+    formTitle: 'Choose one or more:'
     infoTitle: 'About wiki essentials'
     instructions: 'To get started, you\'ll want to introduce your students to the basic rules of writing Wikipedia articles and working with the Wikipedia community. As their first Wikipedia assignment milestone, you can ask the students to create accounts and then complete the online training for students. '
     inputs: [
@@ -178,8 +173,6 @@ WizardData = [
   }
   {
     title: 'Getting Started with Editing'
-    done: true
-    include: true
     infoTitle: 'About editing'
     instructions: "It is important for students to start editing Wikipedia right away. That way, they become familiar with Wikipedia's markup (\"wikisyntax\", \"wikimarkup\", or \"wikicode\") and the mechanics of editing and communicating on the site. We recommend assigning a few basic Wikipedia tasks early on."
     formTitle: 'Which basic assignments would you like to include in your course?'
@@ -223,8 +216,7 @@ WizardData = [
   }
   {
     title: 'Choosing Articles'
-    done: false
-    include: true
+    formTitle: 'Choose one:'
     infoTitle: 'About choosing articles'
     instructions: 'Choosing the right (or wrong) articles to work on can make (or break) a Wikipedia writing assignment.'
     inputs: [
@@ -258,6 +250,7 @@ WizardData = [
       }
       {
         title: 'Not such a good choice'
+        accordian: true
         content: [
           'Articles that are "not such a good choice" for newcomers usually involve a lack of appropriate research material, highly controversial topics that may already be well developed, broad subjects, or topics for which it is difficult to demonstrate notability.'
           "<ul>
@@ -271,6 +264,7 @@ WizardData = [
       }
       {
         title: 'Good choice'
+        accordian: true
         content: [
           "<ul>
             <li>Choose a well-established topic for which a lot of literature is available in its field, but which isn't covered extensively on Wikipedia.</li>
@@ -281,6 +275,7 @@ WizardData = [
       }
       {
         title: ''
+        accordian: false
         content: [
           "Applying your own expertise to Wikipedia’s coverage of your field is the key to a successful assignment. You understand the broader intellectual context where individual topics fit in, you can recognize where Wikipedia falls short, you know—or know how to find—the relevant literature, and you know what topics your students should be able to handle. Your guidance on article choice and sourcing is critical for both your students’ success and the improvement of Wikipedia."
           "There are two recommended options for selecting articles for Wikipedia assignments:"
@@ -294,8 +289,7 @@ WizardData = [
   }
   {
     title: 'Research & Planning'
-    done: false
-    include: true
+    formTitle: 'Choose one:'
     infoTitle: 'About research & planning'
     instructions:  "Students often wait until the last minute to do their research, or choose sources unsuited for Wikipedia. That's why we recommend asking students to put together a bibliography of materials they want to use in editing the article, which can then be assessed by you and other Wikipedians."
     sections: [
@@ -343,8 +337,7 @@ WizardData = [
   }
   {
     title: 'Drafts & Mainspace'
-    done: false
-    include: true
+    formTitle: 'Choose one:'
     infoTitle: 'About drafts & mainspace'
     instructions: 'Once students have gotten a grip on their topics and the sources they will use to write about them, it’s time to start writing on Wikipedia. You can ask them to jump right in and edit live, or start them off in their own sandboxes. There are pros and cons to each approach.'
     sections: [
@@ -381,10 +374,8 @@ WizardData = [
   }
   {
     title: 'Peer Feedback'
-    done: false
-    include: true
     infoTitle: 'About peer feedback'
-    formTitle: ""
+    formTitle: "How Many Peer Reviews Should Each Student Conduct?"
     instructions: "Collaboration is a critical element of contributing to Wikipedia. For some students, this will happen spontaneously; their choice of topics will attract interested Wikipedians who will pitch in with ideas, copyedits, or even substantial contributions to the students’ articles."
     sections: [
       {
@@ -398,9 +389,9 @@ WizardData = [
     ]
     inputs: [
       {
-        type: 'radio'
+        type: 'radioGroup'
         id: 'peer_reviews'
-        label: 'How Many Peer Reviews Should Each Student Conduct?'
+        label: ''
         options: [
           {
             id: 'peer_reviews'
@@ -440,8 +431,7 @@ WizardData = [
   }
   {
     title: 'Supplementary Assignments'
-    done: false
-    include: true
+    formTitle: 'Choose one or more:'
     infoTitle: 'About supplementary assignments'
     instructions: "By the time students have made improvements based on classmates' review comments — and ideally suggestions from you as well — students should have produced nearly complete articles. Now is the chance to encourage them to wade a little deeper into Wikipedia and its norms and criteria for great content. You’ll probably have discussed many of the core principles of Wikipedia—and related issues you want to focus on—but now that they’ve experienced first-hand how Wikipedia works, this is a good time to return to topics like neutrality, media fluency, and the impact and limits of Wikipedia. "
     sections: [
@@ -508,8 +498,6 @@ WizardData = [
   }
   {
     title: 'DYK / GA Submission'
-    done: false
-    include: true
     infoTitle: 'About Did You Know & Good Articles'
     formTitle: "Do either of these processes make sense for students in your class?"
     sections: [
@@ -542,8 +530,6 @@ WizardData = [
   }
   {
     title: 'Grading'
-    done: false
-    include: true
     formTitle: "How will students' grades for the Wikipedia assignment be determined?"
     infoTitle: "About grading"
     instructions: 'Grading Wikipedia assignments can be a challenge. Here are some tips for grading your Wikipedia assignments:'
@@ -572,49 +558,49 @@ WizardData = [
     ]
     inputs: [
       {
-        type: 'text'
+        type: 'percent'
         label: 'Learning Wiki Essentials'
         id: 'grade_essentials'
         value: ''
         placeholder: ''
       }
       {
-        type: 'text'
+        type: 'percent'
         label: 'Getting Started with Editing'
         id: 'grade_getting_started'
         value: ''
         placeholder: ''
       }
       {
-        type: 'text'
+        type: 'percent'
         label: 'Choosing Articles'
         id: 'grade_choosing_articles'
         value: ''
         placeholder: ''
       }
       {
-        type: 'text'
+        type: 'percent'
         label: 'Research & Planning'
         id: 'grade_research_planning'
         value: ''
         placeholder: ''
       }
       {
-        type: 'text'
+        type: 'percent'
         label: 'Drafts & Mainspace'
         id: 'grade_drafts_mainspace'
         value: ''
         placeholder: ''
       }
       {
-        type: 'text'
+        type: 'percent'
         label: 'Peer Feedback'
         id: 'grade_peer_feedback'
         value: ''
         placeholder: ''
       }
       {
-        type: 'text'
+        type: 'percent'
         label: 'Supplementary Assignments'
         id: 'grade_supplementary'
         value: ''
@@ -624,8 +610,6 @@ WizardData = [
   }
   {
     title: 'Overview & Timeline'
-    done: false
-    include: true
     sections: [
       {
         title: 'About the Course'
@@ -647,7 +631,7 @@ WizardData = [
       {
         title: ''
         content: [
-          "<button id='publish' style='display:inline-block;text-align:center;'>Publish</button>"
+          "<a id='publish' href='#' class='button' style='display:inline-block;text-align:center;'>Publish</a>"
         ]
       }
     ]

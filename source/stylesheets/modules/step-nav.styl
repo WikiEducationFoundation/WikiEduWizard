@@ -13,17 +13,17 @@ indicator-inactive-color = rgba(80,90,128.0.5)
 
 .step-nav
   cf()
+  transition height 0.15s ease-in
   position absolute
   bottom 0
   left 0
   width 460px
   height 80px
-  border-top 1px solid white
+  border-top 2px solid rgba(78,88,127,0.2)
   z-index 5
   
-  &.hidden
-    opacity 0
-    pointer-events none
+  
+    
 
   
   &__button 
@@ -31,19 +31,26 @@ indicator-inactive-color = rgba(80,90,128.0.5)
     transition all 0.2s
     display inline-block
     width 50%
-    height 80px
+    max-height 80px
     text-align center
     color white
     float left
     line-height 80px
     background-size 45px auto
+    background-color blue
+    
     
     &:first-child
-      border-right 1px solid white
+      border-right 2px solid rgba(78,88,127,0.2)
     
     &.inactive
       pointer-events: none
       color rgba(255,255,225,0.25)
+      
+
+    &:hover
+      background-color rgba(80,90,128,1.0)
+      text-decoration underline
   
     // &.step-nav
         
@@ -57,13 +64,14 @@ indicator-inactive-color = rgba(80,90,128.0.5)
 
 
   .step-nav-indicators
-    tranition opacity 0.12s ease-in
+    transition opacity 0.12s ease-in, margin-top 1s ease-out
     position absolute
     width 100%
     height indicator-height
     left 0
     top -(indicator-height)
     text-align center
+    margin-top 0
     
     
     &__item
@@ -75,12 +83,34 @@ indicator-inactive-color = rgba(80,90,128.0.5)
       width indicator-size
       height indicator-size
       background indicator-inactive-color
+      border 2px solid transparent
       border-radius indicator-size
       text-indent -9999px
       cursor pointer
       
       &.active
         background indicator-active-color
+      
+      &.visited
+        background-color transparent
+        border 2px solid white
+  
+
+  &.hidden
+    opacity 0
+    pointer-events none
+    
+  &.contracted
+    transition height 0.3s
+    height 0
+    border-top 2px solid rgba(78,88,127,0.0)
+    
+    .step-nav-buttons
+      transition height 0.3s
+      overflow hidden
+      height 0
+  
+  
       
       
   

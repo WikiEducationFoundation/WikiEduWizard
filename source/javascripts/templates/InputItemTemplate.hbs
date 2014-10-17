@@ -8,7 +8,7 @@
 
 {{!-- CHECKBOX --}}
 {{#if type.checkbox}}
-<div class="custom-input custom-input--checkbox" {{#if data.exclusive}} data-exclusive="true" {{/if}}>
+<div class="custom-input custom-input--checkbox {{#if data.selected}} checked {{/if}}" {{#if data.exclusive}} data-exclusive="true" {{/if}}>
   <label for="{{data.id}}">{{data.label}}</label>
   <input name="{{data.id}}" type="checkbox" id="{{data.id}}" {{#if data.selected}} checked {{/if}}  />
   <a class="check-button" href="#"></a>
@@ -20,7 +20,7 @@
 <div class="custom-input-checkbox-group" data-checkbox-group="{{data.id}}">
   <div class="custom-input-checkbox-group__label">{{data.label}}</div>
   {{#each data.options}}
-  <div class="custom-input custom-input--checkbox">
+  <div class="custom-input custom-input--checkbox {{#if selected}} checked {{/if}}">
     <label for="{{id}}">{{label}}</label>
     <input name="{{id}}" type="checkbox" {{#if selected}} checked {{/if}} />
   </div>
@@ -50,6 +50,16 @@
 </div>
 {{/if}}
 
+{{!-- TEXT --}}
+{{#if type.percent}}
+<div class="custom-input custom-input--percent">
+  <div class="custom-input--percent__inner">
+    <label for="{{data.id}}">{{data.label}}</label>
+    <input name="{{data.id}}" type="{{data.type}}" value="{{data.value}}" placeholder="{{data.placeholder}}" maxlength="2" />
+  </div>
+</div>
+{{/if}}
+
 {{!-- TEXTAREA --}}
 {{#if type.textarea}}
 <div class="custom-input custom-input--textarea">
@@ -67,7 +77,28 @@
   </div>
   {{#each data.options}}
     <div class="custom-input custom-input--radio">
-      <input name="{{id}}" id="{{value}}" value="{{value}}" type="radio" {{#if data.selected}} checked {{/if}}/><label for="{{value}}">{{label}}</label>
+      <input name="{{id}}" id="{{value}}" value="{{value}}" type="radio" {{#if selected}} checked {{/if}}/>
+      <label for="{{value}}">{{label}}</label>
+      <a class="radio-button" href="#"></a>
+    </div>
+  {{/each}}
+</div>
+
+{{/if}}
+
+
+{{!-- RADIO --}}
+{{#if type.radioGroup}}
+<div class="custom-input-radio-inner__header">
+  <h2 class="font-blue--dark">{{data.label}}</h2>
+</div>
+<div class="custom-input-radio-inner custom-input-radio-inner--group">
+  
+  {{#each data.options}}
+    <div class="custom-input custom-input--radio custom-input--radio-group {{#if selected}} checked {{/if}}">
+      <a class="radio-button" href="#"></a>
+      <label for="{{value}}">{{label}}</label>
+      <input name="{{id}}" id="{{value}}" value="{{value}}" type="radio" {{#if selected}} checked {{/if}}/>
     </div>
   {{/each}}
 </div>

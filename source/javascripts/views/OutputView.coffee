@@ -1,3 +1,5 @@
+
+application = require( '../App' )
 View = require('../views/supers/View')
 OutputTemplate = require('../templates/OutputTemplate.hbs')
 
@@ -25,11 +27,18 @@ module.exports = class InputItemView extends View
     return @$el.text()
 
   publishHandler: ->
-    $.ajax(
-      type: 'POST'
-      url: '/publish'
-      data:
-        text: @outputPlainText()
-      success: (data) ->
-        console.log data
+
+    _.each(application.homeView.stepViews, (stepView) =>
+      stepView.$el.find('.custom-input').find('input').each((index,element) =>
+        console.log $(element).attr('name')
+        console.log $(element).val()
+      )
     )
+    # $.ajax(
+    #   type: 'POST'
+    #   url: '/publish'
+    #   data:
+    #     text: @outputPlainText()
+    #   success: (data) ->
+    #     console.log data
+    # )

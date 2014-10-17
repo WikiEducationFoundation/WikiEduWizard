@@ -25,6 +25,7 @@ module.exports = class InputItemView extends View
     'click' : 'hideShowTooltip'
     'mouseout' : 'mouseoutHandler'
     'click .check-button' : 'checkButtonClickHandler'
+    'click .radio-button' : 'radioButtonClickHandler'
     'focus .custom-input--text input' : 'onFocus'
     'blur .custom-input--text input' : 'onBlur'
 
@@ -33,35 +34,45 @@ module.exports = class InputItemView extends View
   # Event Handlers
   #--------------------------------------------------------
 
-  checkButtonClickHandler: ->
-    # $inputItem = @$el.find('input')
-    @$el.toggleClass('checked')
+  radioButtonClickHandler: (e) ->
+    e.preventDefault()
+
+    $target = $(e.currentTarget)
+    $parentGroup = $target.parents('.custom-input-wrapper')
+    $parentEl = $target.parents('.custom-input--radio')
+    $inputEl = $parentEl.find('input[type="radio"]')
+
+
+    if $parentEl.hasClass('checked')
+      return false
+
+    else
+      $otherRadios = $parentGroup.find('.custom-input--radio')
+      $otherRadios.removeClass('checked')
+
+      $otherInputs = $otherRadios.find('input[type="text"]')
+      $otherInputs.prop('checked', false)
+
+      $inputEl.prop('checked', true)
+      console.log $inputEl.prop('checked')
+
+      $parentEl.addClass('checked')
+
+  checkButtonClickHandler: (e) ->
+    e.preventDefault()
+
+    $parent = @$el.find('.custom-input--checkbox')
+      .toggleClass('checked')
     
-    if @$el.hasClass('checked')
-      console.log 'yup'
+    if $parent.hasClass('checked')
       @$inputEl.prop('checked', true)
-      console.log @$inputEl.prop('checked')
-      console.log @$inputEl.is(':checked')
       @$inputEl.val('on')
       @$inputEl.trigger('change')
 
-      # $inputItem.trigger('change')
     else
-      console.log 'nope'
       @$inputEl.prop('checked', false)
       @$inputEl.val('off')
-      console.log @$inputEl.prop('checked') 
-      console.log @$inputEl.is(':checked')
       @$inputEl.trigger('change')
-      # $inputItem.trigger('change')
-    # if $inputItem.is(':checked')
-    #   @$el.removeClass('checked')
-    #   $inputItem.prop('checked', false)
-    #   $inputItem.trigger('change')
-    # else 
-    #   @$el.addClass('checked')
-    #   $inputItem.prop('checked', true)
-    #   $inputItem.trigger('change')
 
   hoverHandler: (e) ->
     console.log e.target
@@ -98,10 +109,10 @@ module.exports = class InputItemView extends View
     
     value = $(e.currentTarget).val()
     console.log value
-    if @$el.find('input').is(':checked')
-      @$el.addClass('checked')
-    else
-      @$el.removeClass('checked')
+    # if @$el.find('input').is(':checked')
+    #   @$el.addClass('checked')
+    # else
+    #   @$el.removeClass('checked')
 
   #--------------------------------------------------------
   # Private Methods
@@ -153,6 +164,16 @@ module.exports = class InputItemView extends View
         data: @model.attributes
       }
     else if @inputType == 'text'
+      return {
+        type: inputTypeObject
+        data: @model.attributes
+      }
+    else if @inputType == 'percent'
+      return {
+        type: inputTypeObject
+        data: @model.attributes
+      }
+    else if @inputType == 'radioGroup'
       return {
         type: inputTypeObject
         data: @model.attributes

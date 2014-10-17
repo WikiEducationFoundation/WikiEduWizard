@@ -2,11 +2,11 @@
 
   <div class="step-nav-indicators hidden">
     {{#each steps}}
-    <div href="#" class="dot step-nav-indicators__item {{#if isActive}}active{{/if}}" data-nav-id="{{id}}">*</div>
+    <div href="#" class="dot step-nav-indicators__item {{#if isActive}}active{{/if}} {{#if hasVisited}}visited{{/if}}" data-nav-id="{{id}}">*</div>
     {{/each}}
   </div>
   
   <div class="step-nav-buttons">
-    <a href="#" class="step-nav__button step-nav--prev prev {{#if prevInactive }}inactive{{/if}}">Prev Step</a>
-    <a href="#" class="step-nav__button step-nav--next next {{#if nextInactive }}inactive{{/if}}">Next Step</a>
+    <a href="#" class="step-nav__button step-nav--prev prev {{#if prevInactive }}inactive{{/if}}">Prev</a>
+    <a href="#" class="step-nav__button step-nav--next next {{#if nextInactive }}inactive{{/if}}">Next</a>
   </div>

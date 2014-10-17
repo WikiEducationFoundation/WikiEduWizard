@@ -1,4 +1,5 @@
 .button
+  transition all 0.13s
   position relative
   display inline-block
   background blue-dark
@@ -7,4 +8,16 @@
   line-height 50px
   color white
   font-family body-font
+  border-radius 3px
   
+  &#publish
+    float right
+    max-width 160px
+    
+  &:hover, &:active
+    background-color rgba(94,107,154,1.0)
+    text-decoration underline
+  
+  &:inactive, .inactive
+    background-color rgba(99,108,142,1.0)
+    color rgba(166,171,191,1.0)
