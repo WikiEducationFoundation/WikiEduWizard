@@ -29,6 +29,10 @@ module.exports = class StepNavView extends View
 
   render: ->
     @$el.html( @template( @getRenderData() ) )
+    if @currentStep > 0
+      @$el.removeClass('hidden')
+    else
+      @$el.addClass('hidden')
     @afterRender()
 
   getRenderData: ->

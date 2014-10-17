@@ -11,7 +11,7 @@
 <div class="custom-input custom-input--checkbox" {{#if data.exclusive}} data-exclusive="true" {{/if}}>
   <label for="{{data.id}}">{{data.label}}</label>
   <input name="{{data.id}}" type="checkbox" id="{{data.id}}" {{#if data.selected}} checked {{/if}}  />
-  <div class="check-button"></div>
+  <a class="check-button" href="#"></a>
 </div>
 {{/if}}
 
@@ -43,8 +43,10 @@
 {{!-- TEXT --}}
 {{#if type.text}}
 <div class="custom-input custom-input--text">
-  <label for="{{data.id}}">{{data.label}}</label>
-  <input name="{{data.id}}" type="{{data.type}}" value="{{data.value}}" placeholder="{{data.placeholder}}" />
+  <div class="custom-input--text__inner">
+    <label for="{{data.id}}">{{data.label}}</label>
+    <input name="{{data.id}}" type="{{data.type}}" value="{{data.value}}" placeholder="{{data.placeholder}}" />
+  </div>
 </div>
 {{/if}}
 

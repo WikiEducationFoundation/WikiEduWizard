@@ -25,6 +25,8 @@ module.exports = class InputItemView extends View
     'click' : 'hideShowTooltip'
     'mouseout' : 'mouseoutHandler'
     'click .check-button' : 'checkButtonClickHandler'
+    'focus .custom-input--text input' : 'onFocus'
+    'blur .custom-input--text input' : 'onBlur'
 
 
   #--------------------------------------------------------
@@ -32,13 +34,34 @@ module.exports = class InputItemView extends View
   #--------------------------------------------------------
 
   checkButtonClickHandler: ->
-    $inputItem = @$el.find('input')
-    if $inputItem.is(':checked')
-      $inputItem.prop('checked', false)
-      $inputItem.trigger('change')
-    else 
-      $inputItem.prop('checked', true)
-      $inputItem.trigger('change')
+    # $inputItem = @$el.find('input')
+    @$el.toggleClass('checked')
+    
+    if @$el.hasClass('checked')
+      console.log 'yup'
+      @$inputEl.prop('checked', true)
+      console.log @$inputEl.prop('checked')
+      console.log @$inputEl.is(':checked')
+      @$inputEl.val('on')
+      @$inputEl.trigger('change')
+
+      # $inputItem.trigger('change')
+    else
+      console.log 'nope'
+      @$inputEl.prop('checked', false)
+      @$inputEl.val('off')
+      console.log @$inputEl.prop('checked') 
+      console.log @$inputEl.is(':checked')
+      @$inputEl.trigger('change')
+      # $inputItem.trigger('change')
+    # if $inputItem.is(':checked')
+    #   @$el.removeClass('checked')
+    #   $inputItem.prop('checked', false)
+    #   $inputItem.trigger('change')
+    # else 
+    #   @$el.addClass('checked')
+    #   $inputItem.prop('checked', true)
+    #   $inputItem.trigger('change')
 
   hoverHandler: (e) ->
     console.log e.target
@@ -74,12 +97,7 @@ module.exports = class InputItemView extends View
   itemChangeHandler: (e) ->
     
     value = $(e.currentTarget).val()
-
-    if value.length > 0
-      @$el.addClass('open')
-    else
-      @$el.removeClass('open')
-
+    console.log value
     if @$el.find('input').is(':checked')
       @$el.addClass('checked')
     else
@@ -90,11 +108,23 @@ module.exports = class InputItemView extends View
   #--------------------------------------------------------
 
   afterRender: ->
+    @$inputEl = @$el.find('input')
     @hoverTimer = null
     @isHovering = false
 
   hasInfo: ->
     return $el.hasClass('has-info')
+
+  onFocus: (e) ->
+    @$el.addClass('open')
+
+  onBlur: (e) ->
+    $target = $(e.currentTarget)
+    value = $target.val()
+    if value == ''
+      unless $target.is(':focus')
+        @$el.removeClass('open')
+
 
   #--------------------------------------------------------
   # Public Methods

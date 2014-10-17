@@ -248,7 +248,7 @@ gulp.task "icon-font", ->
 #--------------------------------------------------------
 
 gulp.task "server", ->
-  child = spawn('bundle', ['exec','shotgun', 'app.rb'])
+  child = spawn('bundle', ['exec','ruby', 'app.rb', '-p 9395'])
   child.stdout.pipe(process.stdout)
   child.stderr.pipe(process.stderr)
  

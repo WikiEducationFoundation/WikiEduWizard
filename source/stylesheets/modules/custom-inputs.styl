@@ -11,62 +11,74 @@
   display block
   position relative
   border-bottom 1px solid blue-border
-  height auto
-  max-width 450px
-  margin 0 auto
-  padding 0 45px
-
+  // border-left 1px solid blue-border
+  // border-right 1px solid blue-border
+  width 100%
+  height 60px
+  margin 10px auto
+  padding 0
   
-  &:before
-    content: ''
-    display block
-    width 5px
-    height 3px
-    border-left 1px solid blue-border
-    border-bottom 1px solid blue-border
-    position absolute
-    bottom -1px
-    left -5px
-  
-  &:after
-    content: ''
-    display block
-    width 5px
-    height 3px
-    border-right 1px solid blue-border
-    border-bottom 1px solid blue-border
-    position absolute
-    bottom -1px
-    right -5px
-  
+  .custom-input--text__inner
+    position relative
+    width 100%
+    height 100%
+    
   
   label
     @extend .form-content
+    transition top 0.1s ease-out
     display block
     width 100%
-    height 100%
-    position relative
-    letter-spacing 1px
-    color white
+    height 30px
+    line-height 30px
+    position absolute
+    top 28px
+    left 0
+    padding 0 5px
   
-  input[type="text"]
+  input, .input-editable
     @extend .form-content
     position relative
     width 100%
-    transition padding-top 0.2s
-    display block
-    appearance none
+    background transparent
+    color body-font-color
+    margin-top 30px
+    height 30px
     border none
     outline none
     letter-spacing 1px
-    z-index 1
-    padding-top 0
-    line-height 1
-    background transparent
-    color white
-    font-weight normal
-    -webkit-text-size-adjust 100%
-    -webkit-font-smoothing antialiased
+    line-height 30px  
+    padding 0 5px
+  
+  // &:before
+  //   content: ''
+  //   display block
+  //   width 5px
+  //   height 3px
+  //   border-left 1px solid blue-border
+  //   border-bottom 1px solid blue-border
+  //   position absolute
+  //   bottom -1px
+  //   left -5px
+  
+  // &:after
+  //   content: ''
+  //   display block
+  //   width 5px
+  //   height 3px
+  //   border-right 1px solid blue-border
+  //   border-bottom 1px solid blue-border
+  //   position absolute
+  //   bottom -1px
+  //   right -5px
+  
+  .custom-input-wrapper.open &
+    label
+      top 0px
+
+    
+
+
 
 ci-font-size = 18px
 ci-checkbox-height = auto //65px
@@ -92,8 +104,13 @@ ci-padding = 20px 45px
   font-size ci-font-size
   padding ci-padding
   
+  
+  label
+    cursor pointer
+  
   input
     display none
+    cursor pointer
   
 
   .check-button
@@ -109,6 +126,7 @@ ci-padding = 20px 45px
     border 2px solid white
     background-color transparent
     box-sizing border-box
+    cursor pointer
 
 
       
@@ -170,12 +188,71 @@ ci-padding = 20px 45px
         background-position-x -1px
       
 
-      
-        
+.custom-input-dates
+  position relative
+  width 100%
+  height 45px
+  margin 60px auto
   
-
-
+  &__inner
+    display inline-block
+    width auto
+    height 45px
+    
+    &.from 
+      float left
+      text-align left
+    &.to 
+      float right
+      text-align right
+    
+  
+  span.dates-to
+    font-size 18px
+    display inline-block
+    vertical-align middle
+    position absolute
+    width 35px
+    height 100%
+    line-height 45px
+    position absolute
+    top 50%
+    left 50%
+    margin-left -15px
+    text-align center
+    
+    
+  .custom-select
+    display inline-block
+    width: 52px
+    height: 40px
+    overflow hidden
+    background: transparent url(/images/arrow--dropdown.svg) no-repeat right 
+    border-bottom 1px solid blue-dark
+    margin 0 4px
+    
+    select 
+      background transparent
+      width 52px
+      font-size 18px
+      line-height 40px
+      border none
+      border-radius 0
+      height 40px
+      -webkit-appearance none
+      appearance none
+      outline none
+      color blue-dark
+      text-align center
+      cursor pointer
+      padding-left 8px
+    
+    &--year
+      width 72px
       
+      select
+        width 72px
+        padding-left 6px
 
 
 

@@ -52,7 +52,6 @@ STEP MODULE
   position relative
   
 
-
 .step-form-header
   padding 0 45px
 
@@ -65,7 +64,7 @@ STEP MODULE
   max-width 1200px
   min-width 1100px
   height 100%
-  padding 170px 40px 40px 500px
+  padding 200px 40px 40px 500px
   color body-font-color
   background white
   z-index 1
@@ -102,6 +101,22 @@ STEP MODULE
     z-index 500
     opacity 0
     
+    &__close
+      position absolute
+      top 200px
+      right 40px
+      width 18px
+      height 18px
+      display block
+      color transparent
+      border none
+      z-index 100
+      text-indent -9999px
+      overflow hidden
+      background transparent url(/images/close--tip.svg) no-repeat top center
+      cursor pointer
+
+      
 
     &__inner
       @extend .step-info
@@ -111,6 +126,31 @@ STEP MODULE
     &.visible
       opacity 1
     
+// INTRO STEP
+
+.step--first
+  .step-form
+    position relative
+    color body-font-color
+    background white
+    width 500px
+    padding 0 0//20px
+    height 100%
+    margin 0 auto
+    
+    &__title
+      margin-bottom 30px
+    
+    .step-form-header
+      padding 0
+      
+    .custom-input--text
+      label
+        color blue-dark
+    
+    .step-form-actions
+      text-align center
+
     
     
     

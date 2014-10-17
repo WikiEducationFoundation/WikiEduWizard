@@ -20,6 +20,10 @@ indicator-inactive-color = rgba(80,90,128.0.5)
   height 80px
   border-top 1px solid white
   z-index 5
+  
+  &.hidden
+    opacity 0
+    pointer-events none
 
   
   &__button 
@@ -53,12 +57,14 @@ indicator-inactive-color = rgba(80,90,128.0.5)
 
 
   .step-nav-indicators
+    tranition opacity 0.12s ease-in
     position absolute
     width 100%
     height indicator-height
     left 0
     top -(indicator-height)
     text-align center
+    
     
     &__item
       position relative
@@ -76,6 +82,5 @@ indicator-inactive-color = rgba(80,90,128.0.5)
       &.active
         background indicator-active-color
       
-
       
   

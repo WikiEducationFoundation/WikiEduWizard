@@ -9,6 +9,7 @@ application = require( '../App' )
 View = require('../views/supers/View')
 InputItemView = require('../views/InputItemView')
 StepTemplate = require('../templates/StepTemplate.hbs')
+IntroStepTemplate = require('../templates/IntroStepTemplate.hbs')
 InputTipTemplate = require('../templates/InputTipTemplate.hbs')
 CourseInfoTemplate = require('../templates/CourseInfoTemplate.hbs')
 
@@ -20,6 +21,8 @@ module.exports = class StepView extends View
 
   template: StepTemplate
 
+  introTemplate: IntroStepTemplate
+
   tipTemplate: InputTipTemplate
 
   courseInfoTemplate: CourseInfoTemplate
@@ -27,16 +30,19 @@ module.exports = class StepView extends View
   events:
     'click input' : 'inputHandler'
     'click #publish' : 'publishHandler'
-    'click .step-info-tip' : 'hideTips'
+    'click .step-info-tip__close' : 'hideTips'
+    'click #beginButton' : 'beginHandler'
 
   publishHandler: ->
     Backbone.Mediator.publish('wizard:publish')
   
   render: ->
-
+    console.log 'render'
     @tipVisible = false
-
-    @$el.html( @template( @model.attributes ) )
+    if @model.get('stepNumber') == 1
+      @$el.addClass('step--first').html( @introTemplate( @model.attributes ) )
+    else
+      @$el.html( @template( @model.attributes ) )
 
 
     @inputSection = @$el.find('.step-form-inner')
@@ -100,6 +106,9 @@ module.exports = class StepView extends View
     @$el.show()
 
     return @
+
+  beginHandler: ->
+    Backbone.Mediator.publish('step:next')
 
   inputHandler: (e) ->
     $target = $(e.currentTarget)
