@@ -73,7 +73,7 @@ post '/publish' do
   token_response = JSON.parse(get_token.body)
   csrf_token = token_response['query']['tokens']['csrftoken']
   
-  res = @access_token.post('http://en.wikipedia.org/w/api.php', {:action => 'edit', :title => "User:#{session["wiki_username"]}/Course Wizard Test", :text => @wizardData, :format => 'json', :token => csrf_token } )
+  res = @access_token.post('http://en.wikipedia.org/w/api.php', {:action => 'edit', :title => "User:Dmak78/Course Wizard Test", :text => @wizardData, :format => 'json', :token => csrf_token } )
 
   return res.body
 end
