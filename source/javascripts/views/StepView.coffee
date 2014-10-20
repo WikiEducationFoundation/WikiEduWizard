@@ -4,14 +4,25 @@
 # Author: kevin@wintr.us @ WINTR
 #########################################################
 
-
+#APP
 application = require( '../App' )
+
+#VIEW CLASS
 View = require('../views/supers/View')
+
+#SUBVIEWS
 InputItemView = require('../views/InputItemView')
-StepTemplate = require('../templates/StepTemplate.hbs')
-IntroStepTemplate = require('../templates/IntroStepTemplate.hbs')
-InputTipTemplate = require('../templates/InputTipTemplate.hbs')
-CourseInfoTemplate = require('../templates/CourseInfoTemplate.hbs')
+
+#TEMPLATES
+StepTemplate = require('../templates/steps/StepTemplate.hbs')
+IntroStepTemplate = require('../templates/steps/IntroStepTemplate.hbs')
+OutroStepTemplate = require('../templates/steps/OutroStepTemplate.hbs')
+
+InputTipTemplate = require('../templates/steps/info/InputTipTemplate.hbs')
+CourseTipTemplate = require('../templates/steps/info/CourseTipTemplate.hbs')
+WikiDatesModule = require('../templates/steps/modules/WikiDatesModule.hbs')
+
+#DATA
 CourseInfoData = require('../data/CourseInfoData')
 
 module.exports = class StepView extends View
@@ -24,11 +35,15 @@ module.exports = class StepView extends View
 
   introTemplate: IntroStepTemplate
 
+  outroTemplate: OutroStepTemplate
+
   tipTemplate: InputTipTemplate
 
-  courseInfoTemplate: CourseInfoTemplate
+  courseInfoTemplate: CourseTipTemplate
 
   courseInfoData: CourseInfoData
+
+  datesModule: WikiDatesModule
 
   events:
     'click input' : 'inputHandler'
@@ -36,6 +51,12 @@ module.exports = class StepView extends View
     'click .step-info-tip__close' : 'hideTips'
     'click #beginButton' : 'beginHandler'
     'click .step-info .step-info-section--accordian' : 'accordianClickHandler'
+    'click .edit-button' : 'editClickHandler'
+
+  editClickHandler: (e) ->
+    stepId = $(e.currentTarget).attr('data-step-id')
+    if stepId
+      Backbone.Mediator.publish('step:goto', stepId)
 
   accordianClickHandler: (e) ->
     $target = $(e.currentTarget)
@@ -59,10 +80,16 @@ module.exports = class StepView extends View
     Backbone.Mediator.publish('wizard:publish')
   
   render: ->
-    console.log 'render'
+
     @tipVisible = false
+
     if @model.get('stepNumber') == 1
       @$el.addClass('step--first').html( @introTemplate( @model.attributes ) )
+
+      #ADD START/END DATES MODULE
+      $dates = $(@datesModule())
+      @$el.find('.step-form-dates').html($dates)
+      
     else
       @$el.html( @template( @model.attributes ) )
 
@@ -72,6 +99,12 @@ module.exports = class StepView extends View
 
     @inputData = @model.attributes.inputs
 
+    if @model.attributes.id
+      if @model.attributes.id == "grading"
+        console.log "grading section"
+      else if @model.attributes.id == "overview"
+        console.log "overview section"
+
 
     _.each(@inputData, (input, index) =>
 
@@ -80,12 +113,12 @@ module.exports = class StepView extends View
       )
 
       inputView.inputType = input.type
-
       inputView.itemIndex = index
 
       inputView.parentStep = @
 
       @inputSection.append(inputView.render().el)
+
 
       if input.tipInfo
         tip = 
@@ -100,7 +133,6 @@ module.exports = class StepView extends View
         inputView.$el.addClass('has-info')
 
 
-
       else if input.hasCourseInfo
         infoData = _.extend(@courseInfoData[input.id], {id: index} )
 
@@ -109,7 +141,6 @@ module.exports = class StepView extends View
         @$tipSection.append($tipEl)
 
         inputView.$el.addClass('has-info')
-
     )
 
     @afterRender()
@@ -157,9 +188,6 @@ module.exports = class StepView extends View
 
 
 
-    # attribute = $target.data('model')
-    # console.log $target
-    # @model.set(attribute, $target.is(':checked'))
 
     
     

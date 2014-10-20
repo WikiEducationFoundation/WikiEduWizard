@@ -5,6 +5,7 @@
       color rgba(255,255,255,0.5)
 
 .custom-input--text
+  @extend .input-deco
   display block
   position relative
   border-bottom 1px solid blue-border
@@ -48,27 +49,7 @@
     line-height 30px  
     padding 0 5px
   
-  // &:before
-  //   content: ''
-  //   display block
-  //   width 5px
-  //   height 3px
-  //   border-left 1px solid blue-border
-  //   border-bottom 1px solid blue-border
-  //   position absolute
-  //   bottom -1px
-  //   left -5px
   
-  // &:after
-  //   content: ''
-  //   display block
-  //   width 5px
-  //   height 3px
-  //   border-right 1px solid blue-border
-  //   border-bottom 1px solid blue-border
-  //   position absolute
-  //   bottom -1px
-  //   right -5px
   
   .custom-input-wrapper.open &
     label
@@ -98,6 +79,7 @@ ci-padding = 20px 70px 20px 45px
   font-size ci-font-size
   padding ci-padding
   
+  
   &:before
     content ''
     display block
@@ -108,25 +90,66 @@ ci-padding = 20px 70px 20px 45px
     right 43px
     background transparent url(/images/percent.svg) no-repeat center center
     
-
+  
+  .input-container
+    @extend .input-deco
+    padding 0 5px
+    border-bottom 2px solid blue-dark
+    width 35px
+    float right
+    display inline-block
+    
+    &:before
+      border-left 2px solid blue-border
+      border-bottom 2px solid blue-border
+      bottom -2px
+      left -5px
+    
+    &:after
+      border-right 2px solid blue-border
+      border-bottom 2px solid blue-border
+      bottom -2px
+    
   
   input
     @extend .form-content
     position relative
     background transparent
     color white
-    width 35px
+    width 26px
     display inline-block
-    float right
     border none
     outline none
-    border-bottom 1px solid white
     text-align center
+
+  
     
   label
     line-height 22px
+
+.custom-input--edit
+  position relative
+  display block
+  width 100%
+  min-height ci-checkbox-height
+  color ci-font-color-active
+  border-bottom 1px solid ci-checkbox-border-color
+  font-size ci-font-size
+  padding ci-padding
+  
+  .edit-button
+    content ''
+    display block
+    width 22px
+    height 22px
+    position absolute
+    top 20px
+    right 43px
+    background transparent
     
     
+  label
+    line-height 22px
 
     
 
@@ -143,6 +166,7 @@ ci-padding = 20px 70px 20px 45px
   border-bottom 1px solid ci-checkbox-border-color
   font-size ci-font-size
   padding ci-padding
+  
   
   
 
@@ -335,26 +359,28 @@ ci-padding = 20px 70px 20px 45px
   span.dates-to
     font-size 18px
     display inline-block
-    vertical-align middle
+    vertical-align bottom
     position absolute
     width 35px
     height 100%
     line-height 45px
     position absolute
-    top 50%
+    top 0
     left 50%
     margin-left -15px
     text-align center
     
     
   .custom-select
+    @extend .input-deco
     display inline-block
     width: 52px
     height: 40px
-    overflow hidden
+
     background: transparent url(/images/arrow--dropdown.svg) no-repeat right 
     border-bottom 1px solid blue-dark
-    margin 0 4px
+    margin 0 5px
+    
     
     select 
       background transparent
@@ -371,6 +397,7 @@ ci-padding = 20px 70px 20px 45px
       text-align center
       cursor pointer
       padding-left 8px
+      
     
     &--year
       width 72px

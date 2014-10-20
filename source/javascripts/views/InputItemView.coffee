@@ -6,7 +6,7 @@
 
 
 View = require('../views/supers/View')
-InputItemTemplate = require('../templates/InputItemTemplate.hbs')
+InputItemTemplate = require('../templates/steps/input/InputItemTemplate.hbs')
 
 module.exports = class InputItemView extends View 
 
@@ -178,89 +178,13 @@ module.exports = class InputItemView extends View
         type: inputTypeObject
         data: @model.attributes
       }
+    else if @inputType == 'edit'
+      return {
+        type: inputTypeObject
+        data: @model.attributes
+        
+      }
 
-    # else if @inputType == 'checkboxGroup'
-    #   return {
-    #     type: inputTypeObject
-    #     data: {
-    #       id: 'checkgroup1'
-    #       label: 'CHECKBOX GROUP'
-    #       options: [
-    #         {
-    #           id: 'item1'
-    #           label: 'Item 1'
-    #           selected: true
-    #         }
-    #         {
-    #           id: 'item2'
-    #           label: 'Item 2'
-    #           selected: false
-    #         }
-    #         {
-    #           id: 'item3'
-    #           label: 'Item 3'
-    #           selected: false
-    #         }
-    #         {
-    #           id: 'item4'
-    #           label: 'Item 4'
-    #           selected: true
-    #         }
-    #         {
-    #           id: 'item5'
-    #           label: 'Item 5'
-    #           selected: false
-    #         }
-
-    #       ]
-    #     }
-    #   }
-    # else if @inputType == 'select'
-    #   return {
-    #     type: inputTypeObject
-    #     data: {
-    #       id: 'Select1'
-    #       multiple: true
-    #       label: 'SELECT GROUP 1'
-    #       options: [
-    #         {
-    #           label: 'Item 1'
-    #           value: 'item1'
-    #         }
-    #         {
-    #           label: 'Item 2'
-    #           value: 'item2'
-    #         }
-    #         {
-    #           label: 'Item 3'
-    #           value: 'item3'
-    #         }
-    #         {
-    #           label: 'Item 4'
-    #           value: 'item4'
-    #         }
-    #         {
-    #           label: 'Item 5'
-    #           value: 'item5'
-    #         }
-    #         {
-    #           label: 'Item 6'
-    #           value: 'item6'
-    #         }
-    #       ]
-    #     } 
-    #   }
-    
-    # else if @inputType == 'textarea'
-    #   return {
-    #     type: inputTypeObject
-    #     data: {
-    #       id: 'textarea1'
-    #       rows: '5'
-    #       label: 'This is the Label'
-    #       placeholder: 'placeholder'
-    #     }
-    #   }
 
   
       

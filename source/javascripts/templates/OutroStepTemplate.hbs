@@ -1,0 +1,59 @@
+<!--
+  Author: kevin@wintr.us
+  Date: 10/02/2014
+
+  Description: Individal Step Template
+-->
+
+<div class="step-form">
+  <div class="step-form-header">
+    <h3 class="step-form-header__title">{{{title}}}</h3>
+    
+  </div>
+  <div class="step-form-content">
+
+   
+    <h4 class="step-form-content__title">{{{formTitle}}}</h4>
+    
+
+    <div class="step-form-inner">
+    
+    </div>
+  </div>
+
+</div>
+
+
+<div class="step-info">
+
+  <a class="main-logo" href="http://wikiedu.org" target="_blank" title="wikiedu.org">WIKIEDU.ORG</a>
+  <div class="step-info-inner">
+  {{#if infoTitle}}
+    <h2 class="font-blue--dark">{{{infoTitle}}}</h2>
+  {{/if}}
+
+  {{#if instructions}}
+    <p class="large">{{{instructions}}}</p>
+  {{/if}}
+    {{#each sections}}
+    <div class="step-info-section {{#if accordian}} step-info-section--accordian{{/if}}">
+      {{#if title}}
+      <div class="step-info-section__header">
+        <h2 class="font-blue--dark">{{{title}}}</h2>
+      </div>
+      {{/if}}
+      <div class="step-info-section__content">
+      {{#each content}}     
+        <p>{{{this}}}</p>
+      {{/each}}
+      </div>
+    </div>
+    {{/each}}
+    <div class="step-info-section">
+      <a id='publish' href='#' class='button' style='display:inline-block;text-align:center;'>Publish</a>
+    </div>
+  </div>
+   <div class="step-info-tips">
+     
+  </div>
+</div>

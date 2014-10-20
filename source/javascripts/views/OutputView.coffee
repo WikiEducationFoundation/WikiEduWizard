@@ -1,7 +1,8 @@
 
 application = require( '../App' )
 View = require('../views/supers/View')
-OutputTemplate = require('../templates/OutputTemplate.hbs')
+OutputTemplate = require('../templates/steps/output/OutputTemplate.hbs')
+CourseDetailsTemplate = require('../templates/steps/output/CourseDetailsTemplate.hbs')
 
 module.exports = class InputItemView extends View 
 
@@ -28,17 +29,17 @@ module.exports = class InputItemView extends View
 
   publishHandler: ->
 
-    _.each(application.homeView.stepViews, (stepView) =>
-      stepView.$el.find('.custom-input').find('input').each((index,element) =>
-        console.log $(element).attr('name')
-        console.log $(element).val()
-      )
-    )
-    # $.ajax(
-    #   type: 'POST'
-    #   url: '/publish'
-    #   data:
-    #     text: @outputPlainText()
-    #   success: (data) ->
-    #     console.log data
+    # _.each(application.homeView.stepViews, (stepView) =>
+    #   stepView.$el.find('.custom-input').find('input').each((index,element) =>
+    #     console.log $(element).attr('name'), $(element).val()
+   
+    #   )
     # )
+    $.ajax(
+      type: 'POST'
+      url: '/publish'
+      data:
+        text: @outputPlainText()
+      success: (data) ->
+        console.log data
+    )

@@ -1,0 +1,55 @@
+<!--
+  Author: kevin@wintr.us
+  Date: 10/02/2014
+
+  Description: Individal Step Template
+-->
+
+<div class="step-form">
+
+  <!-- STEP FORM HEADER -->
+  <div class="step-form-header">
+
+    <!-- STEP TITLE -->
+    {{#if title}} 
+    <h3 class="step-form-header__title">{{{title}}}</h3>
+    {{/if}}
+  
+    <!-- STEP FORM TITLE -->
+    {{#if formTitle}} 
+    <h4 class="step-form__subtitle">{{{formTitle}}}</h4>
+    {{/if}}
+
+  </div><!-- end .step-form-header -->
+  
+  <!-- STEP INSTRUCTIONS -->
+  {{#if instructions}}
+  <div class="step-form-instructions">
+    <p class="large">{{{instructions}}}</p>
+  </div>
+  {{/if}} <!-- end .step-form-instructions -->
+
+
+
+  <!-- INTRO STEP FORM AREA -->
+  <div class="step-form-inner">
+    <!-- form fields -->
+  </div><!-- end .step-form-inner -->
+
+
+  <!-- DATES MODULE -->
+  <div class="step-form-dates">
+
+  </div><!-- end .step-form-dates -->
+
+  <!-- BEGIN BUTTON -->
+  <div class="step-form-actions">
+    <a class="button button--blue" id="beginButton" href="#">
+      Begin Assignment Wizard
+    </a>
+  </div><!-- end .step-form-actions -->
+
+
+</div><!-- end .step-form -->
+
+

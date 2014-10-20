@@ -15,6 +15,30 @@ hide-text()
   text-shadow none
   color transparent
   background-color transparent
+  
+.input-deco
+  position relative
+  &:before
+    content: ''
+    display block
+    width 5px
+    height 3px
+    border-left 1px solid blue-border
+    border-bottom 1px solid blue-border
+    position absolute
+    bottom -1px
+    left -5px
+  
+  &:after
+    content: ''
+    display block
+    width 5px
+    height 3px
+    border-right 1px solid blue-border
+    border-bottom 1px solid blue-border
+    position absolute
+    bottom -1px
+    right -5px
 
 // vertical-align()
 //   position relative

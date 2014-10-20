@@ -14,7 +14,7 @@ StepModel = require('../models/StepModel')
 
 StepNavView = require('../views/StepNavView')
 
-OutputTemplate = require('../templates/OutputTemplate.hbs')
+OutputTemplate = require('../templates/steps/output/OutputTemplate.hbs')
 
 
 module.exports = class HomeView extends View

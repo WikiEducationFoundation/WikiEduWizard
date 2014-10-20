@@ -39,7 +39,7 @@ STEP MODULE
     left 0
     width 100%
     height 170px
-    padding 0 45px
+    padding 0 80px 0 45px
     margin-bottom 35px
 
 
@@ -124,7 +124,7 @@ STEP MODULE
     &__close
       position absolute
       top 200px
-      right 40px
+      right 20px
       width 18px
       height 18px
       display block
@@ -133,7 +133,7 @@ STEP MODULE
       z-index 100
       text-indent -9999px
       overflow hidden
-      background transparent url(/images/close--tip.svg) no-repeat top center
+      background transparent url(/images/close--tip.svg) no-repeat center center
       cursor pointer
 
       
@@ -147,34 +147,65 @@ STEP MODULE
       opacity 1
       
 
+      
+
+      
+
 .step-info-section
   margin 25px auto
   
-  a 
-    color body-font-color
-    text-decoration underline
 
   .step-info-section__header
-    margin 10px auto     
-  .step-info-section__content
-    margin 10px auto
-
-.step-info-section--accordian
-  
-  .step-info-section__header
-    background transparent url(/images/arrow--dropdown.svg) no-repeat center left
-    padding-left 25px
-    cursor pointer
+    margin 15px auto     
     
   .step-info-section__content
-    transition max-height 0.33s 0.12s ease-out
+    margin 15px auto
+    
+    a:not(.button)
+      color body-font-color
+      text-decoration underline
+
+.step-info-section--accordian
+  border-bottom 2px solid rgba(81,85,102,0.1)
+  margin 15px auto  
+  
+  .step-info-section__header
+    position relative
+    padding-left 28px
+    cursor pointer
+    
+    
+    &:before
+      position absolute
+      content ''
+      display block
+      width 25px
+      height 100%
+      left -2px
+      top 0
+      background transparent url(/images/arrow--accordian.png) no-repeat center
+      background-size 17px auto
+      transform rotate(-180deg)
+      transition transform 0.08s ease-out
+    
+  .step-info-section__content
+    transition max-height 0.33s 0.12s ease-out, padding-bottom 0.15s 0.10s linear
     max-height 0
     overflow hidden
     padding-left 30px
+    margin 0
+    padding-bottom 0
       
   &.open
+    transition max-height 0.33s 0.12s ease-out, padding-bottom 0.15s linear
+    
     .step-info-section__content
       max-height 600px
+      padding-bottom 25px
+      
+    .step-info-section__header
+      &:before
+        transform rotate(0deg)
           
           
         
