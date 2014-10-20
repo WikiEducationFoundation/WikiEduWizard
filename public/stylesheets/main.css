@@ -811,6 +811,10 @@ textarea {
   width: 460px;
   height: 80px;
   z-index: 5;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 .step-nav:before,
 .step-nav:after {
@@ -858,20 +862,20 @@ textarea {
 .step-nav__button:first-child {
   border-right: 1px solid rgba(78,88,127,0.2);
   background: transparent url("/images/arrow--left.png") no-repeat;
-  background-position: 75px 50%;
+  background-position: 70px 50%;
 }
 .step-nav__button:first-child.inactive {
   background: transparent url("/images/arrow--left--inactive.png") no-repeat;
-  background-position: 75px 50%;
+  background-position: 70px 50%;
 }
 .step-nav__button:last-child {
   border-left: 1px solid rgba(78,88,127,0.2);
   background: transparent url("/images/arrow--right.png") no-repeat;
-  background-position: 125px 50%;
+  background-position: 130px 50%;
 }
 .step-nav__button:last-child.inactive {
   background: transparent url("/images/arrow--right--inactive.png") no-repeat;
-  background-position: 125px 50%;
+  background-position: 130px 50%;
 }
 .step-nav__button:hover,
 .step-nav__button:active {
@@ -953,6 +957,10 @@ textarea {
   background: #858daa;
   color: #fff;
   z-index: 2;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 .step-form .step-form-header {
   display: table;
@@ -999,6 +1007,10 @@ textarea {
   color: #4f4f4f;
   background: #fff;
   z-index: 1;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 .step-info p,
 .step-info .step-info-tip__inner p {
