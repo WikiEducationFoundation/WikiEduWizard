@@ -12,6 +12,7 @@ StepTemplate = require('../templates/StepTemplate.hbs')
 IntroStepTemplate = require('../templates/IntroStepTemplate.hbs')
 InputTipTemplate = require('../templates/InputTipTemplate.hbs')
 CourseInfoTemplate = require('../templates/CourseInfoTemplate.hbs')
+CourseInfoData = require('../data/CourseInfoData')
 
 module.exports = class StepView extends View
 
@@ -27,11 +28,32 @@ module.exports = class StepView extends View
 
   courseInfoTemplate: CourseInfoTemplate
 
+  courseInfoData: CourseInfoData
+
   events:
     'click input' : 'inputHandler'
     'click #publish' : 'publishHandler'
     'click .step-info-tip__close' : 'hideTips'
     'click #beginButton' : 'beginHandler'
+    'click .step-info .step-info-section--accordian' : 'accordianClickHandler'
+
+  accordianClickHandler: (e) ->
+    $target = $(e.currentTarget)
+
+    if $target.hasClass('open')
+      $target.removeClass('open')
+
+    else if $('.step-info-section--accordian').hasClass('open')
+      @$el.find('.step-info').find('.step-info-section--accordian').removeClass('open')
+
+      setTimeout(=>
+        $target.addClass('open')
+      ,500)
+
+    else
+      $target.addClass('open')
+
+  
 
   publishHandler: ->
     Backbone.Mediator.publish('wizard:publish')
@@ -79,10 +101,10 @@ module.exports = class StepView extends View
 
 
 
-      else if input.courseInfo
-        _.extend(input.courseInfo, {id: index} )
+      else if input.hasCourseInfo
+        infoData = _.extend(@courseInfoData[input.id], {id: index} )
 
-        $tipEl = @courseInfoTemplate(input.courseInfo)
+        $tipEl = @courseInfoTemplate(infoData)
 
         @$tipSection.append($tipEl)
 

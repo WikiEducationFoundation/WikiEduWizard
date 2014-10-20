@@ -44,10 +44,11 @@ WizardData = [
     inputs: [
       { 
         type: 'checkbox'
-        id: 'write'
+        id: 'researchwrite'
         selected: false
         label: 'Research and write an article'
         exclusive: true
+        hasCourseInfo: true
         courseInfo: 
           title: ''
           content: 'Research and write an article'
@@ -58,50 +59,66 @@ WizardData = [
         selected: false
         label: 'Evaluate articles'
         exclusive: false
+        hasCourseInfo: true
         courseInfo: 
           title: 'Evaluate articles'
           content: ''
       }
       { 
         type: 'checkbox'
-        id: 'media'
+        id: 'multimedia'
         selected: false
         label: 'Add images & multimedia'
         exclusive: false
+        hasCourseInfo: true
         courseInfo: 
           title: 'Add images & multimedia'
           content: ''
       }
       { 
         type: 'checkbox'
-        id: 'source'
+        id: 'sourcecentered'
         selected: false
         label: 'Source-centered additions'
         exclusive: false
+        hasCourseInfo: true
         courseInfo: 
           title: 'Source-centered additions'
           content: ''
       }
       { 
         type: 'checkbox'
-        id: 'edit'
+        id: 'copyedit'
         selected: false
         label: 'Copy/edit articles'
         exclusive: false
+        hasCourseInfo: true
         courseInfo: 
           title: 'Copy/edit articles'
           content: ''
       }
       { 
         type: 'checkbox'
-        id: 'fix'
+        id: 'findfix'
         selected: false
         label: 'Find and fix errors'
         exclusive: false
+        hasCourseInfo: true
         courseInfo: 
           title: 'Find and fix errors'
           content: ''
-      }      
+      }  
+      { 
+        type: 'checkbox'
+        id: 'plagiarism'
+        selected: false
+        label: 'Identify and fix close paraphrasing / plagiarism'
+        exclusive: false
+        hasCourseInfo: true
+        courseInfo: 
+          title: ''
+          content: ''
+      }     
     ]
     sections: [
       {
@@ -536,6 +553,7 @@ WizardData = [
     sections: [
       {
         title: 'Know all of your students\' Wikipedia usernames.'
+        accordian: true
         content: [
           "Without knowing the students' usernames, you won't be able to grade them."
           "Make sure all students enroll on the course page. Once all students have signed the list, you can click on \"user contributions\" (in the menu bar on the left hand side of your browser screen) to review that student's activities on Wikipedia. If you have made student training compulsory, you can check the <a href='https://en.wikipedia.org/wiki/Wikipedia:Training/For_students/Training_feedback' target='_blank'>feedback page</a> to see which students have completed it."
@@ -543,12 +561,14 @@ WizardData = [
       }
       {
         title: 'Be specific about your expectations.'
+        accordian: true
         content: [
           "Being specific about what you expect your students to do is crucial for grading. For example, students could be asked to add a minimum of three sections to an existing article, or a minimum of eight references to an existing article that lacks the appropriate sourcing, etc."
         ]
       }
       {
         title: 'Grade based on what students contribute to Wikipedia, not what remains on Wikipedia at the course\'s end.'
+        accordian: true
         content: [
           "You can see a student's contributions in the article history, even if some writing was removed by the community (or the student). A student’s content could be edited for many reasons, and can even be evidence of a student reflecting critically on their own contributions. Furthermore, if students feel they must defend control of an article for the sake of their grade, this can lead to conflict with other editors."
           "Wikipedia is a collaborative writing environment driven by verifiability, noteworthiness and neutral point of view – all of which have created challenges for students familiar with a persuasive writing format in classrooms. Encourage students to reflect on edits to improve their understanding of the process and the community."

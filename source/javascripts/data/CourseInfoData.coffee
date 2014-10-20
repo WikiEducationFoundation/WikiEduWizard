@@ -1,0 +1,344 @@
+CourseInfoData = 
+
+  # RESEARCH AND WRITE A WIKIPEDIA ARTICLE
+  researchwrite: 
+    title: "Research and write a Wikipedia article"
+    description: [
+      "Working individually or in small teams with your guidance, students choose course-related topics that are not well-covered on Wikipedia. After assessing Wikipedia's coverage, students research topics to find high-quality secondary sources, then propose an outline for how the topic ought to be covered. They draft their articles, give and respond to peer feedback, take their work live on Wikipedia, and keep improving their articles until the end of the term. Along the way, students may work with experienced Wikipedia editors who can offer critical feedback and help make sure articles meet Wikipedia's standards and style conventions. Students who do great work may even have their articles featured on Wikipedia's main page. Solid articles will help inform thousands of future readers about the selected topic."
+      "Optionally, students may be asked to write a reflective paper about their Wikipedia experience, present their contributions in class, or develop their own ideas and arguments about their topics in a separate essay."
+    ]
+    min_timeline: "6 weeks"
+    rec_timeline: "12 weeks"
+    best_for: [
+      "Graduate Students"
+      "Advanced undergraduates"
+    ]
+    not_for: [
+      "Intro courses"
+      "large survey courses"
+    ]
+    learning_objectives: [
+      {
+        text: "Master course content"
+        stars: 4
+      }
+      {
+        text: "Writing skills development"
+        stars: 4
+      }
+      {
+        text: "Increase media and information fluency"
+        stars: 4
+      }
+      {
+        text: "Improve critical thinking and research skills"
+        stars: 4
+      }
+      {
+        text: "Foster collaboration"
+        stars: 4
+      }
+      {
+        text: "Develop technical and communication skills"
+        stars: 4
+      }
+    ]
+    
+
+  # SOURCE-CENTERED ADDITIONS
+  sourcecentered: 
+    title: "Source-centered additions"
+    description: [
+      "Students read Wikipedia articles in a self-selected subject area to identify articles in need of revision or improvement, such as those with \"citation needed\" tags. Students will find reliable sources to use as references for uncited content. This assignment includes a persuasive essay in which students make a case for their suggested changes, why they believe they are qualified to make those changes, and why their selected sources provide support. After making their contributions, students reflect on their work with a formal paper, and discuss whether they've accomplished their stated goals."
+    ]
+    min_timeline: "6 weeks"
+    rec_timeline: "8 weeks"
+    best_for: [
+      "Large classes"
+      "Advanced undergraduates"
+    ]
+    not_for: [
+      "Intro (100-level) courses"
+    ]
+    learning_objectives: [
+      {
+        text: "Master course content"
+        stars: 2
+      }
+      {
+        text: "Writing skills development"
+        stars: 4
+      }
+      {
+        text: "Increase media and information fluency"
+        stars: 3
+      }
+      {
+        text: "Improve critical thinking and research skills"
+        stars: 3
+      }
+      {
+        text: "Foster collaboration"
+        stars: 1
+      }
+      {
+        text: "Develop technical and communication skills"
+        stars: 1
+      }
+    ]
+    
+
+  # FIND AND FIX ERRORS
+  findfix: 
+    title: "Find and fix errors"
+    description: [
+      "Students are asked to find an article about a course-related topic with which they are extremely familiar that has some mistakes. Students take what they know about the topic, find factual errors and other substantive mistakes, and correct those."
+    ]
+    min_timeline: "6 weeks"
+    rec_timeline: "8 weeks"
+    best_for: [
+      "Graduate students"
+    ]
+    not_for: [
+      "Intro (100-level) courses"
+    ]
+    learning_objectives: [
+      {
+        text: "Master course content"
+        stars: 4
+      }
+      {
+        text: "Writing skills development"
+        stars: 4
+      }
+      {
+        text: "Increase media and information fluency"
+        stars: 2
+      }
+      {
+        text: "Improve critical thinking and research skills"
+        stars: 2
+      }
+      {
+        text: "Foster collaboration"
+        stars: 2
+      }
+      {
+        text: "Develop technical and communication skills"
+        stars: 3
+      }
+    ]
+    
+
+  # Identify and fix close paraphrasing / plagiarism
+  plagiarism: 
+    title: "Identify and fix close paraphrasing / plagiarism"
+    description: [
+      "Students search through Wikipedia articles to find instances of close paraphrasing or plagiarism, then reword the information in their own language to be appropriate for Wikipedia. In this assignment, students gain a deeper understanding of what plagiarism is and how to avoid it."
+    ]
+    min_timeline: "4 weeks"
+    rec_timeline: "6 weeks"
+    best_for: [
+      "TBD"
+    ]
+    not_for: [
+      "TBD"
+    ]
+    learning_objectives: [
+      {
+        text: "Master course content"
+        stars: 2
+      }
+      {
+        text: "Writing skills development"
+        stars: 4
+      }
+      {
+        text: "Increase media and information fluency"
+        stars: 2
+      }
+      {
+        text: "Improve critical thinking and research skills"
+        stars: 4
+      }
+      {
+        text: "Foster collaboration"
+        stars: 1
+      }
+      {
+        text: "Develop technical and communication skills"
+        stars: 2
+      }
+    ]
+    
+
+  #TRANSLATE AN ARTICLE TO ENGLISH
+  translate: 
+    title: "Identify and fix close paraphrasing / plagiarism"
+    description: [
+      "This is a practical assignment for language instructors. Students select a Wikipedia article in the language they are studying, and translate it into their native language. Students should start with high-quality articles which are not available in their native language. This assignment provides practical translation advice with the incentive of real public service, as students expand the representation of the target culture on Wikipedia."
+    ]
+    min_timeline: "4 weeks"
+    rec_timeline: "6+ weeks"
+    best_for: [
+      "Language courses"
+    ]
+    not_for: [
+      "Students translating <em>from</em> their native language to the language they're studying"
+    ]
+    learning_objectives: [
+      {
+        text: "Master course content"
+        stars: 4
+      }
+      {
+        text: "Writing skills development"
+        stars: 1
+      }
+      {
+        text: "Increase media and information fluency"
+        stars: 1
+      }
+      {
+        text: "Improve critical thinking and research skills"
+        stars: 3
+      }
+      {
+        text: "Foster collaboration"
+        stars: 4
+      }
+      {
+        text: "Develop technical and communication skills"
+        stars: 4
+      }
+    ]
+    
+
+  #COPY EDITING
+  copyedit: 
+    title: "Copyedit"
+    description: [
+      "Students are asked to copyedit Wikipedia articles, engaging editors in conversation about their writing and improving the clarity of the language of the material. Students learn to write in different voices for different audiences. In learning about the specific voice on Wikipedia, they learn about the “authoritative” voice and how its tone can convince, even if the content is questionable."
+    ]
+    min_timeline: "2 weeks"
+    rec_timeline: "4 weeks"
+    best_for: [
+      "English grammar courses"
+    ]
+    not_for: [
+      "Students without strong writing skills"
+    ]
+    learning_objectives: [
+      {
+        text: "Master course content"
+        stars: 4
+      }
+      {
+        text: "Writing skills development"
+        stars: 4
+      }
+      {
+        text: "Increase media and information fluency"
+        stars: 2
+      }
+      {
+        text: "Improve critical thinking and research skills"
+        stars: 2
+      }
+      {
+        text: "Foster collaboration"
+        stars: 2
+      }
+      {
+        text: "Develop technical and communication skills"
+        stars: 3
+      }
+    ]
+    
+
+  #EVALUATE ARTICLES
+  evaluate: 
+    title: "Evaluate articles"
+    description: [
+      "First, students write a report analyzing the state of Wikipedia articles on course-related topics with an eye toward future revisions. This encourages a critical reading of both content and form. Then, the students edit articles in sandboxes with feedback from the professor, carefully selecting and adding references to improve the article based on their critical essays. Finally, they compose a self-assessment evaluating their own contributions."
+    ]
+    min_timeline: "5 weeks"
+    rec_timeline: "8 weeks"
+    best_for: [
+      "Classes with fewer than 30 students"
+    ]
+    not_for: [
+      "Large survey classes"
+    ]
+    learning_objectives: [
+      {
+        text: "Master course content"
+        stars: 4
+      }
+      {
+        text: "Writing skills development"
+        stars: 3
+      }
+      {
+        text: "Increase media and information fluency"
+        stars: 4
+      }
+      {
+        text: "Improve critical thinking and research skills"
+        stars: 4
+      }
+      {
+        text: "Foster collaboration"
+        stars: 1
+      }
+      {
+        text: "Develop technical and communication skills"
+        stars: 4
+      }
+    ]
+    
+
+  # ADD IMAGES OR MULTIMEDIA
+  multimedia: 
+    title: " Add images or multimedia"
+    description: [
+      "If your students are adept at media, this can be a great way of contributing to Wikipedia in a non-textual way. In the past, students have photographed local monuments to illustrate articles, designed infographics to illustrate concepts, or created videos that demonstrated audio-visually what articles describe in words."
+    ]
+    min_timeline: "2 weeks"
+    rec_timeline: "3 weeks"
+    best_for: [
+      "Students studying photography, videography, or graphic design"
+    ]
+    not_for: [
+      "Students without media skills"
+    ]
+    learning_objectives: [
+      {
+        text: "Master course content"
+        stars: 4
+      }
+      {
+        text: "Writing skills development"
+        stars: 1
+      }
+      {
+        text: "Increase media and information fluency"
+        stars: 4
+      }
+      {
+        text: "Improve critical thinking and research skills"
+        stars: 2
+      }
+      {
+        text: "Foster collaboration"
+        stars: 3
+      }
+      {
+        text: "Develop technical and communication skills"
+        stars: 4
+      }
+    ]
+    
+
+
+module.exports = CourseInfoData

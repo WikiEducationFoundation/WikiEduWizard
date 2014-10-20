@@ -123,6 +123,10 @@ ci-padding = 20px 70px 20px 45px
     border-bottom 1px solid white
     text-align center
     
+  label
+    line-height 22px
+    
+    
 
     
 
@@ -284,6 +288,7 @@ ci-padding = 20px 70px 20px 45px
       cursor pointer
       
     &:before
+      transition background-position-x 0.10s
       content ''
       position absolute
       top 0
@@ -291,7 +296,7 @@ ci-padding = 20px 70px 20px 45px
       display block
       width 25px
       height 100%
-      background transparent url('/images/tooltip-arrow--right.svg') no-repeat top left
+      background transparent url('/images/tooltip-arrow--right.svg') no-repeat center left
       background-size auto 100%
       z-index 10
       background-position-x -25px
