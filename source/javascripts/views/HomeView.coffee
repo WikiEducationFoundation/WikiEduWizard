@@ -3,18 +3,23 @@
 # Author: kevin@wintr.us @ WINTR
 #########################################################
 
+# APP
 application = require( '../App' )
 
+# SUPER VIEW CLASS
 View = require('../views/supers/View')
-HomeTemplate = require('../templates/HomeTemplate.hbs')
 
+#TEMPLATES
+HomeTemplate = require('../templates/HomeTemplate.hbs')
+OutputTemplate = require('../templates/steps/output/OutputTemplate.hbs')
+
+#CONTROLLERS
 StepController = require('../controllers/StepController')
+
+#SUBVIEWS
 StepView = require('../views/StepView')
 StepModel = require('../models/StepModel')
-
 StepNavView = require('../views/StepNavView')
-
-OutputTemplate = require('../templates/steps/output/OutputTemplate.hbs')
 
 
 module.exports = class HomeView extends View
@@ -27,19 +32,25 @@ module.exports = class HomeView extends View
 
   template: HomeTemplate
 
+
   #--------------------------------------------------------
   # INIT
   #--------------------------------------------------------
 
   initialize: ->
     @currentStep = 0
+
     @stepsRendered = false
+
     
 
   subscriptions:
     'step:next' : 'nextClickHandler'
+
     'step:prev' : 'prevClickHandler'
+
     'step:goto' : 'gotoClickHandler'
+
 
 
   render: ->
@@ -50,8 +61,9 @@ module.exports = class HomeView extends View
 
     return @
 
-  afterRender: ->
 
+
+  afterRender: ->
     #SUBVIEWS
     @StepNav = new StepNavView()
 
@@ -64,6 +76,7 @@ module.exports = class HomeView extends View
     @stepViews = @_setupStepViews()
 
     @StepNav.stepViews = @stepViews
+
     @StepNav.totalSteps = @stepViews.length
 
     @$innerContainer.append(@StepNav.el)
@@ -72,12 +85,15 @@ module.exports = class HomeView extends View
       @showCurrentStep()
     
 
+
   _setupStepViews: ->
     
     _views = []
 
     _.each(application.data,(step, index) =>
+
       newmodel = new StepModel()
+
 
       _.map(step,(value, key, list) -> 
         newmodel.set(key,value)
@@ -92,14 +108,18 @@ module.exports = class HomeView extends View
       @$stepsContainer.append(newview.render().hide().el)
 
       _views.push(newview)
+
     )
 
     return _views
 
 
+
   getRenderData: ->
     return {
+
       content: "This is special content"
+
     }
     
 
@@ -115,6 +135,7 @@ module.exports = class HomeView extends View
       @currentStep = 0
 
     @hideAllSteps()
+
     @showCurrentStep()
 
 
@@ -125,23 +146,32 @@ module.exports = class HomeView extends View
       @currentStep = @stepViews.length - 1
 
     @hideAllSteps()
+
     @showCurrentStep()
+
+
 
   updateStep: (index) ->
     @currentStep = index
+
     @hideAllSteps()
+
     @showCurrentStep()
 
 
 
   showCurrentStep: ->
     @stepViews[@currentStep].show()
+
     Backbone.Mediator.publish('step:update', @currentStep)
+
     return @
+
 
 
   currentStepView: ->
     return @stepViews[@currentStep]
+
 
 
   hideAllSteps: ->
@@ -149,12 +179,18 @@ module.exports = class HomeView extends View
       stepView.hide()
     )
 
+
+
   hideAllTips: (e) ->
     _.each(@stepViews,(stepView) =>
       stepView.tipVisible = false
     )
+
     $('.step-info-tip').removeClass('visible')
+
     $('.custom-input-wrapper').removeClass('selected')
+
+
 
 
   #--------------------------------------------------------
@@ -163,15 +199,24 @@ module.exports = class HomeView extends View
 
   nextClickHandler: ->
     @advanceStep()
+
     @hideAllTips()
+
+
 
   prevClickHandler: ->
     @decrementStep()
+
     @hideAllTips()
+
+
 
   gotoClickHandler: (index) ->
     @updateStep(index)
+
     @hideAllTips()
+
+
 
 
 

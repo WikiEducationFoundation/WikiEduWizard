@@ -37,6 +37,7 @@ class View extends Backbone.View
   #
   render: ->
     @$el.html( @template( @getRenderData() ) )
+    
     @afterRender()
     
     return @

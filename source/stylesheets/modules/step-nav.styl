@@ -28,7 +28,7 @@ indicator-inactive-color = rgba(80,90,128.0.5)
     transition all 0.2s
     display inline-block
     width 50%
-    max-height 80px
+    height 80px
     text-align center
     color white
     float left
@@ -37,19 +37,53 @@ indicator-inactive-color = rgba(80,90,128.0.5)
     background-color blue
     border-top 2px solid rgba(78,88,127,0.2)
     
-    &:first-child
-      border-right 1px solid rgba(78,88,127,0.2)
-    &:last-child
-      border-left 1px solid rgba(78,88,127,0.2)
+    span 
+      height 25px
     
+    .step-nav-arrow 
+      display inline-block
+      line-height 80px
+      width 32px
+      height 25px
+      
+      &--left
+        background transparent url(/images/arrow--left.png) no-repeat
+        visibility hidden
+      
+      &--right
+        background transparent url(/images/arrow--right.png) no-repeat
+        visibility hidden
+      
     &.inactive
       pointer-events: none
       color rgba(255,255,225,0.25)
-      
+    
 
+    &:first-child
+      border-right 1px solid rgba(78,88,127,0.2)
+      background transparent url(/images/arrow--left.png) no-repeat
+      background-position 75px 50%
+      
+      &.inactive
+        background transparent url(/images/arrow--left--inactive.png) no-repeat
+        background-position 75px 50%
+
+
+    &:last-child
+      border-left 1px solid rgba(78,88,127,0.2)
+      background transparent url(/images/arrow--right.png) no-repeat
+      background-position 125px 50%
+      
+      &.inactive
+        background transparent url(/images/arrow--right--inactive.png) no-repeat
+        background-position 125px 50%
+
+          
     &:hover, &:active
       background-color rgba(80,90,128,1.0)
       text-decoration underline
+    
+    
   
     
     //TODO ARROWS

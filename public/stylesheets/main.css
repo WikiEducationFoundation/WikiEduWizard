@@ -825,7 +825,7 @@ textarea {
           transition: all 0.2s;
   display: inline-block;
   width: 50%;
-  max-height: 80px;
+  height: 80px;
   text-align: center;
   color: #fff;
   float: left;
@@ -834,15 +834,44 @@ textarea {
   background-color: #858daa;
   border-top: 2px solid rgba(78,88,127,0.2);
 }
-.step-nav__button:first-child {
-  border-right: 1px solid rgba(78,88,127,0.2);
+.step-nav__button span {
+  height: 25px;
 }
-.step-nav__button:last-child {
-  border-left: 1px solid rgba(78,88,127,0.2);
+.step-nav__button .step-nav-arrow {
+  display: inline-block;
+  line-height: 80px;
+  width: 32px;
+  height: 25px;
+}
+.step-nav__button .step-nav-arrow--left {
+  background: transparent url("/images/arrow--left.png") no-repeat;
+  visibility: hidden;
+}
+.step-nav__button .step-nav-arrow--right {
+  background: transparent url("/images/arrow--right.png") no-repeat;
+  visibility: hidden;
 }
 .step-nav__button.inactive {
   pointer-events: none;
   color: rgba(255,255,225,0.25);
+}
+.step-nav__button:first-child {
+  border-right: 1px solid rgba(78,88,127,0.2);
+  background: transparent url("/images/arrow--left.png") no-repeat;
+  background-position: 75px 50%;
+}
+.step-nav__button:first-child.inactive {
+  background: transparent url("/images/arrow--left--inactive.png") no-repeat;
+  background-position: 75px 50%;
+}
+.step-nav__button:last-child {
+  border-left: 1px solid rgba(78,88,127,0.2);
+  background: transparent url("/images/arrow--right.png") no-repeat;
+  background-position: 125px 50%;
+}
+.step-nav__button:last-child.inactive {
+  background: transparent url("/images/arrow--right--inactive.png") no-repeat;
+  background-position: 125px 50%;
 }
 .step-nav__button:hover,
 .step-nav__button:active {
