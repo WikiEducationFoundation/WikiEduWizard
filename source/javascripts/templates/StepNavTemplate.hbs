@@ -1,12 +1,21 @@
+<!--
+  Author: kevin@wintr.us
+  Date: 10/02/2014
+
+  Description: Step Navigation 
+-->
 
 
-  <div class="step-nav-indicators hidden">
-    {{#each steps}}
-    <div href="#" class="dot step-nav-indicators__item {{#if isActive}}active{{/if}} {{#if hasVisited}}visited{{/if}}" data-nav-id="{{id}}">*</div>
-    {{/each}}
-  </div>
-  
-  <div class="step-nav-buttons">
-    <a href="#" class="step-nav__button step-nav--prev prev {{#if prevInactive }}inactive{{/if}}">Prev</a>
-    <a href="#" class="step-nav__button step-nav--next next {{#if nextInactive }}inactive{{/if}}">Next</a>
-  </div>
+<!-- STEP NAV DOT INDICATORS -->
+<div class="step-nav-indicators hidden">
+  {{#each steps}}
+  <div href="#" class="dot step-nav-indicators__item {{#if isActive}}active{{/if}} {{#if hasVisited}}visited{{/if}}" data-nav-id="{{id}}">*</div>
+  {{/each}}
+</div><!-- end .step-nav-indicators -->
+
+
+<!-- STEP NAV BUTTONS -->
+<div class="step-nav-buttons">
+  <a href="#" class="step-nav__button step-nav--prev prev {{#if prevInactive }}inactive{{/if}}">Prev</a>
+  <a href="#" class="step-nav__button step-nav--next next {{#if nextInactive }}inactive{{/if}}">Next</a>
+</div><!-- end .step-nav-buttons -->

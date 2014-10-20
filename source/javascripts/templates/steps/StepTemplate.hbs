@@ -2,56 +2,76 @@
   Author: kevin@wintr.us
   Date: 10/02/2014
 
-  Description: Individal Step Template
+  Description: Main Individal Step Template
 -->
 
+
+<!-- STEP FORM : Left Side of Step -->
 <div class="step-form">
   <div class="step-form-header">
+    {{#if title}}
     <h3 class="step-form-header__title">{{{title}}}</h3>
-    
+    {{/if}}
   </div>
+
+  
+  <!-- STEP FORM INNER CONTENT -->
   <div class="step-form-content">
-
-   
+    {{#if formTitle}}
     <h4 class="step-form-content__title">{{{formTitle}}}</h4>
-    
-
-    <div class="step-form-inner">
-    
-    </div>
+    {{/if}}
+    <div class="step-form-inner"></div>
   </div>
+</div><!-- end .step-form -->
 
-</div>
 
 
+<!-- STEP INFO : Right side of step -->
 <div class="step-info">
-
+  
+  <!-- WIKIEDU LOGO -->
   <a class="main-logo" href="http://wikiedu.org" target="_blank" title="wikiedu.org">WIKIEDU.ORG</a>
+
+  <!-- STEP INFO INNER -->
   <div class="step-info-inner">
-  {{#if infoTitle}}
+
+    {{#if infoTitle}}
     <h2 class="font-blue--dark">{{{infoTitle}}}</h2>
-  {{/if}}
-  {{#if instructions}}
+    {{/if}}
+
+    {{#if instructions}}
     <p class="large">{{{instructions}}}</p>
-  {{/if}}
+    {{/if}}
+
+    
+    <!-- INFO SECTIONS -->
     {{#each sections}}
     <div class="step-info-section {{#if accordian}} step-info-section--accordian{{/if}}">
+      
+      <!-- INFO SECTION HEADER -->
       {{#if title}}
       <div class="step-info-section__header">
         <h2 class="font-blue--dark">{{{title}}}</h2>
-      </div>
+      </div><!-- end .step-info-section__header -->
       {{/if}}
+      
+      <!-- INFO SECTION CONTENT -->
       <div class="step-info-section__content">
-      {{#each content}}
-        
-          {{{this}}}
-        
-      {{/each}}
-      </div>
-    </div>
+        {{#each content}}    
+          {{{this}}}    
+        {{/each}}
+      </div><!-- end .step-info-section__content -->
+
+    </div><!-- end .step-info-section -->
     {{/each}}
-  </div>
-   <div class="step-info-tips">
-     
-  </div>
-</div>
+
+  </div><!-- end .step-info-inner -->
+  
+
+
+  <!-- STEP INFO TIP SECTION -->
+  <!-- used for both course info and generic info -->
+  <div class="step-info-tips"></div><!-- end .step-info-tips -->
+
+
+</div><!-- end .step-info -->

@@ -1,0 +1,13 @@
+<div class="custom-input-radio-inner__header">
+  <h2 class="font-blue--dark">{{data.label}}</h2>
+</div>
+<div class="custom-input-radio-inner custom-input-radio-inner--group">
+  
+  {{#each data.options}}
+    <div class="custom-input custom-input--radio custom-input--radio-group {{#if selected}} checked {{/if}}">
+      <a class="radio-button" href="#"></a>
+      <label for="{{value}}">{{label}}</label>
+      <input name="{{id}}" id="{{value}}" value="{{value}}" type="radio" {{#if selected}} checked {{/if}}/>
+    </div>
+  {{/each}}
+</div>

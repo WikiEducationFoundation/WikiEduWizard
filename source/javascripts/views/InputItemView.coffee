@@ -6,15 +6,29 @@
 
 
 View = require('../views/supers/View')
-InputItemTemplate = require('../templates/steps/input/InputItemTemplate.hbs')
+InputItemTemplate = require('../templates/steps/inputs/InputItemTemplate.hbs')
+
+# InputCheckboxTemplate = require('../templates/steps/inputs/InputCheckboxTemplate.hbs')
+# InputEditStepTemplate = require('../templates/steps/inputs/InputEditStepTemplate.hbs')
+# InputPercentTemplate = require('../templates/steps/inputs/InputPercentTemplate.hbs')
+# InputRadioGroupTemplate = require('../templates/steps/inputs/InputRadioGroupTemplate.hbs')
+# InputRadioTemplate = require('../templates/steps/inputs/InputRadioTemplate.hbs')
+# InputTextTemplate = require('../templates/steps/inputs/InputTextTemplate.hbs')
+
 
 module.exports = class InputItemView extends View 
 
+
   template: InputItemTemplate
+
+  # checkboxTemplate: InputCheckboxTemplate
+
 
   className: 'custom-input-wrapper'
 
+
   hoverTime: 500
+
 
   events: 
     'change input' : 'itemChangeHandler'
@@ -28,6 +42,7 @@ module.exports = class InputItemView extends View
     'click .radio-button' : 'radioButtonClickHandler'
     'focus .custom-input--text input' : 'onFocus'
     'blur .custom-input--text input' : 'onBlur'
+
 
 
   #--------------------------------------------------------
@@ -54,9 +69,10 @@ module.exports = class InputItemView extends View
       $otherInputs.prop('checked', false)
 
       $inputEl.prop('checked', true)
-      console.log $inputEl.prop('checked')
 
       $parentEl.addClass('checked')
+
+
 
   checkButtonClickHandler: (e) ->
     e.preventDefault()
@@ -74,14 +90,22 @@ module.exports = class InputItemView extends View
       @$inputEl.val('off')
       @$inputEl.trigger('change')
 
+
+
   hoverHandler: (e) ->
     console.log e.target
+
+
 
   mouseoverHandler: (e) ->
     @isHovering = true
       
+
+
   mouseoutHandler: (e) ->
     @isHovering = false
+
+
 
   showTooltip: ->
     if @hasInfo && @parentStep.tipVisible == false
@@ -90,11 +114,15 @@ module.exports = class InputItemView extends View
       @parentStep.$el.find(".step-info-tip").removeClass('visible')
       @parentStep.$el.find(".step-info-tip[data-item-index='#{@itemIndex}']").addClass('visible')
 
+
+
   hideTooltip: ->
     if @hasInfo
       @$el.removeClass('selected')
       @parentStep.tipVisible = false
       @parentStep.$el.find(".step-info-tip").removeClass('visible') 
+
+
 
   hideShowTooltip: ->
     $('.custom-input-wrapper').removeClass('selected')
@@ -102,17 +130,21 @@ module.exports = class InputItemView extends View
     @parentStep.$el.find(".step-info-tip").removeClass('visible')
     @showTooltip()
 
+
+
   labelClickHandler: (e) ->
     return false
 
+
+
   itemChangeHandler: (e) ->
-    
     value = $(e.currentTarget).val()
-    console.log value
     # if @$el.find('input').is(':checked')
     #   @$el.addClass('checked')
     # else
     #   @$el.removeClass('checked')
+
+
 
   #--------------------------------------------------------
   # Private Methods
@@ -123,11 +155,17 @@ module.exports = class InputItemView extends View
     @hoverTimer = null
     @isHovering = false
 
+
+
   hasInfo: ->
     return $el.hasClass('has-info')
 
+
+
   onFocus: (e) ->
     @$el.addClass('open')
+
+
 
   onBlur: (e) ->
     $target = $(e.currentTarget)
@@ -135,6 +173,8 @@ module.exports = class InputItemView extends View
     if value == ''
       unless $target.is(':focus')
         @$el.removeClass('open')
+
+
 
 
   #--------------------------------------------------------
@@ -145,7 +185,6 @@ module.exports = class InputItemView extends View
     returnData = {}
     returnData[@inputType] = true
     return returnData
-
 
 
   ## THE FOLLOWING IS MEANT TO ILLUSTRATE THE DIFFERENT DATA SCHEMA FOR THE VARIOUS INPUT TEMPLATES

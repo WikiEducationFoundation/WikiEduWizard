@@ -16,7 +16,6 @@ InputItemView = require('../views/InputItemView')
 #TEMPLATES
 StepTemplate = require('../templates/steps/StepTemplate.hbs')
 IntroStepTemplate = require('../templates/steps/IntroStepTemplate.hbs')
-OutroStepTemplate = require('../templates/steps/OutroStepTemplate.hbs')
 
 InputTipTemplate = require('../templates/steps/info/InputTipTemplate.hbs')
 CourseTipTemplate = require('../templates/steps/info/CourseTipTemplate.hbs')
@@ -34,8 +33,6 @@ module.exports = class StepView extends View
   template: StepTemplate
 
   introTemplate: IntroStepTemplate
-
-  outroTemplate: OutroStepTemplate
 
   tipTemplate: InputTipTemplate
 
@@ -78,6 +75,8 @@ module.exports = class StepView extends View
 
   publishHandler: ->
     Backbone.Mediator.publish('wizard:publish')
+
+    
   
   render: ->
 
@@ -101,9 +100,9 @@ module.exports = class StepView extends View
 
     if @model.attributes.id
       if @model.attributes.id == "grading"
-        console.log "grading section"
+        console.log ""
       else if @model.attributes.id == "overview"
-        console.log "overview section"
+        console.log ""
 
 
     _.each(@inputData, (input, index) =>
@@ -146,27 +145,38 @@ module.exports = class StepView extends View
     @afterRender()
     
 
+
+
   afterRender: ->
     @$inputContainers = @$el.find('.custom-input')
     return @
+
+
 
   hide: ->
     @$el.hide()
 
     return @
 
+
+
   show: ->
     @$el.show()
 
     return @
 
+
+
   beginHandler: ->
     Backbone.Mediator.publish('step:next')
+
+
 
   inputHandler: (e) ->
     $target = $(e.currentTarget)
     $parent = $target.parents('.custom-input')
     
+
     if $parent.data('exclusive')
       if $target.is(':checked') 
         @$inputContainers.not($parent).addClass('disabled')
@@ -181,6 +191,7 @@ module.exports = class StepView extends View
           $exclusive.addClass('disabled')
         else
           $exclusive.removeClass('disabled')
+
 
   hideTips: (e) ->
     $('.step-info-tip').removeClass('visible')

@@ -6,6 +6,7 @@
   
 -->
 
+
 {{!-- CHECKBOX --}}
 {{#if type.checkbox}}
 <div class="custom-input custom-input--checkbox {{#if data.selected}} checked {{/if}}" {{#if data.exclusive}} data-exclusive="true" {{/if}}>
@@ -14,6 +15,8 @@
   <a class="check-button" href="#"></a>
 </div>
 {{/if}}
+
+
 
 {{!-- CHECKBOX GROUP --}}
 {{#if type.checkboxGroup}}
@@ -28,6 +31,8 @@
 </div>
 {{/if}}
 
+
+
 {{!-- SELECT --}}
 {{#if type.select}}
 <div class="custom-input custum-input--select {{#if data.multiple}} custum-input--select--multi {{/if}}">
@@ -40,6 +45,8 @@
 </div>
 {{/if}}
 
+
+
 {{!-- TEXT --}}
 {{#if type.text}}
 <div class="custom-input custom-input--text">
@@ -49,6 +56,8 @@
   </div>
 </div>
 {{/if}}
+
+
 
 {{!-- PERCENT --}}
 {{#if type.percent}}
@@ -63,6 +72,8 @@
 {{/if}}
 
 
+
+
 {{!-- EDIT --}}
 {{#if type.edit}}
 <div class="custom-input custom-input--edit">
@@ -71,10 +82,11 @@
     <a class="edit-button" href="#">edit</a>
   </div>
   <div class="custom-input--edit__content">
-    
+    <!-- content -->
   </div>
 </div>
 {{/if}}
+
 
 
 
@@ -86,9 +98,10 @@
 </div>
 {{/if}}
 
+
+
 {{!-- RADIO --}}
 {{#if type.radio}}
-
 <div class="custom-input-radio-inner">
   <div class="custom-input-radio-inner__header">
     <h2 class="font-blue--dark">{{data.label}}</h2>
@@ -101,8 +114,8 @@
     </div>
   {{/each}}
 </div>
-
 {{/if}}
+
 
 
 {{!-- RADIO --}}
@@ -120,5 +133,7 @@
     </div>
   {{/each}}
 </div>
-
 {{/if}}
+
+
+
