@@ -21,6 +21,9 @@ InputItemTemplate = require('../templates/steps/inputs/InputItemTemplate.hbs')
 AssignmentData = require('../data/WizardAssignmentData')
 
 
+WizardStepInputs = require('../data/WizardStepInputs')
+
+
 
 
 module.exports = class InputItemView extends View 
@@ -93,15 +96,35 @@ module.exports = class InputItemView extends View
 
     Backbone.Mediator.publish('tips:hide')
 
+
+
   radioBoxClickHandler: (e) ->
     e.preventDefault()
 
-    @$el.parents('.step-form-inner').find('.custom-input--radiobox').removeClass('checked')
+    $otherRadios = @$el.parents('.step-form-inner').find('.custom-input--radiobox')
+
+    $otherRadios.removeClass('checked').find('input').val('off').trigger('change')
 
     $parent = @$el.find('.custom-input--radiobox')
       .addClass('checked')
 
-    @model.set('selected', true)
+    if $parent.hasClass('checked')
+
+      @$inputEl.prop('checked', true)
+
+      @$inputEl.val('on')
+
+      @$inputEl.trigger('change')
+
+    else
+      @$inputEl.prop('checked', false)
+
+      @$inputEl.val('off')
+
+      @$inputEl.trigger('change')
+
+
+
 
     Backbone.Mediator.publish('tips:hide')
 
@@ -123,8 +146,6 @@ module.exports = class InputItemView extends View
       @$inputEl.val('on')
 
       @$inputEl.trigger('change')
-
-
 
     else
       @$inputEl.prop('checked', false)
@@ -194,7 +215,15 @@ module.exports = class InputItemView extends View
 
   itemChangeHandler: (e) ->
     value = $(e.currentTarget).val()
+
+    inputId = $(e.currentTarget).attr('id')
+
+    console.log value
+
+    Backbone.Mediator.publish('answer:updated', inputId, value)
+
     @parentStep.updateUserAnswer(true)
+
 
     # if @$el.find('input').is(':checked')
 

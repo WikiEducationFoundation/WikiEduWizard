@@ -226,9 +226,12 @@ module.exports = class StepView extends View
     Backbone.Mediator.publish('step:next')
 
 
+
   updateUserAnswer: (bool) ->
     @hasUserAnswered = bool
+
     Backbone.Mediator.publish('step:answered', @)
+
     return @
 
 
