@@ -193,6 +193,21 @@ ci-padding = 20px 70px 20px 45px
     background-color transparent
     box-sizing border-box
     cursor pointer
+    
+  .radio-button
+    transition 0.10s background-color
+    display block
+    position absolute
+    width 18px
+    height 18px
+    top 50%
+    right 45px
+    margin-top -8px
+    background-color transparent
+    box-sizing border-box
+    cursor pointer
+    border 2px solid white
+    border-radius 18px
 
     
     
@@ -293,6 +308,8 @@ ci-padding = 20px 70px 20px 45px
       .check-button
         background-color white
     
+    
+    
 
   .custom-input--radio.checked
     .radio-button
@@ -301,6 +318,11 @@ ci-padding = 20px 70px 20px 45px
   .custom-input--checkbox.checked
     .check-button
       background-color white
+      
+  .custom-input--radiobox.checked
+    .radio-button
+      background-color white
+
 
       
 

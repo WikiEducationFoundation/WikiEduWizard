@@ -7,14 +7,11 @@
 #APP
 application = require( '../App' )
 
-
 #VIEW CLASS
 View = require('../views/supers/View')
 
-
 #SUBVIEWS
 InputItemView = require('../views/InputItemView')
-
 
 #TEMPLATES
 StepTemplate = require('../templates/steps/StepTemplate.hbs')
@@ -27,9 +24,16 @@ CourseTipTemplate = require('../templates/steps/info/CourseTipTemplate.hbs')
 
 WikiDatesModule = require('../templates/steps/modules/WikiDatesModule.hbs')
 
-
 #DATA
-CourseInfoData = require('../data/CourseInfoData')
+CourseInfoData = require('../data/WizardCourseInfo')
+
+#OUTPUT
+AssignmentData = require('../data/WizardAssignmentData')
+
+#INPUTS
+WizardStepInputs = require('../data/WizardStepInputs')
+
+
 
 
 
@@ -58,6 +62,9 @@ module.exports = class StepView extends View
 
 
   datesModule: WikiDatesModule
+
+
+  stepInputData: WizardStepInputs
 
 
   #--------------------------------------------------------
@@ -92,9 +99,11 @@ module.exports = class StepView extends View
     $target = $(e.currentTarget)
 
     if $target.hasClass('open')
+
       $target.removeClass('open')
 
     else if $('.step-info-section--accordian').hasClass('open')
+
       @$el.find('.step-info').find('.step-info-section--accordian').removeClass('open')
 
       setTimeout(=>
@@ -104,6 +113,7 @@ module.exports = class StepView extends View
       ,500)
 
     else
+
       $target.addClass('open')
 
 
@@ -134,22 +144,15 @@ module.exports = class StepView extends View
 
     @$tipSection = @$el.find('.step-info-tips')
 
-    @inputData = @model.attributes.inputs
+    @inputData = @stepInputData[@model.attributes.id] || []
 
-
-    if @model.attributes.id
-
-      if @model.attributes.id == "grading"
-
-        console.log ""
-
-      else if @model.attributes.id == "overview"
-
-        console.log ""
 
     _.each(@inputData, (input, index) =>
+
       inputView = new InputItemView(
+
         model: new Backbone.Model(input)
+
       )
 
       inputView.inputType = input.type
@@ -161,13 +164,14 @@ module.exports = class StepView extends View
       @inputSection.append(inputView.render().el)
 
       if input.tipInfo
+
         tip = 
+
           id: index
 
           title: input.tipInfo.title
 
           content: input.tipInfo.content
-
 
         $tipEl = @tipTemplate(tip)
 
@@ -175,8 +179,8 @@ module.exports = class StepView extends View
 
         inputView.$el.addClass('has-info')
 
-
       else if input.hasCourseInfo
+
         infoData = _.extend(@courseInfoData[input.id], {id: index} )
 
         $tipEl = @courseInfoTemplate(infoData)

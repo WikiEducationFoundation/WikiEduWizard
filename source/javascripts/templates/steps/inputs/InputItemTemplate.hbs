@@ -16,6 +16,15 @@
 </div>
 {{/if}}
 
+{{!-- CHECKBOX --}}
+{{#if type.radioBox}}
+<div class="custom-input custom-input--checkbox custom-input--radiobox {{#if data.selected}} checked {{/if}}" {{#if data.exclusive}} data-exclusive="true" {{/if}}>
+  <label for="{{data.id}}">{{data.label}}</label>
+  <input name="{{data.id}}" type="checkbox" id="{{data.id}}" {{#if data.selected}} checked {{/if}}  />
+  <a class="radio-button" href="#"></a>
+</div>
+{{/if}}
+
 
 
 {{!-- CHECKBOX GROUP --}}

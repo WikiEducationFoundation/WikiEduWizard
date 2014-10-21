@@ -1,8 +1,17 @@
 
+
+#APP
 application = require( '../App' )
+
+
+# SUPER VIEW CLASS
 View = require('../views/supers/View')
+
+#TEMPLATES
 OutputTemplate = require('../templates/steps/output/OutputTemplate.hbs')
+
 CourseDetailsTemplate = require('../templates/steps/output/CourseDetailsTemplate.hbs')
+
 
 module.exports = class InputItemView extends View 
 

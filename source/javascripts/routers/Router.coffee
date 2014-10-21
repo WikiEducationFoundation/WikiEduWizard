@@ -21,6 +21,4 @@ module.exports = class Router extends Backbone.Router
 
   home: ->
     $( '#app' ).html( application.homeView.render().el )
-    # application.inputItemView.inputType = 'text'
-    # $( '#app' ).html( application.inputItemView.render().el )
 

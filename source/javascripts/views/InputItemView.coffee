@@ -10,12 +10,15 @@ View = require('../views/supers/View')
 
 #TEMPLATES
 InputItemTemplate = require('../templates/steps/inputs/InputItemTemplate.hbs')
-InputCheckboxTemplate = require('../templates/steps/inputs/InputCheckboxTemplate.hbs')
-InputEditStepTemplate = require('../templates/steps/inputs/InputEditStepTemplate.hbs')
-InputPercentTemplate = require('../templates/steps/inputs/InputPercentTemplate.hbs')
-InputRadioGroupTemplate = require('../templates/steps/inputs/InputRadioGroupTemplate.hbs')
-InputRadioTemplate = require('../templates/steps/inputs/InputRadioTemplate.hbs')
-InputTextTemplate = require('../templates/steps/inputs/InputTextTemplate.hbs')
+# InputCheckboxTemplate = require('../templates/steps/inputs/InputCheckboxTemplate.hbs')
+# InputEditStepTemplate = require('../templates/steps/inputs/InputEditStepTemplate.hbs')
+# InputPercentTemplate = require('../templates/steps/inputs/InputPercentTemplate.hbs')
+# InputRadioGroupTemplate = require('../templates/steps/inputs/InputRadioGroupTemplate.hbs')
+# InputRadioTemplate = require('../templates/steps/inputs/InputRadioTemplate.hbs')
+# InputTextTemplate = require('../templates/steps/inputs/InputTextTemplate.hbs')
+
+#OUTPUT
+AssignmentData = require('../data/WizardAssignmentData')
 
 
 
@@ -53,12 +56,13 @@ module.exports = class InputItemView extends View
 
     'click .check-button' : 'checkButtonClickHandler'
 
-    'click .radio-button' : 'radioButtonClickHandler'
+    'click .custom-input--radiobox .radio-button' : 'radioBoxClickHandler'
+
+    'click .custom-input--radio-group .radio-button' : 'radioButtonClickHandler'
 
     'focus .custom-input--text input' : 'onFocus'
 
     'blur .custom-input--text input' : 'onBlur'
-
 
 
 
@@ -89,7 +93,17 @@ module.exports = class InputItemView extends View
 
       $parentEl.addClass('checked')
 
+  radioBoxClickHandler: (e) ->
+    e.preventDefault()
 
+    @$el.parents('.step-form-inner').find('.custom-input--radiobox').removeClass('checked')
+
+    $parent = @$el.find('.custom-input--radiobox')
+      .addClass('checked')
+
+    @model.set('selected', true)
+
+    console.log @model.attributes
 
   checkButtonClickHandler: (e) ->
     e.preventDefault()
@@ -104,6 +118,8 @@ module.exports = class InputItemView extends View
       @$inputEl.val('on')
 
       @$inputEl.trigger('change')
+
+
 
     else
       @$inputEl.prop('checked', false)
@@ -289,6 +305,16 @@ module.exports = class InputItemView extends View
       }
 
     else if @inputType == 'edit'
+
+      return {
+
+        type: inputTypeObject
+
+        data: @model.attributes
+
+      }
+
+    else if @inputType == 'radioBox'
 
       return {
 

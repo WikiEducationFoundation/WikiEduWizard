@@ -537,6 +537,23 @@ em {
        box-sizing: border-box;
   cursor: pointer;
 }
+.custom-input--checkbox .radio-button {
+  -webkit-transition: 0.1s background-color;
+          transition: 0.1s background-color;
+  display: block;
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  top: 50%;
+  right: 45px;
+  margin-top: -8px;
+  background-color: transparent;
+  -moz-box-sizing: border-box;
+       box-sizing: border-box;
+  cursor: pointer;
+  border: 2px solid #fff;
+  border-radius: 18px;
+}
 .custom-input--radio {
   position: relative;
   display: table;
@@ -624,6 +641,9 @@ em {
   background-color: #fff;
 }
 .custom-input-wrapper .custom-input--checkbox.checked .check-button {
+  background-color: #fff;
+}
+.custom-input-wrapper .custom-input--radiobox.checked .radio-button {
   background-color: #fff;
 }
 .custom-input-wrapper.has-info {
@@ -1047,8 +1067,9 @@ textarea {
   height: 100%;
   top: 0;
   left: 0;
-  z-index: 500;
+  z-index: 0;
   opacity: 0;
+  pointer-events: none;
 }
 .step-info .step-info-tip__close,
 .step-info .step-info-tip__inner .step-info-tip__close {
@@ -1073,6 +1094,8 @@ textarea {
 .step-info .step-info-tip.visible,
 .step-info .step-info-tip__inner .step-info-tip.visible {
   opacity: 1;
+  z-index: 50;
+  pointer-events: all;
 }
 .step-info-section {
   margin: 25px auto;

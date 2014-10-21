@@ -1,4 +1,4 @@
-CourseInfoData = 
+WizardCourseInfo = 
 
   # RESEARCH AND WRITE A WIKIPEDIA ARTICLE
   researchwrite: 
@@ -341,4 +341,4 @@ CourseInfoData =
     
 
 
-module.exports = CourseInfoData
+module.exports = WizardCourseInfo

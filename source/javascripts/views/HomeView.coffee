@@ -13,9 +13,6 @@ View = require('../views/supers/View')
 HomeTemplate = require('../templates/HomeTemplate.hbs')
 OutputTemplate = require('../templates/steps/output/OutputTemplate.hbs')
 
-#CONTROLLERS
-StepController = require('../controllers/StepController')
-
 #SUBVIEWS
 StepView = require('../views/StepView')
 StepModel = require('../models/StepModel')
@@ -73,7 +70,7 @@ module.exports = class HomeView extends View
     @$innerContainer = @$el.find('.content')
 
     # SETUP STEPS AND RETURN ARRAY OF VIEWS
-    @stepViews = @_setupStepViews()
+    @stepViews = @_createStepViews()
 
     @StepNav.stepViews = @stepViews
 
@@ -83,17 +80,18 @@ module.exports = class HomeView extends View
 
     if @stepViews.length > 0
       @showCurrentStep()
+
+    return @
     
 
 
-  _setupStepViews: ->
+  _createStepViews: ->
     
     _views = []
 
     _.each(application.data,(step, index) =>
 
       newmodel = new StepModel()
-
 
       _.map(step,(value, key, list) -> 
         newmodel.set(key,value)

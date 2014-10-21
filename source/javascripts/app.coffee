@@ -9,7 +9,7 @@ Application =
   initialize: ->
 
     # App Data
-    AppData = require('./data/WizardData')
+    AppData = require('./data/WizardContent')
 
     @data = AppData
 

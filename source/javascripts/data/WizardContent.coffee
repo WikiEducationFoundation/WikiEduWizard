@@ -1,5 +1,6 @@
-WizardData = [
+WizardContent = [
   {
+    id: "intro"
     title: 'Welcome to the Wikipedia Assignment Wizard!'
     instructions: 'Since Wikipedia began in 2001, professors around the world have integrated the free encyclopedia that anyone can edit into their curriculum.<br/><br/>This interactive wizard will take you through the required steps to create a custom assignment for your class. Please begin by filling in the following fields:'
     inputs: [
@@ -37,6 +38,7 @@ WizardData = [
     ]
   }
   {
+    id: "assignment_selection"
     title: 'Assignment type selection'
     infoTitle: 'About assignment selections'
     formTitle: 'Available assignments'
@@ -49,9 +51,6 @@ WizardData = [
         label: 'Research and write an article'
         exclusive: true
         hasCourseInfo: true
-        courseInfo: 
-          title: ''
-          content: 'Research and write an article'
       }
       { 
         type: 'checkbox'
@@ -60,9 +59,6 @@ WizardData = [
         label: 'Evaluate articles'
         exclusive: false
         hasCourseInfo: true
-        courseInfo: 
-          title: 'Evaluate articles'
-          content: ''
       }
       { 
         type: 'checkbox'
@@ -71,9 +67,6 @@ WizardData = [
         label: 'Add images & multimedia'
         exclusive: false
         hasCourseInfo: true
-        courseInfo: 
-          title: 'Add images & multimedia'
-          content: ''
       }
       { 
         type: 'checkbox'
@@ -82,9 +75,6 @@ WizardData = [
         label: 'Source-centered additions'
         exclusive: false
         hasCourseInfo: true
-        courseInfo: 
-          title: 'Source-centered additions'
-          content: ''
       }
       { 
         type: 'checkbox'
@@ -93,9 +83,6 @@ WizardData = [
         label: 'Copy/edit articles'
         exclusive: false
         hasCourseInfo: true
-        courseInfo: 
-          title: 'Copy/edit articles'
-          content: ''
       }
       { 
         type: 'checkbox'
@@ -104,9 +91,6 @@ WizardData = [
         label: 'Find and fix errors'
         exclusive: false
         hasCourseInfo: true
-        courseInfo: 
-          title: 'Find and fix errors'
-          content: ''
       }  
       { 
         type: 'checkbox'
@@ -115,9 +99,6 @@ WizardData = [
         label: 'Identify and fix close paraphrasing / plagiarism'
         exclusive: false
         hasCourseInfo: true
-        courseInfo: 
-          title: ''
-          content: ''
       }     
     ]
     sections: [
@@ -131,6 +112,7 @@ WizardData = [
     ]
   }
   {
+    id: "learning_essentials"
     title: 'Learning Wiki Essentials'
     formTitle: 'Choose one or more:'
     infoTitle: 'About wiki essentials'
@@ -189,6 +171,7 @@ WizardData = [
     ]
   }
   {
+    id: "getting_started"
     title: 'Getting Started with Editing'
     infoTitle: 'About editing'
     instructions: "It is important for students to start editing Wikipedia right away. That way, they become familiar with Wikipedia's markup (\"wikisyntax\", \"wikimarkup\", or \"wikicode\") and the mechanics of editing and communicating on the site. We recommend assigning a few basic Wikipedia tasks early on."
@@ -232,8 +215,9 @@ WizardData = [
     ]
   }
   {
+    id: 'choosing_articles'
     title: 'Choosing Articles'
-    formTitle: 'Choose one:'
+    formTitle: 'There are two recommended options for selecting articles for Wikipedia assignments:'
     infoTitle: 'About choosing articles'
     instructions: 'Choosing the right (or wrong) articles to work on can make (or break) a Wikipedia writing assignment.'
     inputs: [
@@ -266,6 +250,13 @@ WizardData = [
         ]
       }
       {
+        title: ''
+        accordian: false
+        content: [
+          "<p>Applying your own expertise to Wikipedia’s coverage of your field is the key to a successful assignment. You understand the broader intellectual context where individual topics fit in, you can recognize where Wikipedia falls short, you know—or know how to find—the relevant literature, and you know what topics your students should be able to handle. Your guidance on article choice and sourcing is critical for both your students’ success and the improvement of Wikipedia.</p>"
+        ]
+      }
+      {
         title: 'Not such a good choice'
         accordian: true
         content: [
@@ -290,21 +281,11 @@ WizardData = [
           </ul>"
         ]
       }
-      {
-        title: ''
-        accordian: false
-        content: [
-          "<p>Applying your own expertise to Wikipedia’s coverage of your field is the key to a successful assignment. You understand the broader intellectual context where individual topics fit in, you can recognize where Wikipedia falls short, you know—or know how to find—the relevant literature, and you know what topics your students should be able to handle. Your guidance on article choice and sourcing is critical for both your students’ success and the improvement of Wikipedia.</p>"
-          "<p>There are two recommended options for selecting articles for Wikipedia assignments:</p>"
-          "<ul>
-            <li>You (the instructor) prepare a list of appropriate 'non-existent', 'stub' or 'start' articles ahead of time for the students to choose from. If possible, you may want to work with an experienced Wikipedian to create the list. Each student chooses an article from the list to work on. Although this requires more preparation, it may help students to start researching and writing their articles sooner.</li>
-            <li>Each student explores Wikipedia and lists 3–5 topics on their Wikipedia user page that they are interested in for their main project. You (the instructor) should approve article choices before students proceed to writing. Letting students find their own articles provides them with a sense of motivation and ownership over the assignment, but it may also lead to choices that are further afield from course material.</li>
-          </ul>"
-        ]
-      }
+      
     ]
   }
   {
+    id: "research_planning"
     title: 'Research & Planning'
     formTitle: 'Choose one:'
     infoTitle: 'About research & planning'
@@ -314,19 +295,6 @@ WizardData = [
         title: ''
         content: [
           "<p>Then, students should propose outlines for their articles. This can be a traditional outline, in which students identify which sections their articles will have and which aspects of the topic will be covered in each section. Alternatively, students can develop each outline in the form of a Wikipedia lead section — the untitled section at the beginning of an article that defines the topic and provide a concise summary of its content. Would you like your students to create traditional outlines, or compose outlines in the form of a Wikipedia-style lead section?</p>"
-        ]
-      }
-      {
-        title: 'Traditional Outline'
-        content: [
-          "<p>For each article, the students create an outline that reflects the improvements they plan to make, and then post it to the article's talk page. This is a relatively easy way to get started.</p>"
-        ]
-      }
-      {
-        title: 'Wikipedia lead section'
-        content: [
-          "<p>For each article, the students create a well-balanced summary of its future state in the form of a Wikipedia lead section. The ideal lead section exemplifies Wikipedia's summary style of writing: it begins with a single sentence that defines the topic and places it in context, and then — in one to four paragraphs, depending on the article's size — it offers a concise summary of topic. A good lead section should reflect the main topics and balance of coverage over the whole article.</p>"
-          "<p>Outlining an article this way is a more challenging assignment — and will require more work to evaluate and provide feedback for. However, it can be more effective for teaching the process of research, writing, and revision. Students will return to this lead section as they go, to guide their writing and to revise it to reflect their improved understanding of the topic as their research progresses. They will tackle Wikipedia's encyclopedic style early on, and their outline efforts will be an integral part of their final work.</p>"
         ]
       }
     ]
@@ -353,6 +321,7 @@ WizardData = [
     ]
   }
   {
+    id: "drafts_mainspace"
     title: 'Drafts & Mainspace'
     formTitle: 'Choose one:'
     infoTitle: 'About drafts & mainspace'
@@ -385,11 +354,11 @@ WizardData = [
             selected: false
           }
         ]
-
       }
     ]
   }
   {
+    id: "peer_feedback"
     title: 'Peer Feedback'
     infoTitle: 'About peer feedback'
     formTitle: "How Many Peer Reviews Should Each Student Conduct?"
@@ -447,6 +416,7 @@ WizardData = [
     ]
   }
   {
+    id: "supplementary_assignments"
     title: 'Supplementary Assignments'
     formTitle: 'Choose one or more:'
     infoTitle: 'About supplementary assignments'
@@ -514,6 +484,7 @@ WizardData = [
     ]
   }
   {
+    id: "dyk_ga"
     title: 'DYK / GA Submission'
     infoTitle: 'About Did You Know & Good Articles'
     formTitle: "Do either of these processes make sense for students in your class?"
@@ -546,8 +517,8 @@ WizardData = [
     ]
   }
   {
+    id: "grading"
     title: 'Grading'
-    id: 'grading'
     formTitle: "How will students' grades for the Wikipedia assignment be determined?"
     infoTitle: "About grading"
     instructions: 'Grading Wikipedia assignments can be a challenge. Here are some tips for grading your Wikipedia assignments:'
@@ -630,8 +601,8 @@ WizardData = [
     ]
   }
   {
+    id: "overview"
     title: 'Assignment Overview'
-    id: 'overview'
     sections: [
       {
         title: 'About the Course'
@@ -712,4 +683,4 @@ WizardData = [
   
 ]
 
-module.exports = WizardData
+module.exports = WizardContent
