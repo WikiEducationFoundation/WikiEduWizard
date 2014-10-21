@@ -48,6 +48,8 @@ module.exports = class HomeView extends View
 
     'step:goto' : 'gotoClickHandler'
 
+    'step:edit' : 'editClickHandler'
+
     'tips:hide' : 'hideAllTips'
 
 
@@ -211,6 +213,12 @@ module.exports = class HomeView extends View
     @hideAllTips()
 
 
+  editClickHandler: (id) ->
+    console.log id
+    _.each(@stepViews, (view, index) =>
+      if view.model.id == id
+        @updateStep(index)
+    )
 
   gotoClickHandler: (index) ->
     @updateStep(index)

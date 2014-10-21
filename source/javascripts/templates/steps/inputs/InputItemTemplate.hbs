@@ -61,7 +61,7 @@
 <div class="custom-input custom-input--text">
   <div class="custom-input--text__inner">
     <label for="{{data.id}}">{{data.label}}</label>
-    <input name="{{data.id}}" type="{{data.type}}" value="{{data.value}}" placeholder="{{data.placeholder}}" />
+    <input id="{{data.id}}" name="{{data.id}}" type="{{data.type}}" value="{{data.value}}" placeholder="{{data.placeholder}}" />
   </div>
 </div>
 {{/if}}
@@ -88,7 +88,7 @@
 <div class="custom-input custom-input--edit">
   <div class="custom-input--edit__inner">
     <label for="{{data.id}}">{{data.label}}</label>
-    <a class="edit-button" href="#">edit</a>
+    <a class="edit-button" href="#" data-step-id="{{data.id}}">edit</a>
   </div>
   <div class="custom-input--edit__content">
     <!-- content -->

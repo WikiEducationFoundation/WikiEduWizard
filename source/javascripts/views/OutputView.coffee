@@ -12,6 +12,8 @@ OutputTemplate = require('../templates/steps/output/OutputTemplate.hbs')
 
 CourseDetailsTemplate = require('../templates/steps/output/CourseDetailsTemplate.hbs')
 
+WizardStepInputs = require('../data/WizardStepInputs')
+
 
 module.exports = class InputItemView extends View 
 
@@ -61,16 +63,29 @@ module.exports = class InputItemView extends View
     #   )
     # )
 
-    $.ajax(
+    finalOutData = []
 
-      type: 'POST'
-
-      url: '/publish'
-
-      data:
-        text: @outputPlainText()
-
-      success: (data) ->
-        console.log data
-        
+    _.each(WizardStepInputs, (step) =>
+      _.each(step, (item) ->
+        if item.selected == true
+          finalOutData.push(item)
+        else if item.type == 'text'
+          finalOutData.push(item)
+      )
     )
+
+    console.log finalOutData
+
+    # $.ajax(
+
+    #   type: 'POST'
+
+    #   url: '/publish'
+
+    #   data:
+    #     text: @outputPlainText()
+
+    #   success: (data) ->
+    #     console.log data
+        
+    # )

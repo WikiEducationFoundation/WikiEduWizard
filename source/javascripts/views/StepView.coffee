@@ -96,8 +96,7 @@ module.exports = class StepView extends View
     stepId = $(e.currentTarget).attr('data-step-id')
 
     if stepId
-
-      Backbone.Mediator.publish('step:goto', stepId)
+      Backbone.Mediator.publish('step:edit', stepId)
 
 
 
@@ -145,7 +144,6 @@ module.exports = class StepView extends View
     else
       @$el.html( @template( @model.attributes ) )
 
-
     @inputSection = @$el.find('.step-form-inner')
 
     @$tipSection = @$el.find('.step-info-tips')
@@ -156,9 +154,7 @@ module.exports = class StepView extends View
     _.each(@inputData, (input, index) =>
 
       inputView = new InputItemView(
-
         model: new Backbone.Model(input)
-
       )
 
       inputView.inputType = input.type
@@ -168,6 +164,7 @@ module.exports = class StepView extends View
       inputView.parentStep = @
 
       @inputSection.append(inputView.render().el)
+
 
       if input.tipInfo
 
@@ -234,6 +231,37 @@ module.exports = class StepView extends View
 
     return @
 
+  updateAnswer: (id, value) ->
+    
+
+    inputType = WizardStepInputs[@model.id][id].type 
+
+    out = 
+      type: inputType
+
+      id: id
+
+      value: value
+
+
+    if inputType == 'radioBox' || inputType == 'checkbox'
+
+      if value == 'on'
+
+        WizardStepInputs[@model.id][id].selected = true
+
+      else
+
+        WizardStepInputs[@model.id][id].selected = false
+
+
+    else if inputType == 'text'
+
+      WizardStepInputs[@model.id][id].value = value
+
+
+    return @
+    
 
 
   inputHandler: (e) ->

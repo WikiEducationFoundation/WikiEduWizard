@@ -34,7 +34,7 @@ module.exports = class StepNavView extends View
 
     'click .prev' : 'prevClickHandler'
 
-    'click .dot.visited'  : 'dotClickHandler'
+    'click .dot'  : 'dotClickHandler'
 
 
 
