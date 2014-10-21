@@ -128,9 +128,9 @@ table {
 .body-content,
 p,
 li {
-  font-size: 15px;
-  line-height: 24px;
-  letter-spacing: 0.11px;
+  font-size: 16px;
+  line-height: 25px;
+  letter-spacing: 0.05px;
 }
 .body-content--large,
 p--large,
@@ -139,7 +139,7 @@ p.large,
 li.large {
   font-size: 18px;
   line-height: 28px;
-  letter-spacing: 0.1px;
+  letter-spacing: 0.06px;
 }
 .list-content {
   font-size: 14px;
@@ -379,7 +379,8 @@ em {
   background-color: #636c8e;
   color: #a6abbf;
 }
-.custom-input--checkbox.disabled {
+.custom-input--checkbox.disabled,
+.custom-input--radiobox.disabled {
   color: rgba(255,255,255,0.5);
 }
 .custom-input--text {
@@ -502,7 +503,8 @@ em {
 .custom-input--edit label {
   line-height: 22px;
 }
-.custom-input--checkbox {
+.custom-input--checkbox,
+.custom-input--radiobox {
   position: relative;
   display: table;
   width: 100%;
@@ -512,16 +514,24 @@ em {
   font-size: 18px;
   padding: 20px 70px 20px 45px;
 }
-.custom-input--checkbox label {
+.custom-input--checkbox label,
+.custom-input--radiobox label {
   display: table-cell;
   vertical-align: middle;
   line-height: 1.2;
 }
-.custom-input--checkbox input {
+.custom-input--checkbox label span,
+.custom-input--radiobox label span {
+  display: inline-block;
+  width: auto;
+}
+.custom-input--checkbox input,
+.custom-input--radiobox input {
   display: none;
   cursor: pointer;
 }
-.custom-input--checkbox .check-button {
+.custom-input--checkbox .check-button,
+.custom-input--radiobox .check-button {
   -webkit-transition: 0.1s background-color;
           transition: 0.1s background-color;
   display: block;
@@ -537,7 +547,8 @@ em {
        box-sizing: border-box;
   cursor: pointer;
 }
-.custom-input--checkbox .radio-button {
+.custom-input--checkbox .radio-button,
+.custom-input--radiobox .radio-button {
   -webkit-transition: 0.1s background-color;
           transition: 0.1s background-color;
   display: block;
@@ -653,8 +664,6 @@ em {
   cursor: pointer;
 }
 .custom-input-wrapper.has-info:before {
-  -webkit-transition: background-position-x 0.1s;
-          transition: background-position-x 0.1s;
   content: '';
   position: absolute;
   top: 0;
@@ -925,14 +934,26 @@ textarea {
   border: 2px solid transparent;
   border-radius: 14px;
   text-indent: -9999px;
-  cursor: pointer;
-}
-.step-nav .step-nav-indicators__item.active {
-  background: #fff;
 }
 .step-nav .step-nav-indicators__item.visited {
   background-color: transparent;
   border: 2px solid #fff;
+  cursor: pointer;
+}
+.step-nav .step-nav-indicators__item.active,
+.step-nav .step-nav-indicators__item.visited.active {
+  background: #fff;
+}
+.step-nav .step-nav-indicators__item.active {
+  cursor: initial;
+}
+.step-nav .step-nav-indicators__item.answered {
+  background-color: transparent;
+  border: 2px solid #fff;
+}
+.step-nav .step-nav-indicators__item:first-child {
+  display: none;
+  pointer-events: none;
 }
 .step-nav.hidden {
   opacity: 0;

@@ -327,34 +327,8 @@ WizardContent = [
     infoTitle: 'About drafts & mainspace'
     instructions: 'Once students have gotten a grip on their topics and the sources they will use to write about them, it’s time to start writing on Wikipedia. You can ask them to jump right in and edit live, or start them off in their own sandboxes. There are pros and cons to each approach.'
     sections: [
-      {
-        title: ''
-        content: [
-          '<p><strong>Pros and cons to sandboxes:</strong> Sandboxes make students feel safe because they can edit without the pressure of the whole world reading their drafts, or other Wikipedians altering their writing. However, sandbox editing limits many of the unique aspects of Wikipedia as a teaching tool, such as collaborative writing and incremental drafting. Spending more than a week or two in sandboxes is strongly discouraged.</p>'
-          '<p><strong>Pros and cons to editing live:</strong> Editing live is exciting for the students because they can see their changes to the articles immediately and experience the collaborative editing process throughout the assignment. However, because new editors often unintentionally break Wikipedia rules, sometimes students’ additions are questioned or removed.</p>'
-        ]
-      }
     ]
     inputs: [
-      {
-        type: 'radio'
-        id: 'draft_mainspace'
-        label: ''
-        options: [
-          {
-            id: 'draft_mainspace'
-            label: 'Work Live from the Start'
-            value: 'work_live'
-            selected: false
-          }
-          {
-            id: 'draft_mainspace'
-            label: 'Draft Early Work on Sandboxes'
-            value: 'sandbox'
-            selected: false
-          }
-        ]
-      }
     ]
   }
   {

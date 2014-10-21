@@ -112,14 +112,27 @@ indicator-inactive-color = rgba(80,90,128.0.5)
       border 2px solid transparent
       border-radius indicator-size
       text-indent -9999px
-      cursor pointer
       
-      &.active
-        background indicator-active-color
       
       &.visited
         background-color transparent
         border 2px solid white
+        cursor pointer
+        
+      &.active, &.visited.active
+        background indicator-active-color
+
+      &.active
+        cursor initial
+      
+      &.answered
+        background-color transparent
+        border 2px solid white
+        
+        
+      &:first-child
+        display none
+        pointer-events none
   
 
   &.hidden

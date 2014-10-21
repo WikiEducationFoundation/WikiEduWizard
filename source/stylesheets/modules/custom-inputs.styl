@@ -174,6 +174,10 @@ ci-padding = 20px 70px 20px 45px
     display table-cell
     vertical-align middle
     line-height 1.2
+    
+    span 
+      display inline-block
+      width auto
   
   input
     display none
@@ -208,6 +212,8 @@ ci-padding = 20px 70px 20px 45px
     cursor pointer
     border 2px solid white
     border-radius 18px
+    
+
 
     
     
@@ -334,7 +340,6 @@ ci-padding = 20px 70px 20px 45px
       cursor pointer
       
     &:before
-      transition background-position-x 0.10s
       content ''
       position absolute
       top 0
@@ -438,7 +443,8 @@ textarea
 
 
 
-
+.custom-input--radiobox
+  @extend .custom-input--checkbox
 
 
 

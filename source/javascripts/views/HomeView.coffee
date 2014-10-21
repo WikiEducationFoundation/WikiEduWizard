@@ -48,6 +48,8 @@ module.exports = class HomeView extends View
 
     'step:goto' : 'gotoClickHandler'
 
+    'tips:hide' : 'hideAllTips'
+
 
 
   render: ->
@@ -102,6 +104,7 @@ module.exports = class HomeView extends View
       )
 
       newview.model.set('stepNumber', index + 1)
+      newview.model.set('stepIndex', index )
 
       @$stepsContainer.append(newview.render().hide().el)
 

@@ -10,7 +10,7 @@
 <div class="step-nav-indicators hidden">
 
   {{#each steps}}
-  <div href="#" class="dot step-nav-indicators__item {{#if isActive}}active{{/if}} {{#if hasVisited}}visited{{/if}}" data-nav-id="{{id}}">*</div>
+  <div href="#" class="dot step-nav-indicators__item {{#if isActive}}active{{/if}} {{#if hasVisited}}visited{{/if}}" data-nav-id="{{id}}" title="{{stepTitle}}" data-step-id="{{stepId}}">*</div>
   {{/each}}
 
 </div><!-- end .step-nav-indicators -->

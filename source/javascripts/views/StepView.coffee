@@ -67,6 +67,12 @@ module.exports = class StepView extends View
   stepInputData: WizardStepInputs
 
 
+  hasUserAnswered: false
+
+
+  hasUserVisited: false
+
+
   #--------------------------------------------------------
   # EVENTS AND HANDLERS
   #--------------------------------------------------------
@@ -211,13 +217,19 @@ module.exports = class StepView extends View
 
   show: ->
     @$el.show()
-
+    @hasUserVisited = true
     return @
 
 
 
   beginHandler: ->
     Backbone.Mediator.publish('step:next')
+
+
+  updateUserAnswer: (bool) ->
+    @hasUserAnswered = bool
+    Backbone.Mediator.publish('step:answered', @)
+    return @
 
 
 

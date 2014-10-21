@@ -10,7 +10,7 @@
 {{!-- CHECKBOX --}}
 {{#if type.checkbox}}
 <div class="custom-input custom-input--checkbox {{#if data.selected}} checked {{/if}}" {{#if data.exclusive}} data-exclusive="true" {{/if}}>
-  <label for="{{data.id}}">{{data.label}}</label>
+  <label for="{{data.id}}"><span>{{data.label}}</span></label>
   <input name="{{data.id}}" type="checkbox" id="{{data.id}}" {{#if data.selected}} checked {{/if}}  />
   <a class="check-button" href="#"></a>
 </div>
@@ -19,8 +19,8 @@
 {{!-- CHECKBOX --}}
 {{#if type.radioBox}}
 <div class="custom-input custom-input--checkbox custom-input--radiobox {{#if data.selected}} checked {{/if}}" {{#if data.exclusive}} data-exclusive="true" {{/if}}>
-  <label for="{{data.id}}">{{data.label}}</label>
-  <input name="{{data.id}}" type="checkbox" id="{{data.id}}" {{#if data.selected}} checked {{/if}}  />
+  <label for="{{data.id}}"><span>{{data.label}}</span></label>
+  <input name="{{data.id}}" type="radio" id="{{data.id}}" {{#if data.selected}} checked {{/if}}  />
   <a class="radio-button" href="#"></a>
 </div>
 {{/if}}

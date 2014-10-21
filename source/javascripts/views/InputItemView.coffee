@@ -44,13 +44,11 @@ module.exports = class InputItemView extends View
 
     'keyup input[type="text"]' : 'itemChangeHandler'
 
-    'label click' : 'labelClickHandler'
+    'click .custom-input--checkbox label span' : 'checkButtonClickHandler'
 
     'mouseover' : 'mouseoverHandler'
 
-    'mouseenter label' : 'hideShowTooltip'
-
-    'click' : 'hideShowTooltip'
+    'mouseenter label span' : 'hideShowTooltip'
 
     'mouseout' : 'mouseoutHandler'
 
@@ -93,6 +91,8 @@ module.exports = class InputItemView extends View
 
       $parentEl.addClass('checked')
 
+    Backbone.Mediator.publish('tips:hide')
+
   radioBoxClickHandler: (e) ->
     e.preventDefault()
 
@@ -103,10 +103,15 @@ module.exports = class InputItemView extends View
 
     @model.set('selected', true)
 
-    console.log @model.attributes
+    Backbone.Mediator.publish('tips:hide')
+
+    
 
   checkButtonClickHandler: (e) ->
     e.preventDefault()
+
+    if @$el.find('.custom-input--radiobox').length > 0
+      return @radioBoxClickHandler(e)
 
     $parent = @$el.find('.custom-input--checkbox')
       .toggleClass('checked')
@@ -127,6 +132,8 @@ module.exports = class InputItemView extends View
       @$inputEl.val('off')
 
       @$inputEl.trigger('change')
+
+    Backbone.Mediator.publish('tips:hide')
 
 
 
@@ -187,6 +194,7 @@ module.exports = class InputItemView extends View
 
   itemChangeHandler: (e) ->
     value = $(e.currentTarget).val()
+    @parentStep.updateUserAnswer(true)
 
     # if @$el.find('input').is(':checked')
 

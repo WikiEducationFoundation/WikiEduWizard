@@ -214,6 +214,9 @@ WizardStepInputs =
       selected: false
       label: 'Work Live from the Start'
       exclusive: false
+      tipInfo:
+        title: "Pros and cons to editing live"
+        content: "Editing live is exciting for the students because they can see their changes to the articles immediately and experience the collaborative editing process throughout the assignment. However, because new editors often unintentionally break Wikipedia rules, sometimes students’ additions are questioned or removed."
     }
     {
       type: 'radioBox'
@@ -221,6 +224,9 @@ WizardStepInputs =
       selected: false
       label: 'Draft Early Work on Sandboxes'
       exclusive: false
+      tipInfo:
+        title: "Pros and cons to sandboxes"
+        content: "Sandboxes make students feel safe because they can edit without the pressure of the whole world reading their drafts, or other Wikipedians altering their writing. However, sandbox editing limits many of the unique aspects of Wikipedia as a teaching tool, such as collaborative writing and incremental drafting. Spending more than a week or two in sandboxes is strongly discouraged."
     }
   ]
 

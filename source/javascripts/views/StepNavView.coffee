@@ -26,6 +26,7 @@ module.exports = class StepNavView extends View
 
   subscriptions:
     'step:update' : 'updateCurrentStep'
+    'step:answered' : 'stepAnswered'
 
 
   events: ->
@@ -33,7 +34,7 @@ module.exports = class StepNavView extends View
 
     'click .prev' : 'prevClickHandler'
 
-    'click .dot'  : 'dotClickHandler'
+    'click .dot.visited'  : 'dotClickHandler'
 
 
 
@@ -78,11 +79,15 @@ module.exports = class StepNavView extends View
         out = []
         _.each(@stepViews, (step, index) =>
 
+          stepData = step.model.attributes
+
           isActive = @currentStep is index
 
-          wasVisited = index < @currentStep
+          # wasVisited = index < @currentStep
 
-          out.push {id: index, isActive: isActive, hasVisited: wasVisited}
+          wasVisited = step.hasUserVisited
+
+          out.push {id: index, isActive: isActive, hasVisited: wasVisited, stepTitle: stepData.title, stepId: stepData.id}
 
         )
 
@@ -119,6 +124,10 @@ module.exports = class StepNavView extends View
   updateCurrentStep: (step) ->
     @currentStep = step
 
+    @render()
+
+
+  stepAnswered: (stepView) ->
     @render()
 
 
