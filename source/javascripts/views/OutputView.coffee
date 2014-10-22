@@ -26,29 +26,6 @@ module.exports = class InputItemView extends View
     'wizard:publish' : 'publishHandler' 
 
 
-  getRenderData: ->
-    return {
-
-      course_name: 'Course Name'
-
-      instructor_username: 'User Name'
-
-      instructor_realname: 'Real Name'
-
-      subject: 'Subject'
-
-      start_date: 'Start Date'
-
-      end_date: 'End Date'
-
-      institution: 'Institution'
-
-      expected_students: 'Expeceted Students'
-
-    }
-
-
-
 
   outputPlainText: ->
     @render()
@@ -77,51 +54,30 @@ module.exports = class InputItemView extends View
 
 
   exportData: (exportData) ->
-    $('#publish').removeClass('processing')
 
-    console.log exportData
+    $.ajax(
 
-    # $.ajax(
+      type: 'POST'
 
-    #   type: 'POST'
+      url: '/publish'
 
-    #   url: '/publish'
+      data:
+        wikitext: exportData
+        course_title: WizardStepInputs.intro.course_name.value
 
-    #   data:
-    #     wikitext: exportData
-    #     course_title: WizardStepInputs.intro.course_name.value
-
-    #   success: (returnData) ->
-    #     console.log returnData
-        
-    # )
+      success: (returnData) ->
+        $('#publish').removeClass('processing')
+        console.log returnData        
+    )
     
 
 
   publishHandler: ->
-    # _.each(application.homeView.stepViews, (stepView) =>
-    #   stepView.$el.find('.custom-input').find('input').each((index,element) =>
-    #     console.log $(element).attr('name'), $(element).val()
-   
-    #   )
-    # )
-
-    finalOutData = []
 
     $('#publish').addClass('processing')
 
-    # _.each(WizardStepInputs, (step) =>
-    #   _.each(step, (item) ->
+    @exportData(@populateOutput())
 
-    #     if item.type == 'checkbox' && 
-    #       finalOutData.push(item)
-    #     else if item.type == 'text'
-    #       finalOutData.push(item)
-    #   )
-    # )
-    setTimeout(=>
-      @exportData(@populateOutput())
-    , 2000)
 
     
 
