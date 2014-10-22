@@ -67,8 +67,7 @@ module.exports = class InputItemView extends View
 
       success: (returnData) ->
         $('#publish').removeClass('processing')
-
-        window.location.href = returnData   
+        console.log returnData        
     )
     
 
