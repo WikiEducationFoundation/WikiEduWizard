@@ -68,7 +68,7 @@ post '/publish_test' do
 end
 
 post '/publish' do
-
+  @wizardData = params['wikitext']
 
   # PROBABLY SHOULD BE BROKEN OUT INTO A SEPERATE FUNCTION
   @conn = OAuth::Consumer.new(ENV["WIKI_KEY"], ENV["WIKI_SECRET"])
@@ -76,9 +76,7 @@ post '/publish' do
   get_token = @access_token.get('https://en.wikipedia.org/w/api.php?action=query&meta=tokens&format=json')
   token_response = JSON.parse(get_token.body)
   csrf_token = token_response['query']['tokens']['csrftoken']
-
-  @wizardData = params['wikitext']
-
+  
   res = @access_token.post('http://en.wikipedia.org/w/api.php', {:action => 'edit', :title => "User:#{session['wiki_username']}/#{params['course_title']}", :text => @wizardData, :format => 'json', :token => csrf_token } )
 
   return res.body
