@@ -73,13 +73,12 @@ post '/publish' do
   # PROBABLY SHOULD BE BROKEN OUT INTO A SEPERATE FUNCTION
   @conn = OAuth::Consumer.new(ENV["WIKI_KEY"], ENV["WIKI_SECRET"])
   @access_token = OAuth::AccessToken.new(@conn, session['access_token'], session['access_token_secret'])
-  get_token = @access_token.get('https://en.wikipedia.org/w/api.php?action=query&meta=tokens&format=json')
+  get_token = @access_token.get('https://en.wikipedia.org/w/api.php?action=edit&meta=tokens&format=json')
   token_response = JSON.parse(get_token.body)
   csrf_token = token_response['query']['tokens']['csrftoken']
-  
-  res = @access_token.post('http://en.wikipedia.org/w/api.php', {:action => 'query', :meta => 'userinfo', :format => 'json' } )
 
-  #res = @access_token.post('http://en.wikipedia.org/w/api.php', {:action => 'edit', :title => "User:#{session['wiki_username']}/#{params['course_title']}", :text => @wizardData, :format => 'json', :token => csrf_token } )
+
+  res = @access_token.post('http://en.wikipedia.org/w/api.php', {:action => 'edit', :title => "User:#{session['wiki_username']}/#{params['course_title']}", :text => @wizardData, :format => 'json', :token => csrf_token } )
 
   return res.body
 end
