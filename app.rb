@@ -79,7 +79,7 @@ post '/publish' do
   
   res = @access_token.post('http://en.wikipedia.org/w/api.php', {:action => 'edit', :title => "User:#{session['wiki_username']}/#{params['course_title']}", :text => @wizardData, :format => 'json', :token => csrf_token } )
 
-  return render :json => res.body
+  return res.body.to_json
 end
 
 
