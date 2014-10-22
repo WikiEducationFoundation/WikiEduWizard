@@ -592,7 +592,7 @@ WizardContent = [
       {
         title: 'Short Description'
         content: [
-          "<p><textarea rows='8' style='width:100%;'></textarea></p>"
+          "<p><textarea id='short_description' rows='8' style='width:100%;'></textarea></p>"
         ]
       }
       {
