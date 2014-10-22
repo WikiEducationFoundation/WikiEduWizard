@@ -35,6 +35,7 @@ module.exports = class InputItemView extends View
 
 
   getRenderData: ->
+    console.log $('#short_description').val()
     return _.extend(WizardStepInputs,{ description: $('#short_description').val()})
 
 
