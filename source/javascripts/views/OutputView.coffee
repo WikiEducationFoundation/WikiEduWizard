@@ -35,7 +35,6 @@ module.exports = class InputItemView extends View
 
 
   getRenderData: ->
-    console.log $('#short_description').val()
     return _.extend(WizardStepInputs,{ description: $('#short_description').val()})
 
 
@@ -54,22 +53,23 @@ module.exports = class InputItemView extends View
 
 
 
-  exportData: (exportData) ->
+  exportData: (formData) ->
+    console.log formData
 
-    $.ajax(
+    # $.ajax(
 
-      type: 'POST'
+    #   type: 'POST'
 
-      url: '/publish'
+    #   url: '/publish'
 
-      data:
-        wikitext: exportData
-        course_title: WizardStepInputs.intro.course_name.value
+    #   data:
+    #     wikitext: formData
+    #     course_title: WizardStepInputs.intro.course_name.value
 
-      success: (returnData) ->
-        $('#publish').removeClass('processing')
-        console.log returnData        
-    )
+    #   success: (returnData) ->
+    #     $('#publish').removeClass('processing')
+    #     console.log returnData        
+    # )
     
 
 
