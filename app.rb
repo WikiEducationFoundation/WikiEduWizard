@@ -83,7 +83,7 @@ post '/publish' do
   
   res = access_token.post('http://en.wikipedia.org/w/api.php', {:action => 'edit', :title => "User:Dmak78/Course Testing 2", :text => '', :format => 'json', :token => csrf_token } )
 
-  return res.body
+  return csrf_token
 end
 
 
