@@ -39,7 +39,6 @@ module.exports = class HomeView extends View
 
     @stepsRendered = false
 
-    
 
   subscriptions:
     'step:next' : 'nextClickHandler'
@@ -58,6 +57,7 @@ module.exports = class HomeView extends View
     @$el.html( @template( @getRenderData()))
 
     unless @stepsRendered
+    
       @afterRender()
 
     return @

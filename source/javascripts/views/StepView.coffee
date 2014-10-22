@@ -144,6 +144,7 @@ module.exports = class StepView extends View
     else
       @$el.html( @template( @model.attributes ) )
 
+
     @inputSection = @$el.find('.step-form-inner')
 
     @$tipSection = @$el.find('.step-info-tips')
@@ -157,7 +158,9 @@ module.exports = class StepView extends View
         return
 
       inputView = new InputItemView(
+
         model: new Backbone.Model(input)
+
       )
 
       inputView.inputType = input.type
@@ -167,7 +170,6 @@ module.exports = class StepView extends View
       inputView.parentStep = @
 
       @inputSection.append(inputView.render().el)
-
 
       if input.tipInfo
 

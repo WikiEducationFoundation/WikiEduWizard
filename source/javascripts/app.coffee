@@ -17,6 +17,8 @@ Application =
     # Import views
     HomeView = require('./views/HomeView')
 
+    LoginView = require('./views/LoginView')
+
     Router = require('./routers/Router')
 
     InputItemView = require('./views/InputItemView')
@@ -26,6 +28,8 @@ Application =
 
     # Initialize views
     @homeView = new HomeView()
+
+    @loginView = new LoginView()
 
     @inputItemView = new InputItemView()
 

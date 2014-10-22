@@ -1222,3 +1222,15 @@ textarea {
   padding-right: 0;
   color: #4f4f4f;
 }
+.step--login .step-form {
+  min-height: initial;
+}
+.step--login #skipLoginButton {
+  display: inline-block;
+  margin-top: 15px;
+}
+.step--login .step-form-instructions {
+  margin-bottom: 25px;
+  text-align: center;
+  width: 100%;
+}

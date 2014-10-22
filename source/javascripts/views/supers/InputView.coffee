@@ -223,6 +223,10 @@ module.exports = class InputItemView extends View
   afterRender: ->
     @$inputEl = @$el.find('input')
 
+    if @model.attributes.value != '' && @model.attributes.type == 'text'
+      
+      @$el.addClass('open')
+
     @hoverTimer = null
 
     @isHovering = false

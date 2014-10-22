@@ -1,0 +1,49 @@
+<div class="content">
+
+
+  <!-- STEPS MAIN CONTAINER -->
+  <div class="steps">
+    <div class="step step--first step--login">
+    
+      <div class="step-form">
+
+        <!-- STEP FORM HEADER -->
+        <div class="step-form-header">
+
+          <!-- STEP TITLE -->
+          {{#if title}} 
+          <h3 class="step-form-header__title">{{{title}}}</h3>
+          {{/if}}
+        
+          <!-- STEP FORM TITLE -->
+          {{#if formTitle}} 
+          <h4 class="step-form__subtitle">{{{formTitle}}}</h4>
+          {{/if}}
+
+        </div><!-- end .step-form-header -->
+        
+        <!-- STEP INSTRUCTIONS -->
+        {{#if login_instructions}}
+        <div class="step-form-instructions">
+          <p class="large">{{{login_instructions}}}</p>
+        </div>
+        {{/if}} <!-- end .step-form-instructions -->
+
+
+
+
+        <!-- BEGIN BUTTON -->
+        <div class="step-form-actions">
+          <a class="button button--blue" id="loginButton" href="/auth/mediawiki">
+            Login with WikiMedia
+          </a>
+          <a class="font-blue" href="/welcome" id="skipLoginButton">
+            <em>or skip it for now and just see the current build</em>
+          </a>
+        </div><!-- end .step-form-actions -->
+
+
+      </div><!-- end .step-form -->
+    </div>
+  </div>
+</div>

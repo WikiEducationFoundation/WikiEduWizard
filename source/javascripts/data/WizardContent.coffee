@@ -2,6 +2,7 @@ WizardContent = [
   {
     id: "intro"
     title: 'Welcome to the Wikipedia Assignment Wizard!'
+    login_instructions: 'Click Login with WikiMedia to get started'
     instructions: 'Since Wikipedia began in 2001, professors around the world have integrated the free encyclopedia that anyone can edit into their curriculum.<br/><br/>This interactive wizard will take you through the required steps to create a custom assignment for your class. Please begin by filling in the following fields:'
     inputs: [
       {

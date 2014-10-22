@@ -38,7 +38,6 @@ WizardStepInputs =
       placeholder: ''
 
     instructor_username:
-      type: 'text'
       label: 'Username (temporary)'
       id: 'instructor_username'
       value: ''
