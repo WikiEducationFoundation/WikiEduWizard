@@ -54,22 +54,21 @@ module.exports = class InputItemView extends View
 
 
   exportData: (formData) ->
-    console.log formData
 
-    # $.ajax(
+    $.ajax(
 
-    #   type: 'POST'
+      type: 'POST'
 
-    #   url: '/publish'
+      url: '/publish'
 
-    #   data:
-    #     wikitext: formData
-    #     course_title: WizardStepInputs.intro.course_name.value
+      data:
+        wikitext: formData
+        course_title: WizardStepInputs.intro.course_name.value
 
-    #   success: (returnData) ->
-    #     $('#publish').removeClass('processing')
-    #     console.log returnData        
-    # )
+      success: (returnData) ->
+        $('#publish').removeClass('processing')
+        console.log returnData        
+    )
     
 
 
