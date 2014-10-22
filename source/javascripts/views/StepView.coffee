@@ -153,6 +153,9 @@ module.exports = class StepView extends View
 
     _.each(@inputData, (input, index) =>
 
+      unless input.type 
+        return
+
       inputView = new InputItemView(
         model: new Backbone.Model(input)
       )

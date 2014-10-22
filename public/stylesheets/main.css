@@ -353,8 +353,8 @@ em {
   background: transparent no-repeat top left;
 }
 .button {
-  -webkit-transition: all 0.13s;
-          transition: all 0.13s;
+  -webkit-transition: background-color 0.13s, text-decoration 0.13s, color 0.13s;
+          transition: background-color 0.13s, text-decoration 0.13s, color 0.13s;
   position: relative;
   display: inline-block;
   background: #505a7f;
@@ -368,6 +368,11 @@ em {
 .button#publish {
   float: right;
   max-width: 160px;
+}
+.button#publish.processing {
+  text-indent: -9999px;
+  background: #505a7f url("/images/loader.gif") no-repeat center center;
+  background-size: 30px auto;
 }
 .button:hover,
 .button:active {

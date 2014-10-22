@@ -63,8 +63,12 @@ get '/' do
   haml :login
 end
 
+post '/publish_test' do
+  return params['wikitext']
+end
+
 post '/publish' do
-  @wizardData = params['text']
+  @wizardData = params['wikitext']
 
   # PROBABLY SHOULD BE BROKEN OUT INTO A SEPERATE FUNCTION
   @conn = OAuth::Consumer.new(ENV["WIKI_KEY"], ENV["WIKI_SECRET"])
@@ -73,7 +77,7 @@ post '/publish' do
   token_response = JSON.parse(get_token.body)
   csrf_token = token_response['query']['tokens']['csrftoken']
   
-  res = @access_token.post('http://en.wikipedia.org/w/api.php', {:action => 'edit', :title => "User:Dmak78/Course Wizard Test", :text => @wizardData, :format => 'json', :token => csrf_token } )
+  res = @access_token.post('http://en.wikipedia.org/w/api.php', {:action => 'edit', :title => "User:#{session['wiki_username']}/Course Wizard Test", :text => @wizardData, :format => 'json', :token => csrf_token } )
 
   return res.body
 end

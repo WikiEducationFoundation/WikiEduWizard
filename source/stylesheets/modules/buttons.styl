@@ -1,5 +1,5 @@
 .button
-  transition all 0.13s
+  transition background-color 0.13s, text-decoration 0.13s, color 0.13s
   position relative
   display inline-block
   background blue-dark
@@ -13,6 +13,11 @@
   &#publish
     float right
     max-width 160px
+    
+    &.processing
+      text-indent -9999px
+      background blue-dark url(/images/loader.gif) no-repeat center center
+      background-size 30px auto
     
   &:hover, &:active
     background-color rgba(94,107,154,1.0)

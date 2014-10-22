@@ -8,6 +8,13 @@ WizardStepInputs =
       id: 'teacher'
       value: ''
       placeholder: ''
+
+    course_name:
+      type: 'text'
+      label: 'Course Name'
+      id: 'course_name'
+      value: ''
+      placeholder: ''
     
     school:
       type: 'text'
@@ -29,6 +36,19 @@ WizardStepInputs =
       id: 'students'
       value: ''
       placeholder: ''
+
+    instructor_username:
+      type: 'text'
+      label: 'Username (temporary)'
+      id: 'instructor_username'
+      value: ''
+      placeholder: ''
+
+    start_date:
+      value: ''
+
+    end_date:
+      value: ''
     
   
 

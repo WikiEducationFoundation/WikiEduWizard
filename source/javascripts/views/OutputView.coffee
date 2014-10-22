@@ -9,6 +9,7 @@ View = require('../views/supers/View')
 
 #TEMPLATES
 OutputTemplate = require('../templates/steps/output/OutputTemplate.hbs')
+WikiOutputTemplate = require('../templates/steps/output/WikiOutputTemplate.hbs')
 
 CourseDetailsTemplate = require('../templates/steps/output/CourseDetailsTemplate.hbs')
 
@@ -18,7 +19,7 @@ WizardStepInputs = require('../data/WizardStepInputs')
 module.exports = class InputItemView extends View 
 
 
-  template: OutputTemplate
+  template: WikiOutputTemplate
 
 
   subscriptions:
@@ -48,11 +49,50 @@ module.exports = class InputItemView extends View
 
 
 
+
   outputPlainText: ->
     @render()
 
     return @$el.text()
 
+
+
+  getRenderData: ->
+    return WizardStepInputs
+
+
+
+  render: ->
+    @$el.html( @template( @populateOutput() ) )
+    
+    @afterRender()
+    
+    return @
+
+
+
+  populateOutput: ->
+    return @template( @getRenderData() )
+
+
+
+  exportData: (exportData) ->
+    $('#publish').removeClass('processing')
+
+    $.ajax(
+
+      type: 'POST'
+
+      url: '/publish_test'
+
+      data:
+        wikitext: exportData
+
+      success: (returnData) ->
+        console.log returnData
+        
+    )
+    
 
 
   publishHandler: ->
@@ -65,27 +105,23 @@ module.exports = class InputItemView extends View
 
     finalOutData = []
 
-    _.each(WizardStepInputs, (step) =>
-      _.each(step, (item) ->
-        if item.selected == true
-          finalOutData.push(item)
-        else if item.type == 'text'
-          finalOutData.push(item)
-      )
-    )
+    $('#publish').addClass('processing')
 
-    console.log finalOutData
+    # _.each(WizardStepInputs, (step) =>
+    #   _.each(step, (item) ->
 
-    # $.ajax(
-
-    #   type: 'POST'
-
-    #   url: '/publish'
-
-    #   data:
-    #     text: @outputPlainText()
-
-    #   success: (data) ->
-    #     console.log data
-        
+    #     if item.type == 'checkbox' && 
+    #       finalOutData.push(item)
+    #     else if item.type == 'text'
+    #       finalOutData.push(item)
+    #   )
     # )
+    setTimeout(=>
+      @exportData(@populateOutput())
+    , 2000)
+
+    
+
+    
+
+    
