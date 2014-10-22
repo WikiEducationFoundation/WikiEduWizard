@@ -74,9 +74,23 @@ module.exports = class InputItemView extends View
 
   publishHandler: ->
 
-    $('#publish').addClass('processing')
+    
 
-    @exportData(@populateOutput())
+    if WizardStepInputs.intro.course_name.value.length > 0 
+
+      $('#publish').addClass('processing')
+
+      @exportData(@populateOutput())
+
+    else
+
+      alert('You must enter a course title as this will become the title of your course page.')
+
+      Backbone.Mediator.publish('step:edit', 'intro')
+
+      setTimeout(=>
+        $('#course_name').focus()
+      ,500)
 
 
     
