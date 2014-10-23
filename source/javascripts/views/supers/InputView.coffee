@@ -46,7 +46,9 @@ module.exports = class InputItemView extends View
 
     'mouseover' : 'mouseoverHandler'
 
-    'mouseenter label span' : 'hideShowTooltip'
+    'mouseenter label' : 'hideShowTooltip'
+
+    'mouseenter .check-button' : 'hideShowTooltip'
 
     'mouseout' : 'mouseoutHandler'
 
