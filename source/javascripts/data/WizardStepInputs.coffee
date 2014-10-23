@@ -210,17 +210,17 @@ WizardStepInputs =
       type: 'radioBox'
       id: 'create_outline'
       selected: false
-      label: 'Create an Article Outline'
+      label: 'Traditional outline'
       exclusive: false
       tipInfo: 
-        title: "Traditional Outline"
+        title: "Traditional outline"
         content: "For each article, the students create an outline that reflects the improvements they plan to make, and then post it to the article's talk page. This is a relatively easy way to get started."
     
     write_lead:
       type: 'radioBox'
       id: 'write_lead'
       selected: false
-      label: 'Write the Article Lead Section'
+      label: 'Wikipedia lead section'
       exclusive: false
       tipInfo: 
         title: "Wikipedia lead section"
