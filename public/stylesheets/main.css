@@ -152,6 +152,7 @@ h2,
 .custom-input--text input,
 .custom-input--text .input-editable,
 .custom-input--percent input,
+.custom-input-dates__label,
 .step-nav__button {
   font-family: 'Droid Serif', serif;
   font-size: 18px;
@@ -164,6 +165,7 @@ h2--small,
 .custom-input--text input--small,
 .custom-input--text .input-editable--small,
 .custom-input--percent input--small,
+.custom-input-dates__label--small,
 .step-nav__button--small {
   font-size: 14px;
   line-height: 16px;
@@ -330,6 +332,9 @@ a {
 strong,
 em {
   font-style: italic;
+}
+select {
+  font-family: 'Droid Serif', serif;
 }
 .container {
   width: 100%;
@@ -706,6 +711,21 @@ em {
   height: 45px;
   margin: 60px auto;
 }
+.custom-input-dates__label {
+  -webkit-transition: top 0.1s ease-out;
+          transition: top 0.1s ease-out;
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 30px;
+  font-size: 16px;
+  line-height: 30px;
+  position: absolute;
+  top: -45px;
+  left: 0;
+  padding: 0 5px;
+  color: #505a7f;
+}
 .custom-input-dates__inner {
   display: inline-block;
   width: auto;
@@ -735,18 +755,38 @@ em {
 }
 .custom-input-dates .custom-select {
   display: inline-block;
+  position: relative;
   width: 52px;
   height: 40px;
   background: transparent url("/images/arrow--dropdown.svg") no-repeat right;
   border-bottom: 1px solid #505a7f;
   margin: 0 5px;
 }
+.custom-input-dates .custom-select .custom-select-label {
+  -webkit-transition: top 0.1s ease-out;
+          transition: top 0.1s ease-out;
+  display: block;
+  width: 100%;
+  height: auto;
+  position: absolute;
+  top: 15px;
+  left: 0;
+  text-align: left;
+  font-family: 'Droid', serif;
+  font-size: 15px;
+  color: #505a7f;
+  letter-spacing: 0.3px;
+}
+.custom-input-dates .custom-select.open .custom-select-label {
+  top: -10px;
+}
 .custom-input-dates .custom-select select {
+  position: relative;
   background: transparent;
   width: 52px;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 40px;
-  border: none;
+  border: 0;
   border-radius: 0;
   height: 40px;
   -webkit-appearance: none;
@@ -755,7 +795,10 @@ em {
   color: #505a7f;
   text-align: center;
   cursor: pointer;
-  padding-left: 8px;
+  text-align: left;
+  z-index: 100;
+  text-indent: 0;
+  font-weight: bolder;
 }
 .custom-input-dates .custom-select--year {
   width: 72px;

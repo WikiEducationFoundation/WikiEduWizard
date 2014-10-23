@@ -379,6 +379,23 @@ ci-padding = 20px 70px 20px 45px
   height 45px
   margin 60px auto
   
+  &__label
+    @extend .form-content
+    transition top 0.1s ease-out
+    position absolute
+    display block
+    width 100%
+    height 30px
+    font-size 16px
+    line-height 30px
+    position absolute
+    top -45px
+    left 0
+    padding 0 5px
+    color blue-dark
+    
+  
+  
   &__inner
     display inline-block
     width auto
@@ -407,23 +424,45 @@ ci-padding = 20px 70px 20px 45px
     text-align center
     
     
+    
   .custom-select
     @extend .input-deco
     display inline-block
+    position relative
     width: 52px
     height: 40px
-
     background: transparent url(/images/arrow--dropdown.svg) no-repeat right 
     border-bottom 1px solid blue-dark
     margin 0 5px
     
+    .custom-select-label
+      transition top 0.1s ease-out
+      display block
+      width 100%
+      height auto
+      position absolute
+      top 15px
+      left 0
+      text-align left
+      font-family 'Droid', serif
+      font-size 15px
+      color blue-dark
+      letter-spacing 0.3px
+  
+
+    &.open
+      .custom-select-label
+        top -10px
+    
+    
     
     select 
+      position relative
       background transparent
       width 52px
-      font-size 18px
+      font-size 16px
       line-height 40px
-      border none
+      border 0
       border-radius 0
       height 40px
       -webkit-appearance none
@@ -432,15 +471,20 @@ ci-padding = 20px 70px 20px 45px
       color blue-dark
       text-align center
       cursor pointer
-      padding-left 8px
+      text-align left
+      z-index 100
+      text-indent 0
+      font-weight bolder
       
-    
+
     &--year
       width 72px
       
       select
         width 72px
         padding-left 6px
+        
+
 
 
 

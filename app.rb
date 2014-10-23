@@ -149,11 +149,11 @@ end
 
 get '/welcome' do
 
-  unless session['wiki_username'] && session['access_token']
+  # unless session['wiki_username'] && session['access_token']
   
-    redirect to '/'
+  #   redirect to '/'
   
-  end
+  # end
 
   @wikiuser = session['wiki_username']
 

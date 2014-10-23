@@ -12,6 +12,7 @@ View = require('../views/supers/View')
 
 #SUBVIEWS
 InputItemView = require('../views/InputItemView')
+DateInputView = require('../views/DateInputView')
 
 #TEMPLATES
 StepTemplate = require('../templates/steps/StepTemplate.hbs')
@@ -138,6 +139,15 @@ module.exports = class StepView extends View
 
       #ADD START/END DATES MODULE
       $dates = $(@datesModule())
+
+      $dateInputs = $dates.find('.custom-select')
+
+      $dateInputs.each(->
+        dateView = new DateInputView(
+          el: $(this) 
+        )
+    
+      )
 
       @$el.find('.step-form-dates').html($dates)
       

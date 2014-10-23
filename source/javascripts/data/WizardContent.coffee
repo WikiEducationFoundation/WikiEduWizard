@@ -3,11 +3,11 @@ WizardContent = [
     id: "intro"
     title: 'Welcome to the Wikipedia Assignment Wizard!'
     login_instructions: 'Click Login with WikiMedia to get started'
-    instructions: 'Since Wikipedia began in 2001, professors around the world have integrated the free encyclopedia that anyone can edit into their curriculum.<br/><br/>This interactive wizard will take you through the required steps to create a custom assignment for your class. Please begin by filling in the following fields:'
+    instructions: 'This tool will walk you through best practices for Wikipedia classroom assignments and help you create a customized syllabus for your course, broken into weekly assignments.<br/><br/>When you’re finished, you can publish a ready-to-use lesson plan onto a wiki page, where it can be customized even further.<br/><br/>Let’s start by filling in some basics about you and your course:'
     inputs: [
       {
         type: 'text'
-        label: 'Teacher Name'
+        label: 'Instructor name'
         id: 'teacher'
         value: ''
         placeholder: ''
@@ -43,7 +43,7 @@ WizardContent = [
     title: 'Assignment type selection'
     infoTitle: 'About assignment selections'
     formTitle: 'Available assignments'
-    instructions: 'Depending on the learning goals you have for your course and how much time you want to devote to your Wikipedia project, there are many effective ways to use Wikipedia in your course. '
+    instructions: "You can teach with Wikipedia in several different ways, and it's important to design an assignment that fits on Wikipedia and achieves your student learning objectives. Your first step is to choose which assignment(s) you'll be asking your students to complete as part of the course. We've created some guidelines to help you, but you'll need to make some key decisions, such as: which learning objectives are you targeting with this assignment? What skills do your students already have? How much time can you devote to the assignment?"
     inputs: [
       { 
         type: 'checkbox'
@@ -106,8 +106,8 @@ WizardContent = [
       {
         title: ''
         content: [
-          '<p>Experienced instructors say it is crucial for students who are going to be editing Wikipedia to become comfortable not only with the markup, but also the community. Introducing the Wikipedia project early in the term and requiring milestones throughout the term will acclimate students to the site and head off procrastination.</p>'
-          '<p>To make the the most of your Wikipedia project, try to integrate your Wikipedia assignment with the course themes. Engage your students with questions of media literacy and knowledge construction throughout your course.</p>'
+          "<p>Most instructors ask their students to write an article. Students start by learning the basics of Wikipedia, and then they focus on the content. They plan, research, write, and revise a previously missing Wikipedia article or contribute to an existing entry on a course-related topic that is incomplete. This assignment typically replaces a term paper or research project, or it forms the literature review section of a larger paper. The student learning outcome is high with this assignment, but it does take a significant amount of time. To learn how to contribute to Wikipedia, your students need to learn both the wiki markup language and key policies and expectations of the Wikipedia-editing community.</p>"
+          "<p>If writing an article isn't right for your class, other assignment options still give students valuable learning opportunities as they improve Wikipedia. Select an assignment type to the left to learn more about each assignment.</p>"
         ]
       }
     ]
@@ -323,11 +323,19 @@ WizardContent = [
   }
   {
     id: "drafts_mainspace"
-    title: 'Drafts & Mainspace'
+    title: 'Drafts and mainspace'
     formTitle: 'Choose one:'
-    infoTitle: 'About drafts & mainspace'
+    infoTitle: 'About drafts and mainspace'
     instructions: 'Once students have gotten a grip on their topics and the sources they will use to write about them, it’s time to start writing on Wikipedia. You can ask them to jump right in and edit live, or start them off in their own sandboxes. There are pros and cons to each approach.'
     sections: [
+      {
+        title: ''
+        content: [
+          "<p>Pros and cons to sandboxes: Sandboxes make students feel safe because they can edit without the pressure of the whole world reading their drafts, or other Wikipedians altering their writing. However, sandbox editing limits many of the unique aspects of Wikipedia as a teaching tool, such as collaborative writing and incremental drafting. Spending more than a week or two in sandboxes is strongly discouraged.</p>"
+          "<p>Pros and cons to editing live: Editing live is exciting for the students because they can see their changes to the articles immediately and experience the collaborative editing process throughout the assignment. However, because new editors often unintentionally break Wikipedia rules, sometimes students’ additions are questioned or removed.</p>"
+          "<p>Will you have your students draft their early work in sandboxes, or work live from the beginning?</p>"
+        ]
+      }
     ]
     inputs: [
     ]
@@ -460,35 +468,23 @@ WizardContent = [
   }
   {
     id: "dyk_ga"
-    title: 'DYK / GA Submission'
-    infoTitle: 'About Did You Know & Good Articles'
-    formTitle: "Do either of these processes make sense for students in your class?"
+    title: 'DYK and Good Article processes'
+    infoTitle: 'About DYK and Good Article processes'
+    formTitle: "Would you like to include these as an ungraded option for your students?"
     sections: [
+      {
+        title: ''
+        content: [
+          "<p>Advanced students’ articles may qualify for submission to Did You Know (DYK), a section on Wikipedia’s main page featuring new content. The general criteria for DYK eligibility are that an article is larger than 1,500 characters of original, well-sourced content (about four paragraphs) and that it has been created or expanded (by a factor of 5x) within the last seven days.</p>"
+          "<p>The short window of eligibility, and the strict rules of the nomination process, can make it challenging to incorporate DYK into a classroom project. The DYK process should not be a required part of your assignment, but it can be a great opportunity to get students excited about their work. A typical DYK article will be viewed hundreds or thousands of times during its 6 hours in the spotlight.</p>"
+          "<p>We strongly recommend trying for DYK status yourself beforehand, or working with experienced Wikipedians to help your students navigate the DYK process smoothly. If your students are working on a related set of articles, it can help to combine multiple article nominations into a single hook; this helps keep your students’ work from swamping the process or antagonizing the editors who maintain it.</p>"
+          "<p>Well-developed articles that have passed a Good Article (GA) review are a substantial achievement in their own right, and can also qualify for DYK. This peer review process involves checking a polished article against Wikipedia's GA criteria: articles must be well-written, verifiable and well-sourced with no original research, broad in coverage, neutral, stable, and appropriately illustrated (when possible). Practically speaking, a potential Good Article should look and sound like other well-developed Wikipedia articles, and it should provide a solid, well-balanced treatment of its subject.</p>"
+          "<p>The Good Article nominations process generally takes some time — between several days and several weeks, depending on the interest of reviewers and the size of the review backlog in the subject area — and should only be undertaken for articles that are already very good. Typically, reviewers will identify further specific areas for improvement, and the article will be promoted to Good Article status if all the reviewers' concerns are addressed. Because of the uncertain timeline and the frequent need to make substantial changes to articles, Good Article nominations usually only make sense for articles that reach a mature state several weeks before the end of term, and those written by student editors who are already experienced, strong writers.</p>"
+        ]
+      }
     ]
     inputs: [
-      {
-        type: 'checkbox'
-        id: 'dyk'
-        selected: false
-        label: 'Include DYK Submissions as an Extracurricular Task'
-        exclusive: false
-        tipInfo: 
-          title: 'Did You Know (DYK)'
-          content: "<p>Advanced students’ articles may qualify for submission to Did You Know (DYK), a section on Wikipedia’s main page featuring new content. The general criteria for DYK eligibility are that an article is larger than 1,500 characters of original, well-sourced content (about four paragraphs) and that it has been created or expanded (by a factor of 5x) within the last seven days.</p>
-          <p>The short window of eligibility, and the strict rules of the nomination process, can make it challenging to incorporate DYK into a classroom project. The DYK process should not be a required part of your assignment, but can be a great opportunity to get students excited about their work. A typical DYK article will be viewed hundreds or thousands of times during its ~6 hours in the spotlight.</p>
-          <p>We strongly recommend trying for DYK status yourself beforehand, or working with experienced Wikipedians to help your students navigate the DYK process smoothly. If your students are working on a related set of articles, it can help to combine multiple article nominations into a single hook; this helps keep your students’ work from swamping the process or antagonizing the editors who maintain it.</p>"
-      }
-      {
-        type: 'checkbox'
-        id: 'ga'
-        selected: false
-        label: 'Include Good Article Submission as an Extracurricular Task'
-        exclusive: false
-        tipInfo: 
-          title: 'Good Article (GA)'
-          content: "Well-developed articles that have passed a Good Article (GA) review are a substantial achievement in their own right, and can also qualify for DYK. This peer review process involves checking a polished article against Wikipedia's GA criteria: articles must be well-written, verifiable and well-sourced with no original research, broad in coverage, neutral, stable, and appropriately illustrated (when possible). Practically speaking, a potential Good Article should look and sound like other well-developed Wikipedia articles, and it should provide a solid, well-balanced treatment of its subject.</p>
-          <p>The Good Article nominations process generally takes some time — between several days and several weeks, depending on the interest of reviewers and the size of the review backlog in the subject area — and should only be undertaken for articles that are already very good. Typically, reviewers will identify further specific areas for improvement, and the article will be promoted to Good Article status if all the reviewers' concerns are addressed. Because of the uncertain timeline and the frequent need to make substantial changes to articles, Good Article nominations usually only make sense for articles that reach a mature state several weeks before the end of term.</p>"
-      }
+      
     ]
   }
   {
