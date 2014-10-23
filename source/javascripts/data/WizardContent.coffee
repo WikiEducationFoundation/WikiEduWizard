@@ -287,9 +287,9 @@ WizardContent = [
   }
   {
     id: "research_planning"
-    title: 'Research & Planning'
-    formTitle: 'Choose one:'
-    infoTitle: 'About research & planning'
+    title: 'Research and planning'
+    formTitle: 'How should students plan their articles?'
+    infoTitle: 'About research and planning'
     instructions:  "Students often wait until the last minute to do their research, or choose sources unsuited for Wikipedia. That's why we recommend asking students to put together a bibliography of materials they want to use in editing the article, which can then be assessed by you and other Wikipedians."
     sections: [
       {
@@ -307,13 +307,13 @@ WizardContent = [
         options: [
           {
             id: 'research_planning'
-            label: 'Create an Article Outline'
+            label: 'Traditional outline'
             value: 'create_outline'
             selected: false
           }
           {
             id: 'research_planning'
-            label: 'Write the Article Lead Section'
+            label: 'Wikipedia lead section'
             value: 'write_lead'
             selected: false
           }
@@ -543,7 +543,7 @@ WizardContent = [
       }
       {
         type: 'percent'
-        label: 'Research & Planning'
+        label: 'Research and planning'
         id: 'grade_research_planning'
         value: ''
         placeholder: ''
@@ -623,7 +623,7 @@ WizardContent = [
       }
       {
         type: 'edit'
-        label: 'Research & Planning'
+        label: 'Research and planning'
         id: 'grade_research_planning'
         value: ''
         placeholder: ''
