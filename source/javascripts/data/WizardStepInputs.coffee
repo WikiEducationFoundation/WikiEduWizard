@@ -92,7 +92,7 @@ WizardStepInputs =
       type: 'checkbox'
       id: 'copyedit'
       selected: false
-      label: 'Copy/edit articles'
+      label: 'Copyedit articles'
       exclusive: false
       hasCourseInfo: true
 
@@ -108,7 +108,7 @@ WizardStepInputs =
       type: 'checkbox'
       id: 'plagiarism'
       selected: false
-      label: 'Identify and fix close paraphrasing / plagiarism'
+      label: 'Identify and fix plagiarism'
       exclusive: false
       hasCourseInfo: true
 
@@ -358,35 +358,35 @@ WizardStepInputs =
   grading: 
     learning_essentials:
       type: 'percent'
-      label: 'Learning Wiki Essentials'
+      label: 'Learning Wiki essentials'
       id: 'learning_essentials'
       value: ''
       placeholder: ''
     
     getting_started:
       type: 'percent'
-      label: 'Getting Started with Editing'
+      label: 'Getting started with editing'
       id: 'getting_started'
       value: ''
       placeholder: ''
     
     choosing_articles:
       type: 'percent'
-      label: 'Choosing Articles'
+      label: 'Choosing articles'
       id: 'choosing_articles'
       value: ''
       placeholder: ''
     
     research_planning:
       type: 'percent'
-      label: 'Research & Planning'
+      label: 'Research an planning'
       id: 'research_planning'
       value: ''
       placeholder: ''
     
     drafts_mainspace:
       type: 'percent'
-      label: 'Drafts & Mainspace'
+      label: 'Drafts and mainspace'
       id: 'drafts_mainspace'
       value: ''
       placeholder: ''
@@ -400,7 +400,7 @@ WizardStepInputs =
     
     supplementary_assignments:
       type: 'percent'
-      label: 'Supplementary Assignments'
+      label: 'Supplementary assignments'
       id: 'supplementary_assignments'
       value: ''
       placeholder: ''
@@ -410,35 +410,35 @@ WizardStepInputs =
   overview: 
     learning_essentials:
       type: 'edit'
-      label: 'Learning Wiki Essentials'
+      label: 'Learning Wiki essentials'
       id: 'learning_essentials'
       value: ''
       placeholder: ''
 
     getting_started:
       type: 'edit'
-      label: 'Getting Started with Editing'
+      label: 'Getting started with editing'
       id: 'getting_started'
       value: ''
       placeholder: ''
 
     choosing_articles:
       type: 'edit'
-      label: 'Choosing Articles'
+      label: 'Choosing articles'
       id: 'choosing_articles'
       value: ''
       placeholder: ''
 
     research_planning:
       type: 'edit'
-      label: 'Research & Planning'
+      label: 'Research and planning'
       id: 'research_planning'
       value: ''
       placeholder: ''
     
     drafts_mainspace:
       type: 'edit'
-      label: 'Drafts & Mainspace'
+      label: 'Drafts and mainspace'
       id: 'drafts_mainspace'
       value: ''
       placeholder: ''
@@ -452,7 +452,7 @@ WizardStepInputs =
     
     supplementary_assignments:
       type: 'edit'
-      label: 'Supplementary Assignments'
+      label: 'Supplementary assignments'
       id: 'supplementary_assignments'
       value: ''
       placeholder: ''
