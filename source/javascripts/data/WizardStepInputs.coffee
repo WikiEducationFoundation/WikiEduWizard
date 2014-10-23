@@ -301,7 +301,7 @@ WizardStepInputs =
       type: 'checkbox'
       id: 'class_presentation'
       selected: false
-      label: 'In-class presentation of Wikipedia work'
+      label: 'In-class presentations'
       exclusive: false
       tipInfo:  
         title: 'In-class presentation of Wikipedia work'
