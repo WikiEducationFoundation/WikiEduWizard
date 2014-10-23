@@ -119,21 +119,21 @@ WizardStepInputs =
       type: 'checkbox'
       id: 'create_user'
       selected: true
-      label: 'Create User Account'
+      label: 'Create user account'
       exclusive: false
     
     enroll:
       type: 'checkbox'
       id: 'enroll'
       selected: true
-      label: 'Enroll to the Course'
+      label: 'Enroll to the course'
       exclusive: false
 
     complete_training:
       type: 'checkbox'
       id: 'complete_training'
       selected: false
-      label: 'Complete Online Training'
+      label: 'Complete online training'
       exclusive: false
 
     introduce_ambassadors:
@@ -157,28 +157,28 @@ WizardStepInputs =
       type: 'checkbox'
       id: 'critique_article'
       selected: true
-      label: 'Critique an Article'
+      label: 'Critique an article'
       exclusive: false
 
     add_to_article:
       type: 'checkbox'
       id: 'add_to_article'
       selected: true
-      label: 'Add to an Article'
+      label: 'Add to an article'
       exclusive: false
 
     copy_edit_article:
       type: 'checkbox'
       id: 'copy_edit_article'
       selected: false
-      label: 'Copy-Edit an Article'
+      label: 'Copyedit an article'
       exclusive: false
     
     illustrate_article:
       type: 'checkbox'
       id: 'illustrate_article'
       selected: false
-      label: 'Illustrate an Article'
+      label: 'Illustrate an article'
       exclusive: false
   
 
@@ -291,52 +291,52 @@ WizardStepInputs =
       type: 'checkbox'
       id: 'class_blog'
       selected: false
-      label: 'Class Blog or Discussion'
+      label: 'Class blog or discussion'
       exclusive: false
       tipInfo: 
         title: 'Class blog or class discussion'
-        content: 'Many instructors ask students to keep a running blog about their experiences. Giving them prompts every week or every two weeks, such as “To what extent are the editors on Wikipedia a self-selecting group and why?” will help them begin to think about the larger issues surrounding this online encyclopedia community. It will also give you material both on the wiki and off the wiki to grade. If you have time in class, these discussions can be particularly constructive in person.'
-    
+        content: 'Students keep a running blog about their experiences. Giving them prompts every week or two, such as “To what extent are the editors on Wikipedia a self-selecting group and why?” will help them think about the larger issues surrounding this online encyclopedia community. It will also give you material both on the wiki and off the wiki to grade. If you have time in class, these discussions can be particularly constructive in person.'
+      
     class_presentation:
       type: 'checkbox'
       id: 'class_presentation'
       selected: false
-      label: 'In-Class Presentation'
+      label: 'In-class presentation of Wikipedia work'
       exclusive: false
       tipInfo:  
         title: 'In-class presentation of Wikipedia work'
         content: "Each student or group prepares a short presentation for the class, explaining what they worked on, what went well and what didn't, and what they learned. These presentations can make excellent fodder for class discussions to reinforce your course's learning goals."
-    
+      
     reflective_essay:
       type: 'checkbox'
       id: 'reflective_essay'
       selected: false
-      label: 'Reflective Essay'
+      label: 'Reflective essay'
       exclusive: false
       tipInfo:  
         title: 'Reflective essay'
-        content: "After the assignment is over, ask students to write a short reflective essay on their experiences using Wikipedia. This works well for both short and long Wikipedia projects. An interesting iteration of this is to have students write a short version of the essay before they begin editing Wikipedia, outlining their expectations, and then have them reflect on whether or not those expectations were met after they have completed the assignment."
-    
+        content: "Ask students to write a short reflective essay on their experiences using Wikipedia. This works well for both short and long Wikipedia projects. An interesting iteration of this is to have students write a short version of the essay before they begin editing Wikipedia, outlining their expectations, and then have them reflect on whether or not they met those expectations during the assignment."
+      
     portfolio:
       type: 'checkbox'
       id: 'portfolio'
       selected: false
-      label: 'Wikipedia Portfolio'
+      label: 'Wikipedia portfolio'
       exclusive: false
       tipInfo:  
-        title: 'Wikipedia Portfolio'
+        title: 'Wikipedia portfolio'
         content: "Students organize their Wikipedia work into a portfolio, including a narrative of the contributions they made — and how they were received, and possibly changed, by other Wikipedians — and links to their key edits. Composing this portfolio will help students think more deeply about their Wikipedia experiences, and also provides a lens through which to understand — and grade — their work."
     
     original_paper:
       type: 'checkbox'
       id: 'original_paper'
       selected: false
-      label: 'Original Analytical Paper'
+      label: 'Original analytical paper'
       exclusive: false
       tipInfo:  
-        title: 'Original Analytical Paper'
+        title: 'Original analytical paper'
         content: "In courses that emphasize traditional research skills and the development of original ideas through a term paper, Wikipedia's policy of \"no original research\" may be too restrictive. Many instructors pair Wikipedia writing with complementary analytical paper; students’ Wikipedia articles as a literature review, and the students go on to develop their own ideas and arguments in the offline analytical paper."
-
+      
 
   dyk_ga: 
     dyk:

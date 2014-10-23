@@ -5,34 +5,7 @@ WizardContent = [
     login_instructions: 'Click Login with WikiMedia to get started'
     instructions: 'This tool will walk you through best practices for Wikipedia classroom assignments and help you create a customized syllabus for your course, broken into weekly assignments.<br/><br/>When you’re finished, you can publish a ready-to-use lesson plan onto a wiki page, where it can be customized even further.<br/><br/>Let’s start by filling in some basics about you and your course:'
     inputs: [
-      {
-        type: 'text'
-        label: 'Instructor name'
-        id: 'teacher'
-        value: ''
-        placeholder: ''
-      }
-      {
-        type: 'text'
-        label: 'University'
-        id: 'school'
-        value: ''
-        placeholder: ''
-      }
-      {
-        type: 'text'
-        label: 'Subject'
-        id: 'subject'
-        value: ''
-        placeholder: ''
-      }
-      {
-        type: 'text'
-        label: 'Approximate number of students'
-        id: 'students'
-        value: ''
-        placeholder: ''
-      }
+    
     ]
     sections: [
       
@@ -42,65 +15,10 @@ WizardContent = [
     id: "assignment_selection"
     title: 'Assignment type selection'
     infoTitle: 'About assignment selections'
-    formTitle: 'Available assignments'
+    formTitle: 'Available assignments:'
     instructions: "You can teach with Wikipedia in several different ways, and it's important to design an assignment that fits on Wikipedia and achieves your student learning objectives. Your first step is to choose which assignment(s) you'll be asking your students to complete as part of the course. We've created some guidelines to help you, but you'll need to make some key decisions, such as: which learning objectives are you targeting with this assignment? What skills do your students already have? How much time can you devote to the assignment?"
     inputs: [
-      { 
-        type: 'checkbox'
-        id: 'researchwrite'
-        selected: false
-        label: 'Research and write an article'
-        exclusive: true
-        hasCourseInfo: true
-      }
-      { 
-        type: 'checkbox'
-        id: 'evaluate'
-        selected: false
-        label: 'Evaluate articles'
-        exclusive: false
-        hasCourseInfo: true
-      }
-      { 
-        type: 'checkbox'
-        id: 'multimedia'
-        selected: false
-        label: 'Add images & multimedia'
-        exclusive: false
-        hasCourseInfo: true
-      }
-      { 
-        type: 'checkbox'
-        id: 'sourcecentered'
-        selected: false
-        label: 'Source-centered additions'
-        exclusive: false
-        hasCourseInfo: true
-      }
-      { 
-        type: 'checkbox'
-        id: 'copyedit'
-        selected: false
-        label: 'Copy/edit articles'
-        exclusive: false
-        hasCourseInfo: true
-      }
-      { 
-        type: 'checkbox'
-        id: 'findfix'
-        selected: false
-        label: 'Find and fix errors'
-        exclusive: false
-        hasCourseInfo: true
-      }  
-      { 
-        type: 'checkbox'
-        id: 'plagiarism'
-        selected: false
-        label: 'Identify and fix close paraphrasing / plagiarism'
-        exclusive: false
-        hasCourseInfo: true
-      }     
+   
     ]
     sections: [
       {
@@ -119,41 +37,7 @@ WizardContent = [
     infoTitle: 'About Wikipedia essentials'
     instructions: 'To get started, you\'ll want to introduce your students to the basic rules of writing Wikipedia articles and working with the Wikipedia community. As their first Wikipedia assignment milestone, you can ask the students to create accounts and then complete the online training for students. '
     inputs: [
-      {
-        type: 'checkbox'
-        id: 'create_user'
-        selected: true
-        label: 'Create user account'
-        exclusive: false
-      }
-      {
-        type: 'checkbox'
-        id: 'enroll'
-        selected: true
-        label: 'Enroll to the course'
-        exclusive: false
-      }
-      {
-        type: 'checkbox'
-        id: 'complete_training'
-        selected: false
-        label: 'Complete online training'
-        exclusive: false
-      }
-      {
-        type: 'checkbox'
-        id: 'introduce_ambassadors'
-        selected: false
-        label: 'Introduce Wikipedia ambassadors involved'
-        exclusive: false
-      }
-      {
-        type: 'checkbox'
-        id: 'include_completion'
-        selected: false
-        label: 'Include completion of this assignment as part of the students\'s grade'
-        exclusive: false
-      }
+   
     ]
     sections: [
       {
@@ -178,70 +62,31 @@ WizardContent = [
     instructions: "It is important for students to start editing Wikipedia right away. That way, they become familiar with Wikipedia's markup (\"wikisyntax\", \"wikimarkup\", or \"wikicode\") and the mechanics of editing and communicating on the site. We recommend assigning a few basic Wikipedia tasks early on."
     formTitle: 'Which basic assignments would you like to include in your course?'
     inputs: [
-      {
-        type: 'checkbox'
-        id: 'critique_article'
-        selected: true
-        label: 'Critique an Article'
-        exclusive: false
-      }
-      {
-        type: 'checkbox'
-        id: 'add_to_article'
-        selected: true
-        label: 'Add to an Article'
-        exclusive: false
-      }
-      {
-        type: 'checkbox'
-        id: 'copy_edit_article'
-        selected: false
-        label: 'Copy-Edit an Article'
-        exclusive: false
-      }
-      {
-        type: 'checkbox'
-        id: 'illustrate_article'
-        selected: false
-        label: 'Illustrate an Article'
-        exclusive: false
-      }
+    
     ]
     sections: [
       {
         title: ''
         content: [
+          '<p>Which introductory assignments would you like to use to acclimate your students to Wikipedia? You can select none, one, or more. Whichever you select will be added to the course syllabus.</p>'
+          '<ul>
+            <li><strong>Critique an article.</strong> Critically evaluate an existing Wikipedia article related to the class, and leave suggestions for improving it on the article’s talk page. </li>
+            <li><strong>Add to an article.</strong> Using course readings or other relevant secondary sources, add 1–2 sentences of new information to a Wikipedia article related to the class. Be sure to integrate it well into the existing article, and include a citation to the source. </li>
+            <li><strong>Copyedit an article.</strong> Browse Wikipedia until you find an article that you would like to improve, and make some edits to improve the language or formatting. </li>
+            <li><strong>Illustrate an article.</strong> Find an opportunity to improve an article by creating and uploading an original photograph or video.</li>
+          </ul'
         ]
       }
     ]
   }
   {
     id: 'choosing_articles'
-    title: 'Choosing Articles'
+    title: 'Choosing articles'
     formTitle: 'There are two recommended options for selecting articles for Wikipedia assignments:'
     infoTitle: 'About choosing articles'
     instructions: 'Choosing the right (or wrong) articles to work on can make (or break) a Wikipedia writing assignment.'
     inputs: [
-      {
-        type: 'radio'
-        id: 'choosing_articles'
-        label: ''
-        options: [
-          {
-            id: 'choosing_articles'
-            label: 'Instructor Prepares a List with Appropriate Articles'
-            value: 'prepare_list'
-            selected: false
-
-          }
-          {
-            id: 'choosing_articles'
-            label: 'Students Explore and Prepare a List of Articles'
-            value: 'students_explore'
-            selected: false
-          }
-        ]
-      }
+     
     ]
     sections: [
       {
@@ -300,25 +145,7 @@ WizardContent = [
       }
     ]
     inputs: [
-      {
-        type: 'radio'
-        id: 'research_planning'
-        label: ''
-        options: [
-          {
-            id: 'research_planning'
-            label: 'Traditional outline'
-            value: 'create_outline'
-            selected: false
-          }
-          {
-            id: 'research_planning'
-            label: 'Wikipedia lead section'
-            value: 'write_lead'
-            selected: false
-          }
-        ]
-      }
+    
     ]
   }
   {
@@ -342,128 +169,39 @@ WizardContent = [
   }
   {
     id: "peer_feedback"
-    title: 'Peer Feedback'
+    title: 'Peer feedback'
     infoTitle: 'About peer feedback'
-    formTitle: "How Many Peer Reviews Should Each Student Conduct?"
-    instructions: "Collaboration is a critical element of contributing to Wikipedia. For some students, this will happen spontaneously; their choice of topics will attract interested Wikipedians who will pitch in with ideas, copyedits, or even substantial contributions to the students’ articles."
+    formTitle: "How many peer reviews should each student conduct?"
+    instructions: "Collaboration is a critical element of contributing to Wikipedia."
     sections: [
       {
         title: ''
         content: [
-          "<p>Online Ambassadors with an interest in the students' topics can also make great collaborators. In many cases, however, there will be little spontaneous editing of students’ articles before the end of the term.</p>"
-          "<p>Fortunately, you have a classroom full of peer reviewers. You can make the most of this by assigning students to review each others’ articles soon after full-length drafts are posted. This gives students plenty of time to act on the advice of their peers.</p>"
-          
+          "<p>For some students, this will happen spontaneously; their choice of topics will attract interested Wikipedians who will pitch in with ideas, copyedits, or even substantial contributions to the students’ articles. In many cases, however, there will be little spontaneous editing of students’ articles before the end of the term. Fortunately, you have a classroom full of peer reviewers. You can make the most of this by assigning students to review each others’ articles soon after full-length drafts are posted. This gives students plenty of time to act on the advice of their peers.</p>"
+          "<p>How many peer reviews will you ask each student to contribute during the course?</p>"
         ]
       }
     ]
     inputs: [
-      {
-        type: 'radioGroup'
-        id: 'peer_reviews'
-        label: ''
-        options: [
-          {
-            id: 'peer_reviews'
-            label: '1'
-            value: '1'
-            selected: false
-          }
-          {
-            id: 'peer_reviews'
-            label: '2'
-            value: '2'
-            selected: true
-          }
-          {
-            id: 'peer_reviews'
-            label: '3'
-            value: '3'
-            selected: false
-          }
-          {
-            id: 'peer_reviews'
-            label: '5'
-            value: '5'
-            selected: false
-          }
-          {
-            id: 'peer_reviews'
-            label: '10'
-            value: '10'
-            selected: false
-          }
-          
-        ]
-        
-      }
+
     ]
   }
   {
     id: "supplementary_assignments"
-    title: 'Supplementary Assignments'
-    formTitle: 'Choose one or more:'
+    title: 'Supplementary assignments'
+    formTitle: 'Choose supplementary assignments:'
     infoTitle: 'About supplementary assignments'
-    instructions: "By the time students have made improvements based on classmates' review comments — and ideally suggestions from you as well — students should have produced nearly complete articles. Now is the chance to encourage them to wade a little deeper into Wikipedia and its norms and criteria for great content. You’ll probably have discussed many of the core principles of Wikipedia—and related issues you want to focus on—but now that they’ve experienced first-hand how Wikipedia works, this is a good time to return to topics like neutrality, media fluency, and the impact and limits of Wikipedia. "
+    instructions: "By the time students have made improvements based on classmates' comments—and ideally suggestions from you as well—they should have produced nearly complete articles. Now is the chance to encourage them to wade a little deeper into Wikipedia and its norms and criteria to create great content. You’ll probably have discussed many of the core principles of Wikipedia—and related issues you want to focus on—but now that they’ve experienced first-hand how Wikipedia works, this is a good time to return to topics like neutrality, media fluency, and the impacts and limits of Wikipedia. Consider bringing in a guest speaker, having a panel discussion, or simply having an open discussion in class about what the students have done so far and why (or whether) it matters."
     sections: [
       {
         title: ''
         content: [
-          "<p>Consider bringing in a guest speaker, having a panel discussion, or simply having an open discussion amongst the class about what the students have done so far and why (or whether) it matters.</p>"
-          "<p>In addition to the Wikipedia article writing itself, you may want to use a supplementary assignment. These assignments can reinforce and deepen your course's learning outcomes, and also help you to understand and evaluate the students' Wikipedia work. Here are some of the effective supplementary assignments that instructors often use.</p>"
+         "<p>In addition to the Wikipedia article writing itself, you may want to use a supplementary assignment. These assignments can reinforce and deepen your course's learning outcomes, and also help you to understand and evaluate the students' work and learning outcomes. Here are some of the effective supplementary assignments that instructors often use. Scroll over each for more information, and select any that you wish to use for your course.</p>"
         ]
       }
     ]
     inputs: [
-      {
-        type: 'checkbox'
-        id: 'class_blog'
-        selected: false
-        label: 'Class Blog or Discussion'
-        exclusive: false
-        tipInfo: 
-          title: 'Class blog or class discussion'
-          content: 'Many instructors ask students to keep a running blog about their experiences. Giving them prompts every week or every two weeks, such as “To what extent are the editors on Wikipedia a self-selecting group and why?” will help them begin to think about the larger issues surrounding this online encyclopedia community. It will also give you material both on the wiki and off the wiki to grade. If you have time in class, these discussions can be particularly constructive in person.'
-      }
-      {
-        type: 'checkbox'
-        id: 'class_presentation'
-        selected: false
-        label: 'In-Class Presentation'
-        exclusive: false
-        tipInfo:  
-          title: 'In-class presentation of Wikipedia work'
-          content: "Each student or group prepares a short presentation for the class, explaining what they worked on, what went well and what didn't, and what they learned. These presentations can make excellent fodder for class discussions to reinforce your course's learning goals."
-      }
-      {
-        type: 'checkbox'
-        id: 'essay'
-        selected: false
-        label: 'Reflective Essay'
-        exclusive: false
-        tipInfo:  
-          title: 'Reflective essay'
-          content: "After the assignment is over, ask students to write a short reflective essay on their experiences using Wikipedia. This works well for both short and long Wikipedia projects. An interesting iteration of this is to have students write a short version of the essay before they begin editing Wikipedia, outlining their expectations, and then have them reflect on whether or not those expectations were met after they have completed the assignment."
-      }
-      {
-        type: 'checkbox'
-        id: 'portfolio'
-        selected: false
-        label: 'Wikipedia Portfolio'
-        exclusive: false
-        tipInfo:  
-          title: 'Wikipedia Portfolio'
-          content: "Students organize their Wikipedia work into a portfolio, including a narrative of the contributions they made — and how they were received, and possibly changed, by other Wikipedians — and links to their key edits. Composing this portfolio will help students think more deeply about their Wikipedia experiences, and also provides a lens through which to understand — and grade — their work."
-      }
-      {
-        type: 'checkbox'
-        id: 'original_paper'
-        selected: false
-        label: 'Original Analytical Paper'
-        exclusive: false
-        tipInfo:  
-          title: 'Original Analytical Paper'
-          content: "In courses that emphasize traditional research skills and the development of original ideas through a term paper, Wikipedia's policy of \"no original research\" may be too restrictive. Many instructors pair Wikipedia writing with complementary analytical paper; students’ Wikipedia articles as a literature review, and the students go on to develop their own ideas and arguments in the offline analytical paper."
-      }
+
     ]
   }
   {
@@ -520,55 +258,7 @@ WizardContent = [
       }
     ]
     inputs: [
-      {
-        type: 'percent'
-        label: 'Learning Wiki Essentials'
-        id: 'grade_essentials'
-        value: ''
-        placeholder: ''
-      }
-      {
-        type: 'percent'
-        label: 'Getting Started with Editing'
-        id: 'grade_getting_started'
-        value: ''
-        placeholder: ''
-      }
-      {
-        type: 'percent'
-        label: 'Choosing Articles'
-        id: 'grade_choosing_articles'
-        value: ''
-        placeholder: ''
-      }
-      {
-        type: 'percent'
-        label: 'Research and planning'
-        id: 'grade_research_planning'
-        value: ''
-        placeholder: ''
-      }
-      {
-        type: 'percent'
-        label: 'Drafts & Mainspace'
-        id: 'grade_drafts_mainspace'
-        value: ''
-        placeholder: ''
-      }
-      {
-        type: 'percent'
-        label: 'Peer Feedback'
-        id: 'grade_peer_feedback'
-        value: ''
-        placeholder: ''
-      }
-      {
-        type: 'percent'
-        label: 'Supplementary Assignments'
-        id: 'grade_supplementary'
-        value: ''
-        placeholder: ''
-      }
+     
     ]
   }
   {
@@ -600,55 +290,7 @@ WizardContent = [
       }
     ]
     inputs: [
-      {
-        type: 'edit'
-        label: 'Learning Wiki Essentials'
-        id: 'grade_essentials'
-        value: ''
-        placeholder: ''
-      }
-      {
-        type: 'edit'
-        label: 'Getting Started with Editing'
-        id: 'grade_getting_started'
-        value: ''
-        placeholder: ''
-      }
-      {
-        type: 'edit'
-        label: 'Choosing Articles'
-        id: 'grade_choosing_articles'
-        value: ''
-        placeholder: ''
-      }
-      {
-        type: 'edit'
-        label: 'Research and planning'
-        id: 'grade_research_planning'
-        value: ''
-        placeholder: ''
-      }
-      {
-        type: 'edit'
-        label: 'Drafts & Mainspace'
-        id: 'grade_drafts_mainspace'
-        value: ''
-        placeholder: ''
-      }
-      {
-        type: 'edit'
-        label: 'Peer Feedback'
-        id: 'grade_peer_feedback'
-        value: ''
-        placeholder: ''
-      }
-      {
-        type: 'edit'
-        label: 'Supplementary Assignments'
-        id: 'grade_supplementary'
-        value: ''
-        placeholder: ''
-      }
+     
     ]
   }
   
