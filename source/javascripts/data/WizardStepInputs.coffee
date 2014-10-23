@@ -343,14 +343,14 @@ WizardStepInputs =
       type: 'checkbox'
       id: 'dyk'
       selected: false
-      label: 'Include DYK Submissions as an Extracurricular Task'
+      label: 'Did You Know?'
       exclusive: false
 
     ga:
       type: 'checkbox'
       id: 'ga'
       selected: false
-      label: 'Include Good Article Submission as an Extracurricular Task'
+      label: 'Good Article nominations'
       exclusive: false
 
 

@@ -114,44 +114,44 @@ WizardContent = [
   }
   {
     id: "learning_essentials"
-    title: 'Learning Wiki Essentials'
+    title: 'Learning the Wikipedia essentials'
     formTitle: 'Choose one or more:'
-    infoTitle: 'About wiki essentials'
+    infoTitle: 'About Wikipedia essentials'
     instructions: 'To get started, you\'ll want to introduce your students to the basic rules of writing Wikipedia articles and working with the Wikipedia community. As their first Wikipedia assignment milestone, you can ask the students to create accounts and then complete the online training for students. '
     inputs: [
       {
         type: 'checkbox'
         id: 'create_user'
         selected: true
-        label: 'Create User Account'
+        label: 'Create user account'
         exclusive: false
       }
       {
         type: 'checkbox'
         id: 'enroll'
         selected: true
-        label: 'Enroll to the Course'
+        label: 'Enroll to the course'
         exclusive: false
       }
       {
         type: 'checkbox'
         id: 'complete_training'
         selected: false
-        label: 'Complete Online Training'
+        label: 'Complete online training'
         exclusive: false
       }
       {
         type: 'checkbox'
         id: 'introduce_ambassadors'
         selected: false
-        label: 'Introduce Wikipedia Ambassadors Involved'
+        label: 'Introduce Wikipedia ambassadors involved'
         exclusive: false
       }
       {
         type: 'checkbox'
         id: 'include_completion'
         selected: false
-        label: 'Include Completion of this Assignment as Part of the Students\'s Grade'
+        label: 'Include completion of this assignment as part of the students\'s grade'
         exclusive: false
       }
     ]
@@ -173,7 +173,7 @@ WizardContent = [
   }
   {
     id: "getting_started"
-    title: 'Getting Started with Editing'
+    title: 'Getting started with editing'
     infoTitle: 'About editing'
     instructions: "It is important for students to start editing Wikipedia right away. That way, they become familiar with Wikipedia's markup (\"wikisyntax\", \"wikimarkup\", or \"wikicode\") and the mechanics of editing and communicating on the site. We recommend assigning a few basic Wikipedia tasks early on."
     formTitle: 'Which basic assignments would you like to include in your course?'
