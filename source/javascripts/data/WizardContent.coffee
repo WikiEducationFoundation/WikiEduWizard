@@ -2,7 +2,7 @@ WizardContent = [
   {
     id: "intro"
     title: 'Welcome to the Wikipedia Assignment Wizard!'
-    login_instructions: 'Click Login with WikiMedia to get started'
+    login_instructions: 'Click Login with Wikipedia to get started'
     instructions: 'This tool will walk you through best practices for Wikipedia classroom assignments and help you create a customized syllabus for your course, broken into weekly assignments.<br/><br/>When you’re finished, you can publish a ready-to-use lesson plan onto a wiki page, where it can be customized even further.<br/><br/>Let’s start by filling in some basics about you and your course:'
     inputs: [
     
