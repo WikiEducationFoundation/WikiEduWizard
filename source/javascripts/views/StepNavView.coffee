@@ -144,7 +144,7 @@ module.exports = class StepNavView extends View
 
     if item == 'prev'
 
-      itIs = @currentStep is 1
+      itIs = false #@currentStep is 1
 
     else if item == 'next'
       console.log application.homeView.stepViews[@currentStep].hasUserAnswered

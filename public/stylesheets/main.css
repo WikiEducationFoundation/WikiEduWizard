@@ -604,6 +604,7 @@ select {
 .custom-input--checkbox.not-editable .edit-button,
 .custom-input--radiobox.not-editable .edit-button {
   opacity: 0.6;
+  pointer: none;
 }
 .custom-input--radio {
   position: relative;
@@ -948,7 +949,7 @@ textarea {
   background-color: #858daa;
   border-top: 2px solid rgba(78,88,127,0.2);
 }
-.step-nav__button span {
+.step-nav__button span.arrow {
   height: 25px;
 }
 .step-nav__button .step-nav-arrow {
@@ -990,11 +991,10 @@ textarea {
 .step-nav__button:hover,
 .step-nav__button:active {
   background-color: #505a80;
-  text-decoration: underline;
 }
-.step-nav__button:hover span,
-.step-nav__button:active span {
-  text-decoration: none;
+.step-nav__button:hover span.text,
+.step-nav__button:active span.text {
+  text-decoration: underline;
 }
 .step-nav .step-nav-indicators {
   -webkit-transition: opacity 0.12s ease-in, margin-top 1s ease-out;

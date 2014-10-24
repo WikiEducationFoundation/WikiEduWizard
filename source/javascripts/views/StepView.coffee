@@ -167,9 +167,11 @@ module.exports = class StepView extends View
     _.each(@inputData, (input, index) =>
 
       unless input.type 
+
         return
 
       if input.selected
+
         @hasUserAnswered = true
 
       inputView = new InputItemView(
@@ -234,7 +236,9 @@ module.exports = class StepView extends View
 
   show: ->
     @$el.show()
+
     @hasUserVisited = true
+
     return @
 
 
@@ -244,7 +248,7 @@ module.exports = class StepView extends View
 
 
   updateUserAnswer: (id,value) ->
-    console.log value
+
     if value is 'on'
 
       @hasUserAnswered = true
