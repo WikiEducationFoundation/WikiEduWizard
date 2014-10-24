@@ -8,9 +8,6 @@
 InputView = require('../views/supers/InputView')
 
 
-
-
-
 module.exports = class InputItemView extends InputView 
 
 

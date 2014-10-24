@@ -169,6 +169,9 @@ module.exports = class StepView extends View
       unless input.type 
         return
 
+      if input.selected
+        @hasUserAnswered = true
+
       inputView = new InputItemView(
 
         model: new Backbone.Model(input)
@@ -235,22 +238,25 @@ module.exports = class StepView extends View
     return @
 
 
-
   beginHandler: ->
+
     Backbone.Mediator.publish('step:next')
 
 
+  updateUserAnswer: (id,value) ->
+    console.log value
+    if value is 'on'
 
-  updateUserAnswer: (bool) ->
-    @hasUserAnswered = bool
+      @hasUserAnswered = true
+
 
     Backbone.Mediator.publish('step:answered', @)
 
     return @
 
+
   updateAnswer: (id, value) ->
     
-
     inputType = WizardStepInputs[@model.id][id].type 
 
     out = 

@@ -8,11 +8,9 @@ application = require( '../App' )
 View = require('../views/supers/View')
 
 #TEMPLATES
-OutputTemplate = require('../templates/steps/output/OutputTemplate.hbs')
-
 WikiOutputTemplate = require('../templates/steps/output/WikiOutputTemplate.hbs')
 
-CourseDetailsTemplate = require('../templates/steps/output/CourseDetailsTemplate.hbs')
+
 
 #CONFIG DATA
 WizardStepInputs = require('../data/WizardStepInputs')

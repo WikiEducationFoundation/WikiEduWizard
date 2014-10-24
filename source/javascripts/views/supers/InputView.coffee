@@ -67,6 +67,9 @@ module.exports = class InputItemView extends View
   radioButtonClickHandler: (e) ->
     e.preventDefault()
 
+    if @isDisabled()
+      return false
+
     $target = $(e.currentTarget)
 
     $parentGroup = $target.parents('.custom-input-wrapper')
@@ -99,6 +102,9 @@ module.exports = class InputItemView extends View
   radioBoxClickHandler: (e) ->
     e.preventDefault()
 
+    if @isDisabled()
+      return false
+
     $otherRadios = @$el.parents('.step-form-inner').find('.custom-input--radiobox')
 
     $otherRadios.removeClass('checked').find('input').val('off').trigger('change')
@@ -127,6 +133,9 @@ module.exports = class InputItemView extends View
 
   checkButtonClickHandler: (e) ->
     e.preventDefault()
+
+    if @isDisabled()
+      return false
 
     if @$el.find('.custom-input--radiobox').length > 0
       return @radioBoxClickHandler(e)
@@ -209,7 +218,7 @@ module.exports = class InputItemView extends View
     # Backbone.Mediator.publish('answer:updated', inputId, value)
     @parentStep.updateAnswer(inputId, value)
     
-    @parentStep.updateUserAnswer(true)
+    @parentStep.updateUserAnswer(inputId, value)
 
 
   #--------------------------------------------------------
@@ -254,6 +263,9 @@ module.exports = class InputItemView extends View
       unless $target.is(':focus')
 
         @$el.removeClass('open')
+
+  isDisabled: ->
+    return @$el.find('.custom-input').hasClass('not-editable')
 
 
 

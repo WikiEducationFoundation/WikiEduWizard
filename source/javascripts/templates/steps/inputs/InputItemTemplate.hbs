@@ -9,7 +9,7 @@
 
 {{!-- CHECKBOX --}}
 {{#if type.checkbox}}
-<div class="custom-input custom-input--checkbox {{#if data.selected}} checked {{/if}} {{#if data.not_editable}} not-editable {{/if}}" {{#if data.exclusive}} data-exclusive="true" {{/if}}>
+<div class="custom-input custom-input--checkbox {{#if data.selected}} checked {{/if}} {{#if data.disabled}} not-editable {{/if}}" {{#if data.exclusive}} data-exclusive="true" {{/if}}>
   <label for="{{data.id}}"><span>{{data.label}}</span></label>
   <input name="{{data.id}}" type="checkbox" id="{{data.id}}" {{#if data.selected}} checked {{/if}}  />
   <a class="check-button" href="#"></a>

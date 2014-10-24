@@ -63,6 +63,7 @@ WizardStepInputs =
       label: 'Research and write an article'
       exclusive: true
       hasCourseInfo: true
+      
 
     evaluate:
       type: 'checkbox'
@@ -71,7 +72,8 @@ WizardStepInputs =
       label: 'Evaluate articles'
       exclusive: false
       hasCourseInfo: true
-      not_editable: true
+      disabled: true
+
     
     multimedia:
       type: 'checkbox'
@@ -80,7 +82,8 @@ WizardStepInputs =
       label: 'Add images & multimedia'
       exclusive: false
       hasCourseInfo: true
-      not_editable: true
+      disabled: true
+
 
     sourcecentered:
       type: 'checkbox'
@@ -89,7 +92,8 @@ WizardStepInputs =
       label: 'Source-centered additions'
       exclusive: false
       hasCourseInfo: true
-      not_editable: true
+      disabled: true
+  
 
     copyedit: 
       type: 'checkbox'
@@ -98,7 +102,8 @@ WizardStepInputs =
       label: 'Copyedit articles'
       exclusive: false
       hasCourseInfo: true
-      not_editable: true
+      disabled: true
+
 
     findfix:
       type: 'checkbox'
@@ -107,7 +112,8 @@ WizardStepInputs =
       label: 'Find and fix errors'
       exclusive: false
       hasCourseInfo: true
-      not_editable: true
+      disabled: true
+
     
     plagiarism:
       type: 'checkbox'
@@ -116,7 +122,8 @@ WizardStepInputs =
       label: 'Identify and fix plagiarism'
       exclusive: false
       hasCourseInfo: true
-      not_editable: true
+      disabled: true
+   
 
     something_else:
       type: 'link'
@@ -138,7 +145,7 @@ WizardStepInputs =
       selected: true
       label: 'Create user account'
       exclusive: false
-      not_editable: true
+      disabled: true
     
     enroll:
       type: 'checkbox'
@@ -146,21 +153,21 @@ WizardStepInputs =
       selected: true
       label: 'Enroll to the course'
       exclusive: false
-      not_editable: true
+      disabled: true
 
     complete_training:
       type: 'checkbox'
       id: 'complete_training'
       selected: true
       label: 'Complete online training'
-      not_editable: true
+      disabled: true
       exclusive: false
 
     introduce_ambassadors:
       type: 'checkbox'
       id: 'introduce_ambassadors'
       selected: true
-      not_editable: true
+      disabled: true
       label: 'Introduce Wikipedia Ambassadors Involved'
       exclusive: false
     
@@ -224,6 +231,7 @@ WizardStepInputs =
       selected: false
       label: 'Instructor prepares a list '
       exclusive: false
+      hasSubChoice: true
       
     students_explore:
       type: 'radioBox'
@@ -231,6 +239,17 @@ WizardStepInputs =
       selected: false
       label: 'Students find articles'
       exclusive: false
+      hasSubChoice: true
+
+    request_help:
+      type: 'checkbox'
+      id: 'request_help'
+      selected: false
+      label: 'Would you like help selecting or evaulating article choices?'
+      exclusive: false
+      conditional_label: 
+        prepare_list: "Would you like help selecting articles?"
+        students_explore: "Would you like help evaluating student choices?"
       
 
 

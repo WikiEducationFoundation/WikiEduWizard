@@ -11,7 +11,7 @@ View = require('../views/supers/View')
 
 #TEMPLATES
 HomeTemplate = require('../templates/HomeTemplate.hbs')
-OutputTemplate = require('../templates/steps/output/OutputTemplate.hbs')
+OutputTemplate = require('../templates/steps/output/WikiOutputTemplate.hbs')
 
 #SUBVIEWS
 StepView = require('../views/StepView')

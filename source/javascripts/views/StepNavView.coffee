@@ -3,6 +3,8 @@
 # Author: kevin@wintr.us @ WINTR
 #########################################################
 
+application = require( '../App' )
+
 View = require('../views/supers/View')
 
 StepNavTemplate = require('../templates/StepNavTemplate.hbs')
@@ -64,6 +66,7 @@ module.exports = class StepNavView extends View
 
 
   getRenderData: ->
+
     return {
 
       current: @currentStep
@@ -77,7 +80,7 @@ module.exports = class StepNavView extends View
       steps: =>
 
         out = []
-        
+
         _.each(@stepViews, (step, index) =>
 
           stepData = step.model.attributes
@@ -130,6 +133,7 @@ module.exports = class StepNavView extends View
     @render()
 
 
+
   #--------------------------------------------------------
   # Helpers
   #--------------------------------------------------------
@@ -143,7 +147,10 @@ module.exports = class StepNavView extends View
       itIs = @currentStep is 1
 
     else if item == 'next'
-
-      itIs = @currentStep is @totalSteps - 1
+      console.log application.homeView.stepViews[@currentStep].hasUserAnswered
+      if @currentStep is @totalSteps - 1 || application.homeView.stepViews[@currentStep].hasUserAnswered
+        itIs = false
+      else
+        itIs = true
 
     return itIs
