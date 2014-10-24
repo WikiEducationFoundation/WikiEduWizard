@@ -3,9 +3,17 @@ WizardContent = [
     id: "intro"
     title: 'Welcome to the Wikipedia Assignment Wizard!'
     login_instructions: 'Click Login with Wikipedia to get started'
-    instructions: 'This tool will walk you through best practices for Wikipedia classroom assignments and help you create a customized syllabus for your course, broken into weekly assignments.<br/><br/>When you’re finished, you can publish a ready-to-use lesson plan onto a wiki page, where it can be customized even further.<br/><br/>Let’s start by filling in some basics about you and your course:'
+    instructions: ''
     inputs: []
-    sections: []
+    sections: [
+      {
+        content: [
+          "<p class='large'>This tool will walk you through best practices for Wikipedia classroom assignments and help you create a customized syllabus for your course, broken into weekly assignments.</p>"
+          "<p class='large'>When you’re finished, you can publish a ready-to-use lesson plan onto a wiki page, where it can be customized even further.</p>"     
+          "<p class='large'>Let’s start by filling in some basics about you and your course:</p>"
+        ]
+      }
+    ]
   }
   {
     id: "assignment_selection"
@@ -56,7 +64,7 @@ WizardContent = [
     title: 'Getting started with editing'
     infoTitle: 'About editing'
     instructions: "It is important for students to start editing Wikipedia right away. That way, they become familiar with Wikipedia's markup (\"wikisyntax\", \"wikimarkup\", or \"wikicode\") and the mechanics of editing and communicating on the site. We recommend assigning a few basic Wikipedia tasks early on."
-    formTitle: 'Which basic assignments would you like to include in your course?'
+    formTitle: 'Which basic assignments would you like to include?'
     inputs: []
     sections: [
       {
@@ -76,7 +84,7 @@ WizardContent = [
   {
     id: 'choosing_articles'
     title: 'Choosing articles'
-    formTitle: 'There are two recommended options for selecting articles for Wikipedia assignments:'
+    formTitle: 'There are two recommended options for selecting articles:'
     infoTitle: 'About choosing articles'
     instructions: 'Choosing the right (or wrong) articles to work on can make (or break) a Wikipedia writing assignment.'
     inputs: []
@@ -145,12 +153,20 @@ WizardContent = [
     instructions: 'Once students have gotten a grip on their topics and the sources they will use to write about them, it’s time to start writing on Wikipedia. You can ask them to jump right in and edit live, or start them off in their own sandboxes. There are pros and cons to each approach.'
     sections: [
       {
-        title: ''
+        title: 'Pros and cons to sandboxes'
         content: [
-          "<p>Pros and cons to sandboxes: Sandboxes make students feel safe because they can edit without the pressure of the whole world reading their drafts, or other Wikipedians altering their writing. However, sandbox editing limits many of the unique aspects of Wikipedia as a teaching tool, such as collaborative writing and incremental drafting. Spending more than a week or two in sandboxes is strongly discouraged.</p>"
-          "<p>Pros and cons to editing live: Editing live is exciting for the students because they can see their changes to the articles immediately and experience the collaborative editing process throughout the assignment. However, because new editors often unintentionally break Wikipedia rules, sometimes students’ additions are questioned or removed.</p>"
-          "<p>Will you have your students draft their early work in sandboxes, or work live from the beginning?</p>"
+          "<p>Sandboxes make students feel safe because they can edit without the pressure of the whole world reading their drafts, or other Wikipedians altering their writing. However, sandbox editing limits many of the unique aspects of Wikipedia as a teaching tool, such as collaborative writing and incremental drafting. Spending more than a week or two in sandboxes is strongly discouraged.</p>" 
         ]
+      }
+      {
+        title: 'Pros and cons to editing live'
+        content: [
+          "<p>Editing live is exciting for the students because they can see their changes to the articles immediately and experience the collaborative editing process throughout the assignment. However, because new editors often unintentionally break Wikipedia rules, sometimes students’ additions are questioned or removed.</p>"
+        ]
+      }
+      {
+        title: ''
+        content: '"<p>Will you have your students draft their early work in sandboxes, or work live from the beginning?</p>"'
       }
     ]
     inputs: []
@@ -190,9 +206,9 @@ WizardContent = [
   }
   {
     id: "dyk_ga"
-    title: 'DYK and Good Article processes'
+    title: 'DYK and Good Article'
     infoTitle: 'About DYK and Good Article processes'
-    formTitle: "Would you like to include these as an ungraded option for your students?"
+    formTitle: "Would you like to include these as an ungraded option?"
     sections: [
       {
         title: ''

@@ -105,24 +105,24 @@ module.exports = class StepView extends View
 
   accordianClickHandler: (e) ->
     $target = $(e.currentTarget)
+    $target.toggleClass('open')
+    # if $target.hasClass('open')
 
-    if $target.hasClass('open')
+    #   $target.removeClass('open')
 
-      $target.removeClass('open')
+    # else if $('.step-info-section--accordian').hasClass('open')
 
-    else if $('.step-info-section--accordian').hasClass('open')
+    #   @$el.find('.step-info').find('.step-info-section--accordian').removeClass('open')
 
-      @$el.find('.step-info').find('.step-info-section--accordian').removeClass('open')
+    #   setTimeout(=>
 
-      setTimeout(=>
+    #     $target.addClass('open')
 
-        $target.addClass('open')
+    #   ,500)
 
-      ,500)
+    # else
 
-    else
-
-      $target.addClass('open')
+    #   $target.addClass('open')
 
 
 
@@ -285,6 +285,7 @@ module.exports = class StepView extends View
     else if inputType == 'text'
 
       WizardStepInputs[@model.id][id].value = value
+
 
 
     return @

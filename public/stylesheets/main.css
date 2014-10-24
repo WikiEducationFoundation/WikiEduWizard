@@ -382,7 +382,7 @@ select {
 .button:hover,
 .button:active {
   background-color: #5e6b9a;
-  text-decoration: underline;
+  text-decoration: none;
 }
 .button:inactive,
 .button .inactive {
@@ -916,7 +916,7 @@ textarea {
   *zoom: 1;
   -webkit-transition: height 0.15s ease-in;
           transition: height 0.15s ease-in;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
   width: 400px;
@@ -926,6 +926,7 @@ textarea {
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
+  background: #858daa;
 }
 .step-nav:before,
 .step-nav:after {
@@ -967,7 +968,6 @@ textarea {
   visibility: hidden;
 }
 .step-nav__button.inactive {
-  pointer-events: none;
   color: rgba(255,255,225,0.25);
 }
 .step-nav__button:first-child {
@@ -994,7 +994,7 @@ textarea {
 }
 .step-nav__button:hover span.text,
 .step-nav__button:active span.text {
-  text-decoration: underline;
+  text-decoration: none;
 }
 .step-nav .step-nav-indicators {
   -webkit-transition: opacity 0.12s ease-in, margin-top 1s ease-out;
@@ -1006,6 +1006,7 @@ textarea {
   top: -35px;
   text-align: center;
   margin-top: 0;
+  background: #858daa;
 }
 .step-nav .step-nav-indicators__item {
   position: relative;
@@ -1019,22 +1020,27 @@ textarea {
   border: 2px solid transparent;
   border-radius: 14px;
   text-indent: -9999px;
+  pointer-events: none;
 }
 .step-nav .step-nav-indicators__item.visited {
   background-color: transparent;
   border: 2px solid #fff;
   cursor: pointer;
+  pointer-events: auto;
 }
 .step-nav .step-nav-indicators__item.active,
 .step-nav .step-nav-indicators__item.visited.active {
   background: #fff;
+  pointer-events: auto;
 }
 .step-nav .step-nav-indicators__item.active {
   cursor: initial;
+  pointer-events: auto;
 }
 .step-nav .step-nav-indicators__item.answered {
   background-color: transparent;
   border: 2px solid #fff;
+  pointer-events: auto;
 }
 .step-nav.hidden {
   opacity: 0;
@@ -1070,7 +1076,7 @@ textarea {
   clear: both;
 }
 .step-form {
-  position: absolute;
+  position: fixed;
   width: 400px;
   height: 100%;
   top: 0;
@@ -1264,15 +1270,18 @@ textarea {
   color: #4f4f4f;
   background: #fff;
   width: 500px;
-  min-height: 1200px;
+  min-height: 1300px;
   padding: 200px 0;
   margin: 0 auto;
   background: transparent url("/images/wiki-logo.png") no-repeat center 100px;
   background-size: 60px auto;
 }
+.step--first .step-form .step-form-instructions p.large {
+  margin-bottom: 15px;
+}
 .step--first .step-form__title {
   color: #4e587f;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 .step--first .step-form .step-form-header {
   padding: 0;
@@ -1301,7 +1310,7 @@ textarea {
   margin-top: 15px;
 }
 .step--login .step-form-instructions {
-  margin-bottom: 25px;
+  margin-bottom: 20px;
   text-align: center;
   width: 100%;
 }

@@ -23,7 +23,7 @@ STEP MODULE
 //STEP FORM SECTION
 
 .step-form
-  position absolute
+  position fixed
   width 400px
   height 100%
   top 0
@@ -225,18 +225,20 @@ STEP MODULE
     color body-font-color
     background white
     width 500px
-    min-height 1200px
+    min-height 1300px
     padding 200px 0 //20px
     margin 0 auto
     background transparent url(/images/wiki-logo.png) no-repeat center 100px
     background-size 60px auto
     
-    
+    .step-form-instructions
+      p.large
+        margin-bottom 15px
 
     
     &__title
       color rgba(78,88,127,1.0)
-      margin-bottom 30px
+      margin-bottom 20px
     
     .step-form-header
       padding 0
@@ -270,7 +272,7 @@ STEP MODULE
     margin-top 15px
     
   .step-form-instructions
-    margin-bottom 25px
+    margin-bottom 20px
     text-align center
     width 100%
 

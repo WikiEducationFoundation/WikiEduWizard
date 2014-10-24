@@ -14,13 +14,14 @@ indicator-inactive-color = rgba(80,90,128.0.5)
 .step-nav
   cf()
   transition height 0.15s ease-in
-  position absolute
+  position fixed
   bottom 0
   left 0
   width 400px
   height 80px
   z-index 5
   user-select: none;
+  background blue
   
   
   
@@ -56,7 +57,7 @@ indicator-inactive-color = rgba(80,90,128.0.5)
         visibility hidden
       
     &.inactive
-      pointer-events: none
+      // pointer-events: none
       color rgba(255,255,225,0.25)
     
 
@@ -84,7 +85,7 @@ indicator-inactive-color = rgba(80,90,128.0.5)
       background-color rgba(80,90,128,1.0)
       
       span.text
-        text-decoration underline
+        text-decoration none
     
     
   
@@ -100,6 +101,7 @@ indicator-inactive-color = rgba(80,90,128.0.5)
     top -(indicator-height)
     text-align center
     margin-top 0
+    background blue
     
     
     &__item
@@ -114,22 +116,26 @@ indicator-inactive-color = rgba(80,90,128.0.5)
       border 2px solid transparent
       border-radius indicator-size
       text-indent -9999px
-      
+      pointer-events none
       
       &.visited
         background-color transparent
         border 2px solid white
         cursor pointer
+        pointer-events auto
         
       &.active, &.visited.active
         background indicator-active-color
+        pointer-events auto
 
       &.active
         cursor initial
+        pointer-events auto
       
       &.answered
         background-color transparent
         border 2px solid white
+        pointer-events auto
         
         
       // &:first-child

@@ -23,11 +23,15 @@
   </div><!-- end .step-form-header -->
   
   <!-- STEP INSTRUCTIONS -->
-  {{#if instructions}}
+
   <div class="step-form-instructions">
-    <p class="large">{{{instructions}}}</p>
+    {{#each sections}}
+      {{#each content}}
+        {{{this}}}
+      {{/each}}
+    {{/each}}
   </div>
-  {{/if}} <!-- end .step-form-instructions -->
+   <!-- end .step-form-instructions -->
 
 
 

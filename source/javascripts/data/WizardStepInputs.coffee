@@ -140,7 +140,7 @@ WizardStepInputs =
 
   learning_essentials: 
     create_user:
-      type: 'checkbox'
+      # type: 'checkbox'
       id: 'create_user'
       selected: true
       label: 'Create user account'
@@ -148,7 +148,7 @@ WizardStepInputs =
       disabled: true
     
     enroll:
-      type: 'checkbox'
+      # type: 'checkbox'
       id: 'enroll'
       selected: true
       label: 'Enroll to the course'
@@ -156,7 +156,7 @@ WizardStepInputs =
       disabled: true
 
     complete_training:
-      type: 'checkbox'
+      # type: 'checkbox'
       id: 'complete_training'
       selected: true
       label: 'Complete online training'
@@ -164,7 +164,7 @@ WizardStepInputs =
       exclusive: false
 
     introduce_ambassadors:
-      type: 'checkbox'
+      # type: 'checkbox'
       id: 'introduce_ambassadors'
       selected: true
       disabled: true
@@ -202,12 +202,14 @@ WizardStepInputs =
       label: 'Critique an article'
       exclusive: false
 
+
     add_to_article:
       type: 'checkbox'
       id: 'add_to_article'
       selected: true
       label: 'Add to an article'
       exclusive: false
+
 
     copy_edit_article:
       type: 'checkbox'
@@ -385,6 +387,12 @@ WizardStepInputs =
         title: 'Original analytical paper'
         content: "In courses that emphasize traditional research skills and the development of original ideas through a term paper, Wikipedia's policy of \"no original research\" may be too restrictive. Many instructors pair Wikipedia writing with complementary analytical paper; students’ Wikipedia articles as a literature review, and the students go on to develop their own ideas and arguments in the offline analytical paper."
       
+    none_of_above:
+      type: 'checkbox'
+      id: 'none_of_above'
+      selected: false
+      label: 'None of the above'
+      exclusive: true
 
   dyk_ga: 
     dyk:

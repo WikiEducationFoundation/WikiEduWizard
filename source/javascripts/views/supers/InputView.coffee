@@ -93,8 +93,6 @@ module.exports = class InputItemView extends View
 
       $inputEl.prop('checked', true)
 
-      @$inputEl.trigger('change')
-
       $parentEl.addClass('checked')
 
     # Backbone.Mediator.publish('tips:hide')

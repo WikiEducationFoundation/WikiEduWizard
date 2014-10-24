@@ -144,12 +144,14 @@ module.exports = class StepNavView extends View
 
     if item == 'prev'
 
-      itIs = false #@currentStep is 1
+      itIs = @currentStep is 1
 
     else if item == 'next'
-      console.log application.homeView.stepViews[@currentStep].hasUserAnswered
+
       if @currentStep is @totalSteps - 1 || application.homeView.stepViews[@currentStep].hasUserAnswered
+
         itIs = false
+        
       else
         itIs = true
 
