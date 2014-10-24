@@ -54,7 +54,15 @@
   .custom-input-wrapper.open &
     label
       top 0px
-
+      
+.custom-input--link
+  color white
+  position relative
+  width 100%
+  height 60px
+  padding 30px 45px 0
+  font-size 14px
+  text-decoration underline
     
 
 
@@ -266,7 +274,7 @@ ci-padding = 20px 70px 20px 45px
   &.custom-input--radio-group
     position relative
     display inline-block
-    width 74px
+    width 62px
     border none
     padding 0
     text-align center
@@ -316,6 +324,9 @@ ci-padding = 20px 70px 20px 45px
   width auto
   height auto
 
+  &.link 
+    &:before
+      display none !important
 
   
   &.checked 
@@ -323,9 +334,7 @@ ci-padding = 20px 70px 20px 45px
       .check-button
         background-color white
     
-    
-    
-
+  
   .custom-input--radio.checked
     .radio-button
       background-color white
@@ -337,6 +346,7 @@ ci-padding = 20px 70px 20px 45px
   .custom-input--radiobox.checked
     .radio-button
       background-color white
+      
 
 
       

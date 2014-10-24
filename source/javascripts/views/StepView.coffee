@@ -91,6 +91,8 @@ module.exports = class StepView extends View
 
     'click .edit-button' : 'editClickHandler'
 
+    'click .step-info-tip' : 'hideTips'
+
 
 
   editClickHandler: (e) ->

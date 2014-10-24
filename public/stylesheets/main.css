@@ -439,6 +439,15 @@ select {
 .custom-input-wrapper.open .custom-input--text label {
   top: 0px;
 }
+.custom-input--link {
+  color: #fff;
+  position: relative;
+  width: 100%;
+  height: 60px;
+  padding: 30px 45px 0;
+  font-size: 14px;
+  text-decoration: underline;
+}
 .custom-input--percent {
   position: relative;
   display: block;
@@ -624,7 +633,7 @@ select {
 .custom-input--radio.custom-input--radio-group {
   position: relative;
   display: inline-block;
-  width: 74px;
+  width: 62px;
   border: none;
   padding: 0;
   text-align: center;
@@ -663,6 +672,9 @@ select {
   position: relative;
   width: auto;
   height: auto;
+}
+.custom-input-wrapper.link:before {
+  display: none !important;
 }
 .custom-input-wrapper.checked .custom-input--checkbox .check-button {
   background-color: #fff;
@@ -894,7 +906,7 @@ textarea {
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 460px;
+  width: 400px;
   height: 80px;
   z-index: 5;
   -webkit-user-select: none;
@@ -948,20 +960,20 @@ textarea {
 .step-nav__button:first-child {
   border-right: 1px solid rgba(78,88,127,0.2);
   background: transparent url("/images/arrow--left.png") no-repeat;
-  background-position: 70px 50%;
+  background-position: 53px 50%;
 }
 .step-nav__button:first-child.inactive {
   background: transparent url("/images/arrow--left--inactive.png") no-repeat;
-  background-position: 70px 50%;
+  background-position: 53px 50%;
 }
 .step-nav__button:last-child {
   border-left: 1px solid rgba(78,88,127,0.2);
   background: transparent url("/images/arrow--right.png") no-repeat;
-  background-position: 130px 50%;
+  background-position: 112px 50%;
 }
 .step-nav__button:last-child.inactive {
   background: transparent url("/images/arrow--right--inactive.png") no-repeat;
-  background-position: 130px 50%;
+  background-position: 112px 50%;
 }
 .step-nav__button:hover,
 .step-nav__button:active {
@@ -1043,7 +1055,7 @@ textarea {
 }
 .step-form {
   position: absolute;
-  width: 460px;
+  width: 400px;
   height: 100%;
   top: 0;
   left: 0;
@@ -1097,7 +1109,7 @@ textarea {
   max-width: 1200px;
   min-width: 1100px;
   height: 100%;
-  padding: 200px 40px 40px 500px;
+  padding: 200px 40px 40px 440px;
   color: #4f4f4f;
   background: #fff;
   z-index: 1;

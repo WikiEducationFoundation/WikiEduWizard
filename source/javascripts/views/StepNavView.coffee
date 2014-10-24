@@ -45,17 +45,17 @@ module.exports = class StepNavView extends View
 
       @$el.removeClass('hidden')
 
-      @$el.removeClass('contracted')
+      # @$el.removeClass('contracted')
 
     else if @currentStep > 0 && @currentStep == @totalSteps - 1
 
       @$el.removeClass('hidden')
 
-      @$el.addClass('contracted')
+      # @$el.addClass('contracted')
 
     else
 
-      @$el.removeClass('contracted')
+      # @$el.removeClass('contracted')
 
       @$el.addClass('hidden')
 
@@ -77,13 +77,12 @@ module.exports = class StepNavView extends View
       steps: =>
 
         out = []
+        
         _.each(@stepViews, (step, index) =>
 
           stepData = step.model.attributes
 
           isActive = @currentStep is index
-
-          # wasVisited = index < @currentStep
 
           wasVisited = step.hasUserVisited
 

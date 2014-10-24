@@ -65,7 +65,7 @@ WizardStepInputs =
       hasCourseInfo: true
 
     evaluate:
-      type: 'checkbox'
+      #type: 'checkbox'
       id: 'evaluate'
       selected: false
       label: 'Evaluate articles'
@@ -73,7 +73,7 @@ WizardStepInputs =
       hasCourseInfo: true
     
     multimedia:
-      type: 'checkbox'
+      #type: 'checkbox'
       id: 'multimedia'
       selected: false
       label: 'Add images & multimedia'
@@ -81,7 +81,7 @@ WizardStepInputs =
       hasCourseInfo: true
 
     sourcecentered:
-      type: 'checkbox'
+      #type: 'checkbox'
       id: 'sourcecentered'
       selected: false
       label: 'Source-centered additions'
@@ -89,7 +89,7 @@ WizardStepInputs =
       hasCourseInfo: true
 
     copyedit: 
-      type: 'checkbox'
+      #type: 'checkbox'
       id: 'copyedit'
       selected: false
       label: 'Copyedit articles'
@@ -97,7 +97,7 @@ WizardStepInputs =
       hasCourseInfo: true
 
     findfix:
-      type: 'checkbox'
+      #type: 'checkbox'
       id: 'findfix'
       selected: false
       label: 'Find and fix errors'
@@ -105,13 +105,24 @@ WizardStepInputs =
       hasCourseInfo: true
     
     plagiarism:
-      type: 'checkbox'
+      #type: 'checkbox'
       id: 'plagiarism'
       selected: false
       label: 'Identify and fix plagiarism'
       exclusive: false
       hasCourseInfo: true
 
+    something_else:
+      type: 'link'
+      href: 'mailto:contact@wikiedu.org'
+      id: 'something_else'
+      selected: false
+      label: 'A different assignment? Get in touch here.'
+      exclusive: false
+      hasCourseInfo: false
+      tipInfo:
+        title: ''
+        content: "Have another idea for incorporating Wikipedia into your class? We've found that these assignments work well, but they aren't the only way to do it. Get in touch, and we can talk things through: <a style='color:#505a7f;' href='mailto:contact@wikiedu.org'>contact@wikiedu.org</a>"
 
 
   learning_essentials: 
@@ -132,22 +143,36 @@ WizardStepInputs =
     complete_training:
       type: 'checkbox'
       id: 'complete_training'
-      selected: false
+      selected: true
       label: 'Complete online training'
       exclusive: false
 
     introduce_ambassadors:
       type: 'checkbox'
       id: 'introduce_ambassadors'
-      selected: false
+      selected: true
       label: 'Introduce Wikipedia Ambassadors Involved'
       exclusive: false
     
-    include_completion:
-      type: 'checkbox'
-      id: 'include_completion'
+    # include_completion:
+    #   type: 'checkbox'
+    #   id: 'include_completion'
+    #   selected: false
+    #   label: 'Include Completion of this Assignment as Part of the Students\'s Grade'
+    #   exclusive: false
+
+    training_graded:
+      type: 'radioBox'
+      id: 'training_graded'
       selected: false
-      label: 'Include Completion of this Assignment as Part of the Students\'s Grade'
+      label: 'Completion of training will be graded'
+      exclusive: false
+
+    training_not_graded:
+      type: 'radioBox'
+      id: 'training_not_graded'
+      selected: false
+      label: 'Completion of training will not be graded'
       exclusive: false
     
   
@@ -187,22 +212,16 @@ WizardStepInputs =
       type: 'radioBox'
       id: 'prepare_list'
       selected: false
-      label: 'Instructor Prepares a List with Appropriate Articles'
+      label: 'Instructor prepares a list '
       exclusive: false
-      tipInfo:
-        title: "Instructor Prepares a List"
-        content: "You (the instructor) prepare a list of appropriate 'non-existent', 'stub' or 'start' articles ahead of time for the students to choose from. If possible, you may want to work with an experienced Wikipedian to create the list. Each student chooses an article from the list to work on. Although this requires more preparation, it may help students to start researching and writing their articles sooner."
-    
+      
     students_explore:
       type: 'radioBox'
       id: 'students_explore'
       selected: false
-      label: 'Students Explore and Prepare a List of Articles'
+      label: 'Students find articles'
       exclusive: false
-      tipInfo:
-        title: "Students Explore"
-        content: "Each student explores Wikipedia and lists 3–5 topics on their Wikipedia user page that they are interested in for their main project. You (the instructor) should approve article choices before students proceed to writing. Letting students find their own articles provides them with a sense of motivation and ownership over the assignment, but it may also lead to choices that are further afield from course material."
-
+      
 
 
   research_planning: 

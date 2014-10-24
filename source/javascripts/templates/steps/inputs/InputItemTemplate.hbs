@@ -108,6 +108,14 @@
 {{/if}}
 
 
+{{!-- LINK --}}
+{{#if type.link}}
+<div class="custom-input custom-input--link">
+  <label><a href="{{data.href}}" >{{data.label}}</a></label>
+</div>
+{{/if}}
+
+
 
 {{!-- RADIO --}}
 {{#if type.radio}}

@@ -76,6 +76,7 @@ module.exports = class InputItemView extends View
     $inputEl = $parentEl.find('input[type="radio"]')
 
     if $parentEl.hasClass('checked')
+
       return false
 
     else
@@ -91,7 +92,7 @@ module.exports = class InputItemView extends View
 
       $parentEl.addClass('checked')
 
-    Backbone.Mediator.publish('tips:hide')
+    # Backbone.Mediator.publish('tips:hide')
 
 
 
@@ -120,7 +121,7 @@ module.exports = class InputItemView extends View
 
       @$inputEl.trigger('change')
 
-    Backbone.Mediator.publish('tips:hide')
+    # Backbone.Mediator.publish('tips:hide')
 
     
 
@@ -148,7 +149,7 @@ module.exports = class InputItemView extends View
 
       @$inputEl.trigger('change')
 
-    Backbone.Mediator.publish('tips:hide')
+    # Backbone.Mediator.publish('tips:hide')
 
 
 
@@ -156,15 +157,12 @@ module.exports = class InputItemView extends View
     console.log e.target
 
 
-
   mouseoverHandler: (e) ->
     @isHovering = true
       
 
-
   mouseoutHandler: (e) ->
     @isHovering = false
-
 
 
   showTooltip: ->
@@ -179,7 +177,6 @@ module.exports = class InputItemView extends View
       @parentStep.$el.find(".step-info-tip[data-item-index='#{@itemIndex}']").addClass('visible')
 
 
-
   hideTooltip: ->
     if @hasInfo
 
@@ -188,7 +185,6 @@ module.exports = class InputItemView extends View
       @parentStep.tipVisible = false
 
       @parentStep.$el.find(".step-info-tip").removeClass('visible') 
-
 
 
   hideShowTooltip: ->
@@ -201,10 +197,8 @@ module.exports = class InputItemView extends View
     @showTooltip()
 
 
-
   labelClickHandler: (e) ->
     return false
-
 
 
   itemChangeHandler: (e) ->
@@ -223,6 +217,9 @@ module.exports = class InputItemView extends View
   #--------------------------------------------------------
 
   afterRender: ->
+
+    @$el.addClass(@inputType)
+
     @$inputEl = @$el.find('input')
 
     if @model.attributes.value != '' && @model.attributes.type == 'text'
@@ -236,11 +233,13 @@ module.exports = class InputItemView extends View
 
 
   hasInfo: ->
+
     return $el.hasClass('has-info')
 
 
 
   onFocus: (e) ->
+
     @$el.addClass('open')
 
 
@@ -251,6 +250,7 @@ module.exports = class InputItemView extends View
     value = $target.val()
 
     if value == ''
+
       unless $target.is(':focus')
 
         @$el.removeClass('open')
@@ -340,6 +340,15 @@ module.exports = class InputItemView extends View
       }
 
     else if @inputType == 'radioBox'
+
+      return {
+
+        type: inputTypeObject
+
+        data: @model.attributes
+
+      }
+    else if @inputType == 'link'
 
       return {
 

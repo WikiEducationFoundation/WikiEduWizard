@@ -4,12 +4,8 @@ WizardContent = [
     title: 'Welcome to the Wikipedia Assignment Wizard!'
     login_instructions: 'Click Login with Wikipedia to get started'
     instructions: 'This tool will walk you through best practices for Wikipedia classroom assignments and help you create a customized syllabus for your course, broken into weekly assignments.<br/><br/>When you’re finished, you can publish a ready-to-use lesson plan onto a wiki page, where it can be customized even further.<br/><br/>Let’s start by filling in some basics about you and your course:'
-    inputs: [
-    
-    ]
-    sections: [
-      
-    ]
+    inputs: []
+    sections: []
   }
   {
     id: "assignment_selection"
@@ -17,9 +13,7 @@ WizardContent = [
     infoTitle: 'About assignment selections'
     formTitle: 'Available assignments:'
     instructions: "You can teach with Wikipedia in several different ways, and it's important to design an assignment that fits on Wikipedia and achieves your student learning objectives. Your first step is to choose which assignment(s) you'll be asking your students to complete as part of the course. We've created some guidelines to help you, but you'll need to make some key decisions, such as: which learning objectives are you targeting with this assignment? What skills do your students already have? How much time can you devote to the assignment?"
-    inputs: [
-   
-    ]
+    inputs: []
     sections: [
       {
         title: ''
@@ -32,25 +26,27 @@ WizardContent = [
   }
   {
     id: "learning_essentials"
-    title: 'Learning the Wikipedia essentials'
+    title: 'Wikipedia essentials'
     formTitle: 'Choose one or more:'
     infoTitle: 'About Wikipedia essentials'
-    instructions: 'To get started, you\'ll want to introduce your students to the basic rules of writing Wikipedia articles and working with the Wikipedia community. As their first Wikipedia assignment milestone, you can ask the students to create accounts and then complete the online training for students. '
-    inputs: [
-   
-    ]
+    instructions: "To get started, you'll want to introduce your students to the basic rules of writing Wikipedia articles and working with the Wikipedia community. As their first Wikipedia assignment milestone, you can ask the students to create accounts and then complete the ''online training for students''. This training introduces the Wikipedia community and how it works, demonstrates the basics of editing and walks students through their first edits, gives advice for selecting articles and drafting revisions, and explains further sources of support as they continue along. It takes about an hour and ends with a certification step, which you can use to verify that students completed the training."
+    inputs: []
     sections: [
       {
+        title: ''
         content: [
           '<p>This training introduces the Wikipedia community and how it works, demonstrates the basics of editing and walks students through their first edits, gives advice for selecting articles and drafting revisions, and covers some of the ways they can find help as they get started. It takes about an hour and ends with a certification step that you can use to verify that students completed the training</p>'
         ]
       }
       {
-        title: 'Assignment milestones'
+        title: 'Assignment milestones:'
         content: [
-          '<p>Create a user account and enroll on the course page</p>'
-          '<p>Complete the online training for students. During this training, you will make edits in a sandbox and learn the basic rules of Wikipedia.</p>'
-          '<p>To practice editing and communicating on Wikipedia, introduce yourself to any Wikipedians helping your class (such as a Wikipedia Ambassador), and leave a message for a classmate on their user talk page.</p>'
+          "<ul>
+            <li>Create a user account and enroll on the course page. </li>
+            <li>Complete the online training for students. During this training, you will make edits in a sandbox and learn the basic rules of Wikipedia. </li>
+            <li>To practice editing and communicating on Wikipedia, introduce yourself to any Wikipedians helping your class (such as a Wikipedia Ambassador), and leave a message for a classmate on their user talk page.</li>
+          </ul>"
+          "<p>Will completion of the student training be part of your students' grades?</p>"
         ]
       }
     ]
@@ -61,9 +57,7 @@ WizardContent = [
     infoTitle: 'About editing'
     instructions: "It is important for students to start editing Wikipedia right away. That way, they become familiar with Wikipedia's markup (\"wikisyntax\", \"wikimarkup\", or \"wikicode\") and the mechanics of editing and communicating on the site. We recommend assigning a few basic Wikipedia tasks early on."
     formTitle: 'Which basic assignments would you like to include in your course?'
-    inputs: [
-    
-    ]
+    inputs: []
     sections: [
       {
         title: ''
@@ -85,9 +79,7 @@ WizardContent = [
     formTitle: 'There are two recommended options for selecting articles for Wikipedia assignments:'
     infoTitle: 'About choosing articles'
     instructions: 'Choosing the right (or wrong) articles to work on can make (or break) a Wikipedia writing assignment.'
-    inputs: [
-     
-    ]
+    inputs: []
     sections: [
       {
         title: ''
@@ -96,17 +88,10 @@ WizardContent = [
         ]
       }
       {
-        title: ''
-        accordian: false
-        content: [
-          "<p>Applying your own expertise to Wikipedia’s coverage of your field is the key to a successful assignment. You understand the broader intellectual context where individual topics fit in, you can recognize where Wikipedia falls short, you know—or know how to find—the relevant literature, and you know what topics your students should be able to handle. Your guidance on article choice and sourcing is critical for both your students’ success and the improvement of Wikipedia.</p>"
-        ]
-      }
-      {
         title: 'Not such a good choice'
         accordian: true
         content: [
-          "<p>Articles that are \"not such a good choice\" for newcomers usually involve a lack of appropriate research material, highly controversial topics that may already be well developed, broad subjects, or topics for which it is difficult to demonstrate notability.</p>"
+          '<p>Articles that are "not such a good choice" for newcomers usually involve a lack of appropriate research material, highly controversial topics that may already be well developed, broad subjects, or topics for which it is difficult to demonstrate notability.</p>'
           "<ul>
             <li>You probably shouldn't try to completely overhaul articles on very broad topics (e.g., Law).</li>
             <li>You should probably avoid trying to improve articles on topics that are highly controversial (e.g., Global Warming, Abortion, Scientology, etc.). You may be more successful starting a sub-article on the topic instead.</li>
@@ -122,9 +107,15 @@ WizardContent = [
         content: [
           "<ul>
             <li>Choose a well-established topic for which a lot of literature is available in its field, but which isn't covered extensively on Wikipedia.</li>
-            <li>Gravitate toward \"stub\" and \"start\" class articles. These articles often have only 1-2 paragraphs of information and are in need of expansion. Relevant WikiProject pages can provide a list of stubs that need improvement.</li>
+            <li>Gravitate toward \"stub\" and \"start\" class articles. These articles often have only 1-2 paragraphs of information and are in need of expansion. *Relevant WikiProject pages can provide a list of stubs that need improvement.</li>
             <li>Before creating a new article, search related topics on Wikipedia to make sure your topic isn't already covered elsewhere. Often, an article may exist under another name, or the topic may be covered as a subsection of a broader article.</li>
           </ul>"
+        ]
+      }
+      {
+        title: ''
+        content: [
+          '<p>As the instructor, you should apply your own expertise to examining Wikipedia’s coverage of your field. You understand the broader intellectual context where individual topics fit in, you can recognize where Wikipedia falls short, you know—or know how to find—the relevant literature, and you know what topics your students should be able to handle. Your guidance on article choice and sourcing is critical for both your students’ success and the improvement of Wikipedia.</p>'
         ]
       }
       
@@ -144,9 +135,7 @@ WizardContent = [
         ]
       }
     ]
-    inputs: [
-    
-    ]
+    inputs: []
   }
   {
     id: "drafts_mainspace"
@@ -164,8 +153,7 @@ WizardContent = [
         ]
       }
     ]
-    inputs: [
-    ]
+    inputs: []
   }
   {
     id: "peer_feedback"
@@ -182,9 +170,7 @@ WizardContent = [
         ]
       }
     ]
-    inputs: [
-
-    ]
+    inputs: []
   }
   {
     id: "supplementary_assignments"
@@ -200,9 +186,7 @@ WizardContent = [
         ]
       }
     ]
-    inputs: [
-
-    ]
+    inputs: []
   }
   {
     id: "dyk_ga"
@@ -221,9 +205,7 @@ WizardContent = [
         ]
       }
     ]
-    inputs: [
-      
-    ]
+    inputs: []
   }
   {
     id: "grading"
@@ -257,16 +239,14 @@ WizardContent = [
         ]
       }
     ]
-    inputs: [
-     
-    ]
+    inputs: []
   }
   {
     id: "overview"
-    title: 'Assignment Overview'
+    title: 'Assignment overview'
     sections: [
       {
-        title: 'About the Course'
+        title: 'About the course'
         content: [
           "<p>Now it's time to write a short description of your course and how this Wikipedia assignment fits into it. This will allow other Wikipedia editors to understand what students will be doing. Be sure to mention:"
           "<ul>
@@ -277,7 +257,7 @@ WizardContent = [
         ]
       }
       {
-        title: 'Short Description'
+        title: 'Short description'
         content: [
           "<p><textarea id='short_description' rows='8' style='width:100%;'></textarea></p>"
         ]
@@ -289,9 +269,7 @@ WizardContent = [
         ]
       }
     ]
-    inputs: [
-     
-    ]
+    inputs: []
   }
   
 ]
