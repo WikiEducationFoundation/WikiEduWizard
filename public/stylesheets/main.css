@@ -593,6 +593,11 @@ select {
   border: 2px solid #fff;
   border-radius: 18px;
 }
+.custom-input--checkbox.not-editable,
+.custom-input--radiobox.not-editable {
+  opacity: 0.6;
+  pointer-events: none;
+}
 .custom-input--radio {
   position: relative;
   display: table;

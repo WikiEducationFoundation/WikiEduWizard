@@ -65,52 +65,58 @@ WizardStepInputs =
       hasCourseInfo: true
 
     evaluate:
-      #type: 'checkbox'
+      type: 'checkbox'
       id: 'evaluate'
       selected: false
       label: 'Evaluate articles'
       exclusive: false
       hasCourseInfo: true
+      not_editable: true
     
     multimedia:
-      #type: 'checkbox'
+      type: 'checkbox'
       id: 'multimedia'
       selected: false
       label: 'Add images & multimedia'
       exclusive: false
       hasCourseInfo: true
+      not_editable: true
 
     sourcecentered:
-      #type: 'checkbox'
+      type: 'checkbox'
       id: 'sourcecentered'
       selected: false
       label: 'Source-centered additions'
       exclusive: false
       hasCourseInfo: true
+      not_editable: true
 
     copyedit: 
-      #type: 'checkbox'
+      type: 'checkbox'
       id: 'copyedit'
       selected: false
       label: 'Copyedit articles'
       exclusive: false
       hasCourseInfo: true
+      not_editable: true
 
     findfix:
-      #type: 'checkbox'
+      type: 'checkbox'
       id: 'findfix'
       selected: false
       label: 'Find and fix errors'
       exclusive: false
       hasCourseInfo: true
+      not_editable: true
     
     plagiarism:
-      #type: 'checkbox'
+      type: 'checkbox'
       id: 'plagiarism'
       selected: false
       label: 'Identify and fix plagiarism'
       exclusive: false
       hasCourseInfo: true
+      not_editable: true
 
     something_else:
       type: 'link'
@@ -132,6 +138,7 @@ WizardStepInputs =
       selected: true
       label: 'Create user account'
       exclusive: false
+      not_editable: true
     
     enroll:
       type: 'checkbox'
@@ -139,18 +146,21 @@ WizardStepInputs =
       selected: true
       label: 'Enroll to the course'
       exclusive: false
+      not_editable: true
 
     complete_training:
       type: 'checkbox'
       id: 'complete_training'
       selected: true
       label: 'Complete online training'
+      not_editable: true
       exclusive: false
 
     introduce_ambassadors:
       type: 'checkbox'
       id: 'introduce_ambassadors'
       selected: true
+      not_editable: true
       label: 'Introduce Wikipedia Ambassadors Involved'
       exclusive: false
     
