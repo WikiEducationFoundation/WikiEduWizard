@@ -352,22 +352,29 @@ ci-padding = 20px 70px 20px 45px
 
   &.has-info
     cursor pointer
+    z-index 1
     
     *
       cursor pointer
+    
+    .custom-input--checkbox
+      z-index 10
+      background blue
       
-    &:before
+    .info-arrow
       content ''
       position absolute
       top 0
-      left 100%
+      right -18px
       display block
       width 25px
       height 100%
-      background transparent url('/images/tooltip-arrow--right.svg') no-repeat center left
+      background transparent url('/images/tooltip-arrow--right.svg') no-repeat 
       background-size auto 100%
-      z-index 10
-      background-position-x -25px
+      z-index 1
+      background-position -1px 50%
+      
+      
       
     &.selected
       overflow-x visible
@@ -377,8 +384,10 @@ ci-padding = 20px 70px 20px 45px
         background ci-checkbox-background-active
         border-color rgba(78,88,127,0)
         
-      &:before
-        background-position-x -1px
+        
+      .info-arrow
+        right -25px
+        background-position -1px 50%
       
 
 .custom-input-dates
