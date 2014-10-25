@@ -821,6 +821,7 @@ select {
   border-radius: 0;
   height: 40px;
   -webkit-appearance: none;
+  -moz-appearance: window;
   appearance: none;
   outline: none;
   color: #505a7f;
@@ -837,6 +838,9 @@ select {
 .custom-input-dates .custom-select--year select {
   width: 72px;
   padding-left: 6px;
+}
+.custom-input-dates .custom-select--year select::-ms-expand {
+  display: none !important;
 }
 textarea {
   border-color: #c9c9c9;

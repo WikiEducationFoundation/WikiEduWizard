@@ -483,6 +483,7 @@ ci-padding = 20px 70px 20px 45px
       border-radius 0
       height 40px
       -webkit-appearance none
+      -moz-appearance window
       appearance none
       outline none
       color blue-dark
@@ -494,12 +495,17 @@ ci-padding = 20px 70px 20px 45px
       font-weight bolder
       
 
+      
+
     &--year
       width 72px
       
       select
         width 72px
         padding-left 6px
+        
+      select::-ms-expand
+        display none !important
         
 
 
