@@ -34,6 +34,7 @@ STEP MODULE
   z-index 2
   user-select: none;
   
+  
   .step-form-header
     display table
     top 0 
@@ -83,8 +84,7 @@ STEP MODULE
   position relative
   width auto
   max-width 1200px
-  min-width 1100px
-  height 100%
+  min-width 1000px
   padding 200px 40px 40px 440px
   color body-font-color
   background white
@@ -108,21 +108,32 @@ STEP MODULE
     
 
   .step-info-inner
+    transition opacity 0.15s 0.25s linear
     margin-top 0
-    max-width 700px
+    opacity 1
+    
+    // body.tip-open &
+    //   transition opacity 0.15s linear
+    //   opacity 0
+    
+
   
 
   .step-info-tip
-    transition opacity 0.33s 
+    transition opacity 0.33s 0.123s ease-in //, left 0.66s ease-out
     display block
-    position absolute
+    position fixed
     width 100%
     height 100%
     top 0
     left 0
     z-index 0
     opacity 0
+    max-width 1200px
+    min-width 1000px
     pointer-events none
+    
+    background rgba(255,255,255,1.0) //rgba(245,245,245,1.0)
     
     &__close
       position absolute
@@ -143,7 +154,8 @@ STEP MODULE
 
     &__inner
       @extend .step-info
-      background white
+      background rgba(255,255,255,1.0)
+      height 100%
     
 
     &.visible
@@ -171,6 +183,7 @@ STEP MODULE
       text-decoration underline
 
 .step-info-section--accordian
+  border-top: 2px solid rgba(81,85,102,0.1);
   border-bottom 2px solid rgba(81,85,102,0.1)
   margin 15px auto  
   
@@ -212,7 +225,8 @@ STEP MODULE
       &:before
         transform rotate(0deg)
           
-          
+.step-info-section--accordian + .step-info-section--accordian
+  border-top none   
         
     
 // INTRO STEP

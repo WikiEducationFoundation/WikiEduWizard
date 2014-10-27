@@ -11,6 +11,7 @@ indicator-active-color = white
 indicator-inactive-color = rgba(80,90,128.0.5)
 
 
+
 .step-nav
   cf()
   transition height 0.15s ease-in
@@ -22,6 +23,29 @@ indicator-inactive-color = rgba(80,90,128.0.5)
   z-index 5
   user-select: none;
   background blue
+  
+  .step-nav-buttons
+    
+    &--normal
+      position relative
+      display block 
+    
+    &--edit
+      display none
+      
+  
+  .edit-mode &
+
+    .step-nav-buttons
+      
+      &--normal
+        position relative
+        display none 
+      
+      &--edit
+        position relative
+        display block
+        
   
   
   
@@ -57,6 +81,7 @@ indicator-inactive-color = rgba(80,90,128.0.5)
         visibility hidden
       
     &.inactive
+      cursor default
       // pointer-events: none
       color rgba(255,255,225,0.25)
     

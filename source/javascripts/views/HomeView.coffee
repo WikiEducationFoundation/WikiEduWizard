@@ -40,6 +40,10 @@ module.exports = class HomeView extends View
     @stepsRendered = false
 
 
+  events: 
+    'click .exit-edit' : 'exitEditClickHandler'
+
+
   subscriptions:
     'step:next' : 'nextClickHandler'
 
@@ -185,9 +189,14 @@ module.exports = class HomeView extends View
 
 
   hideAllTips: (e) ->
+
     _.each(@stepViews,(stepView) =>
+
       stepView.tipVisible = false
+      
     )
+
+    $('body').addClass('tip-open')
 
     $('.step-info-tip').removeClass('visible')
 
@@ -214,11 +223,16 @@ module.exports = class HomeView extends View
 
 
   editClickHandler: (id) ->
-    console.log id
+    $('body').addClass('edit-mode')
     _.each(@stepViews, (view, index) =>
       if view.model.id == id
         @updateStep(index)
     )
+
+  exitEditClickHandler: ->
+    $('body').removeClass('edit-mode')
+    @updateStep(@StepNav.totalSteps-1)
+
 
   gotoClickHandler: (index) ->
     @updateStep(index)

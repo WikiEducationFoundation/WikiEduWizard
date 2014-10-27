@@ -231,7 +231,7 @@ WizardStepInputs =
       type: 'radioBox'
       id: 'prepare_list'
       selected: false
-      label: 'Instructor prepares a list '
+      label: 'Instructor prepares a lists'
       exclusive: false
       hasSubChoice: true
       
@@ -301,33 +301,40 @@ WizardStepInputs =
       type: 'radioGroup'
       id: 'peer_reviews'
       label: ''
+      value: '2'
+      selected: 1
       options: [
         {
-          id: 'peer_reviews'
+          id: 0
+          name: 'peer_reviews'
           label: '1'
           value: '1'
           selected: false
         }
         {
-          id: 'peer_reviews'
+          id: 1
+          name: 'peer_reviews'
           label: '2'
           value: '2'
           selected: true
         }
         {
-          id: 'peer_reviews'
+          id: 2
+          name: 'peer_reviews'
           label: '3'
           value: '3'
           selected: false
         }
         {
-          id: 'peer_reviews'
+          id: 3
+          name: 'peer_reviews'
           label: '4'
           value: '4'
           selected: false
         }
         {
-          id: 'peer_reviews'
+          id: 4
+          name: 'peer_reviews'
           label: '5'
           value: '5'
           selected: false

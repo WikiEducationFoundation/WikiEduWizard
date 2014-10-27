@@ -279,6 +279,18 @@ h5 {
   display: block;
   display: none;
 }
+.edit-mode-only {
+  display: none;
+}
+body.edit-mode .edit-mode-only {
+  display: block;
+}
+.no-edit-mode {
+  display: block;
+}
+body.edit-mode .no-edit-mode {
+  display: none;
+}
 * {
   -moz-box-sizing: border-box;
        box-sizing: border-box;
@@ -317,9 +329,6 @@ li {
 }
 li:first-child {
   margin-top: 0;
-}
-li:last-child {
-  margin-bottom: 0;
 }
 ul {
   list-style: disc;
@@ -371,8 +380,8 @@ select {
   border-radius: 3px;
 }
 .button#publish {
-  float: right;
-  max-width: 160px;
+  display: block;
+  width: 100%;
 }
 .button#publish.processing {
   text-indent: -9999px;
@@ -547,6 +556,7 @@ select {
   display: table-cell;
   vertical-align: middle;
   line-height: 1.2;
+  cursor: pointer;
 }
 .custom-input--checkbox label span,
 .custom-input--radiobox label span {
@@ -604,7 +614,7 @@ select {
 .custom-input--checkbox.not-editable .edit-button,
 .custom-input--radiobox.not-editable .edit-button {
   opacity: 0.6;
-  pointer: none;
+  pointer: default;
 }
 .custom-input--radio {
   position: relative;
@@ -708,15 +718,24 @@ select {
 .custom-input-wrapper.has-info * {
   cursor: pointer;
 }
+.custom-input-wrapper.has-info.not-editable {
+  cursor: default;
+}
+.custom-input-wrapper.has-info.not-editable * {
+  cursor: default;
+}
 .custom-input-wrapper.has-info .custom-input--checkbox {
+  -webkit-transition: all 0.13s ease-out;
+          transition: all 0.13s ease-out;
   z-index: 10;
   background: #858daa;
 }
 .custom-input-wrapper.has-info .info-arrow {
-  content: '';
+  -webkit-transition: all 0.13s ease-out;
+          transition: all 0.13s ease-out;
   position: absolute;
   top: 0;
-  right: -18px;
+  right: 0;
   display: block;
   width: 25px;
   height: 100%;
@@ -946,6 +965,21 @@ textarea {
 .step-nav:after {
   clear: both;
 }
+.step-nav .step-nav-buttons--normal {
+  position: relative;
+  display: block;
+}
+.step-nav .step-nav-buttons--edit {
+  display: none;
+}
+.edit-mode .step-nav .step-nav-buttons--normal {
+  position: relative;
+  display: none;
+}
+.edit-mode .step-nav .step-nav-buttons--edit {
+  position: relative;
+  display: block;
+}
 .step-nav__button {
   -webkit-transition: all 0.2s;
           transition: all 0.2s;
@@ -978,6 +1012,7 @@ textarea {
   visibility: hidden;
 }
 .step-nav__button.inactive {
+  cursor: default;
   color: rgba(255,255,225,0.25);
 }
 .step-nav__button:first-child {
@@ -1139,8 +1174,7 @@ textarea {
   position: relative;
   width: auto;
   max-width: 1200px;
-  min-width: 1100px;
-  height: 100%;
+  min-width: 1000px;
   padding: 200px 40px 40px 440px;
   color: #4f4f4f;
   background: #fff;
@@ -1172,22 +1206,27 @@ textarea {
 }
 .step-info .step-info-inner,
 .step-info .step-info-tip__inner .step-info-inner {
+  -webkit-transition: opacity 0.15s 0.25s linear;
+          transition: opacity 0.15s 0.25s linear;
   margin-top: 0;
-  max-width: 700px;
+  opacity: 1;
 }
 .step-info .step-info-tip,
 .step-info .step-info-tip__inner .step-info-tip {
-  -webkit-transition: opacity 0.33s;
-          transition: opacity 0.33s;
+  -webkit-transition: opacity 0.33s 0.123s ease-in;
+          transition: opacity 0.33s 0.123s ease-in;
   display: block;
-  position: absolute;
+  position: fixed;
   width: 100%;
   height: 100%;
   top: 0;
   left: 0;
   z-index: 0;
   opacity: 0;
+  max-width: 1200px;
+  min-width: 1000px;
   pointer-events: none;
+  background: #fff;
 }
 .step-info .step-info-tip__close,
 .step-info .step-info-tip__inner .step-info-tip__close {
@@ -1208,6 +1247,7 @@ textarea {
 .step-info .step-info-tip__inner,
 .step-info .step-info-tip__inner .step-info-tip__inner {
   background: #fff;
+  height: 100%;
 }
 .step-info .step-info-tip.visible,
 .step-info .step-info-tip__inner .step-info-tip.visible {
@@ -1229,6 +1269,7 @@ textarea {
   text-decoration: underline;
 }
 .step-info-section--accordian {
+  border-top: 2px solid rgba(81,85,102,0.1);
   border-bottom: 2px solid rgba(81,85,102,0.1);
   margin: 15px auto;
 }
@@ -1274,6 +1315,9 @@ textarea {
   -webkit-transform: rotate(0deg);
       -ms-transform: rotate(0deg);
           transform: rotate(0deg);
+}
+.step-info-section--accordian + .step-info-section--accordian {
+  border-top: none;
 }
 .step--first .step-form {
   position: relative;

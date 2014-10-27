@@ -65,9 +65,6 @@ module.exports = class StepView extends View
   datesModule: WikiDatesModule
 
 
-  stepInputData: WizardStepInputs
-
-
   hasUserAnswered: false
 
 
@@ -161,7 +158,7 @@ module.exports = class StepView extends View
 
     @$tipSection = @$el.find('.step-info-tips')
 
-    @inputData = @stepInputData[@model.attributes.id] || []
+    @inputData = WizardStepInputs[@model.attributes.id] || []
 
 
     _.each(@inputData, (input, index) =>
@@ -258,12 +255,25 @@ module.exports = class StepView extends View
 
     return @
 
+  updateRadioAnswer: (id, index, value) ->
+
+    inputType = WizardStepInputs[@model.id][id].type 
+
+    WizardStepInputs[@model.id][id].options[index].selected = value
+
+    WizardStepInputs[@model.id][id].value = WizardStepInputs[@model.id][id].options[index].value
+
+    WizardStepInputs[@model.id][id].selected = index
+
+    console.log WizardStepInputs[@model.id][id]
+
 
   updateAnswer: (id, value) ->
     
     inputType = WizardStepInputs[@model.id][id].type 
 
     out = 
+
       type: inputType
 
       id: id
@@ -287,12 +297,12 @@ module.exports = class StepView extends View
       WizardStepInputs[@model.id][id].value = value
 
 
-
     return @
     
 
 
   inputHandler: (e) ->
+
     $target = $(e.currentTarget)
 
     $parent = $target.parents('.custom-input')
@@ -329,6 +339,8 @@ module.exports = class StepView extends View
     $('.step-info-tip').removeClass('visible')
 
     $('.custom-input-wrapper').removeClass('selected')
+
+    $('body').removeClass('tip-open')
 
 
 

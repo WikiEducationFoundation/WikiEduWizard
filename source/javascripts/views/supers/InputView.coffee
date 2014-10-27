@@ -38,6 +38,7 @@ module.exports = class InputItemView extends View
   #--------------------------------------------------------
 
   events: 
+
     'change input' : 'itemChangeHandler'
 
     'keyup input[type="text"]' : 'itemChangeHandler'
@@ -52,7 +53,7 @@ module.exports = class InputItemView extends View
 
     'mouseout' : 'mouseoutHandler'
 
-    'click .check-button' : 'checkButtonClickHandler'
+    'click .editable .check-button' : 'checkButtonClickHandler'
 
     'click .custom-input--radiobox .radio-button' : 'radioBoxClickHandler'
 
@@ -70,30 +71,33 @@ module.exports = class InputItemView extends View
     if @isDisabled()
       return false
 
-    $target = $(e.currentTarget)
+    $button = $(e.currentTarget)
 
-    $parentGroup = $target.parents('.custom-input-wrapper')
+    $parentEl = $button.parents('.custom-input--radio')
 
-    $parentEl = $target.parents('.custom-input--radio')
+    $parentGroup = $button.parents('.custom-input-wrapper')
 
     $inputEl = $parentEl.find('input[type="radio"]')
+
 
     if $parentEl.hasClass('checked')
 
       return false
 
     else
-      $otherRadios = $parentGroup.find('.custom-input--radio')
+
+      $otherRadios = $parentGroup.find('.custom-input--radio').not($parentEl[0])
+
+      $otherRadios.find('input[type="radio"]').prop('checked', false).trigger('change')
 
       $otherRadios.removeClass('checked')
 
-      $otherInputs = $otherRadios.find('input[type="text"]')
-
-      $otherInputs.prop('checked', false)
+      $parentEl.addClass('checked')
 
       $inputEl.prop('checked', true)
 
-      $parentEl.addClass('checked')
+      $inputEl.trigger('change')
+
 
     # Backbone.Mediator.publish('tips:hide')
 
@@ -101,6 +105,8 @@ module.exports = class InputItemView extends View
 
   radioBoxClickHandler: (e) ->
     e.preventDefault()
+
+
 
     if @isDisabled()
       return false
@@ -121,6 +127,7 @@ module.exports = class InputItemView extends View
       @$inputEl.trigger('change')
 
     else
+
       @$inputEl.prop('checked', false)
 
       @$inputEl.val('off')
@@ -181,6 +188,8 @@ module.exports = class InputItemView extends View
 
       @parentStep.tipVisible = true
 
+      $('body').addClass('tip-open')
+
       @parentStep.$el.find(".step-info-tip").removeClass('visible')
 
       @parentStep.$el.find(".step-info-tip[data-item-index='#{@itemIndex}']").addClass('visible')
@@ -191,15 +200,24 @@ module.exports = class InputItemView extends View
 
       @$el.removeClass('selected')
 
+      $('body').removeClass('tip-open')
+
       @parentStep.tipVisible = false
 
       @parentStep.$el.find(".step-info-tip").removeClass('visible') 
 
 
   hideShowTooltip: ->
+
+    if @$el.find('.custom-input').hasClass('not-editable')
+
+      return false
+
     $('.custom-input-wrapper').removeClass('selected')
 
     @parentStep.tipVisible = false
+
+    $('body').removeClass('tip-open')
 
     @parentStep.$el.find(".step-info-tip").removeClass('visible')
 
@@ -210,13 +228,38 @@ module.exports = class InputItemView extends View
     return false
 
 
-  itemChangeHandler: (e) ->
-    value = $(e.currentTarget).val()
 
-    inputId = $(e.currentTarget).attr('id')
+  itemChangeHandler: (e) ->
+    
 
     # Backbone.Mediator.publish('answer:updated', inputId, value)
-    @parentStep.updateAnswer(inputId, value)
+
+
+    if @inputType == 'radioGroup'
+
+      $target = $(e.currentTarget)
+
+      index = $(e.currentTarget).attr('id')
+
+      value = $(e.currentTarget).attr('value')
+
+      parentId = $(e.currentTarget).attr('name')
+
+      if $(e.currentTarget).prop('checked')
+
+        @parentStep.updateRadioAnswer(parentId, index, true)
+
+      else
+
+        @parentStep.updateRadioAnswer(parentId, index, false)
+
+    else
+
+      value = $(e.currentTarget).val()
+
+      inputId = $(e.currentTarget).attr('id')
+
+      @parentStep.updateAnswer(inputId, value)
     
     @parentStep.updateUserAnswer(inputId, value)
 
@@ -264,7 +307,10 @@ module.exports = class InputItemView extends View
 
         @$el.removeClass('open')
 
+
+
   isDisabled: ->
+
     return @$el.find('.custom-input').hasClass('not-editable')
 
 
@@ -274,6 +320,7 @@ module.exports = class InputItemView extends View
   #--------------------------------------------------------
 
   render: ->
+
     super()
 
 
@@ -288,6 +335,7 @@ module.exports = class InputItemView extends View
 
 
   getRenderData: ->
+
     inputTypeObject = @getInputTypeObject()
 
 

@@ -179,12 +179,13 @@ ci-padding = 20px 70px 20px 45px
   border-bottom 1px solid ci-checkbox-border-color
   font-size ci-font-size
   padding ci-padding
-
+  
 
   label
     display table-cell
     vertical-align middle
     line-height 1.2
+    cursor pointer
     
     span 
       display inline-block
@@ -230,7 +231,7 @@ ci-padding = 20px 70px 20px 45px
     
     .check-button, .radio-button, .edit-button
       opacity 0.6
-      pointer none
+      pointer default
       
 
 .custom-input--radio
@@ -356,16 +357,23 @@ ci-padding = 20px 70px 20px 45px
     
     *
       cursor pointer
+      
+    &.not-editable
+      cursor default
+      
+      *
+        cursor default
     
     .custom-input--checkbox
+      transition all 0.13s ease-out
       z-index 10
       background blue
       
     .info-arrow
-      content ''
+      transition all 0.13s ease-out
       position absolute
       top 0
-      right -18px
+      right 0
       display block
       width 25px
       height 100%

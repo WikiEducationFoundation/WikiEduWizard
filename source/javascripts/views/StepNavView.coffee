@@ -20,14 +20,16 @@ module.exports = class StepNavView extends View
 
 
   initialize: ->
+    
     @currentStep = 0
 
     @render = _.bind( @render, @ )
 
 
-
   subscriptions:
+
     'step:update' : 'updateCurrentStep'
+
     'step:answered' : 'stepAnswered'
 
 

@@ -99,16 +99,22 @@
 
 \{{assignment | due = Week 9 }}
 \{{subst:Wikipedia:Education program/Assignment Design Wizard/Complete first draft}}
+{{#if peer_feedback.peer_reviews.options.0.selected}}
 \{{subst:Wikipedia:Education program/Assignment Design Wizard/Choose one peer review article}}
-\{{subst:Wikipedia:Education program/Assignment Design Wizard/Choose peer review articles| peerreviewnumber = two }}
+{{else}}
+\{{subst:Wikipedia:Education program/Assignment Design Wizard/Choose peer review articles| peerreviewnumber = {{peer_feedback.peer_reviews.value}} }}
+{{/if}}
 
 \{{course week | 9 | Getting and giving feedback }}
 \{{in class}}
 \{{subst:Wikipedia:Education program/Assignment Design Wizard/Group suggestions}}
 
 \{{assignment | due = Week 10 }}
+{{#if peer_feedback.peer_reviews.options.0.selected}}
 \{{subst:Wikipedia:Education program/Assignment Design Wizard/Do one peer review}}
-\{{subst:Wikipedia:Education program/Assignment Design Wizard/Do peer reviews | peerreviewnumber = two }}
+{{else}}
+\{{subst:Wikipedia:Education program/Assignment Design Wizard/Do peer reviews | peerreviewnumber = {{peer_feedback.peer_reviews.value}} }}
+{{/if}}
 
 \{{assignment milestones}}
 \{{subst:Wikipedia:Education program/Assignment Design Wizard/Articles have been reviewed}}
