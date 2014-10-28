@@ -70,7 +70,7 @@ end
 # ROOT URL
 get '/' do
 
-  @title = "Wikiedu Wizard #{settings.environment}"
+  @title = "Wikiedu Wizard #{ENV["MATT"]}"
 
   haml :login
 
