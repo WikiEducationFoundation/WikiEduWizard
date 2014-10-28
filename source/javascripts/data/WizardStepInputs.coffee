@@ -401,22 +401,6 @@ WizardStepInputs =
       label: 'None of the above'
       exclusive: true
 
-  # dyk_ga: 
-  #   dyk:
-  #     type: 'checkbox'
-  #     id: 'dyk'
-  #     selected: false
-  #     label: 'Did You Know?'
-  #     exclusive: false
-
-  #   ga:
-  #     type: 'checkbox'
-  #     id: 'ga'
-  #     selected: false
-  #     label: 'Good Article nominations'
-  #     exclusive: false
-
-
   dyk:
     dyk:
       type: 'checkbox'
@@ -433,58 +417,72 @@ WizardStepInputs =
       label: 'Good Article nominations'
       exclusive: false
 
-
-
-
   grading: 
     learning_essentials:
       type: 'percent'
       label: 'Learning Wiki essentials'
       id: 'learning_essentials'
-      value: ''
+      value: 5
       placeholder: ''
+      assignments: []
     
     getting_started:
       type: 'percent'
       label: 'Getting started with editing'
       id: 'getting_started'
-      value: ''
+      value: 0
       placeholder: ''
     
     choosing_articles:
       type: 'percent'
       label: 'Choosing articles'
       id: 'choosing_articles'
-      value: ''
+      value: 0
       placeholder: ''
     
     research_planning:
       type: 'percent'
       label: 'Research an planning'
       id: 'research_planning'
-      value: ''
+      value: 0
       placeholder: ''
     
     drafts_mainspace:
       type: 'percent'
       label: 'Drafts and mainspace'
       id: 'drafts_mainspace'
-      value: ''
+      value: 0
       placeholder: ''
     
     peer_feedback:
       type: 'percent'
       label: 'Peer Feedback'
       id: 'peer_feedback'
-      value: ''
+      value: 0
       placeholder: ''
     
     supplementary_assignments:
       type: 'percent'
       label: 'Supplementary assignments'
       id: 'supplementary_assignments'
-      value: ''
+      value: 0 
       placeholder: ''
+
+    grading_selection:
+      label: 'Grading based on:'
+      id: 'grading_selection'
+      value: ''
+      options: 
+        percent: 
+          label: 'Percentage'
+          value: 'percent'
+          selected: true
+        points:
+          label: 'Points'
+          value: 'points'
+          selected: false
+        
+      
 
 
 
@@ -547,6 +545,18 @@ WizardStepInputs =
       month: ''
       day: ''
       year: ''
+
+    course_start_date:
+      month: ''
+      day: ''
+      year: ''
+
+    course_end_date: 
+      month: ''
+      day: ''
+      year: ''
+
+
 
 
 

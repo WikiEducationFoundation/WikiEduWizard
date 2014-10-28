@@ -7,13 +7,73 @@ View = require('../views/supers/View')
 WikiGradingModule = require('../templates/steps/modules/WikiGradingModule.hbs')
 
 
+#Data
+WizardStepInputs = require('../data/WizardStepInputs')
+
+
 module.exports = class GradingInputView extends View
 
   template: WikiGradingModule
 
+
   events:
 
+    'input change' : 'inputChangeHandler'
+
     'click .custom-input--radio-group .radio-button' : 'radioButtonClickHandler'
+
+    'click .custom-input--radio-group label' : 'radioButtonClickHandler'
+
+
+  subscriptions:
+
+    'grade:change' : 'gradeChangeHandler'
+
+  currentValues: []
+
+
+  valueLimit: 100
+
+
+  gradingSelectionData: WizardStepInputs['grading']['grading_selection']
+
+
+  currentTotal: ->
+
+    total = 0
+
+    _.each(@currentValues, (val) =>
+
+      total += parseInt(val)
+
+    )
+
+    return total
+
+
+
+  getInputValues: ->
+
+    values = []
+
+    @parentStepView.$el.find('input[type="percent"]').each(->
+
+      values.push(($ this).val())
+
+    )
+
+    @currentValues = values
+
+    return @
+
+
+
+  gradeChangeHandler: (id, value) ->
+    
+    @getInputValues().render()
+
+
+
 
   radioButtonClickHandler: (e) ->
 
@@ -45,3 +105,38 @@ module.exports = class GradingInputView extends View
       $inputEl.prop('checked', true)
 
       $inputEl.trigger('change')
+
+      _.each(WizardStepInputs['grading']['grading_selection'].options, (opt) ->
+
+        opt.selected = false
+        
+      )
+
+      WizardStepInputs['grading']['grading_selection'].options[$inputEl.attr('id')].selected = true
+
+      WizardStepInputs['grading']['grading_selection'].value = $inputEl.attr('id')
+
+
+
+  getRenderData: ->
+
+    out = {
+
+      totalGrade: @currentTotal()
+
+      isOverLimit: @currentTotal() > @valueLimit
+
+      options: @gradingSelectionData.options
+
+    }
+
+    return out
+
+
+
+
+
+
+
+
+

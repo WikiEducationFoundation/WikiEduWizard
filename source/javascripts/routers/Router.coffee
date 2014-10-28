@@ -29,11 +29,33 @@ module.exports = class Router extends Backbone.Router
 
       WizardStepInputs['intro']['instructor_username']['value'] = @currentWikiUser
 
-      console.log WizardStepInputs
+      $( '#app' ).html(application.homeView.render().el)
 
-      $( '#app' ).html( application.homeView.render().el )
+      if @getParameterByName('step')
+
+        Backbone.Mediator.publish('step:goto', @getParameterByName('step'))
+
+      else if @getParameterByName('stepid')
+
+        Backbone.Mediator.publish('step:gotoId', @getParameterByName('stepid'))
+
 
     else if $('#login').length > 0
-      $( '#login' ).html( application.loginView.render().el )
+
+      ($ '#login').html(application.loginView.render().el)
+
+  #
+  # Utilities
+  #
+
+  getParameterByName: (name) ->
+
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]")
+
+    regex = new RegExp("[\\?&]" + name + "=([^&#]*)")
+
+    results = regex.exec(location.search)
+
+    (if not results? then "" else decodeURIComponent(results[1].replace(/\+/g, " ")))
 
 

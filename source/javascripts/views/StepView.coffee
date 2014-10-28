@@ -81,7 +81,7 @@ module.exports = class StepView extends View
   #--------------------------------------------------------
 
   events:
-    'click input' : 'inputHandler'
+    'click .step-form-inner input' : 'inputHandler'
 
     'click #publish' : 'publishHandler'
 
@@ -98,16 +98,25 @@ module.exports = class StepView extends View
 
 
   editClickHandler: (e) ->
+
     stepId = $(e.currentTarget).attr('data-step-id')
 
     if stepId
+
       Backbone.Mediator.publish('step:edit', stepId)
+
+  stepId: ->
+
+    return @model.attributes.id
 
 
 
   accordianClickHandler: (e) ->
+
     $target = $(e.currentTarget)
+
     $target.toggleClass('open')
+
     # if $target.hasClass('open')
 
     #   $target.removeClass('open')
@@ -129,6 +138,7 @@ module.exports = class StepView extends View
 
 
   publishHandler: ->
+
     Backbone.Mediator.publish('wizard:publish')
 
 
@@ -226,13 +236,17 @@ module.exports = class StepView extends View
 
     @$inputContainers = @$el.find('.custom-input')
 
-    console.log 'stepview', @model.attributes.id
+    # console.log 'stepview', @model.attributes.id
 
     if @model.attributes.id is 'grading'
 
       @gradingView = new GradingInputView()
 
-      @$el.find('.step-form-content').append(@gradingView.render().el)
+      @gradingView.parentStepView = @
+
+      @$el.find('.step-form-content').append(@gradingView.getInputValues().render().el)
+
+      console.log @gradingView.currentTotal()
 
     return @
 
@@ -284,7 +298,7 @@ module.exports = class StepView extends View
 
 
   updateAnswer: (id, value) ->
-    
+
     inputType = WizardStepInputs[@model.id][id].type 
 
     out = 
@@ -307,7 +321,7 @@ module.exports = class StepView extends View
         WizardStepInputs[@model.id][id].selected = false
 
 
-    else if inputType == 'text'
+    else if inputType == 'text' || inputType == 'percent'
 
       WizardStepInputs[@model.id][id].value = value
 

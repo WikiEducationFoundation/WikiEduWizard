@@ -41,15 +41,19 @@ module.exports = class HomeView extends View
 
 
   events: 
+
     'click .exit-edit' : 'exitEditClickHandler'
 
 
   subscriptions:
+
     'step:next' : 'nextClickHandler'
 
     'step:prev' : 'prevClickHandler'
 
     'step:goto' : 'gotoClickHandler'
+
+    'step:gotoId' : 'gotoIdClickHandler'
 
     'step:edit' : 'editClickHandler'
 
@@ -138,7 +142,8 @@ module.exports = class HomeView extends View
   advanceStep: ->
     @currentStep+=1
     
-    if @currentStep == @stepViews.length 
+    if @currentStep is @stepViews.length 
+
       @currentStep = 0
 
     @hideAllSteps()
@@ -147,9 +152,11 @@ module.exports = class HomeView extends View
 
 
   decrementStep: ->
+
     @currentStep-=1
 
     if @currentStep < 0
+
       @currentStep = @stepViews.length - 1
 
     @hideAllSteps()
@@ -159,6 +166,7 @@ module.exports = class HomeView extends View
 
 
   updateStep: (index) ->
+
     @currentStep = index
 
     @hideAllSteps()
@@ -166,8 +174,22 @@ module.exports = class HomeView extends View
     @showCurrentStep()
 
 
+  updateStepById: (id) ->
+
+    _.each(@stepViews,(stepView) =>
+
+      if stepView.stepId() is id
+
+        @updateStep(_.indexOf(@stepViews,stepView))
+        
+        return
+      
+    )
+
+
 
   showCurrentStep: ->
+
     @stepViews[@currentStep].show()
 
     Backbone.Mediator.publish('step:update', @currentStep)
@@ -185,7 +207,6 @@ module.exports = class HomeView extends View
     _.each(@stepViews,(stepView) =>
       stepView.hide()
     )
-
 
 
   hideAllTips: (e) ->
@@ -230,12 +251,22 @@ module.exports = class HomeView extends View
     )
 
   exitEditClickHandler: ->
+
     $('body').removeClass('edit-mode')
+
     @updateStep(@StepNav.totalSteps-1)
 
 
   gotoClickHandler: (index) ->
+
     @updateStep(index)
+
+    @hideAllTips()
+
+
+  gotoIdClickHandler: (id) ->
+
+    @updateStepById(id)
 
     @hideAllTips()
 

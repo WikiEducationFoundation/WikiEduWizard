@@ -872,6 +872,120 @@ textarea {
   overflow: hidden;
   text-indent: -9999px;
 }
+.custom-input-grading .custom-input-grading-summary {
+  *zoom: 1;
+  padding: 30px 45px 20px;
+}
+.custom-input-grading .custom-input-grading-summary:before,
+.custom-input-grading .custom-input-grading-summary:after {
+  content: '';
+  display: table;
+}
+.custom-input-grading .custom-input-grading-summary:after {
+  clear: both;
+}
+.custom-input-grading__total,
+.custom-input-grading__percent {
+  *zoom: 1;
+  float: left;
+  display: inline;
+  clear: none;
+  text-align: inherit;
+  width: 50%;
+  margin-left: 0%;
+  margin-right: 0%;
+}
+.custom-input-grading__total:before,
+.custom-input-grading__percent:before,
+.custom-input-grading__total:after,
+.custom-input-grading__percent:after {
+  content: '';
+  display: table;
+}
+.custom-input-grading__total:after,
+.custom-input-grading__percent:after {
+  clear: both;
+}
+.custom-input-grading__total:nth-child(2n),
+.custom-input-grading__percent:nth-child(2n) {
+  margin-right: 0%;
+  float: right;
+}
+.custom-input-grading__total:nth-child(2n + 1),
+.custom-input-grading__percent:nth-child(2n + 1) {
+  clear: both;
+}
+.custom-input-grading__percent {
+  text-align: right;
+}
+.custom-input-grading__percent h3 {
+  display: inline block;
+  width: auto;
+}
+.custom-input-grading__percent.over-limit {
+  color: #e36945;
+}
+.custom-input-grading .custom-input-grading-selection {
+  position: relative;
+  padding: 0 45px;
+}
+.custom-input-grading .custom-input-grading-selection__title {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  margin-bottom: 0;
+  color: #505a7f;
+}
+.custom-input-grading .custom-input-grading-selection .custom-input-wrapper {
+  *zoom: 1;
+  height: auto;
+}
+.custom-input-grading .custom-input-grading-selection .custom-input-wrapper:before,
+.custom-input-grading .custom-input-grading-selection .custom-input-wrapper:after {
+  content: '';
+  display: table;
+}
+.custom-input-grading .custom-input-grading-selection .custom-input-wrapper:after {
+  clear: both;
+}
+.custom-input-grading .custom-input-grading-selection .custom-input-wrapper .custom-input--radio {
+  min-height: 40px;
+  height: 40px;
+}
+.custom-input-grading .custom-input-grading-selection .custom-input-wrapper .custom-input--radio-group {
+  *zoom: 1;
+  float: left;
+  display: inline;
+  clear: none;
+  text-align: inherit;
+  width: 47.75%;
+  margin-left: 0%;
+  margin-right: 4.5%;
+  height: 40px;
+}
+.custom-input-grading .custom-input-grading-selection .custom-input-wrapper .custom-input--radio-group:before,
+.custom-input-grading .custom-input-grading-selection .custom-input-wrapper .custom-input--radio-group:after {
+  content: '';
+  display: table;
+}
+.custom-input-grading .custom-input-grading-selection .custom-input-wrapper .custom-input--radio-group:after {
+  clear: both;
+}
+.custom-input-grading .custom-input-grading-selection .custom-input-wrapper .custom-input--radio-group:nth-child(2n) {
+  margin-right: 0%;
+  float: right;
+}
+.custom-input-grading .custom-input-grading-selection .custom-input-wrapper .custom-input--radio-group:nth-child(2n + 1) {
+  clear: both;
+}
+.custom-input-grading .custom-input-grading-selection .custom-input-wrapper .custom-input--radio-group label {
+  line-height: 40px;
+  padding-left: 25px;
+}
+.custom-input-grading .custom-input-grading-selection .custom-input-wrapper .custom-input--radio-group .radio-button {
+  left: 0;
+}
 .input-info {
   position: relative;
   dispaly: block;

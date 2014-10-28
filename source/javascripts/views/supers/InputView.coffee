@@ -43,6 +43,8 @@ module.exports = class InputItemView extends View
 
     'keyup input[type="text"]' : 'itemChangeHandler'
 
+    'keyup input[type="percent"]' : 'itemChangeHandler'
+
     'click .custom-input--checkbox label span' : 'checkButtonClickHandler'
 
     'mouseover' : 'mouseoverHandler'
@@ -104,11 +106,11 @@ module.exports = class InputItemView extends View
 
 
   radioBoxClickHandler: (e) ->
+
     e.preventDefault()
 
-
-
     if @isDisabled()
+
       return false
 
     $otherRadios = @$el.parents('.step-form-inner').find('.custom-input--radiobox')
@@ -116,6 +118,7 @@ module.exports = class InputItemView extends View
     $otherRadios.removeClass('checked').find('input').val('off').trigger('change')
 
     $parent = @$el.find('.custom-input--radiobox')
+
       .addClass('checked')
 
     if $parent.hasClass('checked')
@@ -136,18 +139,21 @@ module.exports = class InputItemView extends View
 
     # Backbone.Mediator.publish('tips:hide')
 
-    
 
   checkButtonClickHandler: (e) ->
+
     e.preventDefault()
 
     if @isDisabled()
+
       return false
 
     if @$el.find('.custom-input--radiobox').length > 0
+
       return @radioBoxClickHandler(e)
 
     $parent = @$el.find('.custom-input--checkbox')
+
       .toggleClass('checked')
     
     if $parent.hasClass('checked')
@@ -168,20 +174,23 @@ module.exports = class InputItemView extends View
     # Backbone.Mediator.publish('tips:hide')
 
 
-
   hoverHandler: (e) ->
+
     console.log e.target
 
 
   mouseoverHandler: (e) ->
+
     @isHovering = true
       
 
   mouseoutHandler: (e) ->
+
     @isHovering = false
 
 
   showTooltip: ->
+
     if @hasInfo && @parentStep.tipVisible == false
 
       @$el.addClass('selected')
@@ -196,6 +205,7 @@ module.exports = class InputItemView extends View
 
 
   hideTooltip: ->
+
     if @hasInfo
 
       @$el.removeClass('selected')
@@ -228,12 +238,9 @@ module.exports = class InputItemView extends View
     return false
 
 
-
   itemChangeHandler: (e) ->
     
-
     # Backbone.Mediator.publish('answer:updated', inputId, value)
-
 
     if @inputType == 'radioGroup'
 
@@ -260,8 +267,20 @@ module.exports = class InputItemView extends View
       inputId = $(e.currentTarget).attr('id')
 
       @parentStep.updateAnswer(inputId, value)
+
+      if @inputType == 'percent'
+
+        if isNaN(parseInt(value))
+
+          $(e.currentTarget).val('')
+
+          return
+
+        else
+
+          Backbone.Mediator.publish('grade:change', inputId, value)
     
-    @parentStep.updateUserAnswer(inputId, value)
+    return @parentStep.updateUserAnswer(inputId, value)
 
 
   #--------------------------------------------------------
@@ -289,14 +308,13 @@ module.exports = class InputItemView extends View
     return $el.hasClass('has-info')
 
 
-
   onFocus: (e) ->
 
     @$el.addClass('open')
 
 
-
   onBlur: (e) ->
+
     $target = $(e.currentTarget)
 
     value = $target.val()
@@ -306,7 +324,6 @@ module.exports = class InputItemView extends View
       unless $target.is(':focus')
 
         @$el.removeClass('open')
-
 
 
   isDisabled: ->
@@ -324,8 +341,8 @@ module.exports = class InputItemView extends View
     super()
 
 
-
   getInputTypeObject: ->
+
     returnData = {}
 
     returnData[@inputType] = true

@@ -1,7 +1,7 @@
 WizardContent = [
   {
     id: "intro"
-    title: 'Welcome to the Wikipedia Assignment Wizard!'
+    title: 'Welcome to the Assignment Design Wizard!'
     login_instructions: 'Click Login with Wikipedia to get started'
     instructions: ''
     inputs: []
