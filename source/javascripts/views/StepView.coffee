@@ -12,7 +12,10 @@ View = require('../views/supers/View')
 
 #SUBVIEWS
 InputItemView = require('../views/InputItemView')
+
 DateInputView = require('../views/DateInputView')
+
+GradingInputView = require('../views/GradingInputView')
 
 #TEMPLATES
 StepTemplate = require('../templates/steps/StepTemplate.hbs')
@@ -24,6 +27,8 @@ InputTipTemplate = require('../templates/steps/info/InputTipTemplate.hbs')
 CourseTipTemplate = require('../templates/steps/info/CourseTipTemplate.hbs')
 
 WikiDatesModule = require('../templates/steps/modules/WikiDatesModule.hbs')
+
+
 
 #DATA
 CourseInfoData = require('../data/WizardCourseInfo')
@@ -218,13 +223,23 @@ module.exports = class StepView extends View
 
 
   afterRender: ->
+
     @$inputContainers = @$el.find('.custom-input')
+
+    console.log 'stepview', @model.attributes.id
+
+    if @model.attributes.id is 'grading'
+
+      @gradingView = new GradingInputView()
+
+      @$el.find('.step-form-content').append(@gradingView.render().el)
 
     return @
 
 
 
   hide: ->
+
     @$el.hide()
 
     return @
@@ -232,6 +247,7 @@ module.exports = class StepView extends View
 
 
   show: ->
+
     @$el.show()
 
     @hasUserVisited = true
@@ -265,7 +281,6 @@ module.exports = class StepView extends View
 
     WizardStepInputs[@model.id][id].selected = index
 
-    console.log WizardStepInputs[@model.id][id]
 
 
   updateAnswer: (id, value) ->

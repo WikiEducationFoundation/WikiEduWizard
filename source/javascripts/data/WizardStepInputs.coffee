@@ -401,7 +401,23 @@ WizardStepInputs =
       label: 'None of the above'
       exclusive: true
 
-  dyk_ga: 
+  # dyk_ga: 
+  #   dyk:
+  #     type: 'checkbox'
+  #     id: 'dyk'
+  #     selected: false
+  #     label: 'Did You Know?'
+  #     exclusive: false
+
+  #   ga:
+  #     type: 'checkbox'
+  #     id: 'ga'
+  #     selected: false
+  #     label: 'Good Article nominations'
+  #     exclusive: false
+
+
+  dyk:
     dyk:
       type: 'checkbox'
       id: 'dyk'
@@ -409,12 +425,14 @@ WizardStepInputs =
       label: 'Did You Know?'
       exclusive: false
 
+  ga: 
     ga:
       type: 'checkbox'
       id: 'ga'
       selected: false
       label: 'Good Article nominations'
       exclusive: false
+
 
 
 
