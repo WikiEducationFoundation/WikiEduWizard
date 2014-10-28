@@ -18,16 +18,22 @@ set :keep_releases, 5
 
 # Deployment process
 before "deploy", "deploy:check_revision"
+# after "deploy", "deploy:bundle"
 
-# Custom deployment tasks
 namespace :deploy do
+  task :start do ; end
+  task :stop do ; end
 
-  desc "This is here to overide the original :restart"
-  task :restart, :roles => :app do
-    # do nothing but overide the default
+  # desc "Bundle Install"
+  # task :bundle, roles: :app do 
+  #   run "bundle install --without development test"
+  # end
+
+  desc "Restart server"
+  task :restart, :roles => :app, :except => { :no_release => true } do
+    run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
   end
 
-  
   desc "Make sure local git is in sync with remote."
   task :check_revision, roles: :app do
     unless `git rev-parse HEAD` == `git rev-parse origin/master`
@@ -36,4 +42,5 @@ namespace :deploy do
       exit
     end
   end
+
 end
