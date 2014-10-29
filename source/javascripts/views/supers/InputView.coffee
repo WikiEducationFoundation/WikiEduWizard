@@ -282,7 +282,7 @@ module.exports = class InputItemView extends View
 
           Backbone.Mediator.publish('grade:change', inputId, value)
     
-    return @parentStep.updateUserAnswer(inputId, value)
+    return @parentStep.updateUserAnswer(inputId, value, @inputType)
 
 
   #--------------------------------------------------------

@@ -209,7 +209,15 @@ module.exports = class StepView extends View
 
         @hasUserAnswered = true
 
+      else if input.selected 
+
+        @hasUserAnswered = true
+
       else if input.required is false
+
+        @hasUserAnswered = true
+
+      else if input.type is 'percent'
 
         @hasUserAnswered = true
 
@@ -294,11 +302,54 @@ module.exports = class StepView extends View
     Backbone.Mediator.publish('step:next')
 
 
-  updateUserAnswer: (id,value) ->
+  updateUserAnswer: (id, value, type) ->
 
-    if value is 'on'
+    inputItems = WizardStepInputs[@model.id]
+
+    requiredSelected = false
+
+
+    _.each(inputItems, (item) =>
+
+      if item.type is 'checkbox'
+
+        if item.required is true
+
+          if item.selected is true
+
+            requiredSelected = true
+
+        else
+
+          requiredSelected = true
+
+    )
+
+    if requiredSelected is true
 
       @hasUserAnswered = true
+
+    else if type is 'radioGroup' or type is 'radioBox'
+
+      @hasUserAnswered = true
+
+    else if type is 'percent'
+
+      @hasUserAnswered = true
+      
+    else 
+
+      @hasUserAnswered = false
+   
+
+    
+    # if value is 'on'
+
+    #   @hasUserAnswered = true
+
+    # else if value is 'off'
+
+    #   @hasUserAnswered = false
 
 
     Backbone.Mediator.publish('step:answered', @)
@@ -328,7 +379,6 @@ module.exports = class StepView extends View
       id: id
 
       value: value
-
 
     if inputType == 'radioBox' || inputType == 'checkbox'
 

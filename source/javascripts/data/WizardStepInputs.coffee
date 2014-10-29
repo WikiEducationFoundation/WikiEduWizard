@@ -328,7 +328,6 @@ WizardStepInputs =
       label: ''
       value: '2'
       selected: 1
-      required: true
       options: [
         {
           id: 0
@@ -336,7 +335,6 @@ WizardStepInputs =
           label: '1'
           value: '1'
           selected: false
-          required: true
         }
         {
           id: 1
@@ -344,7 +342,6 @@ WizardStepInputs =
           label: '2'
           value: '2'
           selected: true
-          required: true
         }
         {
           id: 2
@@ -352,7 +349,7 @@ WizardStepInputs =
           label: '3'
           value: '3'
           selected: false
-          required: true
+
         }
         {
           id: 3
@@ -360,7 +357,7 @@ WizardStepInputs =
           label: '4'
           value: '4'
           selected: false
-          required: true
+
         }
         {
           id: 4
@@ -368,7 +365,7 @@ WizardStepInputs =
           label: '5'
           value: '5'
           selected: false
-          required: true
+    
         }
       ]
     
@@ -463,7 +460,6 @@ WizardStepInputs =
       id: 'learning_essentials'
       value: 5
       placeholder: ''
-      assignments: []
     
     getting_started:
       type: 'percent'

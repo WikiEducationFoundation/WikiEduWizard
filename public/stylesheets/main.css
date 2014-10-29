@@ -859,7 +859,6 @@ select {
   left: 50%;
   margin-left: -15px;
   text-align: center;
-  font-weight: bold;
 }
 .custom-input-dates .custom-select {
   display: inline-block;
@@ -1189,6 +1188,7 @@ textarea {
 }
 .step-nav__button.inactive {
   cursor: default;
+  pointer-events: none;
   color: rgba(255,255,225,0.25);
 }
 .step-nav__button:first-child {
@@ -1478,7 +1478,7 @@ textarea {
 }
 .step-info-section--accordian .step-info-section__header {
   position: relative;
-  padding-left: 28px;
+  padding-left: 35px;
   cursor: pointer;
 }
 .step-info-section--accordian .step-info-section__header:before {
