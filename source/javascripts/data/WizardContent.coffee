@@ -318,7 +318,6 @@ WizardContent = [
         ]
       }
       {
-        title: 'Short description'
         content: [
           "<p><textarea id='short_description' rows='8' style='width:100%;'></textarea></p>"
         ]
