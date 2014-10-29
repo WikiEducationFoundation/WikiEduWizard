@@ -466,7 +466,7 @@ select {
   min-height: 65px;
   color: #fff;
   border-bottom: 1px solid rgba(78,88,127,0.2);
-  font-size: 18px;
+  font-size: 17px;
   padding: 20px 70px 20px 45px;
 }
 .custom-input--percent:before {
@@ -813,6 +813,9 @@ select {
   width: 100%;
   height: 45px;
   margin: 80px auto 40px;
+}
+.step--last .custom-input-dates {
+  display: none !important;
 }
 .custom-input-dates__label {
   -webkit-transition: top 0.1s ease-out;
@@ -1188,7 +1191,6 @@ textarea {
 }
 .step-nav__button.inactive {
   cursor: default;
-  pointer-events: none;
   color: rgba(255,255,225,0.25);
 }
 .step-nav__button:first-child {
@@ -1223,6 +1225,9 @@ textarea {
 }
 .step-nav__button.no-arrow {
   background: none !important;
+}
+.step--final .step-nav__button:first-child {
+  display: none;
 }
 .step-nav__button.exit-edit {
   width: 100%;
@@ -1511,7 +1516,7 @@ textarea {
           transition: max-height 0.33s 0.12s ease-out, padding-bottom 0.15s linear;
 }
 .step-info-section--accordian.open .step-info-section__content {
-  max-height: 600px;
+  max-height: 800px;
   padding-bottom: 25px;
 }
 .step-info-section--accordian.open .step-info-section__header:before {

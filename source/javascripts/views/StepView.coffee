@@ -94,6 +94,10 @@ module.exports = class StepView extends View
 
     'click .step-info-tip' : 'hideTips'
 
+  subscriptions: 
+
+    'tips:hide' : 'hideTips'
+
 
 
   editClickHandler: (e) ->
@@ -336,7 +340,7 @@ module.exports = class StepView extends View
     else if type is 'percent'
 
       @hasUserAnswered = true
-      
+
     else 
 
       @hasUserAnswered = false

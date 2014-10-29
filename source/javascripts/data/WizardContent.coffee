@@ -86,12 +86,12 @@ WizardContent = [
     title: 'Choosing articles'
     formTitle: 'There are two recommended options for selecting articles:'
     infoTitle: 'About choosing articles'
-    instructions: 'Choosing the right (or wrong) articles to work on can make (or break) a Wikipedia writing assignment.'
     inputs: []
     sections: [
       {
         title: ''
         content: [
+          '<p>Choosing the right (or wrong) articles to work on can make (or break) a Wikipedia writing assignment.</p>'
           '<p>Some articles may initially look easy to improve, but quality references to expand them may be difficult to find. Finding topics with the right balance between poor Wikipedia coverage and available literature from which to expand that coverage can be tricky. Here are some guidelines to keep in mind when selecting articles for improvement.</p>'
         ]
       }
