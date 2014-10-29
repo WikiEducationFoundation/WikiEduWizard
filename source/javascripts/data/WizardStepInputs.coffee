@@ -233,7 +233,7 @@ WizardStepInputs =
       type: 'radioBox'
       id: 'prepare_list'
       selected: false
-      label: 'Instructor prepares a lists'
+      label: 'Instructor prepares a list'
       exclusive: false
       hasSubChoice: true
       
