@@ -24,26 +24,23 @@
       <span class="arrow" style="margin-right:5px;">
         <div class="step-nav-arrow step-nav-arrow--left"></div>
       </span>
-      <span class="text">Prev</span>
+      <span class="text">{{prevTitle}}</span>
     </a>
 
-    <a href="#" class="step-nav__button step-nav--next next {{#if nextInactive}}inactive{{/if}}">
-      <span class="text">Next</span>
+    <a href="#" class="step-nav__button step-nav--next next {{#if nextInactive}}inactive{{/if}} {{#if isLastStep}} no-arrow {{/if}} ">
+      <span class="text">{{nextTitle}}</span>
       <span class="arrow" style="margin-left:5px;">
         <div class="step-nav-arrow step-nav-arrow--right"></div>
       </span>
     </a>
   </div>
 
+
+
   <div class="step-nav-buttons--edit">
-    <a href="#" class="step-nav__button step-nav--prev cancel exit-edit">
-      <span class="text">Cancel</span>
+    <a href="#" class="step-nav__button step-nav__button--exit-edit confirm exit-edit">
+      <span class="text">{{backToOverviewTitle}}</span>
     </a>
-
-    <a href="#" class="step-nav__button step-nav--next confirm exit-edit">
-      <span class="text">Confirm Edit</span>
-    </a>
-
   </div>
 
 </div><!-- end .step-nav-buttons -->

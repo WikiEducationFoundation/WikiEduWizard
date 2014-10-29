@@ -104,6 +104,7 @@ indicator-inactive-color = rgba(80,90,128.0.5)
       &.inactive
         background transparent url(/images/arrow--right--inactive.png) no-repeat
         background-position 112px 50%
+      
 
           
     &:hover, &:active
@@ -114,6 +115,28 @@ indicator-inactive-color = rgba(80,90,128.0.5)
         
     &.confirm, &.cancel
       background transparent
+      
+    &.no-arrow
+      background none !important
+
+      
+    &.exit-edit
+      width 100%
+      background transparent url(/images/arrow--right.png) no-repeat
+      background-position 310px 50%
+      
+      span.text 
+        transition margin-left 0.15s ease-in
+        margin-left 0
+        position relative
+      
+      &:hover
+        
+        span.text
+          transition margin-left 0.15s ease-in
+          margin-left 0
+          
+        
     
     
   

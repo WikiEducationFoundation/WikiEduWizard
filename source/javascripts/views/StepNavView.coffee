@@ -35,6 +35,8 @@ module.exports = class StepNavView extends View
 
     'step:answered' : 'stepAnswered'
 
+    'edit:exit' : 'editExitHandler'
+
 
 
   events: ->
@@ -88,6 +90,30 @@ module.exports = class StepNavView extends View
 
       nextInactive: @isInactive('next')
 
+      nextTitle: =>
+
+        if @isLastStep()
+
+          return ''
+
+        else 
+
+          return 'Next'
+
+      prevTitle: =>
+
+        if @isLastStep()
+
+          return 'Back'
+
+        else 
+
+          return 'Prev'
+
+      isLastStep: @isLastStep()
+
+      backToOverviewTitle: 'Go Back to Overview'
+
       steps: =>
 
         out = []
@@ -134,6 +160,7 @@ module.exports = class StepNavView extends View
 
 
   dotClickHandler: (e) ->
+
     e.preventDefault()
 
     $target = $(e.currentTarget)
@@ -141,7 +168,6 @@ module.exports = class StepNavView extends View
 
     if @hasBeenToLastStep
 
-      
 
       if parseInt($target.attr('data-nav-id')) == parseInt(@totalSteps - 1)
 
@@ -156,20 +182,9 @@ module.exports = class StepNavView extends View
       Backbone.Mediator.publish('step:goto', $target.data('nav-id'))
 
 
-  # confirmClickHandler: (e) ->
-  #   e.preventDefault()
+  editExitHandler: ->
 
-  #   $target = $(e.currentTarget)
-
-  #   Backbone.Mediator.publish('step:goto', @totalSteps - 1)
-
-
-  # cancelClickHandler: (e) ->
-  #   e.preventDefault()
-
-  #   $target = $(e.currentTarget)
-
-  #   Backbone.Mediator.publish('step:goto', @totalSteps - 1)
+    Backbone.Mediator.publish('step:goto', @lastStepIndex())
 
 
   updateCurrentStep: (step) ->
@@ -193,6 +208,9 @@ module.exports = class StepNavView extends View
   #--------------------------------------------------------
   # Helpers
   #--------------------------------------------------------
+
+  lastStepIndex: ->
+    return @totalSteps-1
 
   isLastStep: ->
 

@@ -533,8 +533,8 @@ select {
           transition: transform 0.08s ease-out;
 }
 .custom-input-accordian__content {
-  -webkit-transition: max-height 0.15s 0.15s ease-out;
-          transition: max-height 0.15s 0.15s ease-out;
+  -webkit-transition: max-height 0.3s 0.15s ease-out;
+          transition: max-height 0.3s 0.15s ease-out;
   max-height: 0;
   overflow: hidden;
   margin: 0;
@@ -549,11 +549,11 @@ select {
   letter-spacing: 0.05px;
 }
 .custom-input-accordian:hover {
-  -webkit-transition: max-height 0.45s ease-in;
-          transition: max-height 0.45s ease-in;
+  -webkit-transition: max-height 0.3s 0.3s ease-in;
+          transition: max-height 0.3s 0.3s ease-in;
 }
 .custom-input-accordian:hover .custom-input-accordian__content {
-  max-height: 300px;
+  max-height: 200px;
 }
 .custom-input-accordian:hover .custom-input-accordian__header:before {
   -webkit-transform: rotate(0deg);
@@ -859,6 +859,7 @@ select {
   left: 50%;
   margin-left: -15px;
   text-align: center;
+  font-weight: bold;
 }
 .custom-input-dates .custom-select {
   display: inline-block;
@@ -876,7 +877,7 @@ select {
   width: 100%;
   height: auto;
   position: absolute;
-  top: 15px;
+  top: 18px;
   left: 0;
   text-align: left;
   font-family: 'Droid', serif;
@@ -1219,6 +1220,25 @@ textarea {
 .step-nav__button.confirm,
 .step-nav__button.cancel {
   background: transparent;
+}
+.step-nav__button.no-arrow {
+  background: none !important;
+}
+.step-nav__button.exit-edit {
+  width: 100%;
+  background: transparent url("/images/arrow--right.png") no-repeat;
+  background-position: 310px 50%;
+}
+.step-nav__button.exit-edit span.text {
+  -webkit-transition: margin-left 0.15s ease-in;
+          transition: margin-left 0.15s ease-in;
+  margin-left: 0;
+  position: relative;
+}
+.step-nav__button.exit-edit:hover span.text {
+  -webkit-transition: margin-left 0.15s ease-in;
+          transition: margin-left 0.15s ease-in;
+  margin-left: 0;
 }
 .step-nav .step-nav-indicators {
   -webkit-transition: opacity 0.12s ease-in, margin-top 1s ease-out;

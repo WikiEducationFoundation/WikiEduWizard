@@ -81,7 +81,6 @@ module.exports = class StepView extends View
   #--------------------------------------------------------
 
   events:
-    # 'click .step-form-inner input' : 'inputHandler'
 
     'click #publish' : 'publishHandler'
 
@@ -117,89 +116,82 @@ module.exports = class StepView extends View
 
     $target.toggleClass('open')
 
-    # if $target.hasClass('open')
-
-    #   $target.removeClass('open')
-
-    # else if $('.step-info-section--accordian').hasClass('open')
-
-    #   @$el.find('.step-info').find('.step-info-section--accordian').removeClass('open')
-
-    #   setTimeout(=>
-
-    #     $target.addClass('open')
-
-    #   ,500)
-
-    # else
-
-    #   $target.addClass('open')
-
-
 
   publishHandler: ->
 
     Backbone.Mediator.publish('wizard:publish')
 
 
-  
   render: ->
 
     @tipVisible = false
 
     if @model.get('stepNumber') == 1
 
-      @$el.addClass('step--first').html( @introTemplate( @model.attributes ) )
+      @_renderStepType('first')
 
-      #ADD START/END DATES MODULE
+    else if @isLastStep
+
+      @_renderStepType('last')
+      
+    else
+
+      @_renderStepType('standard')
+
+    @_renderInputsAndInfo()
+
+    return @afterRender()
+
+
+  _renderStepType: (type) ->
+
+    if type is 'standard'
+
+      @$el.html( @template( @model.attributes ) )
+
+    else if type is 'first' or type is 'last'
+
+      if type is 'first'
+
+        @$el.addClass('step--first').html( @introTemplate( @model.attributes ) )
+
+        dateTitle = 'Course dates'
+
+      else
+
+        @$el.addClass('step--last').html( @template( @model.attributes ) )
+
+        dateTitle = 'Assignment timeline'
+
+      @dateViews = []
+
       $dates = $(@datesModule({title: 'Course dates'}))
 
       $dateInputs = $dates.find('.custom-select')
 
       self = @
 
-      $dateInputs.each(->
+      $dateInputs.each((inputElement) ->
 
-        dateView = new DateInputView(
+        newDateView = new DateInputView(
 
           el: $(this) 
 
         )
 
-        dateView.parentStepView = self
+        newDateView.parentStepView = self
+
+        self.dateViews.push(newDateView)
+      
+      )
+
+      @$el.find('.step-form-dates').html($dates)
+
+    return @
+
     
-      )
 
-      @$el.find('.step-form-dates').html($dates)
-
-    else if @isLastStep
-
-      @$el.addClass('step--last').html( @template( @model.attributes ) )
-
-      $dates = $(@datesModule({title: 'Assignment timeline'}))
-
-      $dateInputs = $dates.find('.custom-select')
-
-      self = @
-
-      $dateInputs.each(->
-
-        dateView = new DateInputView(
-
-          el: $(this) 
-
-        )
-
-        dateView.parentStepView = self
-      
-      )
-
-      @$el.find('.step-form-dates').html($dates)
-      
-    else
-
-      @$el.html( @template( @model.attributes ) )
-
+  _renderInputsAndInfo: ->
 
     @inputSection = @$el.find('.step-form-inner')
 
@@ -213,9 +205,15 @@ module.exports = class StepView extends View
 
         return
 
-      if input.selected
+      if input.selected && input.required
 
         @hasUserAnswered = true
+
+      else if input.required is false
+
+        @hasUserAnswered = true
+
+
 
       inputView = new InputItemView(
 
@@ -258,10 +256,7 @@ module.exports = class StepView extends View
         inputView.$el.addClass('has-info')
 
     )
-
-    @afterRender()
-    
-
+    return @
 
   afterRender: ->
 
@@ -352,44 +347,10 @@ module.exports = class StepView extends View
 
 
     return @
-    
-
-
-  # inputHandler: (e) ->
-
-  #   $target = $(e.currentTarget)
-
-  #   $parent = $target.parents('.custom-input')
-    
-  #   if $parent.data('exclusive')
-
-  #     if $target.is(':checked') 
-
-  #       @$inputContainers.not($parent).addClass('disabled')
-
-  #     else
-
-  #       @$inputContainers.find('input').not($target).prop('checked', false)
-
-  #       @$inputContainers.not($parent).removeClass('disabled')
-
-  #   else
-
-  #     $exclusive = @$el.find('[data-exclusive="true"]')
-
-  #     if $exclusive.length > 0
-
-  #       if $target.is(':checked')
-
-  #         $exclusive.addClass('disabled')
-
-  #       else
-
-  #         $exclusive.removeClass('disabled')
-
 
 
   hideTips: (e) ->
+
     $('.step-info-tip').removeClass('visible')
 
     $('.custom-input-wrapper').removeClass('selected')

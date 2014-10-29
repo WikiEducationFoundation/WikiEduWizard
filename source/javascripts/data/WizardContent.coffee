@@ -202,7 +202,7 @@ WizardContent = [
   {
     id: "supplementary_assignments"
     title: 'Supplementary assignments'
-    formTitle: 'Choose supplementary assignments:'
+    formTitle: 'Choose supplementary assignments (optional):'
     infoTitle: 'About supplementary assignments'
     instructions: "By the time students have made improvements based on classmates' comments—and ideally suggestions from you as well—they should have produced nearly complete articles. Now is the chance to encourage them to wade a little deeper into Wikipedia and its norms and criteria to create great content. You’ll probably have discussed many of the core principles of Wikipedia—and related issues you want to focus on—but now that they’ve experienced first-hand how Wikipedia works, this is a good time to return to topics like neutrality, media fluency, and the impacts and limits of Wikipedia. Consider bringing in a guest speaker, having a panel discussion, or simply having an open discussion in class about what the students have done so far and why (or whether) it matters."
     sections: [

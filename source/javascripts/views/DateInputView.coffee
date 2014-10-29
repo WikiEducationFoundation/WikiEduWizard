@@ -23,6 +23,10 @@ module.exports = class DateInputView extends Backbone.View
 
     'blur select' : 'blurHandler'
 
+    'mouseover' : 'focusHandler'
+
+    'mouseout' : 'blurHandler'
+
 
   render: ->
 

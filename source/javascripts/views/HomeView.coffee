@@ -42,7 +42,7 @@ module.exports = class HomeView extends View
 
   events: 
 
-    'click .exit-edit' : 'exitEdit'
+    'click .exit-edit' : 'exitEditClickHandler'
 
 
   subscriptions:
@@ -59,7 +59,7 @@ module.exports = class HomeView extends View
 
     'tips:hide' : 'hideAllTips'
 
-    'edit:exit' : 'exitEdit'
+    'edit:exit' : 'onEditExit'
 
 
 
@@ -267,11 +267,15 @@ module.exports = class HomeView extends View
     )
 
 
-  exitEdit: ->
+  onEditExit: ->
 
     $('body').removeClass('edit-mode')
 
-    @updateStep(@StepNav.totalSteps-1)
+
+  exitEditClickHandler: ->
+
+    Backbone.Mediator.publish('edit:exit')
+
 
 
   gotoClickHandler: (index) ->

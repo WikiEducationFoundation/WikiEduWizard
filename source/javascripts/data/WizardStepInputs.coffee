@@ -8,6 +8,7 @@ WizardStepInputs =
       id: 'teacher'
       value: ''
       placeholder: ''
+      required: true
 
     course_name:
       type: 'text'
@@ -15,6 +16,7 @@ WizardStepInputs =
       id: 'course_name'
       value: ''
       placeholder: ''
+      required: true
     
     school:
       type: 'text'
@@ -22,6 +24,7 @@ WizardStepInputs =
       id: 'school'
       value: ''
       placeholder: ''
+      required: true
     
     subject:
       type: 'text'
@@ -29,6 +32,7 @@ WizardStepInputs =
       id: 'subject'
       value: ''
       placeholder: ''
+      required: true
     
     students:
       type: 'text'
@@ -36,6 +40,7 @@ WizardStepInputs =
       id: 'students'
       value: ''
       placeholder: ''
+      required: true
 
     instructor_username:
       label: 'Username (temporary)'
@@ -65,6 +70,7 @@ WizardStepInputs =
       label: 'Research and write an article'
       exclusive: true
       hasCourseInfo: true
+      required: true
       
 
     evaluate:
@@ -148,6 +154,7 @@ WizardStepInputs =
       label: 'Create user account'
       exclusive: false
       disabled: true
+      required: true
     
     enroll:
       # type: 'checkbox'
@@ -156,6 +163,7 @@ WizardStepInputs =
       label: 'Enroll to the course'
       exclusive: false
       disabled: true
+      required: true
 
     complete_training:
       # type: 'checkbox'
@@ -164,6 +172,7 @@ WizardStepInputs =
       label: 'Complete online training'
       disabled: true
       exclusive: false
+      required: true
 
     introduce_ambassadors:
       # type: 'checkbox'
@@ -172,6 +181,7 @@ WizardStepInputs =
       disabled: true
       label: 'Introduce Wikipedia Ambassadors Involved'
       exclusive: false
+      required: true
     
     # include_completion:
     #   type: 'checkbox'
@@ -186,6 +196,7 @@ WizardStepInputs =
       selected: false
       label: 'Completion of training will be graded'
       exclusive: false
+      required: true
 
     training_not_graded:
       type: 'radioBox'
@@ -193,6 +204,7 @@ WizardStepInputs =
       selected: false
       label: 'Completion of training will not be graded'
       exclusive: false
+      required: true
     
   
 
@@ -203,6 +215,7 @@ WizardStepInputs =
       selected: true
       label: 'Critique an article'
       exclusive: false
+      required: true
 
 
     add_to_article:
@@ -211,6 +224,7 @@ WizardStepInputs =
       selected: true
       label: 'Add to an article'
       exclusive: false
+      required: true
 
 
     copy_edit_article:
@@ -219,6 +233,7 @@ WizardStepInputs =
       selected: false
       label: 'Copyedit an article'
       exclusive: false
+      required: true
     
     illustrate_article:
       type: 'checkbox'
@@ -226,6 +241,7 @@ WizardStepInputs =
       selected: false
       label: 'Illustrate an article'
       exclusive: false
+      required: true
   
 
   choosing_articles: 
@@ -236,6 +252,7 @@ WizardStepInputs =
       label: 'Instructor prepares a list'
       exclusive: false
       hasSubChoice: true
+      required: true
       
     students_explore:
       type: 'radioBox'
@@ -244,13 +261,15 @@ WizardStepInputs =
       label: 'Students find articles'
       exclusive: false
       hasSubChoice: true
+      required: true
 
     request_help:
-      type: 'checkbox'
+      #type: 'checkbox'
       id: 'request_help'
       selected: false
       label: 'Would you like help selecting or evaulating article choices?'
       exclusive: false
+      required: false
       conditional_label: 
         prepare_list: "Would you like help selecting articles?"
         students_explore: "Would you like help evaluating student choices?"
@@ -264,6 +283,7 @@ WizardStepInputs =
       selected: false
       label: 'Traditional outline'
       exclusive: false
+      required: true
       tipInfo: 
         title: "Traditional outline"
         content: "For each article, the students create an outline that reflects the improvements they plan to make, and then post it to the article's talk page. This is a relatively easy way to get started."
@@ -272,6 +292,7 @@ WizardStepInputs =
       type: 'radioBox'
       id: 'write_lead'
       selected: false
+      required: true
       label: 'Wikipedia lead section'
       exclusive: false
       tipInfo: 
@@ -289,6 +310,7 @@ WizardStepInputs =
       selected: false
       label: 'Work live from the start'
       exclusive: false
+      required: true
      
     sandbox:
       type: 'radioBox'
@@ -296,6 +318,7 @@ WizardStepInputs =
       selected: false
       label: 'Draft early work in sandboxes'
       exclusive: false
+      required: true
      
 
   peer_feedback: 
@@ -305,6 +328,7 @@ WizardStepInputs =
       label: ''
       value: '2'
       selected: 1
+      required: true
       options: [
         {
           id: 0
@@ -312,6 +336,7 @@ WizardStepInputs =
           label: '1'
           value: '1'
           selected: false
+          required: true
         }
         {
           id: 1
@@ -319,6 +344,7 @@ WizardStepInputs =
           label: '2'
           value: '2'
           selected: true
+          required: true
         }
         {
           id: 2
@@ -326,6 +352,7 @@ WizardStepInputs =
           label: '3'
           value: '3'
           selected: false
+          required: true
         }
         {
           id: 3
@@ -333,6 +360,7 @@ WizardStepInputs =
           label: '4'
           value: '4'
           selected: false
+          required: true
         }
         {
           id: 4
@@ -340,6 +368,7 @@ WizardStepInputs =
           label: '5'
           value: '5'
           selected: false
+          required: true
         }
       ]
     
@@ -350,6 +379,7 @@ WizardStepInputs =
       type: 'checkbox'
       id: 'class_blog'
       selected: false
+      required: false
       label: 'Class blog or discussion'
       exclusive: false
       tipInfo: 
@@ -360,6 +390,7 @@ WizardStepInputs =
       type: 'checkbox'
       id: 'class_presentation'
       selected: false
+      required: false
       label: 'In-class presentations'
       exclusive: false
       tipInfo:  
@@ -370,6 +401,7 @@ WizardStepInputs =
       type: 'checkbox'
       id: 'reflective_essay'
       selected: false
+      required: false
       label: 'Reflective essay'
       exclusive: false
       tipInfo:  
@@ -380,6 +412,7 @@ WizardStepInputs =
       type: 'checkbox'
       id: 'portfolio'
       selected: false
+      required: false
       label: 'Wikipedia portfolio'
       exclusive: false
       tipInfo:  
@@ -390,24 +423,27 @@ WizardStepInputs =
       type: 'checkbox'
       id: 'original_paper'
       selected: false
+      required: false
       label: 'Original analytical paper'
       exclusive: false
       tipInfo:  
         title: 'Original analytical paper'
         content: "In courses that emphasize traditional research skills and the development of original ideas through a term paper, Wikipedia's policy of \"no original research\" may be too restrictive. Many instructors pair Wikipedia writing with complementary analytical paper; students’ Wikipedia articles as a literature review, and the students go on to develop their own ideas and arguments in the offline analytical paper."
       
-    none_of_above:
-      type: 'checkbox'
-      id: 'none_of_above'
-      selected: false
-      label: 'None of the above'
-      exclusive: true
+    # none_of_above:
+    #   type: 'checkbox'
+    #   id: 'none_of_above'
+    #   selected: false
+    #   required: false
+    #   label: 'None of the above'
+    #   exclusive: true
 
   dyk:
     dyk:
       type: 'checkbox'
       id: 'dyk'
       selected: false
+      required: false
       label: 'Did You Know?'
       exclusive: false
 
@@ -416,6 +452,7 @@ WizardStepInputs =
       type: 'checkbox'
       id: 'ga'
       selected: false
+      required: false
       label: 'Good Article nominations'
       exclusive: false
 
