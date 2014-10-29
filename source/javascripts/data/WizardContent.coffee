@@ -317,9 +317,15 @@ WizardContent = [
           </ul>"
         ]
       }
+      
       {
         content: [
-          "<p><textarea id='short_description' rows='8' style='width:100%;'></textarea></p>"
+          "<p><textarea id='short_description' rows='8' style='width:100%;background-color:rgba(242,242,242,1.0);border:1px solid rgba(202,202,202,1.0);'></textarea></p>"
+        ]
+      }
+      {
+        content: [
+          "<div class='step-form-dates'></div>"
         ]
       }
       {

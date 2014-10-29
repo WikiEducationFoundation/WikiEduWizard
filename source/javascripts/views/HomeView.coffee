@@ -101,20 +101,30 @@ module.exports = class HomeView extends View
     
     _views = []
 
+
+
     _.each(application.data,(step, index) =>
 
       newmodel = new StepModel()
 
       _.map(step,(value, key, list) -> 
+
         newmodel.set(key,value)
+
       )
 
       newview = new StepView(
+
         model: newmodel
+
       )
 
       newview.model.set('stepNumber', index + 1)
+
       newview.model.set('stepIndex', index )
+
+      if index is application.data.length - 1
+        newview.isLastStep = true
 
       @$stepsContainer.append(newview.render().hide().el)
 

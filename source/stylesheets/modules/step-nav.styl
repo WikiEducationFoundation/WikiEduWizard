@@ -111,6 +111,9 @@ indicator-inactive-color = rgba(80,90,128.0.5)
       
       span.text
         text-decoration none
+        
+    &.confirm, &.cancel
+      background transparent
     
     
   
@@ -149,19 +152,31 @@ indicator-inactive-color = rgba(80,90,128.0.5)
         cursor pointer
         pointer-events auto
         
+
+        
       &.active, &.visited.active
         background indicator-active-color
         pointer-events auto
+        
+
+ 
 
       &.active
         cursor initial
         pointer-events auto
-      
+        
+ 
+
+
       &.answered
         background-color transparent
         border 2px solid white
         pointer-events auto
         
+
+ 
+        
+
         
       // &:first-child
       //   display none

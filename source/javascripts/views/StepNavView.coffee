@@ -19,6 +19,9 @@ module.exports = class StepNavView extends View
   template: StepNavTemplate
 
 
+  hasBeenToLastStep: false
+
+
   initialize: ->
     
     @currentStep = 0
@@ -33,12 +36,17 @@ module.exports = class StepNavView extends View
     'step:answered' : 'stepAnswered'
 
 
+
   events: ->
     'click .next' : 'nextClickHandler'
 
     'click .prev' : 'prevClickHandler'
 
     'click .dot'  : 'dotClickHandler'
+
+    # 'click .cancel'  : 'cancelClickHandler'
+
+    # 'click .confirm'  : 'confirmClickHandler'
 
 
 
@@ -107,11 +115,19 @@ module.exports = class StepNavView extends View
 
 
   prevClickHandler: ->
-    Backbone.Mediator.publish('step:prev')
+
+    if @isLastStep()
+
+      Backbone.Mediator.publish('step:edit', 'grading')
+
+    else
+
+      Backbone.Mediator.publish('step:prev')
 
 
 
   nextClickHandler: ->
+
     Backbone.Mediator.publish('step:next')
 
 
@@ -121,17 +137,45 @@ module.exports = class StepNavView extends View
 
     $target = $(e.currentTarget)
 
-    Backbone.Mediator.publish('step:goto', $target.data('nav-id'))
+    if @hasBeenToLastStep
 
+      Backbone.Mediator.publish('step:edit', $target.data('step-id'))
+
+    else
+
+      Backbone.Mediator.publish('step:goto', $target.data('nav-id'))
+
+
+  # confirmClickHandler: (e) ->
+  #   e.preventDefault()
+
+  #   $target = $(e.currentTarget)
+
+  #   Backbone.Mediator.publish('step:goto', @totalSteps - 1)
+
+
+  # cancelClickHandler: (e) ->
+  #   e.preventDefault()
+
+  #   $target = $(e.currentTarget)
+
+  #   Backbone.Mediator.publish('step:goto', @totalSteps - 1)
 
 
   updateCurrentStep: (step) ->
+
     @currentStep = step
+
+    if @isLastStep()
+      
+      @hasBeenToLastStep = true
 
     @render()
 
 
+
   stepAnswered: (stepView) ->
+
     @render()
 
 
@@ -139,6 +183,10 @@ module.exports = class StepNavView extends View
   #--------------------------------------------------------
   # Helpers
   #--------------------------------------------------------
+
+  isLastStep: ->
+
+    return @currentStep is @totalSteps - 1
 
   isInactive: (item) ->
 
@@ -150,10 +198,14 @@ module.exports = class StepNavView extends View
 
     else if item == 'next'
 
-      if @currentStep is @totalSteps - 1 || application.homeView.stepViews[@currentStep].hasUserAnswered
+      if application.homeView.stepViews[@currentStep].hasUserAnswered
 
         itIs = false
+
+      else if @isLastStep()
         
+        itIs = true
+
       else
         itIs = true
 

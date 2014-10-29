@@ -458,7 +458,7 @@ WizardStepInputs =
     
     peer_feedback:
       type: 'percent'
-      label: 'Peer Feedback'
+      label: 'Peer feedback'
       id: 'peer_feedback'
       value: 0
       placeholder: ''

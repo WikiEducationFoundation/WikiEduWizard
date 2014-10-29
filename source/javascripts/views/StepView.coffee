@@ -40,8 +40,6 @@ WizardStepInputs = require('../data/WizardStepInputs')
 
 
 
-
-
 module.exports = class StepView extends View
 
 
@@ -75,12 +73,15 @@ module.exports = class StepView extends View
   hasUserVisited: false
 
 
+  isLastStep: false
+
+
   #--------------------------------------------------------
   # EVENTS AND HANDLERS
   #--------------------------------------------------------
 
   events:
-    'click .step-form-inner input' : 'inputHandler'
+    # 'click .step-form-inner input' : 'inputHandler'
 
     'click #publish' : 'publishHandler'
 
@@ -151,23 +152,52 @@ module.exports = class StepView extends View
       @$el.addClass('step--first').html( @introTemplate( @model.attributes ) )
 
       #ADD START/END DATES MODULE
-      $dates = $(@datesModule())
+      $dates = $(@datesModule({title: 'Course dates'}))
 
       $dateInputs = $dates.find('.custom-select')
 
       self = @
 
       $dateInputs.each(->
+
         dateView = new DateInputView(
+
           el: $(this) 
+
         )
+
         dateView.parentStepView = self
     
       )
 
       @$el.find('.step-form-dates').html($dates)
+
+    else if @isLastStep
+
+      @$el.addClass('step--last').html( @template( @model.attributes ) )
+
+      $dates = $(@datesModule({title: 'Assignment timeline'}))
+
+      $dateInputs = $dates.find('.custom-select')
+
+      self = @
+
+      $dateInputs.each(->
+
+        dateView = new DateInputView(
+
+          el: $(this) 
+
+        )
+
+        dateView.parentStepView = self
+      
+      )
+
+      @$el.find('.step-form-dates').html($dates)
       
     else
+
       @$el.html( @template( @model.attributes ) )
 
 
@@ -176,7 +206,6 @@ module.exports = class StepView extends View
     @$tipSection = @$el.find('.step-info-tips')
 
     @inputData = WizardStepInputs[@model.attributes.id] || []
-
 
     _.each(@inputData, (input, index) =>
 
@@ -238,8 +267,6 @@ module.exports = class StepView extends View
 
     @$inputContainers = @$el.find('.custom-input')
 
-    # console.log 'stepview', @model.attributes.id
-
     if @model.attributes.id is 'grading'
 
       @gradingView = new GradingInputView()
@@ -248,10 +275,7 @@ module.exports = class StepView extends View
 
       @$el.find('.step-form-content').append(@gradingView.getInputValues().render().el)
 
-      console.log @gradingView.currentTotal()
-
     return @
-
 
 
   hide: ->
@@ -259,7 +283,6 @@ module.exports = class StepView extends View
     @$el.hide()
 
     return @
-
 
 
   show: ->
@@ -332,37 +355,37 @@ module.exports = class StepView extends View
     
 
 
-  inputHandler: (e) ->
+  # inputHandler: (e) ->
 
-    $target = $(e.currentTarget)
+  #   $target = $(e.currentTarget)
 
-    $parent = $target.parents('.custom-input')
+  #   $parent = $target.parents('.custom-input')
     
-    if $parent.data('exclusive')
+  #   if $parent.data('exclusive')
 
-      if $target.is(':checked') 
+  #     if $target.is(':checked') 
 
-        @$inputContainers.not($parent).addClass('disabled')
+  #       @$inputContainers.not($parent).addClass('disabled')
 
-      else
+  #     else
 
-        @$inputContainers.find('input').not($target).prop('checked', false)
+  #       @$inputContainers.find('input').not($target).prop('checked', false)
 
-        @$inputContainers.not($parent).removeClass('disabled')
+  #       @$inputContainers.not($parent).removeClass('disabled')
 
-    else
+  #   else
 
-      $exclusive = @$el.find('[data-exclusive="true"]')
+  #     $exclusive = @$el.find('[data-exclusive="true"]')
 
-      if $exclusive.length > 0
+  #     if $exclusive.length > 0
 
-        if $target.is(':checked')
+  #       if $target.is(':checked')
 
-          $exclusive.addClass('disabled')
+  #         $exclusive.addClass('disabled')
 
-        else
+  #       else
 
-          $exclusive.removeClass('disabled')
+  #         $exclusive.removeClass('disabled')
 
 
 

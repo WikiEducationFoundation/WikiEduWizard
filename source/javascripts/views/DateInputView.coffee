@@ -10,7 +10,6 @@ WizardStepInputs = require('../data/WizardStepInputs')
 
 
 
-
 module.exports = class DateInputView extends Backbone.View
 
 
@@ -26,19 +25,24 @@ module.exports = class DateInputView extends Backbone.View
 
 
   render: ->
+
     $('body').on 'click', (e) =>
+
       @closeIfNoValue()
 
 
-
   clickHandler: (e) ->
+
     @$el.addClass('open')
 
 
   blurHandler: (e) ->
+
     @closeIfNoValue()
 
+
   focusHandler: (e) ->
+
     @$el.addClass('open')
 
 
@@ -71,12 +75,22 @@ module.exports = class DateInputView extends Backbone.View
 
 
   hasValue: ->
+
     return @$el.find('select').val() != ''
 
+
   closeIfNoValue: ->
+
     if @hasValue()
+
       @$el.addClass('open')
+
     else
+
       @$el.removeClass('open')
+
+
+
+
 
 

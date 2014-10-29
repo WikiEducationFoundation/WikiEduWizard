@@ -18,7 +18,7 @@ module.exports = class GradingInputView extends View
 
   events:
 
-    'input change' : 'inputChangeHandler'
+    'change input' : 'inputChangeHandler'
 
     'click .custom-input--radio-group .radio-button' : 'radioButtonClickHandler'
 
@@ -58,7 +58,19 @@ module.exports = class GradingInputView extends View
 
     @parentStepView.$el.find('input[type="percent"]').each(->
 
-      values.push(($ this).val())
+      curVal = ($ this).val()
+
+      if curVal
+        
+        values.push(curVal)
+
+      else
+
+        ($ this).val(0)
+
+        values.push(0)
+
+
 
     )
 
@@ -71,8 +83,6 @@ module.exports = class GradingInputView extends View
   gradeChangeHandler: (id, value) ->
     
     @getInputValues().render()
-
-
 
 
   radioButtonClickHandler: (e) ->
