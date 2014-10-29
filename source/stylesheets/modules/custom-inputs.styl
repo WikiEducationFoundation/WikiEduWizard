@@ -134,6 +134,56 @@ ci-padding = 20px 70px 20px 45px
     
   label
     line-height 22px
+    
+
+.custom-input-accordian
+  position relative
+  
+  &__header
+    position relative
+    
+    &:before
+      position absolute
+      content ''
+      display block
+      width 25px
+      height 25px
+      left -30px
+      top 0
+      background transparent url(/images/arrow--accordian--white.png) no-repeat center
+      background-size 17px auto
+      transform rotate(-180deg)
+      transition transform 0.08s ease-out
+    
+    
+  &__content
+    transition max-height 0.15s 0.15s ease-out
+    max-height 0
+    overflow hidden
+    margin 0
+    padding-bottom 0
+    
+    
+    ul 
+      margin-top 10px
+      li 
+        font-size 14px
+        line-height 22px
+        letter-spacing 0.05px
+      
+  &:hover
+    transition max-height 0.45s ease-in
+    
+
+    .custom-input-accordian__content
+      max-height 300px
+      
+
+    .custom-input-accordian__header
+      &:before
+        transform rotate(0deg)
+
+
 
 .custom-input--edit
   position relative
@@ -143,11 +193,11 @@ ci-padding = 20px 70px 20px 45px
   color ci-font-color-active
   border-bottom 1px solid ci-checkbox-border-color
   font-size ci-font-size
-  padding ci-padding
+  padding 20px 45px
   cursor pointer
   
   .edit-button
-    position relative
+    transition color 0.15s
     display block
     width 22px
     height 22px
@@ -155,27 +205,23 @@ ci-padding = 20px 70px 20px 45px
     top 20px
     right 43px
     background transparent
-    
+    z-index 100
     font-size 12px
     line-height 22px
     letter-spacing 0.2px
     
-  &:before
-    position absolute
-    content ''
-    display block
-    width 25px
-    height 100%
-    left 15px
-    top 0
-    background transparent url(/images/arrow--accordian--white.png) no-repeat center
-    background-size 17px auto
-    transform rotate(-180deg)
-    transition transform 0.08s ease-out
+    &:hover
+      color blue-dark
     
     
   label
     line-height 22px
+    cursor pointer
+    
+  
+  
+  
+
 
   
 
@@ -413,9 +459,7 @@ ci-padding = 20px 70px 20px 45px
   height 45px
   margin 80px auto 40px
   
-  .step--last &
-    margin: 80px 0 40px
-    max-width 470px
+  
   
   &__label
     @extend .form-content
@@ -445,6 +489,11 @@ ci-padding = 20px 70px 20px 45px
     &.to 
       float right
       text-align right
+      
+
+  .step--last &
+    margin: 50px 0 40px
+    max-width 480px
     
   
   span.dates-to
@@ -516,7 +565,8 @@ ci-padding = 20px 70px 20px 45px
       font-weight bolder
       
 
-      
+    &--day, &--month
+      padding-left 3px
 
     &--year
       width 72px
@@ -536,12 +586,11 @@ textarea
   border-color #C9C9C9
 
 
-
-
-
-
 .custom-input--radiobox
   @extend .custom-input--checkbox
+  
+
+
 
 
 

@@ -89,13 +89,18 @@
 
 {{!-- EDIT --}}
 {{#if type.edit}}
-<div class="custom-input custom-input--edit">
-  <div class="custom-input--edit__inner">
+<div class="custom-input custom-input--edit custom-input-accordian">
+  <a class="edit-button" href="#" data-step-id="{{data.id}}">[edit]</a>
+  <div class="custom-input--edit__inner custom-input-accordian__header">
     <label for="{{data.id}}">{{data.label}}</label>
-    <a class="edit-button" href="#" data-step-id="{{data.id}}">[edit]</a>
+    
   </div>
-  <div class="custom-input--edit__content">
-    <!-- content -->
+  <div class="custom-input--edit__content custom-input-accordian__content">
+    <ul>
+      <li>Assignmment 1</li>
+      <li>Assignmment 1</li>
+      <li>Assignmment 1</li>
+    </ul>
   </div>
 </div>
 {{/if}}

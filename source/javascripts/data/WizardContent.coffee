@@ -305,6 +305,7 @@ WizardContent = [
   {
     id: "overview"
     title: 'Assignment overview'
+    formTitle: ""
     sections: [
       {
         title: 'About the course'
@@ -320,7 +321,7 @@ WizardContent = [
       
       {
         content: [
-          "<p><textarea id='short_description' rows='8' style='width:100%;background-color:rgba(242,242,242,1.0);border:1px solid rgba(202,202,202,1.0);'></textarea></p>"
+          "<p><textarea id='short_description' rows='14' style='width:100%;background-color:rgba(242,242,242,1.0);border:1px solid rgba(202,202,202,1.0);padding:10px 15px;font-size: 16px;line-height 23px;letter-spacing: 0.25px;'></textarea></p>"
         ]
       }
       {

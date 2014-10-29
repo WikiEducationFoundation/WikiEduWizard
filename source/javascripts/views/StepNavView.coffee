@@ -51,6 +51,7 @@ module.exports = class StepNavView extends View
 
 
   render: ->
+
     @$el.html( @template( @getRenderData() ) )
 
     if @currentStep > 0 && @currentStep < @totalSteps - 1
@@ -137,9 +138,18 @@ module.exports = class StepNavView extends View
 
     $target = $(e.currentTarget)
 
+
     if @hasBeenToLastStep
 
-      Backbone.Mediator.publish('step:edit', $target.data('step-id'))
+      
+
+      if parseInt($target.attr('data-nav-id')) == parseInt(@totalSteps - 1)
+
+        Backbone.Mediator.publish('edit:exit')
+
+      else
+
+        Backbone.Mediator.publish('step:edit', $target.data('step-id'))
 
     else
 
@@ -167,7 +177,7 @@ module.exports = class StepNavView extends View
     @currentStep = step
 
     if @isLastStep()
-      
+
       @hasBeenToLastStep = true
 
     @render()

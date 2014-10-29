@@ -332,7 +332,6 @@ li:first-child {
 }
 ul {
   list-style: disc;
-  margin-left: global-margin;
 }
 a {
   color: #fff;
@@ -511,37 +510,19 @@ select {
 .custom-input--percent label {
   line-height: 22px;
 }
-.custom-input--edit {
+.custom-input-accordian {
   position: relative;
-  display: block;
-  width: 100%;
-  min-height: 65px;
-  color: #fff;
-  border-bottom: 1px solid rgba(78,88,127,0.2);
-  font-size: 18px;
-  padding: 20px 70px 20px 45px;
-  cursor: pointer;
 }
-.custom-input--edit .edit-button {
+.custom-input-accordian__header {
   position: relative;
-  display: block;
-  width: 22px;
-  height: 22px;
-  position: absolute;
-  top: 20px;
-  right: 43px;
-  background: transparent;
-  font-size: 12px;
-  line-height: 22px;
-  letter-spacing: 0.2px;
 }
-.custom-input--edit:before {
+.custom-input-accordian__header:before {
   position: absolute;
   content: '';
   display: block;
   width: 25px;
-  height: 100%;
-  left: 15px;
+  height: 25px;
+  left: -30px;
   top: 0;
   background: transparent url("/images/arrow--accordian--white.png") no-repeat center;
   background-size: 17px auto;
@@ -551,8 +532,66 @@ select {
   -webkit-transition: -webkit-transform 0.08s ease-out;
           transition: transform 0.08s ease-out;
 }
+.custom-input-accordian__content {
+  -webkit-transition: max-height 0.15s 0.15s ease-out;
+          transition: max-height 0.15s 0.15s ease-out;
+  max-height: 0;
+  overflow: hidden;
+  margin: 0;
+  padding-bottom: 0;
+}
+.custom-input-accordian__content ul {
+  margin-top: 10px;
+}
+.custom-input-accordian__content ul li {
+  font-size: 14px;
+  line-height: 22px;
+  letter-spacing: 0.05px;
+}
+.custom-input-accordian:hover {
+  -webkit-transition: max-height 0.45s ease-in;
+          transition: max-height 0.45s ease-in;
+}
+.custom-input-accordian:hover .custom-input-accordian__content {
+  max-height: 300px;
+}
+.custom-input-accordian:hover .custom-input-accordian__header:before {
+  -webkit-transform: rotate(0deg);
+      -ms-transform: rotate(0deg);
+          transform: rotate(0deg);
+}
+.custom-input--edit {
+  position: relative;
+  display: block;
+  width: 100%;
+  min-height: 65px;
+  color: #fff;
+  border-bottom: 1px solid rgba(78,88,127,0.2);
+  font-size: 18px;
+  padding: 20px 45px;
+  cursor: pointer;
+}
+.custom-input--edit .edit-button {
+  -webkit-transition: color 0.15s;
+          transition: color 0.15s;
+  display: block;
+  width: 22px;
+  height: 22px;
+  position: absolute;
+  top: 20px;
+  right: 43px;
+  background: transparent;
+  z-index: 100;
+  font-size: 12px;
+  line-height: 22px;
+  letter-spacing: 0.2px;
+}
+.custom-input--edit .edit-button:hover {
+  color: #505a7f;
+}
 .custom-input--edit label {
   line-height: 22px;
+  cursor: pointer;
 }
 .custom-input--checkbox,
 .custom-input--radiobox {
@@ -775,10 +814,6 @@ select {
   height: 45px;
   margin: 80px auto 40px;
 }
-.step--last .custom-input-dates {
-  margin: 80px 0 40px;
-  max-width: 470px;
-}
 .custom-input-dates__label {
   -webkit-transition: top 0.1s ease-out;
           transition: top 0.1s ease-out;
@@ -806,6 +841,10 @@ select {
 .custom-input-dates__inner.to {
   float: right;
   text-align: right;
+}
+.step--last .custom-input-dates {
+  margin: 50px 0 40px;
+  max-width: 480px;
 }
 .custom-input-dates span.dates-to {
   font-size: 18px;
@@ -868,6 +907,10 @@ select {
   z-index: 100;
   text-indent: 0;
   font-weight: bolder;
+}
+.custom-input-dates .custom-select--day,
+.custom-input-dates .custom-select--month {
+  padding-left: 3px;
 }
 .custom-input-dates .custom-select--year {
   width: 72px;
@@ -1319,6 +1362,10 @@ textarea {
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
+}
+.step--last .step-info,
+.step--last .step-info .step-info-tip__inner {
+  padding: 150px 40px 40px 440px;
 }
 .step-info p,
 .step-info .step-info-tip__inner p {

@@ -42,7 +42,7 @@ module.exports = class HomeView extends View
 
   events: 
 
-    'click .exit-edit' : 'exitEditClickHandler'
+    'click .exit-edit' : 'exitEdit'
 
 
   subscriptions:
@@ -58,6 +58,8 @@ module.exports = class HomeView extends View
     'step:edit' : 'editClickHandler'
 
     'tips:hide' : 'hideAllTips'
+
+    'edit:exit' : 'exitEdit'
 
 
 
@@ -255,12 +257,17 @@ module.exports = class HomeView extends View
 
   editClickHandler: (id) ->
     $('body').addClass('edit-mode')
+
     _.each(@stepViews, (view, index) =>
+
       if view.model.id == id
+
         @updateStep(index)
+
     )
 
-  exitEditClickHandler: ->
+
+  exitEdit: ->
 
     $('body').removeClass('edit-mode')
 
