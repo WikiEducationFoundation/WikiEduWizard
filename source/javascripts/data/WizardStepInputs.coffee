@@ -43,15 +43,17 @@ WizardStepInputs =
       value: ''
       placeholder: ''
 
-    start_date:
+    wizard_start_date:
       month: ''
       day: ''
       year: ''
+      value: ''
 
-    end_date:
+    wizard_end_date:
       month: ''
       day: ''
       year: ''
+      value: ''
     
   
 
@@ -66,7 +68,7 @@ WizardStepInputs =
       
 
     evaluate:
-      type: 'checkbox'
+      # type: 'checkbox'
       id: 'evaluate'
       selected: false
       label: 'Evaluate articles'
@@ -76,7 +78,7 @@ WizardStepInputs =
 
     
     multimedia:
-      type: 'checkbox'
+      # type: 'checkbox'
       id: 'multimedia'
       selected: false
       label: 'Add images & multimedia'
@@ -86,7 +88,7 @@ WizardStepInputs =
 
 
     sourcecentered:
-      type: 'checkbox'
+      # type: 'checkbox'
       id: 'sourcecentered'
       selected: false
       label: 'Source-centered additions'
@@ -96,7 +98,7 @@ WizardStepInputs =
   
 
     copyedit: 
-      type: 'checkbox'
+      # type: 'checkbox'
       id: 'copyedit'
       selected: false
       label: 'Copyedit articles'
@@ -106,7 +108,7 @@ WizardStepInputs =
 
 
     findfix:
-      type: 'checkbox'
+      # type: 'checkbox'
       id: 'findfix'
       selected: false
       label: 'Find and fix errors'
@@ -116,7 +118,7 @@ WizardStepInputs =
 
     
     plagiarism:
-      type: 'checkbox'
+      # type: 'checkbox'
       id: 'plagiarism'
       selected: false
       label: 'Identify and fix plagiarism'
@@ -536,25 +538,18 @@ WizardStepInputs =
       value: ''
       placeholder: ''
 
-    start_date:
+
+    wizard_start_date:
       month: ''
       day: ''
       year: ''
 
-    end_date:
+    wizard_end_date:
       month: ''
       day: ''
       year: ''
 
-    course_start_date:
-      month: ''
-      day: ''
-      year: ''
-
-    course_end_date: 
-      month: ''
-      day: ''
-      year: ''
+    
 
 
 

@@ -29,7 +29,6 @@ CourseTipTemplate = require('../templates/steps/info/CourseTipTemplate.hbs')
 WikiDatesModule = require('../templates/steps/modules/WikiDatesModule.hbs')
 
 
-
 #DATA
 CourseInfoData = require('../data/WizardCourseInfo')
 
@@ -156,10 +155,13 @@ module.exports = class StepView extends View
 
       $dateInputs = $dates.find('.custom-select')
 
+      self = @
+
       $dateInputs.each(->
         dateView = new DateInputView(
           el: $(this) 
         )
+        dateView.parentStepView = self
     
       )
 

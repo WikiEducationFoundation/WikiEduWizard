@@ -1,4 +1,4 @@
-\{{course details | course_name = {{intro.course_name.value}} | instructor_username = {{intro.instructor_username.value}} | instructor_realname = {{intro.teacher.value}} | subject = {{intro.subject.value}} | start_date = {{intro.start_date.value}} | end_date = {{intro.end_date.value}} | institution = {{intro.school.value}} | expected_students = {{intro.students.value}} }}
+\{{course details | course_name = {{intro.course_name.value}} | instructor_username = {{intro.instructor_username.value}} | instructor_realname = {{intro.teacher.value}} | subject = {{intro.subject.value}} | start_date = {{intro.wizard_start_date.value}} | end_date = {{intro.wizard_end_date.value}} | institution = {{intro.school.value}} | expected_students = {{intro.students.value}} }}
 
 {{description}}
 
@@ -88,7 +88,7 @@
 
 \{{assignment | due = Week 8 }}
 \{{subst:Wikipedia:Education program/Assignment Design Wizard/Move to main space}}
-{{#if dyk_ga.dyk.selected}}
+{{#if dyk.dyk.selected}}
 \{{subst:Wikipedia:Education program/Assignment Design Wizard/DYK nominations}}
 {{/if}}
 \{{subst:Wikipedia:Education program/Assignment Design Wizard/Expand your article}}
@@ -153,7 +153,7 @@
 
 \{{assignment grading | Completion of Wikipedia training | 1 point | "Practice on-wiki communication" exercise | 1 point | "Copyedit an article" exercise | 1 point | "Evaluate an article" exercise" | 1 point | "Add to an article" exercise | 1 point | "Illustrate an article" exercise | 1 point | Quality of bibliography and outline | 2 points | Peer reviews and collaboration with classmates | 2 points | Participation in class discussions | 2 points | Quality of your main Wikipedia contributions | 10 points | Reflective essay | 2 points | Original argument paper | 10 points | In-class presentation of contributions | 2 points}}
 
-\{{course options | {{#if dyk_ga.dyk.selected}} interested_in_DYK = yes {{else}} interested_in_DYK = no {{/if}} | {{#if dyk_ga.ga.selected}} interested_in_Good_Articles = yes {{else}} interested_in_Good_Articles = no {{/if}} {{#if choosing_articles.prepare_list.selected }} {{#if choosing_articles.request_help.selected}} | want_help_finding_articles = yes {{/if}} {{/if}} {{#if choosing_articles.students_explore.selected}} {{#if choosing_articles.request_help.selected }} | want_help_evaluating_articles = yes {{/if}} {{/if}} }}
+\{{course options | {{#if dyk.dyk.selected}} interested_in_DYK = yes {{else}} interested_in_DYK = no {{/if}} | {{#if ga.ga.selected}} interested_in_Good_Articles = yes {{else}} interested_in_Good_Articles = no {{/if}} {{#if choosing_articles.prepare_list.selected }} {{#if choosing_articles.request_help.selected}} | want_help_finding_articles = yes {{/if}} {{/if}} {{#if choosing_articles.students_explore.selected}} {{#if choosing_articles.request_help.selected }} | want_help_evaluating_articles = yes {{/if}} {{/if}} }}
 
 
 

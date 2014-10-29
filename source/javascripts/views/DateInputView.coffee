@@ -1,4 +1,13 @@
 
+# APP
+application = require( '../App' )
+
+#TEMPALTE
+WikiDatesModule = require('../templates/steps/modules/WikiDatesModule.hbs')
+
+#INPUTS
+WizardStepInputs = require('../data/WizardStepInputs')
+
 
 
 
@@ -34,7 +43,30 @@ module.exports = class DateInputView extends Backbone.View
 
 
   changeHandler: (e) ->
+
     @closeIfNoValue()
+
+    $target = ($ e.currentTarget)
+
+    id = $target.attr('data-date-id')
+
+    type = $target.attr('data-date-type')
+
+    value = $target.val()
+
+    WizardStepInputs[@parentStepView.stepId()][id][type] = value
+
+    m = WizardStepInputs[@parentStepView.stepId()][id]['month']
+
+    d = WizardStepInputs[@parentStepView.stepId()][id]['day']
+
+    y = WizardStepInputs[@parentStepView.stepId()][id]['year']
+
+    dateValue = "#{y}-#{m}-#{d}"
+
+    WizardStepInputs[@parentStepView.stepId()][id].value = dateValue
+
+    return @
 
 
 
@@ -46,3 +78,5 @@ module.exports = class DateInputView extends Backbone.View
       @$el.addClass('open')
     else
       @$el.removeClass('open')
+
+

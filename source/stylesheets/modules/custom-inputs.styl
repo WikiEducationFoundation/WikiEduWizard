@@ -144,6 +144,7 @@ ci-padding = 20px 70px 20px 45px
   border-bottom 1px solid ci-checkbox-border-color
   font-size ci-font-size
   padding ci-padding
+  cursor pointer
   
   .edit-button
     position relative
@@ -159,10 +160,18 @@ ci-padding = 20px 70px 20px 45px
     line-height 22px
     letter-spacing 0.2px
     
-    &:before
-      content: '['
-    &:after
-      content: ']'
+  &:before
+    position absolute
+    content ''
+    display block
+    width 25px
+    height 100%
+    left 15px
+    top 0
+    background transparent url(/images/arrow--accordian--white.png) no-repeat center
+    background-size 17px auto
+    transform rotate(-180deg)
+    transition transform 0.08s ease-out
     
     
   label

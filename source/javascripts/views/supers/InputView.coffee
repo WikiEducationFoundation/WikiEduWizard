@@ -84,6 +84,8 @@ module.exports = class InputItemView extends View
 
     if $parentEl.hasClass('checked')
 
+      Backbone.Mediator.publish('tips:hide')
+
       return false
 
     else
@@ -99,9 +101,6 @@ module.exports = class InputItemView extends View
       $inputEl.prop('checked', true)
 
       $inputEl.trigger('change')
-
-
-    # Backbone.Mediator.publish('tips:hide')
 
 
 
@@ -137,7 +136,9 @@ module.exports = class InputItemView extends View
 
       @$inputEl.trigger('change')
 
-    # Backbone.Mediator.publish('tips:hide')
+      Backbone.Mediator.publish('tips:hide')
+
+
 
 
   checkButtonClickHandler: (e) ->
@@ -171,7 +172,8 @@ module.exports = class InputItemView extends View
 
       @$inputEl.trigger('change')
 
-    # Backbone.Mediator.publish('tips:hide')
+      Backbone.Mediator.publish('tips:hide')
+
 
 
   hoverHandler: (e) ->

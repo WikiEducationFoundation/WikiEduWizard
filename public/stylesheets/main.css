@@ -517,6 +517,7 @@ select {
   border-bottom: 1px solid rgba(78,88,127,0.2);
   font-size: 18px;
   padding: 20px 70px 20px 45px;
+  cursor: pointer;
 }
 .custom-input--edit .edit-button {
   position: relative;
@@ -531,11 +532,21 @@ select {
   line-height: 22px;
   letter-spacing: 0.2px;
 }
-.custom-input--edit .edit-button:before {
-  content: '[';
-}
-.custom-input--edit .edit-button:after {
-  content: ']';
+.custom-input--edit:before {
+  position: absolute;
+  content: '';
+  display: block;
+  width: 25px;
+  height: 100%;
+  left: 15px;
+  top: 0;
+  background: transparent url("/images/arrow--accordian--white.png") no-repeat center;
+  background-size: 17px auto;
+  -webkit-transform: rotate(-180deg);
+      -ms-transform: rotate(-180deg);
+          transform: rotate(-180deg);
+  -webkit-transition: -webkit-transform 0.08s ease-out;
+          transition: transform 0.08s ease-out;
 }
 .custom-input--edit label {
   line-height: 22px;

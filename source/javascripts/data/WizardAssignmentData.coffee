@@ -1,1 +1,3 @@
-module.exports = WizardAssignmentData = []
+module.exports = WizardAssignmentData = {
+
+}
