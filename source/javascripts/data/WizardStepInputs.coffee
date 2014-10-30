@@ -326,28 +326,28 @@ WizardStepInputs =
       type: 'radioGroup'
       id: 'peer_reviews'
       label: ''
-      value: '2'
+      value: 'two'
       selected: 1
       options: [
         {
           id: 0
           name: 'peer_reviews'
           label: '1'
-          value: '1'
+          value: 'one'
           selected: false
         }
         {
           id: 1
           name: 'peer_reviews'
           label: '2'
-          value: '2'
+          value: 'two'
           selected: true
         }
         {
           id: 2
           name: 'peer_reviews'
           label: '3'
-          value: '3'
+          value: 'three'
           selected: false
 
         }
@@ -355,7 +355,7 @@ WizardStepInputs =
           id: 3
           name: 'peer_reviews'
           label: '4'
-          value: '4'
+          value: 'four'
           selected: false
 
         }
@@ -363,7 +363,7 @@ WizardStepInputs =
           id: 4
           name: 'peer_reviews'
           label: '5'
-          value: '5'
+          value: 'five'
           selected: false
     
         }

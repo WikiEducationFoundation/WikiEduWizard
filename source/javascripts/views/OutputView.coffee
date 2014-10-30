@@ -3,23 +3,32 @@
 #APP
 application = require( '../App' )
 
-
 # SUPER VIEW CLASS
 View = require('../views/supers/View')
 
 #TEMPLATES
 WikiOutputTemplate = require('../templates/steps/output/WikiOutputTemplate.hbs')
-
+CourseDetailsTempalte = require('../templates/steps/output/CourseDetailsTemplate.hbs')
+GradingTemplate = require('../templates/steps/output/GradingTemplate.hbs')
+CourseOptionsTemplate = require('../templates/steps/output/CourseOptionsTemplate.hbs')
 
 
 #CONFIG DATA
 WizardStepInputs = require('../data/WizardStepInputs')
 
 
+
 module.exports = class InputItemView extends View 
 
 
   template: WikiOutputTemplate
+
+
+  detailsTemplate: CourseDetailsTempalte
+
+  gradingTemplate: GradingTemplate
+
+  optionsTemplate: CourseOptionsTemplate
 
 
   subscriptions:
@@ -45,18 +54,27 @@ module.exports = class InputItemView extends View
 
   populateOutput: ->
 
-    return @template( @getRenderData() )
+    detailsOutput = @$el.html(@detailsTemplate(@getRenderData())).text()
+
+    rawAssignmentOutput = @$el.html(@template(@getRenderData())).text()
+
+    assignmentOutput = rawAssignmentOutput.replace(/(\r\n|\n|\r)/gm,"")
+
+    gradingOutput = @$el.html(@gradingTemplate(@getRenderData())).text()
+
+    optionsOutput = @$el.html(@optionsTemplate(@getRenderData())).text()
+
+    courseOut = detailsOutput + assignmentOutput + gradingOutput + optionsOutput
+    
+    return courseOut
 
 
   getRenderData: ->
 
-    return _.extend(WizardStepInputs,{ description: $('#short_description').val()})
+    return _.extend(WizardStepInputs,{ description: $('#short_description').val(), lineBreak: '<br/>'})
 
 
   exportData: (formData) ->
-
-    outData = formData.replace(/(\r\n|\n|\r)/gm,"")
-  
 
     $.ajax(
 
@@ -66,7 +84,7 @@ module.exports = class InputItemView extends View
 
       data:
 
-        wikitext: outData
+        wikitext: formData
 
         course_title: WizardStepInputs.intro.course_name.value
 
@@ -97,6 +115,8 @@ module.exports = class InputItemView extends View
     if WizardStepInputs.intro.course_name.value.length > 0 
 
       $('#publish').addClass('processing')
+
+      # @exportData(@$el.html(@populateOutput()).text())
 
       @exportData(@populateOutput())
 

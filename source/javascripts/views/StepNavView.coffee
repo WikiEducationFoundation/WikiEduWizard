@@ -38,18 +38,12 @@ module.exports = class StepNavView extends View
     'edit:exit' : 'editExitHandler'
 
 
-
   events: ->
     'click .next' : 'nextClickHandler'
 
     'click .prev' : 'prevClickHandler'
 
     'click .dot'  : 'dotClickHandler'
-
-    # 'click .cancel'  : 'cancelClickHandler'
-
-    # 'click .confirm'  : 'confirmClickHandler'
-
 
 
   render: ->
@@ -75,7 +69,6 @@ module.exports = class StepNavView extends View
       @$el.addClass('hidden')
 
     @afterRender()
-
 
 
   getRenderData: ->

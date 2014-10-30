@@ -25,4 +25,5 @@ module.exports = class HomeView extends View
   template: LoginTemplate
 
   getRenderData: ->
+    
     return WizardContent[0]

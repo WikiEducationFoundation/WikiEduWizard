@@ -4,6 +4,7 @@
 # Author: kevin@wintr.us @ WINTR
 #########################################################
 
+
 Handlebars.registerHelper( 'link', ( text, url ) ->
 
   text = Handlebars.Utils.escapeExpression( text )
@@ -13,3 +14,5 @@ Handlebars.registerHelper( 'link', ( text, url ) ->
 
   return new Handlebars.SafeString( result )
 )
+
+Handlebars.registerPartial('courseDetails', 'sup2')

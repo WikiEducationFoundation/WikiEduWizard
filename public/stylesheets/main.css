@@ -1192,7 +1192,6 @@ textarea {
 }
 .step-nav__button.inactive {
   cursor: default;
-  pointer-events: none;
   color: rgba(255,255,225,0.25);
 }
 .step-nav__button:first-child {
