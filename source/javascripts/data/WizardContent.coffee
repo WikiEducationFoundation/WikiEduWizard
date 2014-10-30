@@ -35,7 +35,7 @@ WizardContent = [
   {
     id: "learning_essentials"
     title: 'Wikipedia essentials'
-    formTitle: 'Choose one or more:'
+    formTitle: 'Choose one:'
     infoTitle: 'About Wikipedia essentials'
     instructions: "To get started, you'll want to introduce your students to the basic rules of writing Wikipedia articles and working with the Wikipedia community. As their first Wikipedia assignment milestone, you can ask the students to create accounts and then complete the ''online training for students''. This training introduces the Wikipedia community and how it works, demonstrates the basics of editing and walks students through their first edits, gives advice for selecting articles and drafting revisions, and explains further sources of support as they continue along. It takes about an hour and ends with a certification step, which you can use to verify that students completed the training."
     inputs: []

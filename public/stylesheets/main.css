@@ -1385,10 +1385,6 @@ textarea {
   color: #4f4f4f;
   background: #fff;
   z-index: 1;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
 }
 .step--last .step-info,
 .step--last .step-info .step-info-tip__inner {
