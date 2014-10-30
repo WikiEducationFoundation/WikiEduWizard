@@ -312,6 +312,12 @@ module.exports = class StepView extends View
 
     requiredSelected = false
 
+    if type is 'percent'
+
+      @hasUserAnswered = true
+
+      return @
+
 
     _.each(inputItems, (item) =>
 
@@ -334,10 +340,6 @@ module.exports = class StepView extends View
       @hasUserAnswered = true
 
     else if type is 'radioGroup' or type is 'radioBox'
-
-      @hasUserAnswered = true
-
-    else if type is 'percent'
 
       @hasUserAnswered = true
 

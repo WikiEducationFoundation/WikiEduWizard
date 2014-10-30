@@ -452,6 +452,7 @@ WizardStepInputs =
       required: false
       label: 'Good Article nominations'
       exclusive: false
+      
 
   grading: 
     learning_essentials:
@@ -460,6 +461,7 @@ WizardStepInputs =
       id: 'learning_essentials'
       value: 5
       placeholder: ''
+      renderInOutput: true
     
     getting_started:
       type: 'percent'
@@ -467,6 +469,7 @@ WizardStepInputs =
       id: 'getting_started'
       value: 0
       placeholder: ''
+      renderInOutput: true
     
     choosing_articles:
       type: 'percent'
@@ -474,6 +477,7 @@ WizardStepInputs =
       id: 'choosing_articles'
       value: 0
       placeholder: ''
+      renderInOutput: true
     
     research_planning:
       type: 'percent'
@@ -481,6 +485,7 @@ WizardStepInputs =
       id: 'research_planning'
       value: 0
       placeholder: ''
+      renderInOutput: true
     
     drafts_mainspace:
       type: 'percent'
@@ -488,6 +493,7 @@ WizardStepInputs =
       id: 'drafts_mainspace'
       value: 0
       placeholder: ''
+      renderInOutput: true
     
     peer_feedback:
       type: 'percent'
@@ -495,6 +501,7 @@ WizardStepInputs =
       id: 'peer_feedback'
       value: 0
       placeholder: ''
+      renderInOutput: true
     
     supplementary_assignments:
       type: 'percent'
@@ -502,11 +509,13 @@ WizardStepInputs =
       id: 'supplementary_assignments'
       value: 0 
       placeholder: ''
+      renderInOutput: true
 
     grading_selection:
       label: 'Grading based on:'
       id: 'grading_selection'
       value: ''
+      renderInOutput: false
       options: 
         percent: 
           label: 'Percentage'

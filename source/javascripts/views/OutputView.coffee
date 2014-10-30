@@ -55,6 +55,9 @@ module.exports = class InputItemView extends View
 
   exportData: (formData) ->
 
+    outData = formData.replace(/(\r\n|\n|\r)/gm,"")
+  
+
     $.ajax(
 
       type: 'POST'
@@ -63,7 +66,7 @@ module.exports = class InputItemView extends View
 
       data:
 
-        wikitext: formData
+        wikitext: outData
 
         course_title: WizardStepInputs.intro.course_name.value
 

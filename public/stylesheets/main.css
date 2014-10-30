@@ -990,6 +990,7 @@ textarea {
   color: #e36945;
 }
 .custom-input-grading .custom-input-grading-selection {
+  display: none;
   position: relative;
   padding: 0 45px;
 }
@@ -1191,6 +1192,7 @@ textarea {
 }
 .step-nav__button.inactive {
   cursor: default;
+  pointer-events: none;
   color: rgba(255,255,225,0.25);
 }
 .step-nav__button:first-child {
