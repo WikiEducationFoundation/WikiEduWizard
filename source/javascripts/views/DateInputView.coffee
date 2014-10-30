@@ -27,6 +27,11 @@ module.exports = class DateInputView extends Backbone.View
 
     'mouseout' : 'blurHandler'
 
+  m: ''
+  d: ''
+  y: ''
+  dateValue: ''
+
 
   render: ->
 
@@ -64,15 +69,17 @@ module.exports = class DateInputView extends Backbone.View
 
     WizardStepInputs[@parentStepView.stepId()][id][type] = value
 
-    m = WizardStepInputs[@parentStepView.stepId()][id]['month']
+    @m = WizardStepInputs[@parentStepView.stepId()][id]['month']
 
-    d = WizardStepInputs[@parentStepView.stepId()][id]['day']
+    @d = WizardStepInputs[@parentStepView.stepId()][id]['day']
 
-    y = WizardStepInputs[@parentStepView.stepId()][id]['year']
+    @y = WizardStepInputs[@parentStepView.stepId()][id]['year']
 
-    dateValue = "#{y}-#{m}-#{d}"
+    @dateValue = "#{@y}-#{@m}-#{@d}"
 
-    WizardStepInputs[@parentStepView.stepId()][id].value = dateValue
+    WizardStepInputs[@parentStepView.stepId()][id].value = @dateValue
+
+    Backbone.Mediator.publish('date:change', @)
 
     return @
 
@@ -92,6 +99,15 @@ module.exports = class DateInputView extends Backbone.View
     else
 
       @$el.removeClass('open')
+
+
+  isValid: ->
+    isIt = false
+
+    if @m != '' and @d != '' and @y != ''
+      isIt = true
+
+    return isIt
 
 
 

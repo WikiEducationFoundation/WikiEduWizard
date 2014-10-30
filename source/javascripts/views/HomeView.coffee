@@ -131,6 +131,8 @@ module.exports = class HomeView extends View
 
       if index is application.data.length - 1
         newview.isLastStep = true
+      else if index is 0
+        newview.isFirstStep = true
 
       @$stepsContainer.append(newview.render().hide().el)
 

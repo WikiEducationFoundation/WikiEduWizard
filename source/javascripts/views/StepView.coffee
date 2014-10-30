@@ -76,6 +76,9 @@ module.exports = class StepView extends View
   isLastStep: false
 
 
+  isFirstStep: false
+
+
   #--------------------------------------------------------
   # EVENTS AND HANDLERS
   #--------------------------------------------------------
@@ -92,11 +95,13 @@ module.exports = class StepView extends View
 
     'click .edit-button' : 'editClickHandler'
 
-    'click .step-info-tip' : 'hideTips'
+    # 'click .step-info-tip' : 'hideTips'
 
   subscriptions: 
 
     'tips:hide' : 'hideTips'
+
+    'date:change' : 'isIntroValid'
 
 
 
@@ -111,6 +116,26 @@ module.exports = class StepView extends View
   stepId: ->
 
     return @model.attributes.id
+
+
+  validateDates: (dateView) ->
+
+    unless @isFirstStep or @isLastStep
+
+      return false
+
+    datesAreValid = false
+
+    _.each(@dateViews, (dateView) =>
+      if dateView.isValid()
+        datesAreValid = true
+      else 
+        datesAreValid = false
+    )
+
+    return datesAreValid
+
+
 
 
 
@@ -130,9 +155,11 @@ module.exports = class StepView extends View
 
     @tipVisible = false
 
-    if @model.get('stepNumber') == 1
+    if @isFirstStep
 
       @_renderStepType('first')
+
+
 
     else if @isLastStep
 
@@ -160,6 +187,8 @@ module.exports = class StepView extends View
         @$el.addClass('step--first').html( @introTemplate( @model.attributes ) )
 
         dateTitle = 'Course dates'
+
+        @$beginButton = @$el.find('a#beginButton')
 
       else
 
@@ -312,6 +341,8 @@ module.exports = class StepView extends View
 
     requiredSelected = false
 
+
+
     if type is 'percent'
 
       @hasUserAnswered = true
@@ -343,24 +374,66 @@ module.exports = class StepView extends View
 
       @hasUserAnswered = true
 
+    else if type is 'text'
+
+      if @isFirstStep
+
+        _.each(inputItems, (item) =>
+
+          if item.type is 'text'
+
+            if item.required is true
+
+              if item.value != ''
+
+                requiredSelected = true
+
+              else 
+
+                requiredSelected = false
+
+        )
+
+        if requiredSelected
+
+          @hasUserAnswered = true
+
+        else 
+
+          @hasUserAnswered = false
+
+        @isIntroValid()
+
+
     else 
 
       @hasUserAnswered = false
-   
-
-    
-    # if value is 'on'
-
-    #   @hasUserAnswered = true
-
-    # else if value is 'off'
-
-    #   @hasUserAnswered = false
-
+  
 
     Backbone.Mediator.publish('step:answered', @)
 
     return @
+
+
+
+  isIntroValid: ->
+
+    unless @isFirstStep or @isLastStep
+
+      return false
+
+    if @isFirstStep
+
+      if @hasUserAnswered and @validateDates()
+
+        @$beginButton.removeClass('inactive')
+
+      else
+
+        @$beginButton.addClass('inactive')
+
+
+
 
   updateRadioAnswer: (id, index, value) ->
 

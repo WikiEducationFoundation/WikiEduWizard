@@ -49,16 +49,20 @@ WizardStepInputs =
       placeholder: ''
 
     wizard_start_date:
+      isDate: true
       month: ''
       day: ''
       year: ''
       value: ''
+      required: true
 
     wizard_end_date:
+      isDate: true
       month: ''
       day: ''
       year: ''
       value: ''
+      required: true
     
   
 
