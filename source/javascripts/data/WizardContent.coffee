@@ -79,6 +79,11 @@ WizardContent = [
           </ul>'
         ]
       }
+      {
+        content: [
+          '<p>For most courses, the <em>Critique an article</em> and <em>Add to an article</em> exercises provide a nice foundation for the main writing project. These have been selected by default.</p>'
+        ]
+      }
     ]
   }
   {
@@ -145,7 +150,7 @@ WizardContent = [
     title: 'Research and planning'
     formTitle: 'How should students plan their articles?'
     infoTitle: 'About research and planning'
-    instructions:  "Students often wait until the last minute to do their research, or choose sources unsuited for Wikipedia. That's why we recommend asking students to put together a bibliography of materials they want to use in editing the article, which can then be assessed by you and other Wikipedians."
+    instructions:  "Students often wait until the last minute to do their research, or choose sources unsuitable for Wikipedia. That's why we recommend asking students to put together a bibliography of materials they want to use in editing the article, which can then be assessed by you and other Wikipedians."
     sections: [
       {
         title: ''
