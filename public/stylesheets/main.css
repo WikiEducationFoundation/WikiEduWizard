@@ -947,6 +947,23 @@ select {
   border: 2px solid #fff;
   border-radius: 18px;
 }
+.custom-input--radio .radio-button:before {
+  -webkit-transition: -webkit-transform 0.1s;
+          transition: transform 0.1s;
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 8px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -4px;
+  margin-top: -4px;
+  background: #fff;
+  -webkit-transform: scale(0);
+      -ms-transform: scale(0);
+          transform: scale(0);
+}
 .custom-input--radio input {
   display: none;
   cursor: pointer;
@@ -1015,8 +1032,10 @@ select {
       -ms-transform: scale(1);
           transform: scale(1);
 }
-.custom-input-wrapper .custom-input--radio.checked .radio-button {
-  background-color: #fff;
+.custom-input-wrapper .custom-input--radio.checked .radio-button:before {
+  -webkit-transform: scale(1);
+      -ms-transform: scale(1);
+          transform: scale(1);
 }
 .custom-input-wrapper .custom-input--checkbox.checked .check-button:before {
   -webkit-transform: scale(1);
@@ -1451,7 +1470,7 @@ textarea {
 .step-nav__button.inactive {
   cursor: default;
   color: rgba(255,255,225,0.25);
-  pointer-events: none;
+  pointer-events: auto;
 }
 .step-nav__button:first-child {
   border-right: 1px solid rgba(78,88,127,0.2);
