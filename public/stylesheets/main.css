@@ -482,7 +482,7 @@ select {
 .button.inactive {
   background-color: #636c8e;
   color: #a6abbf;
-  pointer-events: auto;
+  pointer-events: none;
 }
 .input-info {
   position: relative;
@@ -1410,7 +1410,7 @@ textarea {
 .step-nav__button.inactive {
   cursor: default;
   color: rgba(255,255,225,0.25);
-  pointer-events: auto;
+  pointer-events: none;
 }
 .step-nav__button:first-child {
   border-right: 1px solid rgba(78,88,127,0.2);
