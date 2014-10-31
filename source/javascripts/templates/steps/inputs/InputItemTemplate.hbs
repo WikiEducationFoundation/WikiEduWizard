@@ -14,6 +14,7 @@
   <label for="{{data.id}}"><span>{{data.label}}</span></label>
   <input name="{{data.id}}" type="checkbox" id="{{data.id}}" {{#if data.selected}} checked {{/if}}  />
   <a class="check-button" href="#"></a>
+  <div class="info-icon"></div>
 </div>
 {{/if}}
 
@@ -26,6 +27,7 @@
   <label for="{{data.id}}"><span>{{data.label}}</span></label>
   <input name="{{data.id}}" type="radio" id="{{data.id}}" {{#if data.selected}} checked {{/if}}  />
   <a class="radio-button" href="#"></a>
+  <div class="info-icon"></div>
 </div>
 {{/if}}
 
@@ -119,8 +121,10 @@
 
 {{!-- LINK --}}
 {{#if type.link}}
+<div class="info-arrow"></div>
 <div class="custom-input custom-input--link">
   <label><a href="{{data.href}}" >{{data.label}}</a></label>
+  <div class="info-icon"></div>
 </div>
 {{/if}}
 

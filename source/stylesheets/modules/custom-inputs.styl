@@ -1,3 +1,45 @@
+input-font-size = 18px
+
+input-height = auto
+
+input-font-color = white
+
+input-font-color-inactive = rgba(255,255,255,0.1)
+
+input-padding-left-right = 40px
+
+input-padding-top-bottom = 15px
+
+input-padding-left-right--alt = 65px
+
+input-border-color = rgba(78,88,127,0.2)
+
+input-background--active = rgba(105,114,148,1.0)
+
+input-background = #858daa
+
+input-percent-width = 26px
+
+
+
+check-radio-padding = input-padding-top-bottom input-padding-left-right--alt input-padding-top-bottom input-padding-left-right
+
+text-input-height = 60px
+
+text-input-margin-top-bottom = 10px
+
+text-input-padding-left-right = input-padding-left-right
+
+info-link-height = 60px
+
+accordian-list-margin-top = 10px
+
+accordian-list-font-size = 14px
+
+accordian-list-line-height = 22px
+
+
+
 
 
 .custom-input 
@@ -11,16 +53,16 @@
   position relative
   border-bottom 1px solid blue-border
   width 100%
-  height 60px
-  margin 10px auto
+  height text-input-height
+  margin text-input-margin-top-bottom auto
   padding 0
   
   .custom-input--text__inner
     position relative
     width 100%
     height 100%
-    padding-left padding-left-right
-    padding-right padding-left-right
+    padding-left text-input-padding-left-right
+    padding-right text-input-padding-left-rightt
     
   
   label
@@ -50,44 +92,37 @@
     line-height 30px  
     padding 0 5px
   
-  
-  
+
   .custom-input-wrapper.open &
     label
       top 0px
       
+
+      
 .custom-input--link
+  @extend .custom-input--checkbox
   color white
   position relative
   width 100%
-  height 60px
-  padding 30px padding-left-right 0
+  height auto
+  padding 0 input-padding-left-right 0
   font-size 14px
+  line-height text-input-padding-left-right
   text-decoration underline
-    
-
-
-
-ci-font-size = 18px
-ci-checkbox-height = 65px
-ci-line-height = 21px //ci-checkbox-height
-ci-checkbox-border-color = rgba(78,88,127,0.2)
-ci-checkbox-background-active = rgba(105,114,148,1.0)
-ci-font-color-active = white
-ci-font-color-inactive = rgba(255,255,255,0.1)
-ci-padding = 20px 70px 20px padding-left-right
-
+  background-color input-background
+  z-index 1
+  
 
 .custom-input--percent
   position relative
   display block
   width 100%
-  min-height 65px
+  min-height input-height
   color white
   border-bottom 1px solid rgba(78,88,127,0.2)
   font-size 17px
   
-  padding 20px 70px 20px padding-left-right
+  padding check-radio-padding
   
   
   &:before
@@ -97,7 +132,7 @@ ci-padding = 20px 70px 20px padding-left-right
     height 22px
     position absolute
     top 20px
-    right 43px
+    right input-padding-left-right
     background transparent url(/images/percent.svg) no-repeat center center
     
   
@@ -126,7 +161,7 @@ ci-padding = 20px 70px 20px padding-left-right
     position relative
     background transparent
     color white
-    width 26px
+    width input-percent-width
     display inline-block
     border none
     outline none
@@ -167,10 +202,10 @@ ci-padding = 20px 70px 20px padding-left-right
     
     
     ul 
-      margin-top 10px
+      margin-top accordian-list-margin-top
       li 
-        font-size 14px
-        line-height 22px
+        font-size accordian-list-font-size
+        line-height accordian-list-line-height
         letter-spacing 0.05px
       
   &:hover
@@ -187,15 +222,16 @@ ci-padding = 20px 70px 20px padding-left-right
 
 
 
+
 .custom-input--edit
   position relative
   display block
   width 100%
-  min-height ci-checkbox-height
-  color ci-font-color-active
-  border-bottom 1px solid ci-checkbox-border-color
-  font-size ci-font-size
-  padding 20px padding-left-right
+  min-height input-height
+  color input-font-color
+  border-bottom 1px solid input-border-color
+  font-size input-font-size
+  padding input-padding-top-bottom input-padding-left-right
   cursor pointer
   
   .edit-button
@@ -225,17 +261,15 @@ ci-padding = 20px 70px 20px padding-left-right
   
 
 
-  
-
 .custom-input--checkbox
   position relative
   display table
   width 100%
-  min-height ci-checkbox-height
-  color ci-font-color-active
-  border-bottom 1px solid ci-checkbox-border-color
-  font-size ci-font-size
-  padding ci-padding
+  min-height input-height
+  color input-font-color
+  border-bottom 1px solid input-border-color
+  font-size input-font-size
+  padding check-radio-padding
   
 
   label
@@ -274,7 +308,7 @@ ci-padding = 20px 70px 20px padding-left-right
     width 18px
     height 18px
     top 50%
-    right padding-left-right
+    right input-padding-left-right
     margin-top -8px
     background-color transparent
     box-sizing border-box
@@ -296,9 +330,9 @@ ci-padding = 20px 70px 20px padding-left-right
   display table
   width 100%
   min-height 65px
-  color ci-font-color-active
-  font-size ci-font-size
-  padding ci-padding
+  color input-font-color
+  font-size input-font-size
+  padding check-radio-padding
   line-height 1
   
   .radio-button
@@ -308,7 +342,7 @@ ci-padding = 20px 70px 20px padding-left-right
     width 18px
     height 18px
     top 50%
-    right padding-left-right
+    right input-padding-left-right
     margin-top -8px
     background-color transparent
     box-sizing border-box
@@ -326,20 +360,22 @@ ci-padding = 20px 70px 20px padding-left-right
     cursor pointer
     line-height 1.2
     
+    
   
   &.custom-input--radio-group
     position relative
     display inline-block
-    width 62px
+    width 58px
     border none
     padding 0
     text-align center
     
     label
       line-height 65px
+      padding-left 5px
     
     .radio-button
-      margin-top -8px
+      margin-top -10px
       right auto
       left 25px
     
@@ -349,22 +385,22 @@ ci-padding = 20px 70px 20px padding-left-right
 
 
 .custom-input-radio-inner__header
-  padding 0 padding-left-right
+  padding 0 input-padding-left-right
   
 .custom-input-radio-inner
   
   .custom-input--radio
-    border-bottom 1px solid ci-checkbox-border-color
+    border-bottom 1px solid input-border-color
     
     &:last-child
-      border-bottom 1px solid ci-checkbox-border-color
+      border-bottom 1px solid input-border-color
       
 
 
   &--group
     height auto
     text-align center
-    padding 0 padding-left-right
+    padding 0 input-padding-left-right
     white-space nowrap
     border-top none
     
@@ -409,8 +445,28 @@ ci-padding = 20px 70px 20px padding-left-right
 
 
   &.has-info
+    position relative
     cursor pointer
     z-index 1
+    
+    .custom-input
+      position relative
+    
+      .info-icon
+        transition right 0.13s ease-out
+        content ''
+        display block
+        width 16px
+        height 16px
+        position absolute
+        top 50%
+        right 12px
+        margin-top -7px
+        background transparent url(/images/info-icon--white.png) no-repeat 
+        background-size 100% auto
+        background-position 100% auto
+        z-index 5
+    
     
     *
       cursor pointer
@@ -445,9 +501,12 @@ ci-padding = 20px 70px 20px padding-left-right
       overflow-x visible
 
 
-      .custom-input--checkbox
-        background ci-checkbox-background-active
+      .custom-input
+        background input-background--active
         border-color rgba(78,88,127,0)
+        
+       .info-icon
+          right 3px
         
         
       .info-arrow

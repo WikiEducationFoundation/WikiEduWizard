@@ -32,6 +32,8 @@ module.exports = class InputItemView extends View
 
   hoverTime: 500
 
+  tipVisible: false
+
 
   #--------------------------------------------------------
   # Events
@@ -47,9 +49,13 @@ module.exports = class InputItemView extends View
 
     'click .custom-input--checkbox label span' : 'checkButtonClickHandler'
 
+    'click .info-icon' : 'infoIconClickHandler'
+
     'mouseover' : 'mouseoverHandler'
 
     'mouseenter label' : 'hideShowTooltip'
+
+    'mouseover .custom-input' : 'hideShowTooltip'
 
     'mouseenter .check-button' : 'hideShowTooltip'
 
@@ -66,6 +72,14 @@ module.exports = class InputItemView extends View
     'blur .custom-input--text input' : 'onBlur'
 
 
+  infoIconClickHandler: ->
+
+    unless @$el.hasClass('selected')
+      @showTooltip()
+    else
+      $('body, html').animate(
+        scrollTop: 0
+      ,500)
 
   radioButtonClickHandler: (e) ->
     e.preventDefault()
@@ -193,11 +207,13 @@ module.exports = class InputItemView extends View
 
   showTooltip: ->
 
-    if @hasInfo && @parentStep.tipVisible == false
+    if @hasInfo() && @parentStep.tipVisible == false
 
       @$el.addClass('selected')
 
       @parentStep.tipVisible = true
+
+      
 
       $('body').addClass('tip-open')
 
@@ -208,7 +224,7 @@ module.exports = class InputItemView extends View
 
   hideTooltip: ->
 
-    if @hasInfo
+    if @hasInfo()
 
       @$el.removeClass('selected')
 
@@ -307,7 +323,7 @@ module.exports = class InputItemView extends View
 
   hasInfo: ->
 
-    return $el.hasClass('has-info')
+    return @$el.hasClass('has-info')
 
 
   onFocus: (e) ->

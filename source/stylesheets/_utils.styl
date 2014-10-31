@@ -68,6 +68,17 @@ below(width)
   else
     @media screen and (max-width: width)
       {block}
+      
+
+below-height(height)
+  if fix-mqs
+    if fix-mqs <= height
+      {block}
+  else
+    @media screen and (max-height: height)
+      {block}
+      
+
 
 
 // For only old IE

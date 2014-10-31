@@ -129,7 +129,7 @@ table {
 p,
 li {
   font-size: 16px;
-  line-height: 25px;
+  line-height: 1.5625;
   letter-spacing: 0.05px;
 }
 .body-content--large,
@@ -156,7 +156,7 @@ h2,
 .step-nav__button {
   font-family: 'Droid Serif', serif;
   font-size: 18px;
-  line-height: 21px;
+  line-height: 1.166666;
   letter-spacing: 1.29px;
 }
 .form-content--small,
@@ -273,11 +273,19 @@ h5 {
 }
 .no-mobile {
   display: none;
-  display: block;
+}
+@media screen and (min-width: 400px) {
+  .no-mobile {
+    display: block;
+  }
 }
 .mobile-only {
   display: block;
-  display: none;
+}
+@media screen and (min-width: 400px) {
+  .mobile-only {
+    display: none;
+  }
 }
 .edit-mode-only {
   display: none;
@@ -298,12 +306,10 @@ body.edit-mode .no-edit-mode {
 html {
   -webkit-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
-  height: 100%;
 }
 body {
   font-family: 'Droid Serif', serif;
   width: 100%;
-  height: 100%;
   color: #4f4f4f;
 }
 h1,
@@ -346,22 +352,18 @@ select {
 }
 .container {
   width: 100%;
-  height: 100%;
 }
 .container #app {
   width: 100%;
-  height: 100%;
 }
 .container #app .home-view,
 .container #app .app-view {
   width: 100%;
-  height: 100%;
 }
 .content {
   position: relative;
   display: block;
   width: auto;
-  height: 100%;
   margin: 0;
   background: transparent no-repeat top left;
 }
@@ -401,6 +403,7 @@ select {
   pointer-events: none;
 }
 .custom-input--checkbox.disabled,
+.custom-input--link.disabled,
 .custom-input--radiobox.disabled {
   color: rgba(255,255,255,0.5);
 }
@@ -417,8 +420,8 @@ select {
   position: relative;
   width: 100%;
   height: 100%;
-  padding-left: 45px;
-  padding-right: 45px;
+  padding-left: 40px;
+  padding-right: text-input-padding-left-rightt;
 }
 .custom-input--text label {
   -webkit-transition: top 0.1s ease-out;
@@ -454,20 +457,23 @@ select {
   color: #fff;
   position: relative;
   width: 100%;
-  height: 60px;
-  padding: 30px 45px 0;
+  height: auto;
+  padding: 0 40px 0;
   font-size: 14px;
+  line-height: 40px;
   text-decoration: underline;
+  background-color: #858daa;
+  z-index: 1;
 }
 .custom-input--percent {
   position: relative;
   display: block;
   width: 100%;
-  min-height: 65px;
+  min-height: auto;
   color: #fff;
   border-bottom: 1px solid rgba(78,88,127,0.2);
   font-size: 17px;
-  padding: 20px 70px 20px 45px;
+  padding: 15px 65px 15px 40px;
 }
 .custom-input--percent:before {
   content: '';
@@ -476,7 +482,7 @@ select {
   height: 22px;
   position: absolute;
   top: 20px;
-  right: 43px;
+  right: 40px;
   background: transparent url("/images/percent.svg") no-repeat center center;
 }
 .custom-input--percent .input-container {
@@ -564,11 +570,11 @@ select {
   position: relative;
   display: block;
   width: 100%;
-  min-height: 65px;
+  min-height: auto;
   color: #fff;
   border-bottom: 1px solid rgba(78,88,127,0.2);
   font-size: 18px;
-  padding: 20px 45px;
+  padding: 15px 40px;
   cursor: pointer;
 }
 .custom-input--edit .edit-button {
@@ -598,11 +604,11 @@ select {
   position: relative;
   display: table;
   width: 100%;
-  min-height: 65px;
+  min-height: auto;
   color: #fff;
   border-bottom: 1px solid rgba(78,88,127,0.2);
   font-size: 18px;
-  padding: 20px 70px 20px 45px;
+  padding: 15px 65px 15px 40px;
 }
 .custom-input--checkbox label,
 .custom-input--radiobox label {
@@ -629,7 +635,7 @@ select {
   position: absolute;
   top: 50%;
   margin-top: -8px;
-  right: 45px;
+  right: 40px;
   width: 18px;
   height: 18px;
   border: 2px solid #fff;
@@ -647,7 +653,7 @@ select {
   width: 18px;
   height: 18px;
   top: 50%;
-  right: 45px;
+  right: 40px;
   margin-top: -8px;
   background-color: transparent;
   -moz-box-sizing: border-box;
@@ -676,7 +682,7 @@ select {
   min-height: 65px;
   color: #fff;
   font-size: 18px;
-  padding: 20px 70px 20px 45px;
+  padding: 15px 65px 15px 40px;
   line-height: 1;
 }
 .custom-input--radio .radio-button {
@@ -687,7 +693,7 @@ select {
   width: 18px;
   height: 18px;
   top: 50%;
-  right: 45px;
+  right: 40px;
   margin-top: -8px;
   background-color: transparent;
   -moz-box-sizing: border-box;
@@ -709,21 +715,22 @@ select {
 .custom-input--radio.custom-input--radio-group {
   position: relative;
   display: inline-block;
-  width: 62px;
+  width: 58px;
   border: none;
   padding: 0;
   text-align: center;
 }
 .custom-input--radio.custom-input--radio-group label {
   line-height: 65px;
+  padding-left: 5px;
 }
 .custom-input--radio.custom-input--radio-group .radio-button {
-  margin-top: -8px;
+  margin-top: -10px;
   right: auto;
   left: 25px;
 }
 .custom-input-radio-inner__header {
-  padding: 0 45px;
+  padding: 0 40px;
 }
 .custom-input-radio-inner .custom-input--radio {
   border-bottom: 1px solid rgba(78,88,127,0.2);
@@ -734,7 +741,7 @@ select {
 .custom-input-radio-inner--group {
   height: auto;
   text-align: center;
-  padding: 0 45px;
+  padding: 0 40px;
   white-space: nowrap;
   border-top: none;
 }
@@ -765,8 +772,28 @@ select {
   background-color: #fff;
 }
 .custom-input-wrapper.has-info {
+  position: relative;
   cursor: pointer;
   z-index: 1;
+}
+.custom-input-wrapper.has-info .custom-input {
+  position: relative;
+}
+.custom-input-wrapper.has-info .custom-input .info-icon {
+  -webkit-transition: right 0.13s ease-out;
+          transition: right 0.13s ease-out;
+  content: '';
+  display: block;
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  margin-top: -7px;
+  background: transparent url("/images/info-icon--white.png") no-repeat;
+  background-size: 100% auto;
+  background-position: 100% auto;
+  z-index: 5;
 }
 .custom-input-wrapper.has-info * {
   cursor: pointer;
@@ -800,9 +827,12 @@ select {
 .custom-input-wrapper.has-info.selected {
   overflow-x: visible;
 }
-.custom-input-wrapper.has-info.selected .custom-input--checkbox {
+.custom-input-wrapper.has-info.selected .custom-input {
   background: #697294;
   border-color: rgba(78,88,127,0);
+}
+.custom-input-wrapper.has-info.selected .info-icon {
+  right: 3px;
 }
 .custom-input-wrapper.has-info.selected .info-arrow {
   right: -25px;
@@ -1053,7 +1083,7 @@ textarea {
 }
 .input-info {
   position: relative;
-  dispaly: block;
+  display: block;
 }
 .input-info-block {
   *zoom: 1;
@@ -1144,6 +1174,11 @@ textarea {
 .step-nav:after {
   clear: both;
 }
+@media screen and (max-height: 850px) {
+  .step-nav {
+    height: 50px;
+  }
+}
 .step-nav .step-nav-buttons--normal {
   position: relative;
   display: block;
@@ -1172,6 +1207,13 @@ textarea {
   background-size: 45px auto;
   background-color: #858daa;
   border-top: 2px solid rgba(78,88,127,0.2);
+}
+@media screen and (max-height: 850px) {
+  .step-nav__button {
+    height: 50px;
+    line-height: 50px;
+    font-size: 16px;
+  }
 }
 .step-nav__button span.arrow {
   height: 25px;
@@ -1259,6 +1301,11 @@ textarea {
   margin-top: 0;
   background: #858daa;
 }
+@media screen and (max-height: 850px) {
+  .step-nav .step-nav-indicators {
+    top: -20px;
+  }
+}
 .step-nav .step-nav-indicators__item {
   position: relative;
   display: inline-block;
@@ -1272,6 +1319,13 @@ textarea {
   border-radius: 14px;
   text-indent: -9999px;
   pointer-events: none;
+}
+@media screen and (max-height: 850px) {
+  .step-nav .step-nav-indicators__item {
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
+  }
 }
 .step-nav .step-nav-indicators__item.visited {
   background-color: transparent;
@@ -1333,6 +1387,7 @@ textarea {
   top: 0;
   left: 0;
   padding: 0;
+  padding-bottom: 40px;
   background: #858daa;
   color: #fff;
   z-index: 2;
@@ -1343,11 +1398,9 @@ textarea {
 }
 .step-form .step-form-header {
   display: table;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 170px;
-  padding: 0 80px 0 45px;
+  padding: 0 80px 0 40px;
   margin-bottom: 35px;
 }
 .step-form .step-form-header__title {
@@ -1369,7 +1422,7 @@ textarea {
   color: #505a7f;
   letter-spacing: 1.29px;
   margin: 0 auto 10px;
-  padding: 0 45px;
+  padding: 0 40px;
 }
 .step-form-inner {
   position: relative;
@@ -1421,10 +1474,11 @@ textarea {
 .step-info .step-info-tip__inner .step-info-tip {
   -webkit-transition: opacity 0.33s 0.123s ease-in;
           transition: opacity 0.33s 0.123s ease-in;
-  display: block;
+  display: none;
   position: absolute;
   width: 100%;
   height: 100%;
+  min-height: 100%;
   top: 0;
   left: 0;
   z-index: 0;
@@ -1457,6 +1511,7 @@ textarea {
 }
 .step-info .step-info-tip.visible,
 .step-info .step-info-tip__inner .step-info-tip.visible {
+  display: block;
   opacity: 1;
   z-index: 50;
   pointer-events: all;
@@ -1481,7 +1536,7 @@ textarea {
 }
 .step-info-section--accordian .step-info-section__header {
   position: relative;
-  padding-left: 35px;
+  padding-left: 25px;
   cursor: pointer;
 }
 .step-info-section--accordian .step-info-section__header:before {

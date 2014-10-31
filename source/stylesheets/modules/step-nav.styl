@@ -24,6 +24,10 @@ indicator-inactive-color = rgba(80,90,128.0.5)
   user-select: none;
   background blue
   
+  +below-height(850px)
+    height 50px
+    
+  
   .step-nav-buttons
     
     &--normal
@@ -62,6 +66,11 @@ indicator-inactive-color = rgba(80,90,128.0.5)
     background-size 45px auto
     background-color blue
     border-top 2px solid rgba(78,88,127,0.2)
+    
+    +below-height(850px)
+      height 50px
+      line-height 50px
+      font-size 16px
     
     span.arrow 
       height 25px
@@ -159,6 +168,10 @@ indicator-inactive-color = rgba(80,90,128.0.5)
     margin-top 0
     background blue
     
+    +below-height(850px)
+      top -20px
+      
+    
     
     &__item
       position relative
@@ -173,6 +186,12 @@ indicator-inactive-color = rgba(80,90,128.0.5)
       border-radius indicator-size
       text-indent -9999px
       pointer-events none
+      
+      +below-height(850px)
+        width 10px
+        height 10px
+        border-radius 10px
+        
       
       &.visited
         background-color transparent
