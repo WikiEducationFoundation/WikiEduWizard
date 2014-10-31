@@ -32,47 +32,15 @@
 {{/if}}
 
 
-
-{{!-- CHECKBOX GROUP --}}
-{{#if type.checkboxGroup}}
-<div class="custom-input-checkbox-group" data-checkbox-group="{{data.id}}">
-  <div class="custom-input-checkbox-group__label">{{data.label}}</div>
-  {{#each data.options}}
-  <div class="custom-input custom-input--checkbox {{#if selected}} checked {{/if}}">
-    <label for="{{id}}">{{label}}</label>
-    <input name="{{id}}" type="checkbox" {{#if selected}} checked {{/if}} />
-  </div>
-  {{/each}}
-</div>
-{{/if}}
-
-
-
-{{!-- SELECT --}}
-{{#if type.select}}
-<div class="custom-input custum-input--select {{#if data.multiple}} custum-input--select--multi {{/if}}">
-  <label for="{{data.id}}">{{data.label}}</label>
-  <select name="{{data.id}}" {{#if data.multiple}} multiple {{/if}}>
-    {{#each data.options}}
-      <option value="{{value}}">{{label}}</option>
-    {{/each}}
-  </select>
-</div>
-{{/if}}
-
-
-
 {{!-- TEXT --}}
 {{#if type.text}}
 <div class="custom-input custom-input--text">
   <div class="custom-input--text__inner">
     <label for="{{data.id}}">{{data.label}}</label>
-    <input id="{{data.id}}" name="{{data.id}}" type="{{data.type}}" value="{{data.value}}" placeholder="{{data.placeholder}}" />
+    <input id="{{data.id}}" name="{{data.id}}" type="{{data.type}}" value="{{data.value}}" />
   </div>
 </div>
 {{/if}}
-
-
 
 {{!-- PERCENT --}}
 {{#if type.percent}}
@@ -80,14 +48,11 @@
   <div class="custom-input--percent__inner">
     <label for="{{data.id}}">{{data.label}}</label>
     <div class="input-container">
-    <input name="{{data.id}}" id="{{data.id}}" type="{{data.type}}" value="{{data.value}}" placeholder="{{data.placeholder}}" maxlength="2" />
+    <input name="{{data.id}}" id="{{data.id}}" type="{{data.type}}" value="{{data.value}}" maxlength="2" />
     </div>
   </div>
 </div>
 {{/if}}
-
-
-
 
 {{!-- EDIT --}}
 {{#if type.edit}}
@@ -108,15 +73,13 @@
 {{/if}}
 
 
-
-
 {{!-- TEXTAREA --}}
-{{#if type.textarea}}
+{{!-- {{#if type.textarea}}
 <div class="custom-input custom-input--textarea">
   <label for="{{data.id}}">{{data.label}}</label>
   <textarea name="{{data.id}}" placeholder="{{data.placeholder}}" rows="{{data.rows}}"></textarea>
 </div>
-{{/if}}
+{{/if}} --}}
 
 
 {{!-- LINK --}}
@@ -127,8 +90,6 @@
   <div class="info-icon"></div>
 </div>
 {{/if}}
-
-
 
 {{!-- RADIO --}}
 {{#if type.radio}}
@@ -146,15 +107,12 @@
 </div>
 {{/if}}
 
-
-
 {{!-- RADIO --}}
 {{#if type.radioGroup}}
 <div class="custom-input-radio-inner__header">
   <h2 class="font-blue--dark">{{data.label}}</h2>
 </div>
 <div class="custom-input-radio-inner custom-input-radio-inner--group">
-  
   {{#each data.options}}
     <div class="custom-input custom-input--radio custom-input--radio-group {{#if selected}} checked {{/if}}">
       <a class="radio-button" href="#"></a>

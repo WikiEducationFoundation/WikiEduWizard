@@ -28,50 +28,50 @@
 
 <!-- STEP INFO : Right side of step -->
 <div class="step-info">
-  
-  <!-- WIKIEDU LOGO -->
-  <a class="main-logo" href="http://wikiedu.org" target="_blank" title="wikiedu.org">WIKIEDU.ORG</a>
-
-  <!-- STEP INFO INNER -->
   <div class="step-info-inner">
+    <!-- WIKIEDU LOGO -->
+    <a class="main-logo" href="http://wikiedu.org" target="_blank" title="wikiedu.org">WIKIEDU.ORG</a>
 
-    {{#if infoTitle}}
-    <h2 class="font-blue--dark">{{{infoTitle}}}</h2>
-    {{/if}}
+    <!-- STEP INFO INNER -->
+    <div class="step-info-wrapper">
 
-    {{#if instructions}}
-    <p class="large">{{{instructions}}}</p>
-    {{/if}}
-
-    
-    <!-- INFO SECTIONS -->
-    {{#each sections}}
-    <div class="step-info-section {{#if accordian}} step-info-section--accordian{{/if}}">
-      
-      <!-- INFO SECTION HEADER -->
-      {{#if title}}
-      <div class="step-info-section__header">
-        <h2 class="font-blue--dark">{{{title}}}</h2>
-      </div><!-- end .step-info-section__header -->
+      {{#if infoTitle}}
+      <h2 class="font-blue--dark">{{{infoTitle}}}</h2>
       {{/if}}
-      
-      <!-- INFO SECTION CONTENT -->
-      <div class="step-info-section__content">
-        {{#each content}}    
-          {{{this}}}    
-        {{/each}}
-      </div><!-- end .step-info-section__content -->
 
-    </div><!-- end .step-info-section -->
-    {{/each}}
+      {{#if instructions}}
+      <p class="large">{{{instructions}}}</p>
+      {{/if}}
+
+      
+      <!-- INFO SECTIONS -->
+      {{#each sections}}
+      <div class="step-info-section {{#if accordian}} step-info-section--accordian{{/if}}">
+        
+        <!-- INFO SECTION HEADER -->
+        {{#if title}}
+        <div class="step-info-section__header">
+          <h2 class="font-blue--dark">{{{title}}}</h2>
+        </div><!-- end .step-info-section__header -->
+        {{/if}}
+        
+        <!-- INFO SECTION CONTENT -->
+        <div class="step-info-section__content">
+          {{#each content}}    
+            {{{this}}}    
+          {{/each}}
+        </div><!-- end .step-info-section__content -->
+
+      </div><!-- end .step-info-section -->
+      {{/each}}
+
+    </div><!-- end .step-info-inner -->
+    
+
+
+    <!-- STEP INFO TIP SECTION -->
+    <!-- used for both course info and generic info -->
+    <div class="step-info-tips"></div><!-- end .step-info-tips -->
 
   </div><!-- end .step-info-inner -->
-  
-
-
-  <!-- STEP INFO TIP SECTION -->
-  <!-- used for both course info and generic info -->
-  <div class="step-info-tips"></div><!-- end .step-info-tips -->
-
-
 </div><!-- end .step-info -->

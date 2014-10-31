@@ -54,17 +54,13 @@ module.exports = class StepNavView extends View
 
       @$el.removeClass('hidden')
 
-      # @$el.removeClass('contracted')
 
     else if @currentStep > 0 && @currentStep == @totalSteps - 1
 
       @$el.removeClass('hidden')
 
-      # @$el.addClass('contracted')
 
     else
-
-      # @$el.removeClass('contracted')
 
       @$el.addClass('hidden')
 
@@ -130,11 +126,14 @@ module.exports = class StepNavView extends View
 
 
   afterRender: ->
+
     return @
 
 
 
-  prevClickHandler: ->
+  prevClickHandler: (e) ->
+
+    e.preventDefault()
 
     if @isLastStep()
 
@@ -146,7 +145,9 @@ module.exports = class StepNavView extends View
 
 
 
-  nextClickHandler: ->
+  nextClickHandler: (e) ->
+
+    e.preventDefault()
 
     Backbone.Mediator.publish('step:next')
 
@@ -158,9 +159,7 @@ module.exports = class StepNavView extends View
 
     $target = $(e.currentTarget)
 
-
     if @hasBeenToLastStep
-
 
       if parseInt($target.attr('data-nav-id')) == parseInt(@totalSteps - 1)
 
@@ -191,10 +190,9 @@ module.exports = class StepNavView extends View
     @render()
 
 
-
   stepAnswered: (stepView) ->
 
-    @render()
+    return @render()
 
 
 
@@ -203,6 +201,7 @@ module.exports = class StepNavView extends View
   #--------------------------------------------------------
 
   lastStepIndex: ->
+    
     return @totalSteps-1
 
   isLastStep: ->

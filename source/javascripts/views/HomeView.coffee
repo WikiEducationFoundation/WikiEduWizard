@@ -51,15 +51,15 @@ module.exports = class HomeView extends View
 
   subscriptions:
 
-    'step:next' : 'nextClickHandler'
+    'step:next' : 'nextHandler'
 
-    'step:prev' : 'prevClickHandler'
+    'step:prev' : 'prevHandler'
 
-    'step:goto' : 'gotoClickHandler'
+    'step:goto' : 'gotoHandler'
 
-    'step:gotoId' : 'gotoIdClickHandler'
+    'step:gotoId' : 'gotoIdHandler'
 
-    'step:edit' : 'editClickHandler'
+    'step:edit' : 'editHandler'
 
     'tips:hide' : 'hideAllTips'
 
@@ -222,8 +222,11 @@ module.exports = class HomeView extends View
 
 
   hideAllSteps: ->
+
     _.each(@stepViews,(stepView) =>
+
       stepView.hide()
+      
     )
 
 
@@ -248,20 +251,23 @@ module.exports = class HomeView extends View
   # EVENT HANDLERS
   #--------------------------------------------------------
 
-  nextClickHandler: ->
+  nextHandler: ->
+
     @advanceStep()
 
     @hideAllTips()
 
 
 
-  prevClickHandler: ->
+  prevHandler: ->
+
     @decrementStep()
 
     @hideAllTips()
 
 
-  editClickHandler: (id) ->
+  editHandler: (id) ->
+
     $('body').addClass('edit-mode')
 
     _.each(@stepViews, (view, index) =>
@@ -284,14 +290,14 @@ module.exports = class HomeView extends View
 
 
 
-  gotoClickHandler: (index) ->
+  gotoHandler: (index) ->
 
     @updateStep(index)
 
     @hideAllTips()
 
 
-  gotoIdClickHandler: (id) ->
+  gotoIdHandler: (id) ->
 
     @updateStepById(id)
 

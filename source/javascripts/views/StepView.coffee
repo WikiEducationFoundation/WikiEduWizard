@@ -323,6 +323,10 @@ module.exports = class StepView extends View
 
   show: ->
 
+    $('body, html').animate(
+      scrollTop: 0
+    ,1)
+
     @$el.show()
 
     @hasUserVisited = true
@@ -330,8 +334,8 @@ module.exports = class StepView extends View
     return @
 
 
-  beginHandler: ->
-
+  beginHandler: (e) ->
+    e.preventDefault()
     Backbone.Mediator.publish('step:next')
 
 
