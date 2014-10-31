@@ -427,7 +427,7 @@ module.exports = class InputItemView extends View
           )
 
           unless renderInOutput
-          
+
             return false
 
 
@@ -474,12 +474,12 @@ module.exports = class InputItemView extends View
 
       )
 
-      if selectedInputs.length != 0
+      
 
-        @$el.addClass('has-content')
+      @$el.addClass('has-content')
 
-      else 
-        return false
+      if selectedInputs.length == 0
+        selectedInputs.push "[None selected]"
 
       return {
 
