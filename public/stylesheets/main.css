@@ -839,8 +839,8 @@ select {
 }
 .custom-input--checkbox .check-button,
 .custom-input--radiobox .check-button {
-  -webkit-transition: 0.1s background-color;
-          transition: 0.1s background-color;
+  -webkit-transition: background-color 0.1s;
+          transition: background-color 0.1s;
   display: block;
   position: absolute;
   top: 50%;
@@ -853,6 +853,23 @@ select {
   -moz-box-sizing: border-box;
        box-sizing: border-box;
   cursor: pointer;
+}
+.custom-input--checkbox .check-button:before,
+.custom-input--radiobox .check-button:before {
+  -webkit-transition: -webkit-transform 0.1s;
+          transition: transform 0.1s;
+  content: '';
+  width: 8px;
+  height: 8px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -4px;
+  margin-top: -4px;
+  background: #fff;
+  -webkit-transform: scale(0);
+      -ms-transform: scale(0);
+          transform: scale(0);
 }
 .custom-input--checkbox .radio-button,
 .custom-input--radiobox .radio-button {
@@ -871,6 +888,24 @@ select {
   cursor: pointer;
   border: 2px solid #fff;
   border-radius: 18px;
+}
+.custom-input--checkbox .radio-button:before,
+.custom-input--radiobox .radio-button:before {
+  -webkit-transition: -webkit-transform 0.1s;
+          transition: transform 0.1s;
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 8px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -4px;
+  margin-top: -4px;
+  background: #fff;
+  -webkit-transform: scale(0);
+      -ms-transform: scale(0);
+          transform: scale(0);
 }
 .custom-input--checkbox.not-editable,
 .custom-input--radiobox.not-editable {
@@ -975,17 +1010,23 @@ select {
 .custom-input-wrapper.link:before {
   display: none !important;
 }
-.custom-input-wrapper.checked .custom-input--checkbox .check-button {
-  background-color: #fff;
+.custom-input-wrapper.checked .custom-input--checkbox .check-button:before {
+  -webkit-transform: scale(1);
+      -ms-transform: scale(1);
+          transform: scale(1);
 }
 .custom-input-wrapper .custom-input--radio.checked .radio-button {
   background-color: #fff;
 }
-.custom-input-wrapper .custom-input--checkbox.checked .check-button {
-  background-color: #fff;
+.custom-input-wrapper .custom-input--checkbox.checked .check-button:before {
+  -webkit-transform: scale(1);
+      -ms-transform: scale(1);
+          transform: scale(1);
 }
-.custom-input-wrapper .custom-input--radiobox.checked .radio-button {
-  background-color: #fff;
+.custom-input-wrapper .custom-input--radiobox.checked .radio-button:before {
+  -webkit-transform: scale(1);
+      -ms-transform: scale(1);
+          transform: scale(1);
 }
 .custom-input-wrapper.has-info {
   position: relative;

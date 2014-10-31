@@ -336,7 +336,7 @@ accordian-list-line-height = 22px
   
 
   .check-button
-    transition 0.10s background-color
+    transition background-color 0.10s
     display block
     position absolute
     top 50%
@@ -348,6 +348,20 @@ accordian-list-line-height = 22px
     background-color transparent
     box-sizing border-box
     cursor pointer
+    
+    &:before
+      transition transform 0.1s
+      content ''
+      width 8px
+      height 8px
+      position absolute 
+      top 50%
+      left 50%
+      margin-left -4px
+      margin-top -4px
+      background white
+      transform scale(0)
+      
     
   .radio-button
     transition 0.10s background-color
@@ -363,6 +377,20 @@ accordian-list-line-height = 22px
     cursor pointer
     border 2px solid white
     border-radius 18px
+    
+    &:before
+      transition transform 0.1s
+      content ''
+      width 8px
+      height 8px
+      border-radius 8px
+      position absolute 
+      top 50%
+      left 50%
+      margin-left -4px
+      margin-top -4px
+      background white
+      transform scale(0)
     
   &.not-editable
     color: rgba(255,255,255,0.6)
@@ -476,7 +504,8 @@ accordian-list-line-height = 22px
   &.checked 
     .custom-input--checkbox
       .check-button
-        background-color white
+        &:before
+          transform scale(1)
     
   
   .custom-input--radio.checked
@@ -485,11 +514,14 @@ accordian-list-line-height = 22px
 
   .custom-input--checkbox.checked
     .check-button
-      background-color white
+       &:before
+          transform scale(1)
+        
       
   .custom-input--radiobox.checked
     .radio-button
-      background-color white
+      &:before
+         transform scale(1)
       
 
 
