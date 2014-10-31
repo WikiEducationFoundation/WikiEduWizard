@@ -7,7 +7,6 @@ WizardStepInputs =
       label: 'Instructor name'
       id: 'teacher'
       value: ''
-      placeholder: ''
       required: true
 
     course_name:
@@ -15,7 +14,6 @@ WizardStepInputs =
       label: 'Course name'
       id: 'course_name'
       value: ''
-      placeholder: ''
       required: true
     
     school:
@@ -23,7 +21,6 @@ WizardStepInputs =
       label: 'University'
       id: 'school'
       value: ''
-      placeholder: ''
       required: true
     
     subject:
@@ -31,7 +28,6 @@ WizardStepInputs =
       label: 'Subject'
       id: 'subject'
       value: ''
-      placeholder: ''
       required: true
     
     students:
@@ -39,14 +35,13 @@ WizardStepInputs =
       label: 'Approximate number of students'
       id: 'students'
       value: ''
-      placeholder: ''
       required: true
 
     instructor_username:
       label: 'Username (temporary)'
       id: 'instructor_username'
       value: ''
-      placeholder: ''
+      
 
     wizard_start_date:
       isDate: true
@@ -209,8 +204,7 @@ WizardStepInputs =
       label: 'Completion of training will not be graded'
       exclusive: false
       required: true
-    
-  
+
 
   getting_started: 
     critique_article:
@@ -332,6 +326,7 @@ WizardStepInputs =
       label: ''
       value: 'two'
       selected: 1
+      overviewLabel: 'Two peer review'
       options: [
         {
           id: 0
@@ -339,6 +334,7 @@ WizardStepInputs =
           label: '1'
           value: 'one'
           selected: false
+          overviewLabel: 'One peer review'
         }
         {
           id: 1
@@ -346,6 +342,7 @@ WizardStepInputs =
           label: '2'
           value: 'two'
           selected: true
+          overviewLabel: 'Two peer review'
         }
         {
           id: 2
@@ -353,6 +350,7 @@ WizardStepInputs =
           label: '3'
           value: 'three'
           selected: false
+          overviewLabel: 'Three peer review'
 
         }
         {
@@ -361,6 +359,7 @@ WizardStepInputs =
           label: '4'
           value: 'four'
           selected: false
+          overviewLabel: 'Four peer review'
 
         }
         {
@@ -369,7 +368,7 @@ WizardStepInputs =
           label: '5'
           value: 'five'
           selected: false
-    
+          overviewLabel: 'Five peer review'
         }
       ]
     
@@ -459,61 +458,214 @@ WizardStepInputs =
       
 
   grading: 
-    learning_essentials:
-      type: 'percent'
-      label: 'Learning Wiki essentials'
-      id: 'learning_essentials'
-      value: 5
-      placeholder: ''
-      renderInOutput: true
+    # learning_essentials:
+    #   type: 'percent'
+    #   label: 'Learning Wiki essentials'
+    #   id: 'learning_essentials'
+    #   value: 5
+    #   renderInOutput: true
     
+    # getting_started:
+    #   type: 'percent'
+    #   label: 'Getting started with editing'
+    #   id: 'getting_started'
+    #   value: 0   
+    #   renderInOutput: true
+    
+    # choosing_articles:
+    #   type: 'percent'
+    #   label: 'Choosing articles'
+    #   id: 'choosing_articles'
+    #   value: 0   
+    #   renderInOutput: true
+    
+    # research_planning:
+    #   type: 'percent'
+    #   label: 'Research an planning'
+    #   id: 'research_planning'
+    #   value: 0  
+    #   renderInOutput: true
+    
+    # drafts_mainspace:
+    #   type: 'percent'
+    #   label: 'Drafts and mainspace'
+    #   id: 'drafts_mainspace'
+    #   value: 0   
+    #   renderInOutput: true
+    
+    # peer_feedback:
+    #   type: 'percent'
+    #   label: 'Peer feedback'
+    #   id: 'peer_feedback'
+    #   value: 0   
+    #   renderInOutput: true
+    
+    # supplementary_assignments:
+    #   type: 'percent'
+    #   label: 'Supplementary assignments'
+    #   id: 'supplementary_assignments'
+    #   value: 0   
+    #   renderInOutput: true
+
+
+    # COMPROMISE
+
+    complete_training:
+      type: 'percent'
+      label: 'Completion of Wikipedia training'
+      id: 'complete_training'
+      value: 5
+      renderInOutput: true
+      contingentUpon: [
+        'training_graded'
+      ]
+
     getting_started:
       type: 'percent'
-      label: 'Getting started with editing'
+      label: 'Early Wikipedia exercises'
       id: 'getting_started'
-      value: 0
-      placeholder: ''
+      value: 0   
       renderInOutput: true
-    
-    choosing_articles:
+      contingentUpon: []
+
+
+    outline_quality:
       type: 'percent'
-      label: 'Choosing articles'
-      id: 'choosing_articles'
-      value: 0
-      placeholder: ''
+      id: 'outline_quality'
+      label: 'Quality of bibliography and outline'
+      value: 2   
       renderInOutput: true
-    
-    research_planning:
+      contingentUpon: []
+
+
+    peer_reviews:
       type: 'percent'
-      label: 'Research an planning'
-      id: 'research_planning'
-      value: 0
-      placeholder: ''
+      label: 'Peer reviews and collaboration with classmates'
+      value: 2   
       renderInOutput: true
-    
-    drafts_mainspace:
-      type: 'percent'
-      label: 'Drafts and mainspace'
-      id: 'drafts_mainspace'
-      value: 0
-      placeholder: ''
+      contingentUpon: []
+
+    contribution_quality:
+      type: 'percent' 
+      id: 'contribution_quality'
+      label: 'Quality of your main Wikipedia contributions'
+      value: 10
       renderInOutput: true
-    
-    peer_feedback:
-      type: 'percent'
-      label: 'Peer feedback'
-      id: 'peer_feedback'
-      value: 0
-      placeholder: ''
-      renderInOutput: true
-    
+      contingentUpon: []
+
     supplementary_assignments:
-      type: 'percent'
-      label: 'Supplementary assignments'
+      type: 'percent' 
       id: 'supplementary_assignments'
-      value: 0 
-      placeholder: ''
+      label: 'Supplementary assignments'
+      value: 5
       renderInOutput: true
+      contingentUpon: [
+        'class_blog'
+        'class_presentation'
+        'reflective_essay'
+        'portfolio'
+        'original_paper'
+      ]
+
+    #FULL
+
+    # complete_training:
+    #   type: 'percent'
+    #   label: 'Completion of Wikipedia training'
+    #   id: 'complete_training'
+    #   value: 1
+    #   renderInOutput: true
+
+    # practice_communication:
+    #   type: 'percent'
+    #   label: '"Practice on-wiki communication" exercise'
+    #   id: 'practice_communication'
+    #   value: 1  
+    #   renderInOutput: true
+
+    # practice_communication:
+    #   type: 'percent'
+    #   label: '"Practice on-wiki communication" exercise'
+    #   id: 'practice_communication'
+    #   value: 1  
+    #   renderInOutput: true
+
+    # copy_edit_article:
+    #   type: 'percent'
+    #   label: '"Copyedit an article" exercise'
+    #   id: 'practice_communication'
+    #   value: 1  
+    #   renderInOutput: true
+
+    # critique_article:
+    #   type: 'percent'
+    #   label: '"Evaluate an article" exercise'
+    #   id: 'critique_article'
+    #   value: 1  
+    #   renderInOutput: true
+
+    # add_to_article:
+    #   type: 'percent'
+    #   label: '"Add to an article" exercise'
+    #   id: 'add_to_article'
+    #   value: 1  
+    #   renderInOutput: true
+
+    # illustrate_article:
+    #   type: 'percent'
+    #   label: '"Illustrate an article" exercise'
+    #   id: 'illustrate_article'
+    #   value: 1  
+    #   renderInOutput: true
+
+    # outline_quality:
+    #   type: 'percent'
+    #   id: 'outline_quality'
+    #   label: 'Quality of bibliography and outline'
+    #   value: 2   
+    #   renderInOutput: true
+
+    # peer_reviews:
+    #   type: 'percent'
+    #   id: 'peer_reviews'
+    #   label: 'Peer reviews and collaboration with classmates'
+    #   value: 2   
+    #   renderInOutput: true
+
+    # class_participation:
+    #   type: 'percent'
+    #   id: 'class_participation'
+    #   label: 'Participation in class discussions'
+    #   value: 2   
+    #   renderInOutput: true
+
+    # contribution_quality:
+    #   type: 'percent'
+    #   id: 'contribution_quality'
+    #   label: 'Quality of your main Wikipedia contributions'
+    #   value: 10   
+    #   renderInOutput: true
+
+    # reflective_essay:
+    #   type: 'percent'
+    #   id: 'reflective_essay'
+    #   label: 'Reflective essay'
+    #   value: 2   
+    #   renderInOutput: true
+
+    # original_paper:
+    #   type: 'percent'
+    #   id: 'original_paper'
+    #   label: 'Original argument paper'
+    #   value: 10   
+    #   renderInOutput: true
+
+    # class_presentation:
+    #   type: 'percent'
+    #   id: 'class_presentation'
+    #   label: 'In-class presentation of contributions'
+    #   value: 2 
+    #   renderInOutput: true
 
     grading_selection:
       label: 'Grading based on:'
@@ -529,9 +681,6 @@ WizardStepInputs =
           label: 'Points'
           value: 'points'
           selected: false
-        
-      
-
 
 
   overview: 
@@ -540,50 +689,48 @@ WizardStepInputs =
       label: 'Learning Wiki essentials'
       id: 'learning_essentials'
       value: ''
-      placeholder: ''
+      
 
     getting_started:
       type: 'edit'
       label: 'Getting started with editing'
       id: 'getting_started'
       value: ''
-      placeholder: ''
+      
 
     choosing_articles:
       type: 'edit'
       label: 'Choosing articles'
       id: 'choosing_articles'
       value: ''
-      placeholder: ''
+      
 
     research_planning:
       type: 'edit'
       label: 'Research and planning'
       id: 'research_planning'
       value: ''
-      placeholder: ''
+      
     
     drafts_mainspace:
       type: 'edit'
       label: 'Drafts and mainspace'
       id: 'drafts_mainspace'
       value: ''
-      placeholder: ''
+      
     
     peer_feedback:
       type: 'edit'
       label: 'Peer Feedback'
       id: 'peer_feedback'
       value: ''
-      placeholder: ''
+      
     
     supplementary_assignments:
       type: 'edit'
       label: 'Supplementary assignments'
       id: 'supplementary_assignments'
       value: ''
-      placeholder: ''
-
 
     wizard_start_date:
       month: ''

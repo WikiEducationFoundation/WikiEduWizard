@@ -1,0 +1,434 @@
+/* /////////////////////////////////////////////////////
+
+STEP MODULE
+
+///////////////////////////////////////////////////// */
+
+
+/* Variables
+--------------------------------------------- */
+top-padding = global-top-space 
+top-padding--reduced = global-top-space--reduced 
+right-padding = 40px 
+right-padding--reduced = 40px 
+left-padding = 440px 
+left-padding--reduced = 440px  //
+bottom-padding = 40px
+bottom-padding--reduced = 40px //
+
+outro-top-padding = global-top-space
+outro-top-padding--reduced = global-top-space--reduced 
+outro-right-padding = 40px 
+outro-right-padding--reduced = 40px  //
+outro-left-padding = 440px 
+outro-left-padding--reduced = 440px  //
+outro-bottom-padding = 40px
+outro-bottom-padding--reduced = 40px //
+
+info-max-width = 1200px
+info-min-width = 1000px
+info-max-width--reduced = 1000px
+info-min-width--reduced = 900px
+
+info-paragraph-margin = 25px auto
+info-paragraph-margin--reduced = 15px auto 
+
+info-section-margin = 25px auto //
+info-section-margin--reduced = 15px auto //
+
+info-section-header-margin = 15px auto
+info-section-header-margin--reduced = 10px auto 
+
+info-tip-close-right = 20px
+
+accordian-header-padding-left = 25px
+
+form-width = 400px
+form-width--intro = 500px
+
+form-height = 100%
+form-height--intro = 1300px
+form-height--intro--reduced = 1000px
+
+form-padding--intro = top-padding 0
+form-padding--intro--reduced = top-padding--reduced 0
+
+
+form-header-height = 170px
+form-header-height--reduced = 100px
+
+form-header-padding-right = 80px
+form-header-padding = 0 form-header-padding-right 0 global-padding-left-right
+form-header-padding--reduced = 0 form-header-padding-right 0 global-padding-left-right
+
+form-header-margin-top = 35px
+form-header-margin-top--reduced = 20px
+
+form-header-title-margin-top = 80px
+form-header-title-margin-top--reduced = 30px
+
+form-content-padding = 0 global-padding-left-right
+
+main-logo-top = 90px
+main-logo-top--reduced = 40px
+main-logo-right = 40px
+
+step-padding = top-padding right-padding bottom-padding left-padding
+step-padding--reduced = top-padding--reduced right-padding--reduced bottom-padding--reduced left-padding--reduced
+
+outro-padding = outro-top-padding outro-right-padding outro-bottom-padding outro-left-padding 
+outro-padding--reduced = outro-top-padding--reduced outro-right-padding--reduced outro-bottom-padding--reduced outro-left-padding--reduced 
+
+
+
+/* Steps Module
+--------------------------------------------- */
+.steps 
+  width 100%
+  height 100%
+
+/* Step Module
+--------------------------------------------- */
+
+
+.step
+  cf()
+  width 100%
+  height 100%
+
+
+//STEP FORM SECTION
+
+.step-form
+  position fixed
+  width 400px
+  height 100%
+  top 0
+  left 0
+  padding 0
+  padding-bottom global-padding-left-right
+  background blue
+  color white
+  z-index 2
+  user-select: none;
+  
+  
+  .step-form-header
+    display table
+    width 100%
+    height form-header-height
+    padding form-header-padding
+    margin-bottom form-header-margin-top
+    
+    +below-height(heightBreak)
+      height form-header-height--reduced
+      padding form-header-padding--reduced
+      margin-bottom form-header-margin-top--reduced
+
+    &__title
+      display table-cell
+      vertical-align bottom
+      margin-top form-header-title-margin-top
+      
+      +below-height(heightBreak)
+        margin-top form-header-title-margin-top--reduced
+      
+
+      
+  
+  .step-form-content
+    position absolute
+    top top-padding
+    left 0
+    width 100%
+    
+    +below-height(heightBreak)
+      top top-padding--reduced
+
+
+    &__title
+      font-family body-font
+      font-size 18px
+      line-height 21px
+      min-height 21px
+      color blue-dark
+      letter-spacing 1.29px
+      margin 0 auto 10px
+      padding form-content-padding
+      
+      +below-height(heightBreak)
+        font-size 16px
+        line-height 19px
+      
+
+
+    
+
+
+.step-form-inner
+  position relative
+  border-top 1px solid rgba(78,88,127,0.2)
+  
+
+
+//STEP INFO SECTION
+
+.step-info
+  position relative
+  width 100%
+  max-width info-max-width
+  min-width info-min-width
+  padding step-padding
+  color body-font-color
+  background white
+  z-index 1
+  
+  +below-height(heightBreak)
+    max-width info-max-width--reduced
+    min-width info-min-width--reduced
+    padding step-padding--reduced
+
+    
+
+  // .step-info-wrapper
+  //   margin-left left-padding
+  //   margin-right right-padding
+  //   margin-bottom bottom-padding
+  //   margin-top top-padding
+    
+  
+  
+  .step--last &
+    padding step-padding
+    
+    +below-height(heightBreak)
+      padding step-padding--reduced
+  
+  p 
+    margin info-paragraph-margin
+    &:first-child
+      margin-top 0
+    &:last-child
+      margin-bottom 0
+      
+    +below-height(heightBreak)
+      margin info-paragraph-margin--reduced
+
+
+  .main-logo
+    position absolute
+    display inline-block
+    top main-logo-top
+    right main-logo-right
+    z-index 1000
+    
+    +below-height(heightBreak)
+      top main-logo-top--reduced
+
+  .step-info-inner
+    transition opacity 0.15s 0.25s linear
+    margin-top 0
+    opacity 1
+  
+
+
+  .step-info-tip
+    transition opacity 0.33s 0.123s ease-in //, left 0.66s ease-out
+    display none
+    position absolute
+    width 100%
+    height 100%
+    min-height 100%
+    top 0
+    left 0
+    z-index 0
+    opacity 0
+    max-width info-max-width
+    min-width info-min-width
+    pointer-events none
+    
+    background rgba(255,255,255,1.0) //rgba(24 5,245,245,1.0)
+    
+    +below-height(heightBreak)
+      max-width info-max-width--reduced
+      min-width info-min-width--reduced
+    
+    &__close
+      position absolute
+      top top-padding
+      right info-tip-close-right
+      width 18px
+      height 18px
+      display block
+      color transparent
+      border none
+      z-index 100
+      text-indent -9999px
+      overflow hidden
+      background transparent url(/images/close--tip.svg) no-repeat center center
+      cursor pointer
+      
+      +below-height(heightBreak)
+        top top-padding--reduced
+
+      
+
+    &__inner
+      @extend .step-info
+      background rgba(255,255,255,1.0)
+      height 100%
+    
+
+    &.visible
+      display block
+      opacity 1
+      z-index 50
+      pointer-events all
+      
+
+
+.step-info-section
+  margin 25px auto
+  
+
+  .step-info-section__header
+    margin info-section-header-margin 
+    
+    +below-height(heightBreak)
+      margin info-section-header-margin--reduced
+    
+  .step-info-section__content
+    margin info-section-header-margin 
+    
+    +below-height(heightBreak)
+      margin info-section-header-margin--reduced
+    
+    a:not(.button)
+      color body-font-color
+      text-decoration underline
+
+.step-info-section--accordian
+  border-top: 2px solid rgba(81,85,102,0.1);
+  border-bottom 2px solid rgba(81,85,102,0.1)
+  margin info-section-header-margin
+  
+  +below-height(heightBreak)
+    margin info-section-header-margin--reduced
+  
+  .step-info-section__header
+    position relative
+    padding-left accordian-header-padding-left
+    cursor pointer
+    
+    
+    &:before
+      position absolute
+      content ''
+      display block
+      width 25px
+      height 100%
+      left -2px
+      top 0
+      background transparent url(/images/arrow--accordian.png) no-repeat center
+      background-size 17px auto
+      transform rotate(-180deg)
+      transition transform 0.08s ease-out
+    
+  .step-info-section__content
+    transition max-height 0.33s 0.12s ease-out, padding-bottom 0.15s 0.10s linear
+    max-height 0
+    overflow hidden
+    padding-left 30px
+    margin 0
+    padding-bottom 0
+      
+  &.open
+    transition max-height 0.33s 0.12s ease-out, padding-bottom 0.15s linear
+    
+    .step-info-section__content
+      max-height 800px
+      padding-bottom 25px
+      
+    .step-info-section__header
+      &:before
+        transform rotate(0deg)
+          
+.step-info-section--accordian + .step-info-section--accordian
+  border-top none   
+        
+    
+// INTRO STEP
+
+.step--first
+  
+  .step-form
+    position relative
+    color body-font-color
+    background white
+    width form-width--intro
+    min-height form-height--intro
+    padding form-padding--intro
+    margin 0 auto
+    background transparent url(/images/wiki-logo.png) no-repeat center 100px
+    background-size 60px auto
+    
+    +below-height(heightBreak)
+      padding form-padding--intro--reduced
+      min-height form-height--intro--reduced
+      background-position 50% 50px
+      
+    
+    .step-form-instructions
+      p.large
+        margin-bottom 15px
+
+    
+    &__title
+      color rgba(78,88,127,1.0)
+      margin-bottom 20px
+    
+    .step-form-header
+      padding 0
+      width 100%
+      height auto
+      
+      
+    .custom-input--text
+      label
+        color blue-dark
+    
+    .step-form-actions
+      text-align center
+      
+    .step-form-inner
+      border-top 0
+    
+    .custom-input--text
+      &__inner
+        padding-left 0
+        padding-right 0
+        color rgb(79,79,79)
+
+.step--login
+  
+  .step-form
+    min-height initial
+    
+  #skipLoginButton
+    display inline-block
+    margin-top 15px
+    
+  .step-form-instructions
+    margin-bottom 20px
+    text-align center
+    width 100%
+    
+
+
+    
+    
+
+    
+    
+    
+    

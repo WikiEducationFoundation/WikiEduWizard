@@ -10,7 +10,7 @@
 <div class="step-nav-indicators hidden">
 
   {{#each steps}}
-  <div href="#" class="dot step-nav-indicators__item {{#if isActive}}active{{/if}} {{#if hasVisited}}visited{{/if}}" data-nav-id="{{id}}" title="{{stepTitle}}" data-step-id="{{stepId}}">*</div>
+  <div href="" class="dot step-nav-indicators__item {{#if isActive}}active{{/if}} {{#if hasVisited}}visited{{/if}}" data-nav-id="{{id}}" title="{{stepTitle}}" data-step-id="{{stepId}}">*</div>
   {{/each}}
 
 </div><!-- end .step-nav-indicators -->
@@ -20,14 +20,14 @@
 <!-- STEP NAV BUTTONS -->
 <div class="step-nav-buttons">
   <div class="step-nav-buttons--normal">
-    <a href="#" class="step-nav__button step-nav--prev prev {{#if prevInactive}}inactive{{/if}}">
+    <a href="" class="step-nav__button step-nav--prev prev {{#if prevInactive}}inactive{{/if}}">
       <span class="arrow" style="margin-right:5px;">
         <div class="step-nav-arrow step-nav-arrow--left"></div>
       </span>
       <span class="text">{{prevTitle}}</span>
     </a>
 
-    <a href="#" class="step-nav__button step-nav--next next {{#if nextInactive}}inactive{{/if}} {{#if isLastStep}} no-arrow {{/if}} ">
+    <a href="" class="step-nav__button step-nav--next next {{#if nextInactive}}inactive{{/if}} {{#if isLastStep}} no-arrow {{/if}} ">
       <span class="text">{{nextTitle}}</span>
       <span class="arrow" style="margin-left:5px;">
         <div class="step-nav-arrow step-nav-arrow--right"></div>
@@ -38,7 +38,7 @@
 
 
   <div class="step-nav-buttons--edit">
-    <a href="#" class="step-nav__button step-nav__button--exit-edit confirm exit-edit">
+    <a href="" class="step-nav__button step-nav__button--exit-edit confirm exit-edit">
       <span class="text">{{backToOverviewTitle}}</span>
     </a>
   </div>

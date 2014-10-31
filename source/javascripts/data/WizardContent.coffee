@@ -310,10 +310,10 @@ WizardContent = [
   {
     id: "overview"
     title: 'Assignment overview'
+    infoTitle: "About the course"
     formTitle: ""
     sections: [
       {
-        title: 'About the course'
         content: [
           "<p>Now it's time to write a short description of your course and how this Wikipedia assignment fits into it. This will allow other Wikipedia editors to understand what students will be doing. Be sure to mention:"
           "<ul>

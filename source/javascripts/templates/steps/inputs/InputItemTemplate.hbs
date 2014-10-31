@@ -48,6 +48,7 @@
   <div class="custom-input--percent__inner">
     <label for="{{data.id}}">{{data.label}}</label>
     <div class="input-container">
+    <div class="icon"></div>
     <input name="{{data.id}}" id="{{data.id}}" type="{{data.type}}" value="{{data.value}}" maxlength="2" />
     </div>
   </div>
@@ -64,9 +65,9 @@
   </div>
   <div class="custom-input--edit__content custom-input-accordian__content">
     <ul>
-      <li>Assignmment 1</li>
-      <li>Assignmment 1</li>
-      <li>Assignmment 1</li>
+      {{#each assignments}}
+      <li>{{this}}</li>
+      {{/each}}
     </ul>
   </div>
 </div>

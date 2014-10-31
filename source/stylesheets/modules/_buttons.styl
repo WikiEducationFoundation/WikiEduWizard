@@ -1,0 +1,44 @@
+button-bg-color = blue-dark
+button-bg-color--inactive = rgba(99,108,142,1.0)
+button-bg-color--hover = rgba(94,107,154,1.0)
+button-font-color = white
+button-font-color--inactive = rgba(166,171,191,1.0)
+button-border-radius = 3px
+button-max-width = 100%
+button-max-width--begin = 290px
+button-height = 50px
+
+.button
+  transition background-color 0.13s, text-decoration 0.13s, color 0.13s
+  position relative
+  display inline-block
+  background button-bg-color
+  width 100%
+  max-width button-max-width
+  height button-height
+  line-height button-height
+  color button-font-color
+  font-family body-font
+  border-radius button-border-radius
+  
+  &#publish
+    display block
+    width 100%
+    
+    &.processing
+      text-indent -9999px
+      background button-bg-color url(/images/loader.gif) no-repeat center center
+      background-size 30px auto
+  
+  &#beginButton
+    max-width button-max-width--begin
+    
+  &:hover, &:active
+    background-color button-bg-color--hover
+    text-decoration none //underline
+  
+  &.inactive
+    background-color button-bg-color--inactive
+    color button-font-color--inactive
+    pointer-events none
+    

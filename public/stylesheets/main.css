@@ -623,24 +623,32 @@ select {
   color: #fff;
   border-bottom: 1px solid rgba(78,88,127,0.2);
   font-size: 17px;
-  padding: 15px 65px 15px 40px;
-}
-.custom-input--percent:before {
-  content: '';
-  display: block;
-  width: 22px;
-  height: 22px;
-  position: absolute;
-  top: 20px;
-  right: 40px;
-  background: transparent url("/images/percent.svg") no-repeat center center;
+  padding: 15px 70px 15px 40px;
+  padding-right: 100px;
 }
 .custom-input--percent .input-container {
+  position: absolute;
   padding: 0 5px;
   border-bottom: 2px solid #505a7f;
   width: 35px;
-  float: right;
+  height: 25px;
+  top: 50%;
+  right: 50px;
+  margin-top: -12px;
   display: inline-block;
+}
+@media screen and (max-height: 850px) {
+  .custom-input--percent .input-container {
+    right: 45px;
+  }
+}
+.custom-input--percent .input-container .icon {
+  display: block;
+  width: 22px;
+  height: 25px;
+  position: absolute;
+  right: -26px;
+  background: transparent url("/images/percent.svg") no-repeat center center;
 }
 .custom-input--percent .input-container:before {
   border-left: 2px solid #505a7f;
@@ -664,12 +672,12 @@ select {
   text-align: center;
 }
 .custom-input--percent label {
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1.222;
 }
 @media screen and (max-height: 850px) {
   .custom-input--percent label {
-    font-size: 16px;
+    font-size: 14px;
   }
 }
 .custom-input-accordian {
@@ -681,7 +689,7 @@ select {
 .custom-input-accordian__header:before {
   position: absolute;
   content: '';
-  display: block;
+  display: none;
   width: 25px;
   height: 25px;
   left: -30px;
@@ -709,15 +717,19 @@ select {
   font-size: 14px;
   line-height: 22px;
   letter-spacing: 0.05px;
+  margin-bottom: 0;
 }
-.custom-input-accordian:hover {
+.custom-input-wrapper.has-content .custom-input-accordian .custom-input-accordian__header:before {
+  display: block;
+}
+.custom-input-wrapper.has-content .custom-input-accordian:hover {
   -webkit-transition: max-height 0.3s 0.3s ease-in;
           transition: max-height 0.3s 0.3s ease-in;
 }
-.custom-input-accordian:hover .custom-input-accordian__content {
+.custom-input-wrapper.has-content .custom-input-accordian:hover .custom-input-accordian__content {
   max-height: 200px;
 }
-.custom-input-accordian:hover .custom-input-accordian__header:before {
+.custom-input-wrapper.has-content .custom-input-accordian:hover .custom-input-accordian__header:before {
   -webkit-transform: rotate(0deg);
       -ms-transform: rotate(0deg);
           transform: rotate(0deg);
@@ -753,6 +765,11 @@ select {
   line-height: 22px;
   letter-spacing: 0.2px;
 }
+@media screen and (max-height: 850px) {
+  .custom-input--edit .edit-button {
+    top: 15px;
+  }
+}
 .custom-input--edit .edit-button:hover {
   color: #505a7f;
 }
@@ -769,7 +786,7 @@ select {
   color: #fff;
   border-bottom: 1px solid rgba(78,88,127,0.2);
   font-size: 18px;
-  padding: 15px 65px 15px 40px;
+  padding: 15px 70px 15px 40px;
 }
 @media screen and (max-height: 850px) {
   .custom-input--checkbox,
@@ -777,7 +794,7 @@ select {
 .custom-input--radiobox {
     font-size: 16px;
     min-height: auto;
-    padding: 15px 65px 15px 40px;
+    padding: 15px 70px 15px 40px;
   }
 }
 .custom-input--checkbox label,
@@ -852,7 +869,7 @@ select {
   min-height: 65px;
   color: #fff;
   font-size: 18px;
-  padding: 15px 65px 15px 40px;
+  padding: 15px 70px 15px 40px;
   line-height: 1;
 }
 .custom-input--radio .radio-button {
@@ -898,6 +915,12 @@ select {
   margin-top: -10px;
   right: auto;
   left: 25px;
+}
+@media screen and (max-height: 850px) {
+  .custom-input--radio.custom-input--radio-group {
+    height: 50px;
+    line-height: 50px;
+  }
 }
 .custom-input-radio-inner__header {
   padding: 0 40px;
@@ -1154,6 +1177,11 @@ textarea {
 .custom-input-grading .custom-input-grading-summary:after {
   clear: both;
 }
+@media screen and (max-height: 850px) {
+  .custom-input-grading .custom-input-grading-summary {
+    padding: 15px 40px 10px;
+  }
+}
 .custom-input-grading__total,
 .custom-input-grading__percent {
   *zoom: 1;
@@ -1192,6 +1220,11 @@ textarea {
   display: inline block;
   width: auto;
 }
+@media screen and (max-height: 850px) {
+  .custom-input-grading__percent h3 {
+    font-size: 28px;
+  }
+}
 .custom-input-grading__percent.over-limit {
   color: #e36945;
 }
@@ -1199,6 +1232,11 @@ textarea {
   display: none;
   position: relative;
   padding: 0 45px;
+}
+@media screen and (max-height: 850px) {
+  .custom-input-grading .custom-input-grading-selection {
+    padding: 0 40px;
+  }
 }
 .custom-input-grading .custom-input-grading-selection__title {
   position: relative;
@@ -1410,7 +1448,8 @@ textarea {
 }
 @media screen and (max-height: 850px) {
   .step-nav .step-nav-indicators {
-    height: 30px;
+    height: 20px;
+    top: -25px;
   }
 }
 .step-nav .step-nav-indicators__item {
@@ -1429,7 +1468,7 @@ textarea {
 }
 @media screen and (max-height: 850px) {
   .step-nav .step-nav-indicators__item {
-    line-height: 30px;
+    line-height: 20px;
     width: 10px;
     height: 10px;
     border-radius: 10px;
@@ -1521,11 +1560,11 @@ textarea {
 .step-form .step-form-header__title {
   display: table-cell;
   vertical-align: bottom;
-  margin-top: 30px;
+  margin-top: 80px;
 }
 @media screen and (max-height: 850px) {
   .step-form .step-form-header__title {
-    margin-top: form-header-title-margin-top--reduced;
+    margin-top: 30px;
   }
 }
 .step-form .step-form-content {
@@ -1582,6 +1621,12 @@ textarea {
 .step--last .step-info,
 .step--last .step-info .step-info-tip__inner {
   padding: 200px 40px 40px 440px;
+}
+@media screen and (max-height: 850px) {
+  .step--last .step-info,
+  .step--last .step-info .step-info-tip__inner {
+    padding: 130px 40px 40px 440px;
+  }
 }
 .step-info p,
 .step-info .step-info-tip__inner p {

@@ -1,0 +1,65 @@
+.custom-input-grading
+  
+  .custom-input-grading-summary
+    cf()
+    padding 30px 45px 20px
+    
+    +below-height(heightBreak)
+      padding 15px 40px 10px
+  
+  &__total, &__percent
+    col(1/2, cycle: 2, gutter: 0)
+    
+  &__percent
+    text-align right
+    
+    h3 
+      display inline block
+      width auto
+      
+      +below-height(heightBreak)
+        font-size 28px
+      
+    &.over-limit
+      color red
+      
+  .custom-input-grading-selection
+    
+    display none // temporary until points are implemented
+
+    position relative
+    padding 0 45px
+    
+    +below-height(heightBreak)
+      padding 0 40px
+    
+    &__title
+      position relative
+      top 0
+      left 0
+      width 100%
+      margin-bottom 0
+      color blue-dark
+      
+    .custom-input-wrapper
+      cf()
+      height auto
+      
+      .custom-input--radio
+        min-height 40px
+        height 40px
+        
+
+      .custom-input--radio-group
+        col(1/2, cycle: 2, gutter: 4.5)
+        height 40px
+        
+        label
+          line-height 40px
+          padding-left 25px
+          
+        .radio-button
+          left 0
+          
+
+          

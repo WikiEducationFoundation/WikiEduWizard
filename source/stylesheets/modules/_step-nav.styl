@@ -1,0 +1,242 @@
+/* /////////////////////////////////////////////////////
+
+Step Navigation Controls
+
+///////////////////////////////////////////////////// */
+
+nav-width = step-sidebar-width
+nav-height = 80px
+nav-height--reduced = 60px
+nav-font-size--reduced = 16px
+
+indicator-height = 35px
+indicator-height--reduced = 20px
+indicator-margin = 0 3px
+indicator-size = 14px
+indicator-size--reduced = 10px
+indicator-active-color = white
+indicator-inactive-color = rgba(80,90,128.0.5)
+
+
+
+.step-nav
+  cf()
+  transition height 0.15s ease-in
+  position fixed
+  bottom 0
+  left 0
+  width nav-width
+  height nav-height
+  z-index 5
+  user-select none
+  background blue
+  
+  +below-height(heightBreak)
+    height nav-height--reduced
+    
+  
+  .step-nav-buttons
+    
+    &--normal
+      position relative
+      display block 
+    
+    &--edit
+      display none
+      
+  
+  .edit-mode &
+
+    .step-nav-buttons
+      
+      &--normal
+        position relative
+        display none 
+      
+      &--edit
+        position relative
+        display block
+        
+  
+  
+  
+  &__button 
+    @extend .form-content
+    transition all 0.2s
+    display inline-block
+    width 50%
+    height nav-height
+    text-align center
+    color white
+    float left
+    line-height nav-height
+    background-size 45px auto
+    background-color blue
+    border-top 2px solid rgba(78,88,127,0.2)
+    
+    +below-height(heightBreak)
+      height nav-height--reduced
+      line-height nav-height--reduced
+      font-size nav-font-size--reduced
+    
+    span.arrow 
+      height 25px
+    
+    .step-nav-arrow 
+      display inline-block
+      line-height 80px
+      width 32px
+      height 25px
+      
+      &--left
+        background transparent url(/images/arrow--left.png) no-repeat
+        visibility hidden
+      
+      &--right
+        background transparent url(/images/arrow--right.png) no-repeat
+        visibility hidden
+      
+    &.inactive
+      cursor default
+      color rgba(255,255,225,0.25)
+      pointer-events none
+
+      
+    &:first-child
+      border-right 1px solid rgba(78,88,127,0.2)
+      background transparent url(/images/arrow--left.png) no-repeat
+      background-position 53px 50%
+      
+      &.inactive
+        background transparent url(/images/arrow--left--inactive.png) no-repeat
+        background-position 53px 50%
+
+
+    &:last-child
+      border-left 1px solid rgba(78,88,127,0.2)
+      background transparent url(/images/arrow--right.png) no-repeat
+      background-position 112px 50%
+      
+      &.inactive
+        background transparent url(/images/arrow--right--inactive.png) no-repeat
+        background-position 112px 50%
+      
+
+          
+    &:hover, &:active
+      background-color rgba(80,90,128,1.0)
+      
+      span.text
+        text-decoration none
+        
+    &.confirm, &.cancel
+      background transparent
+      
+    &.no-arrow
+      background none !important
+      
+    .step--final &
+      
+      &:first-child
+        display none
+
+      
+    &.exit-edit
+      width 100%
+      background transparent url(/images/arrow--right.png) no-repeat
+      background-position 310px 50%
+      
+      span.text 
+        transition margin-left 0.15s ease-in
+        margin-left 0
+        position relative
+      
+      &:hover
+        
+        span.text
+          transition margin-left 0.15s ease-in
+          margin-left 0
+          
+        
+    
+    
+  
+    
+    //TODO ARROWS
+
+  .step-nav-indicators
+    transition opacity 0.12s ease-in, margin-top 1s ease-out
+    position absolute
+    width 100%
+    height indicator-height
+    left 0
+    top -(indicator-height)
+    text-align center
+    margin-top 0
+    background blue
+    
+    +below-height(heightBreak)
+      height indicator-height--reduced
+      top -25px
+      
+    
+    
+    &__item
+      position relative
+      display inline-block
+      margin indicator-margin
+      color blue-light
+      line-height indicator-height
+      width indicator-size
+      height indicator-size
+      background indicator-inactive-color
+      border 2px solid transparent
+      border-radius indicator-size
+      text-indent -9999px
+      pointer-events none
+      
+      +below-height(heightBreak)
+        line-height indicator-height--reduced
+        width indicator-size--reduced
+        height indicator-size--reduced
+        border-radius indicator-size--reduced
+        
+      
+      &.visited
+        background-color transparent
+        border 2px solid white
+        cursor pointer
+        pointer-events auto
+                
+      &.active, &.visited.active
+        background indicator-active-color
+        pointer-events auto
+        
+      &.active
+        cursor initial
+        pointer-events auto
+
+      &.answered
+        background-color transparent
+        border 2px solid white
+        pointer-events auto
+      
+
+  &.hidden
+    opacity 0
+    pointer-events none
+    
+  &.contracted
+    transition height 0.3s
+    height 0
+    border-top 2px solid rgba(78,88,127,0.0)
+    
+    .step-nav-buttons
+      transition height 0.3s
+      overflow hidden
+      height 0
+  
+  
+      
+      
+  

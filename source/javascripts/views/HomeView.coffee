@@ -21,6 +21,9 @@ StepModel = require('../models/StepModel')
 
 StepNavView = require('../views/StepNavView')
 
+#INPUTS
+WizardStepInputs = require('../data/WizardStepInputs')
+
 
 
 module.exports = class HomeView extends View
@@ -135,6 +138,8 @@ module.exports = class HomeView extends View
         newview.isFirstStep = true
 
       @$stepsContainer.append(newview.render().hide().el)
+
+      newview.$el.addClass(step.id)
 
       _views.push(newview)
 
@@ -284,8 +289,8 @@ module.exports = class HomeView extends View
     $('body').removeClass('edit-mode')
 
 
-  exitEditClickHandler: ->
-
+  exitEditClickHandler: (e) ->
+    e.preventDefault()
     Backbone.Mediator.publish('edit:exit')
 
 
@@ -302,6 +307,27 @@ module.exports = class HomeView extends View
     @updateStepById(id)
 
     @hideAllTips()
+
+
+  getSelectedIds: ->
+
+    selectedIds = []
+
+    _.each(WizardStepInputs, (steps) =>
+
+      _.each(steps, (step) =>
+
+        if step.selected is true
+
+          if step.id
+
+            selectedIds.push step.id
+
+      )
+
+    )
+
+    return selectedIds
 
 
 

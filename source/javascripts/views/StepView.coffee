@@ -146,7 +146,9 @@ module.exports = class StepView extends View
     $target.toggleClass('open')
 
 
-  publishHandler: ->
+  publishHandler: (e) ->
+
+    e.preventDefault()
 
     Backbone.Mediator.publish('wizard:publish')
 
@@ -198,7 +200,7 @@ module.exports = class StepView extends View
 
       @dateViews = []
 
-      $dates = $(@datesModule({title: 'Course dates'}))
+      $dates = $(@datesModule({title: dateTitle}))
 
       $dateInputs = $dates.find('.custom-select')
 
@@ -253,7 +255,6 @@ module.exports = class StepView extends View
       else if input.type is 'percent'
 
         @hasUserAnswered = true
-
 
 
       inputView = new InputItemView(
@@ -327,16 +328,30 @@ module.exports = class StepView extends View
       scrollTop: 0
     ,1)
 
-    @$el.show()
+    if @isLastStep
+
+      @render().$el.show()
+
+    else if @model.attributes.id is 'grading'
+
+      @render().$el.show()
+
+
+    else
+
+      @$el.show()
 
     @hasUserVisited = true
+
 
     return @
 
 
   beginHandler: (e) ->
     e.preventDefault()
+
     Backbone.Mediator.publish('step:next')
+
 
 
   updateUserAnswer: (id, value, type) ->
@@ -344,8 +359,6 @@ module.exports = class StepView extends View
     inputItems = WizardStepInputs[@model.id]
 
     requiredSelected = false
-
-
 
     if type is 'percent'
 
@@ -446,6 +459,8 @@ module.exports = class StepView extends View
     WizardStepInputs[@model.id][id].options[index].selected = value
 
     WizardStepInputs[@model.id][id].value = WizardStepInputs[@model.id][id].options[index].value
+
+    WizardStepInputs[@model.id][id].overviewLabel = WizardStepInputs[@model.id][id].options[index].overviewLabel
 
     WizardStepInputs[@model.id][id].selected = index
 

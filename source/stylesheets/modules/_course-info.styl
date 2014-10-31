@@ -1,0 +1,51 @@
+stat-font-size = 16px
+stat-line-height = 19px
+stat-font-color = rgba(94,94,94,1.0)
+title-margin-bottom = 10px
+block-margin-bottom = 25px
+column-border-width = 2px
+column-border-color = rgba(81,85,102,0.1)
+
+
+.input-info
+  position relative
+  display block
+
+.input-info-block
+  cf()
+  width 100%
+  position relative
+  margin-bottom block-margin-bottom
+  
+  &__title
+    color blue-dark
+    position relative
+    margin-bottom title-margin-bottom 
+  
+  &__text
+    position relative
+  
+  &__stat
+    font-size stat-font-size
+    line-height stat-line-height
+    letter-spacing 0.25px
+    color stat-font-color
+    
+  &--two-columns
+    col(1/2, cycle: 2, gutter: 3.5)
+    border-bottom column-border-width solid column-border-color
+    padding-bottom 15px
+    margin 0 auto 10px
+    
+  &--grid
+    height 100%
+    display block
+    border-bottom column-border-width solid column-border-color
+    
+    .input-info-block__stat
+      line-height 30px
+      letter-spacing 0.57px
+      
+    
+
+  

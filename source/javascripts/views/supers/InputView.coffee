@@ -3,6 +3,8 @@
 # Author: kevin@wintr.us @ WINTR
 #########################################################
 
+#APP
+application = require( '../../App' )
 
 # SUPER VIEW CLASS
 View = require('./View')
@@ -213,8 +215,6 @@ module.exports = class InputItemView extends View
 
       @parentStep.tipVisible = true
 
-      
-
       $('body').addClass('tip-open')
 
       @parentStep.$el.find(".step-info-tip").removeClass('visible')
@@ -406,6 +406,32 @@ module.exports = class InputItemView extends View
 
     else if @inputType == 'percent'
 
+      if @parentStep.model.attributes.id is 'grading'
+
+        if @model.attributes.contingentUpon.length != 0
+
+          currentSelected = application.homeView.getSelectedIds()
+
+          renderInOutput = false
+
+          _.each(@model.attributes.contingentUpon, (id) =>
+
+            _.each(currentSelected, (selectedId) =>
+
+              if id is selectedId
+
+                renderInOutput = true
+
+            )
+
+          )
+
+          unless renderInOutput
+          
+            return false
+
+
+
       return {
 
         type: inputTypeObject
@@ -426,7 +452,38 @@ module.exports = class InputItemView extends View
 
     else if @inputType == 'edit'
 
+      allInputs = WizardStepInputs[@model.attributes.id]
+
+      selectedInputs = []
+
+      _.each(allInputs, (input) =>
+
+        if input.type
+
+          if input.type is 'checkbox' || input.type is 'radioBox'
+
+            if input.selected is true
+
+              selectedInputs.push input.label
+
+          else if input.type is 'radioGroup'
+
+            if input.id is 'peer_reviews'
+
+              selectedInputs.push input.overviewLabel
+
+      )
+
+      if selectedInputs.length != 0
+
+        @$el.addClass('has-content')
+
+      else 
+        return false
+
       return {
+
+        assignments: selectedInputs
 
         type: inputTypeObject
 
