@@ -528,7 +528,6 @@ WizardStepInputs =
       renderInOutput: true
       contingentUpon: []
 
-
     outline_quality:
       type: 'percent'
       id: 'outline_quality'
@@ -536,7 +535,6 @@ WizardStepInputs =
       value: 2   
       renderInOutput: true
       contingentUpon: []
-
 
     peer_reviews:
       type: 'percent'
@@ -575,6 +573,7 @@ WizardStepInputs =
     #   id: 'complete_training'
     #   value: 1
     #   renderInOutput: true
+    #   contingentUpon: []
 
     # practice_communication:
     #   type: 'percent'
@@ -582,6 +581,7 @@ WizardStepInputs =
     #   id: 'practice_communication'
     #   value: 1  
     #   renderInOutput: true
+    #   contingentUpon: []
 
     # practice_communication:
     #   type: 'percent'
@@ -589,6 +589,7 @@ WizardStepInputs =
     #   id: 'practice_communication'
     #   value: 1  
     #   renderInOutput: true
+    #   contingentUpon: []
 
     # copy_edit_article:
     #   type: 'percent'
@@ -596,6 +597,7 @@ WizardStepInputs =
     #   id: 'practice_communication'
     #   value: 1  
     #   renderInOutput: true
+    #   contingentUpon: []
 
     # critique_article:
     #   type: 'percent'
@@ -603,6 +605,7 @@ WizardStepInputs =
     #   id: 'critique_article'
     #   value: 1  
     #   renderInOutput: true
+    #   contingentUpon: []
 
     # add_to_article:
     #   type: 'percent'
@@ -610,6 +613,7 @@ WizardStepInputs =
     #   id: 'add_to_article'
     #   value: 1  
     #   renderInOutput: true
+    #   contingentUpon: []
 
     # illustrate_article:
     #   type: 'percent'
@@ -617,6 +621,7 @@ WizardStepInputs =
     #   id: 'illustrate_article'
     #   value: 1  
     #   renderInOutput: true
+    #   contingentUpon: []
 
     # outline_quality:
     #   type: 'percent'
@@ -624,6 +629,7 @@ WizardStepInputs =
     #   label: 'Quality of bibliography and outline'
     #   value: 2   
     #   renderInOutput: true
+    #   contingentUpon: []
 
     # peer_reviews:
     #   type: 'percent'
@@ -631,6 +637,7 @@ WizardStepInputs =
     #   label: 'Peer reviews and collaboration with classmates'
     #   value: 2   
     #   renderInOutput: true
+    #   contingentUpon: []
 
     # class_participation:
     #   type: 'percent'
@@ -638,6 +645,7 @@ WizardStepInputs =
     #   label: 'Participation in class discussions'
     #   value: 2   
     #   renderInOutput: true
+    #   contingentUpon: []
 
     # contribution_quality:
     #   type: 'percent'
@@ -645,6 +653,7 @@ WizardStepInputs =
     #   label: 'Quality of your main Wikipedia contributions'
     #   value: 10   
     #   renderInOutput: true
+    #   contingentUpon: []
 
     # reflective_essay:
     #   type: 'percent'
@@ -652,6 +661,7 @@ WizardStepInputs =
     #   label: 'Reflective essay'
     #   value: 2   
     #   renderInOutput: true
+    #   contingentUpon: []
 
     # original_paper:
     #   type: 'percent'
@@ -659,6 +669,7 @@ WizardStepInputs =
     #   label: 'Original argument paper'
     #   value: 10   
     #   renderInOutput: true
+    #   contingentUpon: []
 
     # class_presentation:
     #   type: 'percent'
@@ -666,6 +677,7 @@ WizardStepInputs =
     #   label: 'In-class presentation of contributions'
     #   value: 2 
     #   renderInOutput: true
+    #   contingentUpon: []
 
     grading_selection:
       label: 'Grading based on:'

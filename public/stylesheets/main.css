@@ -194,7 +194,7 @@ li {
   line-height: 1.5625;
   letter-spacing: 0.05px;
 }
-@media screen and (max-height: 850px) {
+@media screen and (max-height: 880px) {
   .body-content,
   p,
   li,
@@ -212,7 +212,7 @@ li.large {
   line-height: 1.555;
   letter-spacing: 0.06px;
 }
-@media screen and (max-height: 850px) {
+@media screen and (max-height: 880px) {
   .body-content--large,
   p--large,
   li--large,
@@ -226,7 +226,7 @@ li.large {
   line-height: 2.142;
   letter-spacing: 0.5px;
 }
-@media screen and (max-height: 850px) {
+@media screen and (max-height: 880px) {
   .list-content {
     font-size: 12px;
   }
@@ -244,7 +244,7 @@ h2,
   line-height: 1.166666;
   letter-spacing: 1.29px;
 }
-@media screen and (max-height: 850px) {
+@media screen and (max-height: 880px) {
   .form-content,
   h2,
   .custom-input--text label,
@@ -275,7 +275,7 @@ h2--small,
   line-height: 1.143;
   letter-spacing: 0.78px;
 }
-@media screen and (max-height: 850px) {
+@media screen and (max-height: 880px) {
   .form-content--small,
   h2--small,
   .custom-input--text label--small,
@@ -293,7 +293,7 @@ h3 {
   line-height: 1.194;
   letter-spacing: 0.45px;
 }
-@media screen and (max-height: 850px) {
+@media screen and (max-height: 880px) {
   .large-heading,
   h3,
 h3 {
@@ -306,7 +306,7 @@ h4 {
   line-height: 1.1666;
   letter-spacing: 0.38px;
 }
-@media screen and (max-height: 850px) {
+@media screen and (max-height: 880px) {
   .medium-heading,
   h4,
 h4 {
@@ -319,7 +319,7 @@ h5 {
   line-height: 1.6667;
   letter-spacing: 1px;
 }
-@media screen and (max-height: 850px) {
+@media screen and (max-height: 880px) {
   .small-heading,
   h5,
 h5 {
@@ -381,10 +381,12 @@ h5 {
 html {
   -webkit-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
+  height: 100%;
 }
 body {
   font-family: 'Droid Serif', serif;
   width: 100%;
+  height: 100%;
   color: #4f4f4f;
 }
 h1,
@@ -427,18 +429,22 @@ select {
 }
 .container {
   width: 100%;
+  height: 100%;
 }
 .container #app {
   width: 100%;
+  eight: 100%;
 }
 .container #app .home-view,
 .container #app .app-view {
   width: 100%;
+  height: 100%;
 }
 .content {
   position: relative;
   display: block;
   width: auto;
+  height: 100%;
   margin: 0;
   background: transparent no-repeat top left;
 }
@@ -476,7 +482,7 @@ select {
 .button.inactive {
   background-color: #636c8e;
   color: #a6abbf;
-  pointer-events: none;
+  pointer-events: auto;
 }
 .input-info {
   position: relative;
@@ -581,7 +587,7 @@ select {
   left: 0;
   padding: 0 5px;
 }
-@media screen and (max-height: 850px) {
+@media screen and (max-height: 880px) {
   .custom-input--text label {
     font-size: 14px;
   }
@@ -630,24 +636,25 @@ select {
   position: absolute;
   padding: 0 5px;
   border-bottom: 2px solid #505a7f;
-  width: 35px;
+  width: 30px;
   height: 25px;
   top: 50%;
-  right: 50px;
+  right: 45px;
   margin-top: -12px;
   display: inline-block;
 }
-@media screen and (max-height: 850px) {
+@media screen and (max-height: 880px) {
   .custom-input--percent .input-container {
     right: 45px;
+    height: 20px;
   }
 }
 .custom-input--percent .input-container .icon {
   display: block;
-  width: 22px;
+  width: 17px;
   height: 25px;
   position: absolute;
-  right: -26px;
+  right: -21px;
   background: transparent url("/images/percent.svg") no-repeat center center;
 }
 .custom-input--percent .input-container:before {
@@ -665,19 +672,25 @@ select {
   position: relative;
   background: transparent;
   color: #fff;
-  width: 26px;
+  width: 25px;
   display: inline-block;
   border: none;
   outline: none;
   text-align: center;
+  font-size: 16px;
+}
+@media screen and (max-height: 880px) {
+  .custom-input--percent input {
+    font-size: 14px;
+  }
 }
 .custom-input--percent label {
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1.222;
 }
-@media screen and (max-height: 850px) {
+@media screen and (max-height: 880px) {
   .custom-input--percent label {
-    font-size: 14px;
+    font-size: 12px;
   }
 }
 .custom-input-accordian {
@@ -742,10 +755,19 @@ select {
   color: #fff;
   border-bottom: 1px solid rgba(78,88,127,0.2);
   font-size: 18px;
-  padding: 15px 40px;
   cursor: pointer;
+  font-size: 17px;
+  padding: 15px 70px 15px 40px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
-@media screen and (max-height: 850px) {
+@media screen and (max-height: 880px) {
+  .custom-input--edit padding-right 100px {
+    padding-top: 7px;
+    padding-botom: 7px;
+  }
+}
+@media screen and (max-height: 880px) {
   .custom-input--edit {
     font-size: 16px;
   }
@@ -757,7 +779,7 @@ select {
   width: 22px;
   height: 22px;
   position: absolute;
-  top: 20px;
+  top: 10px;
   right: 43px;
   background: transparent;
   z-index: 100;
@@ -765,17 +787,18 @@ select {
   line-height: 22px;
   letter-spacing: 0.2px;
 }
-@media screen and (max-height: 850px) {
-  .custom-input--edit .edit-button {
-    top: 15px;
-  }
-}
 .custom-input--edit .edit-button:hover {
   color: #505a7f;
 }
 .custom-input--edit label {
   line-height: 22px;
   cursor: pointer;
+  font-size: 16px;
+}
+@media screen and (max-height: 880px) {
+  .custom-input--edit label {
+    font-size: 14px;
+  }
 }
 .custom-input--checkbox,
 .custom-input--radiobox {
@@ -788,7 +811,7 @@ select {
   font-size: 18px;
   padding: 15px 70px 15px 40px;
 }
-@media screen and (max-height: 850px) {
+@media screen and (max-height: 880px) {
   .custom-input--checkbox,
   .custom-input--radiobox,
 .custom-input--radiobox {
@@ -916,7 +939,7 @@ select {
   right: auto;
   left: 25px;
 }
-@media screen and (max-height: 850px) {
+@media screen and (max-height: 880px) {
   .custom-input--radio.custom-input--radio-group {
     height: 50px;
     line-height: 50px;
@@ -1055,7 +1078,7 @@ select {
   padding: 0 5px;
   color: #505a7f;
 }
-@media screen and (max-height: 850px) {
+@media screen and (max-height: 880px) {
   .custom-input-dates__label {
     font-size: 14px;
     line-height: 1.875;
@@ -1167,7 +1190,7 @@ textarea {
 }
 .custom-input-grading .custom-input-grading-summary {
   *zoom: 1;
-  padding: 30px 45px 20px;
+  padding: 10px 40px 20px;
 }
 .custom-input-grading .custom-input-grading-summary:before,
 .custom-input-grading .custom-input-grading-summary:after {
@@ -1177,9 +1200,9 @@ textarea {
 .custom-input-grading .custom-input-grading-summary:after {
   clear: both;
 }
-@media screen and (max-height: 850px) {
+@media screen and (max-height: 880px) {
   .custom-input-grading .custom-input-grading-summary {
-    padding: 15px 40px 10px;
+    padding: 6px 40px 10px;
   }
 }
 .custom-input-grading__total,
@@ -1213,17 +1236,24 @@ textarea {
 .custom-input-grading__percent:nth-child(2n + 1) {
   clear: both;
 }
+@media screen and (max-height: 880px) {
+  .custom-input-grading__total h3,
+  .custom-input-grading__percent h3 {
+    font-size: 32px;
+  }
+}
+@media screen and (max-height: 780px) {
+  .custom-input-grading__total h3,
+  .custom-input-grading__percent h3 {
+    font-size: 26px;
+  }
+}
 .custom-input-grading__percent {
   text-align: right;
 }
 .custom-input-grading__percent h3 {
   display: inline block;
   width: auto;
-}
-@media screen and (max-height: 850px) {
-  .custom-input-grading__percent h3 {
-    font-size: 28px;
-  }
 }
 .custom-input-grading__percent.over-limit {
   color: #e36945;
@@ -1233,7 +1263,7 @@ textarea {
   position: relative;
   padding: 0 45px;
 }
-@media screen and (max-height: 850px) {
+@media screen and (max-height: 880px) {
   .custom-input-grading .custom-input-grading-selection {
     padding: 0 40px;
   }
@@ -1319,7 +1349,7 @@ textarea {
 .step-nav:after {
   clear: both;
 }
-@media screen and (max-height: 850px) {
+@media screen and (max-height: 880px) {
   .step-nav {
     height: 60px;
   }
@@ -1353,7 +1383,7 @@ textarea {
   background-color: #858daa;
   border-top: 2px solid rgba(78,88,127,0.2);
 }
-@media screen and (max-height: 850px) {
+@media screen and (max-height: 880px) {
   .step-nav__button {
     height: 60px;
     line-height: 60px;
@@ -1380,7 +1410,7 @@ textarea {
 .step-nav__button.inactive {
   cursor: default;
   color: rgba(255,255,225,0.25);
-  pointer-events: none;
+  pointer-events: auto;
 }
 .step-nav__button:first-child {
   border-right: 1px solid rgba(78,88,127,0.2);
@@ -1445,11 +1475,17 @@ textarea {
   text-align: center;
   margin-top: 0;
   background: #858daa;
+  opacity: 1;
 }
-@media screen and (max-height: 850px) {
+@media screen and (max-height: 880px) {
   .step-nav .step-nav-indicators {
     height: 20px;
     top: -25px;
+  }
+}
+@media screen and (max-height: 780px) {
+  .step-nav .step-nav-indicators {
+    top: -18px;
   }
 }
 .step-nav .step-nav-indicators__item {
@@ -1466,7 +1502,7 @@ textarea {
   text-indent: -9999px;
   pointer-events: none;
 }
-@media screen and (max-height: 850px) {
+@media screen and (max-height: 880px) {
   .step-nav .step-nav-indicators__item {
     line-height: 20px;
     width: 10px;
@@ -1493,6 +1529,11 @@ textarea {
   background-color: transparent;
   border: 2px solid #fff;
   pointer-events: auto;
+}
+@media screen and (max-height: 780px) {
+  .step-nav .step-nav-indicators__item {
+    pointer-events: none;
+  }
 }
 .step-nav.hidden {
   opacity: 0;
@@ -1550,7 +1591,7 @@ textarea {
   padding: 0 80px 0 40px;
   margin-bottom: 35px;
 }
-@media screen and (max-height: 850px) {
+@media screen and (max-height: 880px) {
   .step-form .step-form-header {
     height: 100px;
     padding: 0 80px 0 40px;
@@ -1562,7 +1603,7 @@ textarea {
   vertical-align: bottom;
   margin-top: 80px;
 }
-@media screen and (max-height: 850px) {
+@media screen and (max-height: 880px) {
   .step-form .step-form-header__title {
     margin-top: 30px;
   }
@@ -1573,7 +1614,7 @@ textarea {
   left: 0;
   width: 100%;
 }
-@media screen and (max-height: 850px) {
+@media screen and (max-height: 880px) {
   .step-form .step-form-content {
     top: 130px;
   }
@@ -1588,7 +1629,7 @@ textarea {
   margin: 0 auto 10px;
   padding: 0 40px;
 }
-@media screen and (max-height: 850px) {
+@media screen and (max-height: 880px) {
   .step-form .step-form-content__title {
     font-size: 16px;
     line-height: 19px;
@@ -1609,7 +1650,7 @@ textarea {
   background: #fff;
   z-index: 1;
 }
-@media screen and (max-height: 850px) {
+@media screen and (max-height: 880px) {
   .step-info,
   .step-info .step-info-tip__inner,
 .step-info .step-info-tip__inner {
@@ -1622,27 +1663,27 @@ textarea {
 .step--last .step-info .step-info-tip__inner {
   padding: 200px 40px 40px 440px;
 }
-@media screen and (max-height: 850px) {
+@media screen and (max-height: 880px) {
   .step--last .step-info,
   .step--last .step-info .step-info-tip__inner {
     padding: 130px 40px 40px 440px;
   }
 }
-.step-info p,
-.step-info .step-info-tip__inner p {
-  margin: 25px auto;
+.step-info .step-info-section p,
+.step-info .step-info-tip__inner .step-info-section p {
+  margin: 20px auto;
 }
-.step-info p:first-child,
-.step-info .step-info-tip__inner p:first-child {
+.step-info .step-info-section p:first-child,
+.step-info .step-info-tip__inner .step-info-section p:first-child {
   margin-top: 0;
 }
-.step-info p:last-child,
-.step-info .step-info-tip__inner p:last-child {
+.step-info .step-info-section p:last-child,
+.step-info .step-info-tip__inner .step-info-section p:last-child {
   margin-bottom: 0;
 }
-@media screen and (max-height: 850px) {
-  .step-info p,
-  .step-info .step-info-tip__inner p {
+@media screen and (max-height: 880px) {
+  .step-info .step-info-section p,
+  .step-info .step-info-tip__inner .step-info-section p {
     margin: 15px auto;
   }
 }
@@ -1654,7 +1695,7 @@ textarea {
   right: 40px;
   z-index: 1000;
 }
-@media screen and (max-height: 850px) {
+@media screen and (max-height: 880px) {
   .step-info .main-logo,
   .step-info .step-info-tip__inner .main-logo {
     top: 40px;
@@ -1685,7 +1726,7 @@ textarea {
   pointer-events: none;
   background: #fff;
 }
-@media screen and (max-height: 850px) {
+@media screen and (max-height: 880px) {
   .step-info .step-info-tip,
   .step-info .step-info-tip__inner .step-info-tip {
     max-width: 1000px;
@@ -1708,7 +1749,7 @@ textarea {
   background: transparent url("/images/close--tip.svg") no-repeat center center;
   cursor: pointer;
 }
-@media screen and (max-height: 850px) {
+@media screen and (max-height: 880px) {
   .step-info .step-info-tip__close,
   .step-info .step-info-tip__inner .step-info-tip__close {
     top: 130px;
@@ -1729,10 +1770,20 @@ textarea {
 .step-info-section {
   margin: 25px auto;
 }
+@media screen and (max-height: 880px) {
+  .step-info-section {
+    margin: 20px auto;
+  }
+}
+@media screen and (max-height: 780px) {
+  .step-info-section {
+    margin: 15px auto;
+  }
+}
 .step-info-section .step-info-section__header {
   margin: 15px auto;
 }
-@media screen and (max-height: 850px) {
+@media screen and (max-height: 880px) {
   .step-info-section .step-info-section__header {
     margin: 10px auto;
   }
@@ -1740,7 +1791,7 @@ textarea {
 .step-info-section .step-info-section__content {
   margin: 15px auto;
 }
-@media screen and (max-height: 850px) {
+@media screen and (max-height: 880px) {
   .step-info-section .step-info-section__content {
     margin: 10px auto;
   }
@@ -1749,12 +1800,15 @@ textarea {
   color: #4f4f4f;
   text-decoration: underline;
 }
+.step-info-section .step-info-section__content:first-child {
+  margin-top: 0;
+}
 .step-info-section--accordian {
   border-top: 2px solid rgba(81,85,102,0.1);
   border-bottom: 2px solid rgba(81,85,102,0.1);
   margin: 15px auto;
 }
-@media screen and (max-height: 850px) {
+@media screen and (max-height: 880px) {
   .step-info-section--accordian {
     margin: 10px auto;
   }
@@ -1816,7 +1870,7 @@ textarea {
   background: transparent url("/images/wiki-logo.png") no-repeat center 100px;
   background-size: 60px auto;
 }
-@media screen and (max-height: 850px) {
+@media screen and (max-height: 880px) {
   .step--first .step-form {
     padding: 130px 0;
     min-height: 1000px;
@@ -1860,4 +1914,305 @@ textarea {
   margin-bottom: 20px;
   text-align: center;
   width: 100%;
+}
+.step--grading,
+.step--assignment_selection,
+.step--learning_essentials,
+.step--getting_started,
+.step--choosing_articles,
+.step--research_planning,
+.step--drafts_mainspace,
+.step--peer_feedback,
+.step--supplementary_assignments,
+.step--dyk,
+.step--ga,
+.step--overview {
+  position: relative;
+}
+.step--grading .step-form,
+.step--assignment_selection .step-form,
+.step--learning_essentials .step-form,
+.step--getting_started .step-form,
+.step--choosing_articles .step-form,
+.step--research_planning .step-form,
+.step--drafts_mainspace .step-form,
+.step--peer_feedback .step-form,
+.step--supplementary_assignments .step-form,
+.step--dyk .step-form,
+.step--ga .step-form,
+.step--overview .step-form {
+  padding-bottom: 0;
+}
+.step--grading .step-form .step-form-header,
+.step--assignment_selection .step-form .step-form-header,
+.step--learning_essentials .step-form .step-form-header,
+.step--getting_started .step-form .step-form-header,
+.step--choosing_articles .step-form .step-form-header,
+.step--research_planning .step-form .step-form-header,
+.step--drafts_mainspace .step-form .step-form-header,
+.step--peer_feedback .step-form .step-form-header,
+.step--supplementary_assignments .step-form .step-form-header,
+.step--dyk .step-form .step-form-header,
+.step--ga .step-form .step-form-header,
+.step--overview .step-form .step-form-header {
+  display: block;
+  height: 200px;
+  padding: 0 80px 0 40px;
+  margin-bottom: 0;
+}
+@media screen and (max-height: 880px) {
+  .step--grading .step-form .step-form-header,
+  .step--assignment_selection .step-form .step-form-header,
+  .step--learning_essentials .step-form .step-form-header,
+  .step--getting_started .step-form .step-form-header,
+  .step--choosing_articles .step-form .step-form-header,
+  .step--research_planning .step-form .step-form-header,
+  .step--drafts_mainspace .step-form .step-form-header,
+  .step--peer_feedback .step-form .step-form-header,
+  .step--supplementary_assignments .step-form .step-form-header,
+  .step--dyk .step-form .step-form-header,
+  .step--ga .step-form .step-form-header,
+  .step--overview .step-form .step-form-header {
+    height: 150px;
+  }
+}
+.step--grading .step-form .step-form-header__title,
+.step--assignment_selection .step-form .step-form-header__title,
+.step--learning_essentials .step-form .step-form-header__title,
+.step--getting_started .step-form .step-form-header__title,
+.step--choosing_articles .step-form .step-form-header__title,
+.step--research_planning .step-form .step-form-header__title,
+.step--drafts_mainspace .step-form .step-form-header__title,
+.step--peer_feedback .step-form .step-form-header__title,
+.step--supplementary_assignments .step-form .step-form-header__title,
+.step--dyk .step-form .step-form-header__title,
+.step--ga .step-form .step-form-header__title,
+.step--overview .step-form .step-form-header__title {
+  display: inline-block;
+  vertical-align: baseline;
+  margin-top: 80px;
+}
+@media screen and (max-height: 880px) {
+  .step--grading .step-form .step-form-header__title,
+  .step--assignment_selection .step-form .step-form-header__title,
+  .step--learning_essentials .step-form .step-form-header__title,
+  .step--getting_started .step-form .step-form-header__title,
+  .step--choosing_articles .step-form .step-form-header__title,
+  .step--research_planning .step-form .step-form-header__title,
+  .step--drafts_mainspace .step-form .step-form-header__title,
+  .step--peer_feedback .step-form .step-form-header__title,
+  .step--supplementary_assignments .step-form .step-form-header__title,
+  .step--dyk .step-form .step-form-header__title,
+  .step--ga .step-form .step-form-header__title,
+  .step--overview .step-form .step-form-header__title {
+    margin-top: 30px;
+  }
+}
+.step--grading .step-form .step-form-content,
+.step--assignment_selection .step-form .step-form-content,
+.step--learning_essentials .step-form .step-form-content,
+.step--getting_started .step-form .step-form-content,
+.step--choosing_articles .step-form .step-form-content,
+.step--research_planning .step-form .step-form-content,
+.step--drafts_mainspace .step-form .step-form-content,
+.step--peer_feedback .step-form .step-form-content,
+.step--supplementary_assignments .step-form .step-form-content,
+.step--dyk .step-form .step-form-content,
+.step--ga .step-form .step-form-content,
+.step--overview .step-form .step-form-content {
+  position: relative;
+  left: auto;
+  top: auto;
+  margin-top: 30px;
+}
+@media screen and (max-height: 880px) {
+  .step--grading .step-form .step-form-content,
+  .step--assignment_selection .step-form .step-form-content,
+  .step--learning_essentials .step-form .step-form-content,
+  .step--getting_started .step-form .step-form-content,
+  .step--choosing_articles .step-form .step-form-content,
+  .step--research_planning .step-form .step-form-content,
+  .step--drafts_mainspace .step-form .step-form-content,
+  .step--peer_feedback .step-form .step-form-content,
+  .step--supplementary_assignments .step-form .step-form-content,
+  .step--dyk .step-form .step-form-content,
+  .step--ga .step-form .step-form-content,
+  .step--overview .step-form .step-form-content {
+    margin-top: 15px;
+  }
+}
+.step--grading .step-form .step-form-content__title,
+.step--assignment_selection .step-form .step-form-content__title,
+.step--learning_essentials .step-form .step-form-content__title,
+.step--getting_started .step-form .step-form-content__title,
+.step--choosing_articles .step-form .step-form-content__title,
+.step--research_planning .step-form .step-form-content__title,
+.step--drafts_mainspace .step-form .step-form-content__title,
+.step--peer_feedback .step-form .step-form-content__title,
+.step--supplementary_assignments .step-form .step-form-content__title,
+.step--dyk .step-form .step-form-content__title,
+.step--ga .step-form .step-form-content__title,
+.step--overview .step-form .step-form-content__title {
+  display: inline-block;
+  width: 100%;
+  height: auto;
+  position: absolute;
+  left: 0;
+  bottom: 100%;
+  margin: 0 auto;
+  margin-bottom: 15px;
+}
+@media screen and (max-height: 880px) {
+  .step--grading .step-form .step-form-content__title,
+  .step--assignment_selection .step-form .step-form-content__title,
+  .step--learning_essentials .step-form .step-form-content__title,
+  .step--getting_started .step-form .step-form-content__title,
+  .step--choosing_articles .step-form .step-form-content__title,
+  .step--research_planning .step-form .step-form-content__title,
+  .step--drafts_mainspace .step-form .step-form-content__title,
+  .step--peer_feedback .step-form .step-form-content__title,
+  .step--supplementary_assignments .step-form .step-form-content__title,
+  .step--dyk .step-form .step-form-content__title,
+  .step--ga .step-form .step-form-content__title,
+  .step--overview .step-form .step-form-content__title {
+    margin-top: 10px;
+  }
+}
+.step--grading .step-info .step-info-inner,
+.step--assignment_selection .step-info .step-info-inner,
+.step--learning_essentials .step-info .step-info-inner,
+.step--getting_started .step-info .step-info-inner,
+.step--choosing_articles .step-info .step-info-inner,
+.step--research_planning .step-info .step-info-inner,
+.step--drafts_mainspace .step-info .step-info-inner,
+.step--peer_feedback .step-info .step-info-inner,
+.step--supplementary_assignments .step-info .step-info-inner,
+.step--dyk .step-info .step-info-inner,
+.step--ga .step-info .step-info-inner,
+.step--overview .step-info .step-info-inner {
+  margin-top: 0;
+}
+.step--grading .step-info .step-info-inner .step-info-wrapper,
+.step--assignment_selection .step-info .step-info-inner .step-info-wrapper,
+.step--learning_essentials .step-info .step-info-inner .step-info-wrapper,
+.step--getting_started .step-info .step-info-inner .step-info-wrapper,
+.step--choosing_articles .step-info .step-info-inner .step-info-wrapper,
+.step--research_planning .step-info .step-info-inner .step-info-wrapper,
+.step--drafts_mainspace .step-info .step-info-inner .step-info-wrapper,
+.step--peer_feedback .step-info .step-info-inner .step-info-wrapper,
+.step--supplementary_assignments .step-info .step-info-inner .step-info-wrapper,
+.step--dyk .step-info .step-info-inner .step-info-wrapper,
+.step--ga .step-info .step-info-inner .step-info-wrapper,
+.step--overview .step-info .step-info-inner .step-info-wrapper {
+  position: relative;
+}
+.step--grading .step-info .step-info-inner .step-info-wrapper .step-info__intro,
+.step--assignment_selection .step-info .step-info-inner .step-info-wrapper .step-info__intro,
+.step--learning_essentials .step-info .step-info-inner .step-info-wrapper .step-info__intro,
+.step--getting_started .step-info .step-info-inner .step-info-wrapper .step-info__intro,
+.step--choosing_articles .step-info .step-info-inner .step-info-wrapper .step-info__intro,
+.step--research_planning .step-info .step-info-inner .step-info-wrapper .step-info__intro,
+.step--drafts_mainspace .step-info .step-info-inner .step-info-wrapper .step-info__intro,
+.step--peer_feedback .step-info .step-info-inner .step-info-wrapper .step-info__intro,
+.step--supplementary_assignments .step-info .step-info-inner .step-info-wrapper .step-info__intro,
+.step--dyk .step-info .step-info-inner .step-info-wrapper .step-info__intro,
+.step--ga .step-info .step-info-inner .step-info-wrapper .step-info__intro,
+.step--overview .step-info .step-info-inner .step-info-wrapper .step-info__intro {
+  display: inline-block;
+  margin-top: 10px;
+}
+.step--grading .step-info .step-info-inner .step-info-wrapper .step-info__title,
+.step--assignment_selection .step-info .step-info-inner .step-info-wrapper .step-info__title,
+.step--learning_essentials .step-info .step-info-inner .step-info-wrapper .step-info__title,
+.step--getting_started .step-info .step-info-inner .step-info-wrapper .step-info__title,
+.step--choosing_articles .step-info .step-info-inner .step-info-wrapper .step-info__title,
+.step--research_planning .step-info .step-info-inner .step-info-wrapper .step-info__title,
+.step--drafts_mainspace .step-info .step-info-inner .step-info-wrapper .step-info__title,
+.step--peer_feedback .step-info .step-info-inner .step-info-wrapper .step-info__title,
+.step--supplementary_assignments .step-info .step-info-inner .step-info-wrapper .step-info__title,
+.step--dyk .step-info .step-info-inner .step-info-wrapper .step-info__title,
+.step--ga .step-info .step-info-inner .step-info-wrapper .step-info__title,
+.step--overview .step-info .step-info-inner .step-info-wrapper .step-info__title {
+  display: inline-block;
+  width: 100%;
+  height: auto;
+  position: relative;
+  left: 0;
+  margin-bottom: 5px;
+}
+.step--grading .step-info .step-info-inner .step-info-wrapper .step-info__title + .step-info-section,
+.step--assignment_selection .step-info .step-info-inner .step-info-wrapper .step-info__title + .step-info-section,
+.step--learning_essentials .step-info .step-info-inner .step-info-wrapper .step-info__title + .step-info-section,
+.step--getting_started .step-info .step-info-inner .step-info-wrapper .step-info__title + .step-info-section,
+.step--choosing_articles .step-info .step-info-inner .step-info-wrapper .step-info__title + .step-info-section,
+.step--research_planning .step-info .step-info-inner .step-info-wrapper .step-info__title + .step-info-section,
+.step--drafts_mainspace .step-info .step-info-inner .step-info-wrapper .step-info__title + .step-info-section,
+.step--peer_feedback .step-info .step-info-inner .step-info-wrapper .step-info__title + .step-info-section,
+.step--supplementary_assignments .step-info .step-info-inner .step-info-wrapper .step-info__title + .step-info-section,
+.step--dyk .step-info .step-info-inner .step-info-wrapper .step-info__title + .step-info-section,
+.step--ga .step-info .step-info-inner .step-info-wrapper .step-info__title + .step-info-section,
+.step--overview .step-info .step-info-inner .step-info-wrapper .step-info__title + .step-info-section {
+  margin-top: 10px;
+}
+.step--grading .step-form .step-form-header {
+  display: block;
+  height: 150px;
+  padding: 0 80px 0 40px;
+  margin-bottom: 0;
+}
+@media screen and (max-height: 880px) {
+  .step--grading .step-form .step-form-header {
+    height: 80px;
+  }
+}
+.step--grading .step-form .step-form-header__title {
+  display: inline-block;
+  vertical-align: baseline;
+  margin-top: 50px;
+}
+@media screen and (max-height: 880px) {
+  .step--grading .step-form .step-form-header__title {
+    margin-top: 10px;
+    font-size: 32px;
+  }
+}
+.step--grading .step-form .step-form-content {
+  margin-top: 30px;
+}
+.step--grading .step-info {
+  padding-top: 150px;
+}
+@media screen and (max-height: 880px) {
+  .step--grading .step-info {
+    padding-top: 80px;
+  }
+}
+.step--overview .step-form .step-form-header {
+  margin-top: 0;
+}
+.step--overview .step-form .step-form-content {
+  margin-top: 0;
+}
+.step-form-layout {
+  position: relative;
+  width: 430px;
+  height: 100%;
+}
+.step-form-layout__inner {
+  position: relative;
+  width: 400px;
+  height: 100%;
+  background: #858daa;
+  overflow: visible;
+}
+@media screen and (max-height: 780px) {
+  .step-form-layout__inner {
+    padding-bottom: 90px;
+    overflow-y: scroll;
+    overflow-x: visible !important;
+  }
+}
+.step-form {
+  width: 430px;
+  background: transparent;
 }

@@ -8,19 +8,23 @@
 
 <!-- STEP FORM : Left Side of Step -->
 <div class="step-form">
-  <div class="step-form-header">
-    {{#if title}}
-    <h3 class="step-form-header__title">{{{title}}}</h3>
-    {{/if}}
-  </div>
+  <div class="step-form-layout">
+    <div class="step-form-layout__inner">
+      <div class="step-form-header">
+        {{#if title}}
+        <h3 class="step-form-header__title">{{{title}}}</h3>
+        {{/if}}
+      </div>
 
-  
-  <!-- STEP FORM INNER CONTENT -->
-  <div class="step-form-content">
-    {{#if formTitle}}
-    <h4 class="step-form-content__title">{{{formTitle}}}</h4>
-    {{/if}}
-    <div class="step-form-inner"></div>
+      
+      <!-- STEP FORM INNER CONTENT -->
+      <div class="step-form-content">
+        {{#if formTitle}}
+        <h4 class="step-form-content__title">{{{formTitle}}}</h4>
+        {{/if}}
+        <div class="step-form-inner"></div>
+      </div>
+    </div>
   </div>
 </div><!-- end .step-form -->
 
@@ -28,6 +32,9 @@
 
 <!-- STEP INFO : Right side of step -->
 <div class="step-info">
+  <!-- STEP INFO TIP SECTION -->
+  <!-- used for both course info and generic info -->
+  <div class="step-info-tips"></div><!-- end .step-info-tips -->
   <div class="step-info-inner">
     <!-- WIKIEDU LOGO -->
     <a class="main-logo" href="http://wikiedu.org" target="_blank" title="wikiedu.org">WIKIEDU.ORG</a>
@@ -36,11 +43,11 @@
     <div class="step-info-wrapper">
 
       {{#if infoTitle}}
-      <h2 class="font-blue--dark">{{{infoTitle}}}</h2>
+      <h2 class="font-blue--dark step-info__title">{{{infoTitle}}}</h2>
       {{/if}}
 
       {{#if instructions}}
-      <p class="large">{{{instructions}}}</p>
+      <p class="large step-info__intro">{{{instructions}}}</p>
       {{/if}}
 
       
@@ -69,9 +76,7 @@
     
 
 
-    <!-- STEP INFO TIP SECTION -->
-    <!-- used for both course info and generic info -->
-    <div class="step-info-tips"></div><!-- end .step-info-tips -->
+    
 
   </div><!-- end .step-info-inner -->
 </div><!-- end .step-info -->

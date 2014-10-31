@@ -139,7 +139,7 @@ module.exports = class HomeView extends View
 
       @$stepsContainer.append(newview.render().hide().el)
 
-      newview.$el.addClass(step.id)
+      newview.$el.addClass("step--#{step.id}")
 
       _views.push(newview)
 

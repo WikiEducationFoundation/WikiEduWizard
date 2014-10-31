@@ -30,7 +30,7 @@ info-min-width = 1000px
 info-max-width--reduced = 1000px
 info-min-width--reduced = 900px
 
-info-paragraph-margin = 25px auto
+info-paragraph-margin = 20px auto
 info-paragraph-margin--reduced = 15px auto 
 
 info-section-margin = 25px auto //
@@ -190,11 +190,7 @@ outro-padding--reduced = outro-top-padding--reduced outro-right-padding--reduced
 
     
 
-  // .step-info-wrapper
-  //   margin-left left-padding
-  //   margin-right right-padding
-  //   margin-bottom bottom-padding
-  //   margin-top top-padding
+
     
   
   
@@ -204,15 +200,16 @@ outro-padding--reduced = outro-top-padding--reduced outro-right-padding--reduced
     +below-height(heightBreak)
       padding step-padding--reduced
   
-  p 
-    margin info-paragraph-margin
-    &:first-child
-      margin-top 0
-    &:last-child
-      margin-bottom 0
-      
-    +below-height(heightBreak)
-      margin info-paragraph-margin--reduced
+  .step-info-section
+    p 
+      margin info-paragraph-margin
+      &:first-child
+        margin-top 0
+      &:last-child
+        margin-bottom 0
+        
+      +below-height(heightBreak)
+        margin info-paragraph-margin--reduced
 
 
   .main-logo
@@ -290,6 +287,13 @@ outro-padding--reduced = outro-top-padding--reduced outro-right-padding--reduced
 .step-info-section
   margin 25px auto
   
+  +below-height(heightBreak)
+    margin 20px auto
+  
+  +below-height(heightBreakSmall)
+    margin 15px auto
+
+  
 
   .step-info-section__header
     margin info-section-header-margin 
@@ -306,6 +310,9 @@ outro-padding--reduced = outro-top-padding--reduced outro-right-padding--reduced
     a:not(.button)
       color body-font-color
       text-decoration underline
+    
+    &:first-child
+      margin-top 0
 
 .step-info-section--accordian
   border-top: 2px solid rgba(81,85,102,0.1);
@@ -409,6 +416,7 @@ outro-padding--reduced = outro-top-padding--reduced outro-right-padding--reduced
         padding-right 0
         color rgb(79,79,79)
 
+
 .step--login
   
   .step-form
@@ -422,6 +430,148 @@ outro-padding--reduced = outro-top-padding--reduced outro-right-padding--reduced
     margin-bottom 20px
     text-align center
     width 100%
+    
+    
+.step--grading, .step--assignment_selection, .step--learning_essentials, .step--getting_started, .step--choosing_articles, .step--research_planning, .step--drafts_mainspace, .step--peer_feedback, .step--supplementary_assignments, .step--dyk, .step--ga, .step--overview
+  position relative
+  
+  .step-form
+    padding-bottom 0
+    
+    .step-form-header
+      display block
+      height 200px
+      padding 0 80px 0 40px
+      margin-bottom 0 //35px
+
+      +below-height(heightBreak)
+        height 150px
+      
+      &__title
+        display inline-block
+        vertical-align baseline
+        margin-top 80px
+
+        +below-height(heightBreak)
+          margin-top 30px
+
+        
+    .step-form-content
+      position relative
+      left auto
+      top auto
+      margin-top 30px
+
+      +below-height(heightBreak)
+        margin-top 15px
+  
+      
+      &__title
+        display inline-block
+        width 100%
+        height auto
+        position absolute
+        left 0
+        bottom 100%
+        margin 0 auto
+        margin-bottom 15px
+        
+        +below-height(heightBreak)
+          margin-top 10px
+        
+      
+  .step-info
+    
+    .step-info-inner
+      margin-top 0
+      
+      .step-info-wrapper
+        position relative
+        
+
+        .step-info__intro
+          display inline-block
+          margin-top 10px
+        
+        .step-info__title 
+          display inline-block
+          width 100%
+          height auto
+          position relative
+          left 0
+          margin-bottom 5px
+          
+        .step-info__title + .step-info-section
+          margin-top 10px
+
+          
+.step--grading
+  .step-form
+    .step-form-header
+      display block
+      height 150px
+      padding 0 80px 0 40px
+      margin-bottom 0 //35px
+      
+      +below-height(heightBreak)
+        height 80px
+      
+      &__title
+        display inline-block
+        vertical-align baseline
+        margin-top 50px
+        
+        +below-height(heightBreak)
+          margin-top 10px
+          font-size 32px
+          
+    .step-form-content
+      margin-top 30px
+        
+  .step-info
+    padding-top 150px
+    
+    +below-height(heightBreak)
+      padding-top 80px
+      
+.step--overview
+  .step-form
+    .step-form-header
+      margin-top 0
+    .step-form-content
+      margin-top 0
+
+
+.step-form-layout
+  position relative
+  width 430px
+  height 100%
+  
+  
+  &__inner
+    position relative
+    width 400px
+    height 100%
+    background #858daa
+    overflow visible
+    
+    +below-height(heightBreakSmall)
+      padding-bottom 90px
+      overflow-y scroll
+      overflow-x visible !important
+    
+.step-form
+  width 430px
+  background transparent
+          
+        
+        
+        
+        
+        
+        
+        
+     
     
 
 

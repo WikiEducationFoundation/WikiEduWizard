@@ -276,7 +276,7 @@ WizardContent = [
   {
     id: "grading"
     title: 'Grading'
-    formTitle: "How will students' grades for the Wikipedia assignment be determined?"
+    formTitle: "How will students' grades for assignments be determined?"
     infoTitle: "About grading"
     instructions: 'Grading Wikipedia assignments can be a challenge. Here are some tips for grading your Wikipedia assignments:'
     sections: [

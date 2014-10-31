@@ -99,7 +99,7 @@ indicator-inactive-color = rgba(80,90,128.0.5)
     &.inactive
       cursor default
       color rgba(255,255,225,0.25)
-      pointer-events none
+      pointer-events auto
 
       
     &:first-child
@@ -174,10 +174,16 @@ indicator-inactive-color = rgba(80,90,128.0.5)
     text-align center
     margin-top 0
     background blue
+    opacity 1
     
     +below-height(heightBreak)
       height indicator-height--reduced
       top -25px
+    
+    +below-height(heightBreakSmall)
+      
+      top -18px
+      
       
     
     
@@ -220,6 +226,9 @@ indicator-inactive-color = rgba(80,90,128.0.5)
         background-color transparent
         border 2px solid white
         pointer-events auto
+      
+      +below-height(heightBreakSmall)
+        pointer-events none
       
 
   &.hidden

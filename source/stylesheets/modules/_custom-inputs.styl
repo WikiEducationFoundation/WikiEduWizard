@@ -1,7 +1,6 @@
 input-font-size = 18px
 input-font-size--reduced = 16px
 
-input-width--percent = 26px
 input-height = auto
 input-height--reduced = auto
 
@@ -117,8 +116,16 @@ accordian-list-line-height = 22px
   font-size 17px
   padding check-radio-padding
   padding-right 100px
-    
   
+  // padding-top 10px
+  // padding-bottom 10px
+  
+  
+  // +below-height(heightBreak)
+  //   padding-top 7px
+  //   padding-botom 7px
+    
+
     
   
   .input-container
@@ -126,22 +133,23 @@ accordian-list-line-height = 22px
     position absolute
     padding 0 5px
     border-bottom 2px solid blue-dark
-    width 35px
+    width 30px
     height 25px
     top 50%
-    right 50px
+    right 45px
     margin-top -12px
     display inline-block
     
     +below-height(heightBreak)
       right 45px
+      height 20px
 
     .icon
       display block
-      width 22px
+      width 17px
       height 25px
       position absolute
-      right -26px
+      right -21px
       background transparent url(/images/percent.svg) no-repeat center center
       
     
@@ -162,20 +170,24 @@ accordian-list-line-height = 22px
     position relative
     background transparent
     color white
-    width input-width--percent
+    width 25px
     display inline-block
     border none
     outline none
     text-align center
+    font-size 16px
+
+    +below-height(heightBreak)
+      font-size 14px
 
   
     
   label
-    font-size 16px
+    font-size 14px
     line-height 1.222
     
     +below-height(heightBreak)
-      font-size 14px
+      font-size 12px
 
     
 
@@ -244,8 +256,18 @@ accordian-list-line-height = 22px
   color input-font-color
   border-bottom 1px solid input-border-color
   font-size input-font-size
-  padding input-padding-top-bottom input-padding-left-right
+  // padding input-padding-top-bottom input-padding-left-right
   cursor pointer
+  font-size 17px
+  padding check-radio-padding
+  padding-top 10px
+  padding-bottom 10px
+  padding-right 100px
+    
+    +below-height(heightBreak)
+      padding-top 7px
+      padding-botom 7px
+  
   
   +below-height(heightBreak)
     font-size input-font-size--reduced
@@ -256,7 +278,7 @@ accordian-list-line-height = 22px
     width 22px
     height 22px
     position absolute
-    top 20px
+    top 10px
     right 43px
     background transparent
     z-index 100
@@ -264,9 +286,7 @@ accordian-list-line-height = 22px
     line-height 22px
     letter-spacing 0.2px
 
-    +below-height(heightBreak)
-      top 15px
-    
+
     &:hover
       color blue-dark
     
@@ -274,6 +294,10 @@ accordian-list-line-height = 22px
   label
     line-height 22px
     cursor pointer
+    font-size 16px
+    
+    +below-height(heightBreak)
+      font-size 14px
     
   
   

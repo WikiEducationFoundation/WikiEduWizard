@@ -2,13 +2,23 @@
   
   .custom-input-grading-summary
     cf()
-    padding 30px 45px 20px
+    padding 10px 40px 20px
     
     +below-height(heightBreak)
-      padding 15px 40px 10px
+      padding 6px 40px 10px
   
   &__total, &__percent
     col(1/2, cycle: 2, gutter: 0)
+  
+    +below-height(heightBreak)
+    
+      h3
+        font-size 32px
+    
+    +below-height(heightBreakSmall)
+      
+      h3
+        font-size 26px
     
   &__percent
     text-align right
@@ -16,9 +26,6 @@
     h3 
       display inline block
       width auto
-      
-      +below-height(heightBreak)
-        font-size 28px
       
     &.over-limit
       color red
