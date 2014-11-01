@@ -1337,7 +1337,7 @@ textarea {
   margin-left: 8px;
 }
 .custom-input-grading__percent.over-limit {
-  color: #e36945;
+  color: #fff;
 }
 .custom-input-grading .custom-input-grading-selection {
   display: none;
