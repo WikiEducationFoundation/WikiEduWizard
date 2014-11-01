@@ -141,16 +141,25 @@ accordian-list-line-height = 22px
     display inline-block
     
     +below-height(heightBreak)
-      right 45px
+      right 60px
       height 20px
 
     .icon
-      display block
-      width 17px
-      height 25px
-      position absolute
-      right -21px
-      background transparent url(/images/percent.svg) no-repeat center center
+      display: inline-block;
+      width: auto;
+      height: auto;
+      position: absolute;
+      right: -45px;
+      line-height: 2
+      font-size 12px
+      
+      &.icon--percent
+        display inline-block //block
+        width 17px
+        height 25px
+        position absolute
+        right -21px
+        background transparent url(/images/percent.svg) no-repeat center center
       
     
     &:before
@@ -183,11 +192,11 @@ accordian-list-line-height = 22px
   
     
   label
-    font-size 14px
+    font-size 16px
     line-height 1.222
     
     +below-height(heightBreak)
-      font-size 12px
+      font-size 14px
 
     
 
