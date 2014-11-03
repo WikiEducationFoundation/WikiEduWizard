@@ -214,7 +214,7 @@ module.exports = class StepNavView extends View
 
     if item == 'prev'
 
-      itIs = @currentStep is 1
+      itIs = @currentStep is 0
 
     else if item == 'next'
 

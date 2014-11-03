@@ -1182,6 +1182,11 @@ select {
   right: -25px;
   background-position: -1px 50%;
 }
+@media screen and (max-height: 880px) {
+  .custom-input-wrapper.has-info.selected .info-arrow {
+    right: 0;
+  }
+}
 .custom-input-dates {
   position: relative;
   width: 100%;
