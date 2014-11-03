@@ -45,6 +45,73 @@ column-border-color = rgba(81,85,102,0.1)
     .input-info-block__stat
       line-height 30px
       letter-spacing 0.57px
+
+.stars
+  position relative
+  display inline-block
+  vertical-align top
+  width 4em
+  // background transparent url(/images/star--inactive.svg) repeat-x center left
+  // background-size 1.1em auto
+  text-indent -9990px
+  overflow hidden
+  
+  &:before
+    position absolute
+    content ''
+    display block
+    top 0
+    left 0
+    width 4em
+    height 100%
+    line-height 30px
+    background transparent url(/images/star--inactive.svg) repeat-x center left
+    background-size 1em auto
+  
+  &:after
+    position absolute
+    content ''
+    display block
+    top 0
+    left 0
+    width 0
+    height 100%
+    line-height 30px
+    background transparent url(/images/star--active.svg) repeat-x center left
+    background-size 1em auto
+
+  &--1
+    &:before
+      width 3em
+      left 1em
+      
+    &:after
+      width 1em
+      
+  &--2
+    &:before
+      width 2em
+      left 2em
+      
+    &:after
+      width 2em
+    
+  &--3
+    &:before
+      width 1em
+      left 3em
+      
+    &:after
+      width 3em
+      
+  &--4
+    &:before
+      width 0
+      
+    &:after
+      width 4em
+    
+    
       
     
 

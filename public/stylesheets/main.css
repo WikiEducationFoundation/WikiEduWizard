@@ -553,6 +553,65 @@ select {
   line-height: 30px;
   letter-spacing: 0.57px;
 }
+.stars {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  width: 4em;
+  text-indent: -9990px;
+  overflow: hidden;
+}
+.stars:before {
+  position: absolute;
+  content: '';
+  display: block;
+  top: 0;
+  left: 0;
+  width: 4em;
+  height: 100%;
+  line-height: 30px;
+  background: transparent url("/images/star--inactive.svg") repeat-x center left;
+  background-size: 1em auto;
+}
+.stars:after {
+  position: absolute;
+  content: '';
+  display: block;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  line-height: 30px;
+  background: transparent url("/images/star--active.svg") repeat-x center left;
+  background-size: 1em auto;
+}
+.stars--1:before {
+  width: 3em;
+  left: 1em;
+}
+.stars--1:after {
+  width: 1em;
+}
+.stars--2:before {
+  width: 2em;
+  left: 2em;
+}
+.stars--2:after {
+  width: 2em;
+}
+.stars--3:before {
+  width: 1em;
+  left: 3em;
+}
+.stars--3:after {
+  width: 3em;
+}
+.stars--4:before {
+  width: 0;
+}
+.stars--4:after {
+  width: 4em;
+}
 .custom-input--checkbox.disabled,
 .custom-input--link.disabled,
 .custom-input--radiobox.disabled {
