@@ -12,6 +12,7 @@
 ##Development Tasks
 
 - Run `gulp` then navigate to `http://localhost:9395`
+- Run `gulp build` to just build static assets prior to deploy
 
 ##Deployment
 
