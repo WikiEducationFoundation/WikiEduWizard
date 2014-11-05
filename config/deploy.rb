@@ -1,16 +1,10 @@
-set :application, "wikieduwizard"
+require 'capistrano/ext/multistage'
+set :stages, %w(staging production)
+set :default_stage, "staging"
 
-server "198.89.124.191", :app, :web, :db, :primary => true
-set :address, "198.89.124.191"
-set :deploy_to, "/var/www/#{application}"
 set :user, "root"
 set :use_sudo, false
-
 default_run_options[:pty] = true
-
-set :repository, "git@github.com:WINTR/WikiEduWizard.git"
-set :scm, :git
-set :branch, "master"
 
 set :deploy_via, :remote_cache
 set :copy_strategy, :checkout
