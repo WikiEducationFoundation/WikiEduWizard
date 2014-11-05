@@ -13,6 +13,12 @@
 
 - Run `gulp` then navigate to `http://localhost:9395`
 
+##Deployment
+
+- After pushing updates to repo (on Github), run the following command(s)
+- Staging: `cap staging deploy`
+- Production: `cap production deploy` (This will deploy from remote "production" branch)
+
 ##Bower
 
 Bower is used for client-side package management.
