@@ -1,7 +1,7 @@
 
 
 #APP
-application = require( '../App' )
+application = require( '../app' )
 
 # SUPER VIEW CLASS
 View = require('../views/supers/View')

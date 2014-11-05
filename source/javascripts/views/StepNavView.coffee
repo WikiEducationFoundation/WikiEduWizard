@@ -3,7 +3,7 @@
 # Author: kevin@wintr.us @ WINTR
 #########################################################
 
-application = require( '../App' )
+application = require( '../app' )
 
 View = require('../views/supers/View')
 
