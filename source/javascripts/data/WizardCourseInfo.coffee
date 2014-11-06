@@ -4,18 +4,19 @@ WizardCourseInfo =
   researchwrite: 
     title: "Research and write a Wikipedia article"
     description: [
-      "Working individually or in small teams with your guidance, students choose course-related topics that are not well-covered on Wikipedia. After assessing Wikipedia's coverage, students research topics to find high-quality secondary sources, then propose an outline for how the topic ought to be covered. They draft their articles, give and respond to peer feedback, take their work live on Wikipedia, and keep improving their articles until the end of the term. Along the way, students may work with experienced Wikipedia editors who can offer critical feedback and help make sure articles meet Wikipedia's standards and style conventions. Students who do great work may even have their articles featured on Wikipedia's main page. Solid articles will help inform thousands of future readers about the selected topic."
-      "Optionally, students may be asked to write a reflective paper about their Wikipedia experience, present their contributions in class, or develop their own ideas and arguments about their topics in a separate essay."
+      "You guide your students to select course-related topics that are not well-covered on Wikipedia, and they work individually or in small teams to develop content. Students analyze the current gaps, start their research to find high-quality secondary sources, and then consider the best way to organize the available information. Then it's time for them in turn to: propose an outline; draft their articles; provide and respond to peer feedback; and move their work into the live article namespace on Wikipedia."
+      "Along the way, students may work with experienced Wikipedia editors who can offer critical feedback and help make sure articles meet Wikipedia's standards and style conventions, and it's important to incorporate time into the assignment for the students to integrate those suggestions. Students who do great work may have their articles featured on Wikipedia's main page, and high quality articles will help inform thousands of future readers about the selected topic. "
+      "Optionally, you may ask your students to write a reflective paper about their Wikipedia experience, present their contributions in class, or develop their own conclusions and arguments in a supplementary essay."
     ]
     min_timeline: "6 weeks"
     rec_timeline: "12 weeks"
     best_for: [
-      "Graduate Students"
-      "Advanced undergraduates"
+      "Classes with fewer than 30 students"
+      "Advanced undergrads or grad students"
     ]
     not_for: [
-      "Intro courses"
-      "large survey courses"
+      "Large survey classes"
+      "Intro (100-level) classes"
     ]
     learning_objectives: [
       {
@@ -23,7 +24,7 @@ WizardCourseInfo =
         stars: 4
       }
       {
-        text: "Writing skills development"
+        text: "Develop writing skills"
         stars: 4
       }
       {
