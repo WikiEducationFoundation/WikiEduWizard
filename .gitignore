@@ -3,6 +3,7 @@ _CoffeeComments.coffee
 config.yml
 .env
 .prod_env
+npm-debug.log
 
 # Ignore application configuration
 /config/application.yml
