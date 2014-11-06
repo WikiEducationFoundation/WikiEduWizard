@@ -22,26 +22,39 @@
     
   &__percent
     text-align right
-    padding-right 20px
+    padding-right 0
+    margin-right -15px !important
     
     h3 
       position relative
-      display inline block
+      display inline-block
       width auto
       
-      &:before
-        content 'points'
-        color white
-        font-size 12px
-        vertical-align: middle;
-        position: absolute;
-        bottom: 5px;
-        left: 100%;
-        margin-left: 8px;
+      
+        
+    &--points
+      padding-right 20px
+      margin-right 0 !important
+        
+      .custom-input-grading__total-number
+        &:before
+          content 'points'
+          color white
+          font-size 12px
+          vertical-align: middle;
+          position: absolute;
+          bottom: 5px;
+          left: 100%;
+          margin-left: 8px;
+        
+      span.percent-symbol
+        display none
+          
       
       
+
     &.over-limit
-      color white //red
+      color red
       
   .custom-input-grading-selection
     
