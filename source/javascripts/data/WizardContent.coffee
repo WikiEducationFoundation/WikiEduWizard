@@ -9,7 +9,7 @@ WizardContent = [
       {
         content: [
           "<p class='large'>This tool will help you to easily create a customized Wikipedia classroom assignment and customized syllabus for your course.</p>"
-          "<p class='large'>When you’re finished, you'll have a ready-to-use lesson plan, with weekly assignments, published directly onto a wiki course page where it can be customized even further.</p>"     
+          "<p class='large'>When you’re finished, you'll have a ready-to-use lesson plan, with weekly assignments, published directly onto a sandbox page on Wikipedia where you can customeize it even further.</p>"     
           "<p class='large'>Let’s start by filling in some basics about you and your course:</p>"
         ]
       }
@@ -20,7 +20,7 @@ WizardContent = [
     title: 'Assignment type selection'
     infoTitle: 'About assignment selections'
     formTitle: 'Available assignments:'
-    instructions: "You can teach with Wikipedia in several different ways, and it's important to design an assignment that fits on Wikipedia <em>and</em> achieves your student learning objectives. Your first step is to choose which assignment(s) you'll be asking your students to complete as part of the course."
+    instructions: "You can teach with Wikipedia in several different ways, and it's important to design an assignment that is suitable for Wikipedia <em>and</em> achieves your student learning objectives. Your first step is to choose which assignment(s) you'll be asking your students to complete as part of the course."
     inputs: []
     sections: [
       {
@@ -44,7 +44,7 @@ WizardContent = [
       {
         title: ''
         content: [
-          '<p>As their first Wikipedia assignment milestone, you can ask the students to create accounts and then complete the <em>online training for students</em>. This training introduces the Wikipedia community and how it works, demonstrates the basics of editing and walks students through their first edits, gives advice for selecting articles and drafting revisions, and explains further sources of support as they continue along. It takes about an hour and ends with a certification step, which you can use to verify that students completed the training.</p>'
+          '<p>As their first Wikipedia assignment milestone, you can ask the students to create user accounts and then complete the <em>online training for students</em>. This training introduces the Wikipedia community and how it works, demonstrates the basics of editing and walks students through their first edits, gives advice for selecting articles and drafting revisions, and explains further sources of support as they continue along. It takes about an hour and ends with a certification step, which you can use to verify that students completed the training.</p>'
           '<p>Students who complete this training are better prepared to focus on learning outcomes, and spend less time distracted by cleaning up after errors.</p>'
           '<p>Will completion of the student training be part of your students\' grades? (Make your choice at the top left.)</p>'
         ]
@@ -66,7 +66,7 @@ WizardContent = [
     id: "getting_started"
     title: 'Getting started with editing'
     infoTitle: 'About early editing tasks'
-    instructions: "It is important for students to start editing Wikipedia right away. That way, they become familiar with Wikipedia's markup (\"wikisyntax\", \"wikimarkup\", or \"wikicode\") and the mechanics of editing and communicating on the site. We recommend assigning a few basic Wikipedia tasks early on."
+    instructions: "It is important for students to start editing Wikipedia early on. That way, they become familiar with Wikipedia's markup (\"wikisyntax\", \"wikimarkup\", or \"wikicode\") and the mechanics of editing and communicating on the site. We recommend assigning a few basic Wikipedia tasks early on."
     formTitle: 'Which basic assignments would you like to include?'
     inputs: []
     sections: [
@@ -174,7 +174,7 @@ WizardContent = [
       {
         title: 'Pros and cons to sandboxes'
         content: [
-          "<p>Sandboxes make students feel safe because they can edit without the pressure of the whole world reading their drafts, or other Wikipedians altering their writing. However, sandbox editing limits many of the unique aspects of Wikipedia as a teaching tool, such as collaborative writing and incremental drafting. Spending more than a week or two in sandboxes is strongly discouraged.</p>" 
+          "<p>Sandboxes make students feel safe because they can edit without the pressure of the whole world reading their drafts or other Wikipedians altering their writing. However, sandbox editing limits many of the unique aspects of Wikipedia as a teaching tool, such as collaborative writing and incremental drafting. Spending more than a week or two in sandboxes is strongly discouraged.</p>" 
         ]
       }
       {
@@ -246,7 +246,7 @@ WizardContent = [
   {
     id: "dyk"
     title: 'DYK process'
-    infoTitle: 'About Did You Know process'
+    infoTitle: 'About the <em>Did You Know</em> process'
     formTitle: "Would you like to include DYK as an ungraded option?"
     sections: [
       {
@@ -264,7 +264,7 @@ WizardContent = [
   {
     id: "ga"
     title: 'Good Article process'
-    infoTitle: 'About Good Article process'
+    infoTitle: 'About the <em>Good Article</em> process'
     formTitle: "Would you like to include this as an ungraded option?"
     sections: [
       {
