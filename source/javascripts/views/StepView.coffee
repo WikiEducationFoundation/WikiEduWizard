@@ -5,7 +5,7 @@
 #########################################################
 
 #APP
-application = require( '../App' )
+application = require( '../app' )
 
 #VIEW CLASS
 View = require('../views/supers/View')

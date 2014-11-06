@@ -4,7 +4,7 @@
 # Author: kevin@wintr.us @ WINTR
 #########################################################
 
-application = require( '../App' )
+application = require( '../app' )
 
 #CONFIG DATA
 WizardStepInputs = require('../data/WizardStepInputs')

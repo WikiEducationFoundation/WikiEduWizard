@@ -274,6 +274,5 @@ gulp.task "build", ->
     "copy-images"
     "bower"
     "javascripts"
-    "bootstrap"
     "stylesheets"
   ], "minify"

@@ -1,2 +1,2 @@
 load 'deploy'
-load 'deploy/deploy'
+load 'config/deploy'

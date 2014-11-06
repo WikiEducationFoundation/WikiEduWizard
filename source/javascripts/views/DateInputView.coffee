@@ -1,6 +1,6 @@
 
 # APP
-application = require( '../App' )
+application = require( '../app' )
 
 #TEMPALTE
 WikiDatesModule = require('../templates/steps/modules/WikiDatesModule.hbs')
