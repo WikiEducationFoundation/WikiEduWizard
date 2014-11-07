@@ -151,10 +151,10 @@ gulp.task "minify", ->
     .pipe gulp.dest "#{outputPath}/#{jsDirectory}/"
 
   # Minify CSS and Combine MediaQueries
-  gulp.src "#{outputPath}/#{cssDirectory}/*.css"
-    .pipe plugins.combineMediaQueries()
-    .pipe plugins.minifyCss()
-    .pipe gulp.dest "#{outputPath}/#{cssDirectory}"
+  # gulp.src "#{outputPath}/#{cssDirectory}/*.css"
+  #   .pipe plugins.combineMediaQueries()
+  #   .pipe plugins.minifyCss()
+  #   .pipe gulp.dest "#{outputPath}/#{cssDirectory}"
 
 
 #--------------------------------------------------------
