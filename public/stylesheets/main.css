@@ -194,7 +194,7 @@ li {
   line-height: 1.5625;
   letter-spacing: 0.05px;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .body-content,
   p,
   li,
@@ -212,7 +212,7 @@ li.large {
   line-height: 1.555;
   letter-spacing: 0.06px;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .body-content--large,
   p--large,
   li--large,
@@ -226,7 +226,7 @@ li.large {
   line-height: 2.142;
   letter-spacing: 0.5px;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .list-content {
     font-size: 12px;
   }
@@ -244,7 +244,7 @@ h2,
   line-height: 1.166666;
   letter-spacing: 1.29px;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .form-content,
   h2,
   .custom-input--text label,
@@ -275,7 +275,7 @@ h2--small,
   line-height: 1.143;
   letter-spacing: 0.78px;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .form-content--small,
   h2--small,
   .custom-input--text label--small,
@@ -293,7 +293,7 @@ h3 {
   line-height: 1.194;
   letter-spacing: 0.45px;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .large-heading,
   h3,
 h3 {
@@ -306,7 +306,7 @@ h4 {
   line-height: 1.1666;
   letter-spacing: 0.38px;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .medium-heading,
   h4,
 h4 {
@@ -319,7 +319,7 @@ h5 {
   line-height: 1.6667;
   letter-spacing: 1px;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .small-heading,
   h5,
 h5 {
@@ -646,7 +646,7 @@ select {
   left: 0;
   padding: 0 5px;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .custom-input--text label {
     font-size: 14px;
   }
@@ -702,7 +702,7 @@ select {
   margin-top: -12px;
   display: inline-block;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .custom-input--percent .input-container {
     right: 60px;
     height: 20px;
@@ -725,6 +725,9 @@ select {
   right: -21px;
   background: transparent url("/images/percent.svg") no-repeat center center;
 }
+.custom-input--percent .input-container .icon.icon--points {
+  display: none;
+}
 .custom-input--percent .input-container:before {
   border-left: 2px solid #505a7f;
   border-bottom: 2px solid #505a7f;
@@ -735,6 +738,17 @@ select {
   border-right: 2px solid #505a7f;
   border-bottom: 2px solid #505a7f;
   bottom: -2px;
+}
+.custom-input--percent--points .input-container .icon.icon--percent {
+  display: none;
+}
+.custom-input--percent--points .input-container .icon.icon--points {
+  display: inline-block;
+  font-size: 10px;
+  vertical-align: bottom;
+  height: 15px;
+  bottom: 0;
+  right: -40px;
 }
 .custom-input--percent input {
   position: relative;
@@ -747,7 +761,7 @@ select {
   text-align: center;
   font-size: 16px;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .custom-input--percent input {
     font-size: 14px;
   }
@@ -756,7 +770,7 @@ select {
   font-size: 16px;
   line-height: 1.222;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .custom-input--percent label {
     font-size: 14px;
   }
@@ -829,13 +843,13 @@ select {
   padding-top: 10px;
   padding-bottom: 10px;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .custom-input--edit padding-right 100px {
     padding-top: 7px;
     padding-botom: 7px;
   }
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .custom-input--edit {
     font-size: 16px;
   }
@@ -863,7 +877,7 @@ select {
   cursor: pointer;
   font-size: 16px;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .custom-input--edit label {
     font-size: 14px;
   }
@@ -879,7 +893,7 @@ select {
   font-size: 18px;
   padding: 15px 70px 15px 40px;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .custom-input--checkbox,
   .custom-input--radiobox,
 .custom-input--radiobox {
@@ -1059,7 +1073,7 @@ select {
   right: auto;
   left: 25px;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .custom-input--radio.custom-input--radio-group {
     height: 50px;
     line-height: 50px;
@@ -1182,7 +1196,7 @@ select {
   right: -25px;
   background-position: -1px 50%;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .custom-input-wrapper.has-info.selected .info-arrow {
     right: 0;
   }
@@ -1211,7 +1225,7 @@ select {
   padding: 0 5px;
   color: #505a7f;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .custom-input-dates__label {
     font-size: 14px;
     line-height: 1.875;
@@ -1333,7 +1347,7 @@ textarea {
 .custom-input-grading .custom-input-grading-summary:after {
   clear: both;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .custom-input-grading .custom-input-grading-summary {
     padding: 6px 40px 10px;
   }
@@ -1369,13 +1383,13 @@ textarea {
 .custom-input-grading__percent:nth-child(2n + 1) {
   clear: both;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .custom-input-grading__total h3,
   .custom-input-grading__percent h3 {
     font-size: 32px;
   }
 }
-@media screen and (max-height: 780px) {
+@media screen and (max-height: 760px) {
   .custom-input-grading__total h3,
   .custom-input-grading__percent h3 {
     font-size: 26px;
@@ -1383,14 +1397,19 @@ textarea {
 }
 .custom-input-grading__percent {
   text-align: right;
-  padding-right: 20px;
+  padding-right: 0;
+  margin-right: -15px !important;
 }
 .custom-input-grading__percent h3 {
   position: relative;
-  display: inline block;
+  display: inline-block;
   width: auto;
 }
-.custom-input-grading__percent h3:before {
+.custom-input-grading__percent--points {
+  padding-right: 20px;
+  margin-right: 0 !important;
+}
+.custom-input-grading__percent--points .custom-input-grading__total-number:before {
   content: 'points';
   color: #fff;
   font-size: 12px;
@@ -1400,15 +1419,18 @@ textarea {
   left: 100%;
   margin-left: 8px;
 }
+.custom-input-grading__percent--points span.percent-symbol {
+  display: none;
+}
 .custom-input-grading__percent.over-limit {
-  color: #fff;
+  color: #e36945;
 }
 .custom-input-grading .custom-input-grading-selection {
   display: none;
   position: relative;
   padding: 0 45px;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .custom-input-grading .custom-input-grading-selection {
     padding: 0 40px;
   }
@@ -1494,7 +1516,7 @@ textarea {
 .step-nav:after {
   clear: both;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .step-nav {
     height: 60px;
   }
@@ -1528,7 +1550,7 @@ textarea {
   background-color: #858daa;
   border-top: 2px solid rgba(78,88,127,0.2);
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .step-nav__button {
     height: 60px;
     line-height: 60px;
@@ -1622,13 +1644,13 @@ textarea {
   background: #858daa;
   opacity: 1;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .step-nav .step-nav-indicators {
     height: 20px;
     top: -25px;
   }
 }
-@media screen and (max-height: 780px) {
+@media screen and (max-height: 760px) {
   .step-nav .step-nav-indicators {
     top: -18px;
   }
@@ -1647,7 +1669,7 @@ textarea {
   text-indent: -9999px;
   pointer-events: none;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .step-nav .step-nav-indicators__item {
     line-height: 20px;
     width: 10px;
@@ -1675,7 +1697,7 @@ textarea {
   border: 2px solid #fff;
   pointer-events: auto;
 }
-@media screen and (max-height: 780px) {
+@media screen and (max-height: 760px) {
   .step-nav .step-nav-indicators__item {
     pointer-events: none;
   }
@@ -1736,7 +1758,7 @@ textarea {
   padding: 0 80px 0 40px;
   margin-bottom: 35px;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .step-form .step-form-header {
     height: 100px;
     padding: 0 80px 0 40px;
@@ -1748,7 +1770,7 @@ textarea {
   vertical-align: bottom;
   margin-top: 80px;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .step-form .step-form-header__title {
     margin-top: 30px;
   }
@@ -1759,7 +1781,7 @@ textarea {
   left: 0;
   width: 100%;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .step-form .step-form-content {
     top: 130px;
   }
@@ -1774,7 +1796,7 @@ textarea {
   margin: 0 auto 10px;
   padding: 0 40px;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .step-form .step-form-content__title {
     font-size: 16px;
     line-height: 19px;
@@ -1795,7 +1817,7 @@ textarea {
   background: #fff;
   z-index: 1;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .step-info,
   .step-info .step-info-tip__inner,
 .step-info .step-info-tip__inner {
@@ -1808,7 +1830,7 @@ textarea {
 .step--last .step-info .step-info-tip__inner {
   padding: 200px 40px 40px 440px;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .step--last .step-info,
   .step--last .step-info .step-info-tip__inner {
     padding: 130px 40px 40px 440px;
@@ -1826,7 +1848,7 @@ textarea {
 .step-info .step-info-tip__inner .step-info-section p:last-child {
   margin-bottom: 0;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .step-info .step-info-section p,
   .step-info .step-info-tip__inner .step-info-section p {
     margin: 15px auto;
@@ -1840,7 +1862,7 @@ textarea {
   right: 40px;
   z-index: 1000;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .step-info .main-logo,
   .step-info .step-info-tip__inner .main-logo {
     top: 40px;
@@ -1871,7 +1893,7 @@ textarea {
   pointer-events: none;
   background: #fff;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .step-info .step-info-tip,
   .step-info .step-info-tip__inner .step-info-tip {
     max-width: 1000px;
@@ -1894,7 +1916,7 @@ textarea {
   background: transparent url("/images/close--tip.svg") no-repeat center center;
   cursor: pointer;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .step-info .step-info-tip__close,
   .step-info .step-info-tip__inner .step-info-tip__close {
     top: 130px;
@@ -1915,12 +1937,12 @@ textarea {
 .step-info-section {
   margin: 25px auto;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .step-info-section {
     margin: 20px auto;
   }
 }
-@media screen and (max-height: 780px) {
+@media screen and (max-height: 760px) {
   .step-info-section {
     margin: 15px auto;
   }
@@ -1928,7 +1950,7 @@ textarea {
 .step-info-section .step-info-section__header {
   margin: 15px auto;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .step-info-section .step-info-section__header {
     margin: 10px auto;
   }
@@ -1936,7 +1958,7 @@ textarea {
 .step-info-section .step-info-section__content {
   margin: 15px auto;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .step-info-section .step-info-section__content {
     margin: 10px auto;
   }
@@ -1953,7 +1975,7 @@ textarea {
   border-bottom: 2px solid rgba(81,85,102,0.1);
   margin: 15px auto;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .step-info-section--accordian {
     margin: 10px auto;
   }
@@ -2015,7 +2037,7 @@ textarea {
   background: transparent url("/images/wiki-logo.png") no-repeat center 100px;
   background-size: 60px auto;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .step--first .step-form {
     padding: 130px 0;
     min-height: 1000px;
@@ -2105,7 +2127,7 @@ textarea {
   padding: 0 80px 0 40px;
   margin-bottom: 0;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .step--grading .step-form .step-form-header,
   .step--assignment_selection .step-form .step-form-header,
   .step--learning_essentials .step-form .step-form-header,
@@ -2137,7 +2159,7 @@ textarea {
   vertical-align: baseline;
   margin-top: 80px;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .step--grading .step-form .step-form-header__title,
   .step--assignment_selection .step-form .step-form-header__title,
   .step--learning_essentials .step-form .step-form-header__title,
@@ -2171,7 +2193,7 @@ textarea {
   margin-top: 30px;
   margin-bottom: 90px;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .step--grading .step-form .step-form-content,
   .step--assignment_selection .step-form .step-form-content,
   .step--learning_essentials .step-form .step-form-content,
@@ -2208,7 +2230,7 @@ textarea {
   margin: 0 auto;
   margin-bottom: 15px;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .step--grading .step-form .step-form-content__title,
   .step--assignment_selection .step-form .step-form-content__title,
   .step--learning_essentials .step-form .step-form-content__title,
@@ -2306,7 +2328,7 @@ textarea {
   padding: 0 80px 0 40px;
   margin-bottom: 0;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .step--grading .step-form .step-form-header {
     height: 80px;
   }
@@ -2316,7 +2338,7 @@ textarea {
   vertical-align: baseline;
   margin-top: 50px;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .step--grading .step-form .step-form-header__title {
     margin-top: 10px;
     font-size: 32px;
@@ -2329,7 +2351,7 @@ textarea {
 .step--grading .step-info {
   padding-top: 150px;
 }
-@media screen and (max-height: 880px) {
+@media screen and (max-height: 860px) {
   .step--grading .step-info {
     padding-top: 80px;
   }
@@ -2352,7 +2374,7 @@ textarea {
   background: #858daa;
   overflow: visible;
 }
-@media screen and (max-height: 780px) {
+@media screen and (max-height: 760px) {
   .step-form-layout__inner {
     padding-bottom: 90px;
     overflow-y: scroll;

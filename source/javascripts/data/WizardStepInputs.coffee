@@ -142,7 +142,7 @@ WizardStepInputs =
       hasCourseInfo: false
       tipInfo:
         title: ''
-        content: "Have another idea for incorporating Wikipedia into your class? We've found that these assignments work well, but they aren't the only way to do it. Get in touch, and we can talk things through: <a style='color:#505a7f;' href='mailto:contact@wikiedu.org'>contact@wikiedu.org</a>"
+        content: "Have another idea for incorporating Wikipedia into your class? We've found that these assignments work well, but they aren't the only way to do it. Get in touch, and we can talk things through: <a style='color:#505a7f;' href='mailto:contact@wikiedu.org'>contact@wikiedu.org</a>."
 
 
   learning_essentials: 
@@ -524,7 +524,7 @@ WizardStepInputs =
       type: 'percent'
       label: 'Early Wikipedia exercises'
       id: 'getting_started'
-      value: 0   
+      value: 15   
       renderInOutput: true
       contingentUpon: []
 
@@ -532,14 +532,14 @@ WizardStepInputs =
       type: 'percent'
       id: 'outline_quality'
       label: 'Quality of bibliography and outline'
-      value: 2   
+      value: 10   
       renderInOutput: true
       contingentUpon: []
 
     peer_reviews:
       type: 'percent'
       label: 'Peer reviews and collaboration with classmates'
-      value: 2   
+      value: 10   
       renderInOutput: true
       contingentUpon: []
 
@@ -547,7 +547,7 @@ WizardStepInputs =
       type: 'percent' 
       id: 'contribution_quality'
       label: 'Quality of your main Wikipedia contributions'
-      value: 10
+      value: 50
       renderInOutput: true
       contingentUpon: []
 
@@ -555,7 +555,7 @@ WizardStepInputs =
       type: 'percent' 
       id: 'supplementary_assignments'
       label: 'Supplementary assignments'
-      value: 5
+      value: 10
       renderInOutput: true
       contingentUpon: [
         'class_blog'

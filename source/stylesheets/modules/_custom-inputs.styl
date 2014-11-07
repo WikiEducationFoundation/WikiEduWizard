@@ -160,7 +160,10 @@ accordian-list-line-height = 22px
         position absolute
         right -21px
         background transparent url(/images/percent.svg) no-repeat center center
-      
+    
+      &.icon--points
+        display none
+
     
     &:before
       border-left 2px solid blue-border
@@ -172,6 +175,18 @@ accordian-list-line-height = 22px
       border-right 2px solid blue-border
       border-bottom 2px solid blue-border
       bottom -2px
+      
+  &--points 
+    .input-container
+      .icon.icon--percent
+        display none
+      .icon.icon--points
+        display inline-block
+        font-size 10px
+        vertical-align: bottom;
+        height: 15px;
+        bottom: 0;
+        right -40px
     
   
   input
