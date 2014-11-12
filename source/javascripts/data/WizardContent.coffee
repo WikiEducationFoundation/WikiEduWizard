@@ -132,7 +132,7 @@ WizardContent = [
         title: ''
         content: [
           '<p>As the instructor, you should apply your own expertise to examining Wikipedia’s coverage of your field. You understand the broader intellectual context where individual topics fit in, you can recognize where Wikipedia falls short, you know—or know how to find—the relevant literature, and you know what topics your students should be able to handle. Your guidance on article choice and sourcing is critical for both your students’ success and the improvement of Wikipedia.</p>'
-          '<p>There are two recommending options for selecting articles:</p>'
+          '<p>There are two recommended options for selecting articles:</p>'
         ]
       }
       {
