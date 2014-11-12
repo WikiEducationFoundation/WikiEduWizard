@@ -104,7 +104,7 @@ module.exports = class InputItemView extends View
 
           console.log response
 
-          alert('there was an error. see console.')
+          alert('Hmm... something went wrong. Try clicking "Publish" again. If that doesn\'t work, please send a message to sage@wikiedu.org.')
 
 
     )
