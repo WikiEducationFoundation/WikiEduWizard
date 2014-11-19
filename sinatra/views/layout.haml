@@ -15,8 +15,9 @@
     %script{:type => "text/javascript", :src  => "javascripts/vendor.js"}
     %script{:type => "text/javascript", :src  => "javascripts/main.js"}
     
-  %body
+  %body{ :class => @bodyClass || ''}
     .container
       = yield
+  
 
  

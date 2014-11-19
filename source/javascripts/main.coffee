@@ -7,7 +7,7 @@ application = require('./app')
 
 
 $ ->
-  
+
   # Initialize Application
   application.initialize()
 

@@ -178,6 +178,14 @@ get '/begin' do
 
 end
 
+get '/output' do
+
+  @bodyClass = 'output'
+  
+  haml :output
+
+end
+
 
 
 # MEDIAWIKI API OAUTH CALLBACK

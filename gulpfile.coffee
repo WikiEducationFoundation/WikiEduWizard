@@ -27,7 +27,7 @@ sourcePath = "source"
 outputPath = "public"
 
 # Views directory
-viewsPath = "views"
+viewsPath = "sinatra/views"
 
 # Directory where vendor files live
 vendorPath = "vendor"
@@ -126,6 +126,12 @@ gulp.task "copy-images", ->
   gulp.src "#{sourcePath}/#{imagesDirectory}/**/*"
     .pipe gulp.dest "#{outputPath}/#{imagesDirectory}"
 
+copyImage = (path) ->
+  console.log chalk.cyan "copying #{path}"
+  gulp.src path
+    .pipe gulp.dest "#{outputPath}/#{imagesDirectory}"
+
+
 
 #--------------------------------------------------------
 # Minify 
@@ -163,16 +169,17 @@ gulp.task "minify", ->
 
 gulp.task "watch", ->
 
-  plugins.watch "#{sourcePath}/#{cssDirectory}/**/*.{styl,sass,scss,css}", ->
+  gulp.watch "#{sourcePath}/#{cssDirectory}/**/*.{styl,sass,scss,css}", ->
     gulp.start "stylesheets"
 
-  plugins.watch "#{sourcePath}/#{imagesDirectory}/**/*.{svg,jpg,gif,png}", ->
-    gulp.start "copy-images"
+  plugins.watch "#{sourcePath}/#{imagesDirectory}/**/*.{svg,jpg,gif,png}", (file) ->
+    # gulp.start "copy-images"
+    copyImage file.path
 
-  plugins.watch "#{sourcePath}/#{jsDirectory}/**/*.{coffee,js,haml,hbs,jade}", ->
+  gulp.watch "#{sourcePath}/#{jsDirectory}/**/*.{coffee,js,haml,hbs}", ->
     gulp.start "javascripts"
 
-  plugins.watch "#{sourcePath}/#{vendorPath}/**/*", ->
+  gulp.watch "#{sourcePath}/#{vendorPath}/**/*", ->
     gulp.start "bower"
 
   server = plugins.livereload()
@@ -181,8 +188,10 @@ gulp.task "watch", ->
   plugins.watch "#{outputPath}/**/*.{css,js,svg,jpg,gif,png}"
     .pipe plugins.livereload()
 
-  plugins.watch "#{viewsPath}/**/*.haml", ->
+  gulp.watch "#{viewsPath}/**/*.haml", ->
     server.changed()
+
+  return
 
 
 #--------------------------------------------------------

@@ -1,6 +1,4 @@
 WizardStepInputs =
-
-
   intro: 
     teacher:
       type: 'text'

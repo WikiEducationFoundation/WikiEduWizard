@@ -18,7 +18,7 @@ WizardStepInputs = require('../data/WizardStepInputs')
 
 
 
-module.exports = class InputItemView extends View 
+module.exports = class OutputView extends View 
 
 
   template: WikiOutputTemplate

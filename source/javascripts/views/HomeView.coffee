@@ -51,7 +51,6 @@ module.exports = class HomeView extends View
 
     'click .exit-edit' : 'exitEditClickHandler'
 
-
   subscriptions:
 
     'step:next' : 'nextHandler'
