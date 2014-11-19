@@ -16,7 +16,6 @@ TimelineData = [
   }
   {
     type: 'week'
-    priority: 5
     action: 'combine'
     title: ['Editing basics']
     in_class: [
@@ -38,7 +37,6 @@ TimelineData = [
   }
   {
     type: 'week'
-    priority: 8
     action: 'combine'
     title: ['Exploring the topic area']
     in_class: [
@@ -57,7 +55,6 @@ TimelineData = [
   }
   {
     type: 'week'
-    priority: 10
     action: 'combine'
     title: ['Using sources and choosing articles']
     in_class: [
@@ -79,7 +76,6 @@ TimelineData = [
   }
   {
     type: 'week'
-    priority: 8
     action: 'combine'
     title: ['Finalizing topics and starting research']
     in_class: [
@@ -98,7 +94,6 @@ TimelineData = [
   }
   {
     type: 'week'
-    priority: 7
     action: 'combine'
     title: ['Drafting starter articles']
     in_class: [
@@ -120,7 +115,6 @@ TimelineData = [
   }
   {
     type: 'week'
-    priority: 10
     action: 'combine'
     title: ['Moving articles to the main space']
     in_class: [
@@ -140,7 +134,6 @@ TimelineData = [
   }
   {
     type: 'week'
-    priority: 5
     action: 'combine'
     title: ['Building articles']
     in_class: [
@@ -159,7 +152,6 @@ TimelineData = [
   }
   {
     type: 'week'
-    priority: 2
     action: 'combine'
     title: ['Creating first draft']
     in_class: [
@@ -176,7 +168,6 @@ TimelineData = [
   }
   {
     type: 'week'
-    priority: 6
     action: 'combine'
     title: ['Getting and giving feedback']
     in_class: [
@@ -197,7 +188,6 @@ TimelineData = [
   }
   {
     type: 'week'
-    priority: 10
     action: 'combine'
     title: ['Responding to feedback']
     in_class: [
@@ -217,7 +207,6 @@ TimelineData = [
   }
   {
     type: 'week'
-    priority: 1
     action: 'omit'
     title: ['Continuing improving articles']
     in_class: [
@@ -234,7 +223,6 @@ TimelineData = [
     value: 3
   }
   {
-    priority: 3
     type: 'week'
     action: 'omit'
     title: ['Continuing improving articles']
@@ -252,7 +240,6 @@ TimelineData = [
     value: 4
   }
   {
-    priority: 4
     type: 'week'
     action: 'omit'
     title: ['Continuing improving articles']
@@ -272,7 +259,6 @@ TimelineData = [
   }
   {
     type: 'week'
-    priority: 9
     action: 'combine'
     title: ['Class presentations and finishing touches']
     in_class: [
@@ -295,7 +281,6 @@ TimelineData = [
   }
   {
     type: 'week'
-    priority: 10
     action: 'combine'
     title: ['Due date' ]
     codes: ['DD']

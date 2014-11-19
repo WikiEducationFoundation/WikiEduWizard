@@ -1,12 +1,12 @@
 %div.form-container
   %form{ :id => 'courseLength', :oninput => 'out.value = parseInt(courseLength.value)' , :onsubmit => 'return false'}
-    %input{:type => 'range', :min => '6', :max => '16', :step => '1', :defaultValue => '16', :name => 'courseLength', :id => 'cLength'}
+    %input{:type => 'range', :min => '6', :max => '16', :step => '1', :defaultValue => '16', :name => 'courseLength', :id => 'cLength', :value => '16'}
     %br
     %br
     %output{:for => 'courseLength', :name => 'out'} 16
     %span weeks
     %br
     %br
-    %button{ :value => 'Go', :class => 'whatever'} Go
+    %button{ :value => 'Go', :class => 'recreate'} Go
 
 %div.output-container Output will appear here
