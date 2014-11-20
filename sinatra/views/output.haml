@@ -3,10 +3,11 @@
     %input{:type => 'range', :min => '6', :max => '16', :step => '1', :defaultValue => '16', :name => 'courseLength', :id => 'cLength', :value => '16'}
     %br
     %br
-    %output{:for => 'courseLength', :name => 'out'} 16
-    %span weeks
+    %span{:style => 'font-size:38px;'}
+      %output{:for => 'courseLength', :name => 'out'} 16
+      %span weeks
     %br
-    %br
-    %button{ :value => 'Go', :class => 'recreate'} Go
+    / %br
+    / %button{ :value => 'Go', :class => 'recreate'} Go
 
 %div.output-container Output will appear here
