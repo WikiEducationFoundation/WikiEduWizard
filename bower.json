@@ -8,6 +8,19 @@
     "backbone.marionette": "~2.2.1",
     "backbone-mediator": "~1.0.0",
     "handlebars": "~2.0.0",
-    "backbone-forms": "~0.14.0"
+    "backbone-forms": "~0.14.0",
+    "momentjs": "~2.8.4",
+    "jqueryui": "~1.11.2"
+  },
+  "overrides": {
+    "jqueryui": {
+      "dependencies": {
+        "jquery": ""
+      },
+      "main": [
+        "ui/core.js",
+        "ui/datepicker.js"
+      ]
+    }
   }
 }

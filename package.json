@@ -47,5 +47,8 @@
     "mocha": "^1.21.4",
     "run-sequence": "~0.3.6",
     "rupture": "^0.3.1"
+  },
+  "dependencies": {
+    "moment": "^2.8.4"
   }
 }

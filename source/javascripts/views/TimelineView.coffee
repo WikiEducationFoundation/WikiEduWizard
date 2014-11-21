@@ -56,6 +56,10 @@ module.exports = class TimelineView extends Backbone.View
 
   initialize: ->
 
+    $('input[type="date"]').datepicker(
+      dateFormat: 'yy-mm-dd'
+    ).prop('type','text')
+
     @$startDate = $('#startDate')
 
     @$endDate = $('#endDate')
@@ -78,7 +82,6 @@ module.exports = class TimelineView extends Backbone.View
 
 
   onCourseStartChange: (e) ->
-
     @updateWeeklyDates()
 
 

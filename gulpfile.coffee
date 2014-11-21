@@ -76,6 +76,11 @@ gulp.task "stylesheets", ->
     .pipe plugins.autoprefixer()
     .pipe gulp.dest "#{outputPath}/#{cssDirectory}"
 
+gulp.task "stylesheet-images", ->
+
+  gulp.src "#{sourcePath}/#{cssDirectory}/images/*"
+    .pipe gulp.dest "#{outputPath}/#{cssDirectory}/images"
+
 
 #--------------------------------------------------------
 # Compile JavaScripts 
@@ -179,7 +184,7 @@ gulp.task "watch", ->
   gulp.watch "#{sourcePath}/#{jsDirectory}/**/*.{coffee,js,haml,hbs}", ->
     gulp.start "javascripts"
 
-  gulp.watch "#{sourcePath}/#{vendorPath}/**/*", ->
+  gulp.watch "bower.json", ->
     gulp.start "bower"
 
   server = plugins.livereload()
@@ -273,6 +278,7 @@ gulp.task "dev", ->
     "bower"
     "javascripts"
     "stylesheets"
+    "stylesheet-images"
   ], [
     "server"
     "watch"
