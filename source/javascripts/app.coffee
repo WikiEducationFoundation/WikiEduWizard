@@ -14,8 +14,11 @@ Application =
     AppData = require('./data/WizardContent')
     TimelineData = require('./data/TimelineData')
 
+    TimelineDataAlt = require('./data/TimelineDataAlt')
+
     @data = AppData
     @timelineData = TimelineData
+    @timelineDataAlt = TimelineDataAlt
 
 
     # Import views
