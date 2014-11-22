@@ -14,10 +14,6 @@ View = require('./View')
 InputItemTemplate = require('../../templates/steps/inputs/InputItemTemplate.hbs')
 
 
-#OUTPUT
-AssignmentData = require('../../data/WizardAssignmentData')
-
-
 WizardStepInputs = require('../../data/WizardStepInputs')
 
 

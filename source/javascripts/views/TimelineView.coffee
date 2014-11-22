@@ -10,6 +10,16 @@ module.exports = class TimelineView extends Backbone.View
 
   el: $('.form-container')
 
+  curDateConfig:
+    termStart: ''
+    termEnd: ''
+    courseStart: ''
+    courseEnd: ''
+    courseStartWeekOf: ''
+    courseEndWeekOf: ''
+    numberWeeks: 16
+
+
   daysSelected: [false,false,false,false,false,false,false]
 
   allDates: []
@@ -18,6 +28,8 @@ module.exports = class TimelineView extends Backbone.View
 
   dowAbbrv: ['Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun']
 
+  renderDays: true
+
   events:
     'mousedown #cLength' : 'clickHandler'
 
@@ -25,13 +37,11 @@ module.exports = class TimelineView extends Backbone.View
 
     'change #cLength' : 'changeHandler'
 
-    'change #startDate' : 'onStartDateChange'
+    'change #termStartDate' : 'onTermStartDateChange'
 
-    'change #endDate' : 'onEndDateChange'
+    'change #termEndDate' : 'onTermEndDateChange'
 
-    'change #courseStart' : 'onCourseStartChange'
-
-    'change #courseEnd' : 'onCourseEndChange'
+    'change #courseStartDate' : 'onCourseStartDateChange'
 
     'change .dowCheckbox' : 'onDowSelect'
 
@@ -57,16 +67,18 @@ module.exports = class TimelineView extends Backbone.View
   initialize: ->
 
     $('input[type="date"]').datepicker(
+
       dateFormat: 'yy-mm-dd'
+
+      constrainInput: true
+
+      firstDay: 1
+
     ).prop('type','text')
 
-    @$startDate = $('#startDate')
+    @$startWeekOfDate = $('#startWeekOfDate')
 
-    @$endDate = $('#endDate')
-
-    @$courseStart = $('#courseStart')
-
-    @$courseEnd = $('#courseEnd')
+    @$courseStartDate = $('#courseStartDate')
 
     @$outContainer = $('.output-container')
 
@@ -80,29 +92,75 @@ module.exports = class TimelineView extends Backbone.View
 
     @update()
 
+  resetDates: ->
+    #TODO - NEED A PLACE THAT RESETS EVERYTHING - EG WHEN MASTER COURSE DATES CHANGE
 
-  onCourseStartChange: (e) ->
+
+  onTermStartDateChange: (e) ->
+
+    @curDateConfig.courseStart = ''
+
+    @$courseStartDate.val('')
+
+    dateInput = $(e.currentTarget).val()
+
+    newDate = moment(dateInput).toDate()
+
+    @curDateConfig.termStart = newDate
+
+    @$courseStartDate.datepicker('option', 'minDate', newDate)
+
+    @update()
+
+
+  onTermEndDateChange: (e) ->
+
+    dateInput = $(e.currentTarget).val()
+
+    newDate = moment(dateInput).toDate()
+
+    @curDateConfig.termEnd = newDate
+
+    @$courseStartDate.datepicker('option', 'maxDate', newDate)
+
+    @update()
+
+
+  onCourseStartDateChange: (e) ->
+
     @updateWeeklyDates()
 
 
   updateWeeklyDates: ->
 
-    if $('#courseStart').val() is ''
+    if @$courseStartDate.val() is ''
+
+      @curDateConfig.courseStart = ''
+
       $('span.date').hide()
+
       return
 
     @allDates = []
 
-    startDate = new Date($('#courseStart').val())
+    newStartDate = new Date(@$courseStartDate.val())
 
-    weekOfDate = @getWeekOfDate(startDate)
+    @curDateConfig.courseStart = newStartDate
+
+    weekOfDate = @getWeekOfDate(newStartDate)
+
+    @curDateConfig.courseStartWeekOf = weekOfDate
 
     $('span.date').each((index,item) =>
+
       weekId = parseInt($(item).attr('data-week'))
+
       newDate = new Date(weekOfDate)
 
       if index is 0
+
         @allDates.push(@getFormattedDateString(new Date(newDate)))
+
         return
 
       newDate = newDate.setDate(newDate.getDate() + (7 * (weekId-1)))
@@ -113,9 +171,9 @@ module.exports = class TimelineView extends Backbone.View
 
     )
 
-    $('span.date.date-1').show().text(@getFormattedDateString(startDate))
+    $('span.date.date-1').show().text(@getFormattedDateString(newStartDate))
 
-    @$startDate.val("#{@getFormattedDateString(startDate)}")
+    @$startWeekOfDate.val("#{@getFormattedDateString(newStartDate)}")
 
     $('.dates-preview').html('')
 
@@ -139,122 +197,6 @@ module.exports = class TimelineView extends Backbone.View
 
     return @
 
-  onCourseEndChange: (e) ->
-    @sDate = ''
-    @eDate = ''
-    @$startDate.val('').attr('min', '').attr('max', '')
-    @$endDate.val('').attr('min', '').attr('max', '')
-
-
-  onStartDateChange: (e) ->
-
-    if @$startDate.val() is ''
-      return
-
-    @sDate = new Date(@$startDate.val())
-
-    # if @sDate.getUTCDay() > 0
-    #   @sDate.setDate(@sDate.getDate()-@sDate.getDay())
-
-    @$endDate.val('')
-
-    minEndDate = @getWeeksOutDate(@sDate, 6)
-
-    maxEndDate = @getWeeksOutDate(@sDate, 16)
-
-
-    if maxEndDate.getUTCDay() > 0 && maxEndDate.getUTCDay() < 6
-
-      diff = 6 - maxEndDate.getUTCDay()
-
-      maxEndDate.setDate(maxEndDate.getDate()+diff)
-
-
-    #MAKE SURE DATE VALUES ARE TWO-DIGIT
-    if minEndDate.getUTCDate().toString().length is 1
-
-      minEndDay = "0" + minEndDate.getUTCDate().toString()
-
-    else
-
-      minEndDay = minEndDate.getUTCDate().toString()
-
-
-    if maxEndDate.getUTCDate().toString().length is 1
-
-      maxEndDay = "0" + maxEndDate.getUTCDate().toString()
-
-    else
-
-      maxEndDay = maxEndDate.getUTCDate().toString()
-
-    if (minEndDate.getUTCMonth()+1).toString().length is 1
-
-      minEndMonth = "0" + (minEndDate.getUTCMonth()+1).toString()
-
-    else
-
-      minEndMonth = (minEndDate.getUTCMonth()+1).toString()
-
-    if (maxEndDate.getUTCMonth()+1).toString().length is 1
-
-      maxEndMonth = "0" + (maxEndDate.getUTCMonth()+1).toString()
-
-    else
-
-      maxEndMonth = (maxEndDate.getUTCMonth()+1).toString()
-
-    minEndDateText = "#{minEndDate.getUTCFullYear()}-#{minEndMonth}-#{minEndDay}"
-
-    maxEndDateText = "#{maxEndDate.getUTCFullYear()}-#{maxEndMonth}-#{maxEndDay}"
-
-    @$endDate.attr('min', "#{minEndDateText}")
-
-    @$endDate.attr('max', "#{maxEndDateText}")
-
-    return @
-
-
-  onEndDateChange: (e) ->
-
-    if @$endDate.val() is ''
-      return
-
-    prevCourseLength = @courseLength
-
-    @eDate = new Date(@$endDate.val())
-
-    tempCourseLength = Math.ceil((@eDate - @sDate) / (1000*7*24*60*60))
-
-    unless tempCourseLength
-
-      alert('Please first enter a start date.')
-
-      @$endDate.val('')
-
-      return false
-
-    if tempCourseLength < 6 || tempCourseLength > 16
-
-      alert('Course Length must be between 6 and 16 weeks. Please choose again')
-
-      @$endDate.val('')
-
-      return
-
-    else
-
-      @courseLength = tempCourseLength
-
-      @courseDiff = 16 - @courseLength
-
-      $('#courseLengthReadout').val(@courseLength)
-
-      if @courseLength != prevCourseLength
-
-        @update()
-
-    return @
 
 
   clickHandler: (e) ->
@@ -266,6 +208,8 @@ module.exports = class TimelineView extends Backbone.View
     @courseLength = $('#cLength').val()
 
     @courseDiff = 16 - @courseLength
+
+    @curDateConfig.courseEndWeekOf = new Date(@allDates[@courseLength-1])
 
     @update()
 

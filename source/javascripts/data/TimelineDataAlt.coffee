@@ -83,7 +83,7 @@ TimelineDataAlt = [
       'Illustrate an article' # FW4 getting_started.illustrate_article.selected
       'List article choices' # PA choosing_articles.students_explore.selected
       'Choose articles from a list' # PA choosing_articles.prepare_list.selected}
-      'Evaluate article selections | due = Week 5'
+      'Evaluate article selections | due = next week'
     ]
     milestones: []
     readings: []

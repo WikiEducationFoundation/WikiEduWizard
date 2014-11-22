@@ -16,6 +16,8 @@ Application =
 
     TimelineDataAlt = require('./data/TimelineDataAlt')
 
+    @WizardConfig = require('./data/WizardConfig')
+
     @data = AppData
     @timelineData = TimelineData
     @timelineDataAlt = TimelineDataAlt

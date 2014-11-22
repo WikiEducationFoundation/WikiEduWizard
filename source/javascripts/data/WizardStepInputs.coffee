@@ -57,7 +57,16 @@ WizardStepInputs =
       value: ''
       required: true
     
-  
+  image_stuff:
+    want_image:
+      type: 'checkbox'
+      id: 'want_image'
+      selected: true
+      label: 'You Want Image?'
+      disabled: false
+      exclusive: false
+      required: true
+
 
   assignment_selection: 
     researchwrite:
@@ -68,67 +77,24 @@ WizardStepInputs =
       exclusive: true
       hasCourseInfo: true
       required: true
-      
-
-    evaluate:
-      # type: 'checkbox'
-      id: 'evaluate'
-      selected: false
-      label: 'Evaluate articles'
-      exclusive: false
-      hasCourseInfo: true
-      disabled: true
-
     
     multimedia:
-      # type: 'checkbox'
+      type: 'checkbox'
       id: 'multimedia'
       selected: false
       label: 'Add images & multimedia'
       exclusive: false
       hasCourseInfo: true
-      disabled: true
-
-
-    sourcecentered:
-      # type: 'checkbox'
-      id: 'sourcecentered'
-      selected: false
-      label: 'Source-centered additions'
-      exclusive: false
-      hasCourseInfo: true
-      disabled: true
-  
+      disabled: false
 
     copyedit: 
-      # type: 'checkbox'
+      type: 'checkbox'
       id: 'copyedit'
       selected: false
       label: 'Copyedit articles'
       exclusive: false
       hasCourseInfo: true
-      disabled: true
-
-
-    findfix:
-      # type: 'checkbox'
-      id: 'findfix'
-      selected: false
-      label: 'Find and fix errors'
-      exclusive: false
-      hasCourseInfo: true
-      disabled: true
-
-    
-    plagiarism:
-      # type: 'checkbox'
-      id: 'plagiarism'
-      selected: false
-      label: 'Identify and fix plagiarism'
-      exclusive: false
-      hasCourseInfo: true
-      disabled: true
-   
+      disabled: false
 
     something_else:
       type: 'link'
@@ -143,6 +109,43 @@ WizardStepInputs =
         content: "Have another idea for incorporating Wikipedia into your class? We've found that these assignments work well, but they aren't the only way to do it. Get in touch, and we can talk things through: <a style='color:#505a7f;' href='mailto:contact@wikiedu.org'>contact@wikiedu.org</a>."
 
 
+    # evaluate:
+    #   type: 'checkbox'
+    #   id: 'evaluate'
+    #   selected: false
+    #   label: 'Evaluate articles'
+    #   exclusive: false
+    #   hasCourseInfo: true
+    #   disabled: true
+
+    # sourcecentered:
+    #   type: 'checkbox'
+    #   id: 'sourcecentered'
+    #   selected: false
+    #   label: 'Source-centered additions'
+    #   exclusive: false
+    #   hasCourseInfo: true
+    #   disabled: true
+
+    # findfix:
+    #   type: 'checkbox'
+    #   id: 'findfix'
+    #   selected: false
+    #   label: 'Find and fix errors'
+    #   exclusive: false
+    #   hasCourseInfo: true
+    #   disabled: true
+
+    
+    # plagiarism:
+    #   type: 'checkbox'
+    #   id: 'plagiarism'
+    #   selected: false
+    #   label: 'Identify and fix plagiarism'
+    #   exclusive: false
+    #   hasCourseInfo: true
+    #   disabled: true
+   
   learning_essentials: 
     create_user:
       # type: 'checkbox'
@@ -260,7 +263,7 @@ WizardStepInputs =
       required: true
 
     request_help:
-      #type: 'checkbox'
+      type: 'checkbox'
       id: 'request_help'
       selected: false
       label: 'Would you like help selecting or evaulating article choices?'
@@ -427,15 +430,7 @@ WizardStepInputs =
       tipInfo:  
         title: 'Original analytical paper'
         content: "In courses that emphasize traditional research skills and the development of original ideas through a term paper, Wikipedia's policy of \"no original research\" may be too restrictive. Many instructors pair Wikipedia writing with a complementary analytical paper; students’ Wikipedia articles serve as a literature review, and the students go on to develop their own ideas and arguments in the offline analytical paper."
-      
-    # none_of_above:
-    #   type: 'checkbox'
-    #   id: 'none_of_above'
-    #   selected: false
-    #   required: false
-    #   label: 'None of the above'
-    #   exclusive: true
-
+    
   dyk:
     dyk:
       type: 'checkbox'
@@ -456,58 +451,6 @@ WizardStepInputs =
       
 
   grading: 
-    # learning_essentials:
-    #   type: 'percent'
-    #   label: 'Learning Wiki essentials'
-    #   id: 'learning_essentials'
-    #   value: 5
-    #   renderInOutput: true
-    
-    # getting_started:
-    #   type: 'percent'
-    #   label: 'Getting started with editing'
-    #   id: 'getting_started'
-    #   value: 0   
-    #   renderInOutput: true
-    
-    # choosing_articles:
-    #   type: 'percent'
-    #   label: 'Choosing articles'
-    #   id: 'choosing_articles'
-    #   value: 0   
-    #   renderInOutput: true
-    
-    # research_planning:
-    #   type: 'percent'
-    #   label: 'Research an planning'
-    #   id: 'research_planning'
-    #   value: 0  
-    #   renderInOutput: true
-    
-    # drafts_mainspace:
-    #   type: 'percent'
-    #   label: 'Drafts and mainspace'
-    #   id: 'drafts_mainspace'
-    #   value: 0   
-    #   renderInOutput: true
-    
-    # peer_feedback:
-    #   type: 'percent'
-    #   label: 'Peer feedback'
-    #   id: 'peer_feedback'
-    #   value: 0   
-    #   renderInOutput: true
-    
-    # supplementary_assignments:
-    #   type: 'percent'
-    #   label: 'Supplementary assignments'
-    #   id: 'supplementary_assignments'
-    #   value: 0   
-    #   renderInOutput: true
-
-
-    # COMPROMISE
-
     complete_training:
       type: 'percent'
       label: 'Completion of Wikipedia training'

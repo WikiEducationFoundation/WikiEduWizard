@@ -1,62 +1,64 @@
 %div.form-container
   %form{ :id => 'courseLength', :oninput => 'out.value = parseInt(courseLength.value); out2.value = parseInt(courseLength.value);' , :onsubmit => 'return false'}
-    %div
-      %label{:for => 'courseStart', :style => 'min-width: 115px;display: inline-block;'} Course begins
-      %input{:type => 'date', :id => 'courseStart', :name => 'courseStart'}
-      
-    %div
-      %label{:for => 'courseEnd', :style => 'min-width: 115px;display: inline-block;'} Course ends
-      %input{:type => 'date', :id => 'courseEnd', :name => 'courseEnd'}
-    %br
-    
-    %div
-      %label{:for => 'startDate'} Start Date (week of)
-      %br
-      %input{:type => 'date', :id => 'startDate', :name => 'startDate'}
-    %br
-    / %div
-    /   %label{:for => 'startDate'} End Week of
-    /   %br
-    /   %input{:type => 'hidden', :id => 'endDate'}
-    %br
-    %div
+
+    %div.overview-input-container
+      %label{:for => 'termStartDate'} Term begins
+      %input{:type => 'date', :id => 'termStartDate', :name => 'termStartDate'}
+
+    %div.overview-input-container{:style => 'display: none;'}
+      %label{:for => 'termEndDate'} Term ends
+      %input{:type => 'date', :id => 'termEndDate', :name => 'termEndDate'}
+
+    / %div.overview-input-container
+    /   %label{:for => 'endDate'} End Week of
+    /   %input{:type => 'date', :id => 'endDate', :name => 'endDate'}
+
+    %div.overview-input-container
+      %label{:for => 'courseStartDate'} Course starts on 
+      %input{:type => 'date', :id => 'courseStartDate', :name => 'courseStartDate'}
+
+    %div.overview-input-container{:style => 'display: none;'}
+      %label{:for => 'startWeekOfDate'} Start week of 
+      %input{:type => 'date', :id => 'startWeekOfDate', :name => 'startWeekOfDate'}
+
+    %div.overview-input-container{:style => 'display: none;'}
+      %label{:for => 'endWeekOfDate'} End week of 
+      %input{:type => 'date', :id => 'endWeekOfDate', :name => 'endWeekOfDate'}
+
+    %div.overview-input-container
       %label{:for => 'courseLength'} Course Length
       %input{:type => 'range', :min => '6', :max => '16', :step => '1', :defaultValue => '16', :name => 'courseLength', :id => 'cLength', :value => '16'}
       %output{ :name => 'out2'} 16
       %span  weeks
-    %br
-    %br
-    %div
-      %label{:for => 'Monday'} Mondays
-      %input{:type => 'checkbox', :id => 'monday', :value => '0', :name => 'Monday', :class => 'dowCheckbox'}
-      %br
-      %label{:for => 'Tuesday'} Tuesdays
-      %input{:type => 'checkbox', :id => 'tuesday', :value => '1', :name => 'Tuesday', :class => 'dowCheckbox'}
-      %br
-      %label{:for => 'Wednesday'} Wednesdays
-      %input{:type => 'checkbox', :id => 'wednesday', :value => '2', :name => 'Wednesday', :class => 'dowCheckbox'}
-      %br
-      %label{:for => 'Thursday'} Thursdays
-      %input{:type => 'checkbox', :id => 'thursday', :value => '3', :name => 'Thursday', :class => 'dowCheckbox'}
-      %br
-      %label{:for => 'Friday'} Fridays
-      %input{:type => 'checkbox', :id => 'friday', :value => '4', :name => 'Friday', :class => 'dowCheckbox'}
-      %br
-      %label{:for => 'Saturday'} Saturdays
-      %input{:type => 'checkbox', :id => 'saturday', :value => '5', :name => 'Saturday', :class => 'dowCheckbox'}
-      %br
-      %label{:for => 'Sunday'} Sundays
-      %input{:type => 'checkbox', :id => 'sunday', :value => '6', :name => 'Sunday', :class => 'dowCheckbox'}
-      
-    %br
-    %br
-    %span{:style => 'font-size:38px;', :class => 'readout'}
-      %output{:for => 'courseLength', :name => 'out' , :id => 'courseLengthReadout'} 16
-      %span weeks
-    %br
-    / %br
-    / %button{ :value => 'Go', :class => 'recreate'} Go
 
-%code
+    %div.overview-select-container
+      %div.overview-select-input-container
+        %input{:type => 'checkbox', :id => 'monday', :value => '0', :name => 'Monday', :class => 'dowCheckbox'}
+        %label{:for => 'monday'} Mondays
+      %div.overview-select-input-container
+        %input{:type => 'checkbox', :id => 'tuesday', :value => '1', :name => 'Tuesday', :class => 'dowCheckbox'}
+        %label{:for => 'tuesday'} Tuesdays
+      %div.overview-select-input-container
+        %input{:type => 'checkbox', :id => 'wednesday', :value => '2', :name => 'Wednesday', :class => 'dowCheckbox'}
+        %label{:for => 'wednesday'} Wednesdays
+      %div.overview-select-input-container
+        %input{:type => 'checkbox', :id => 'thursday', :value => '3', :name => 'Thursday', :class => 'dowCheckbox'}
+        %label{:for => 'thursday'} Thursdays
+      %div.overview-select-input-container
+        %input{:type => 'checkbox', :id => 'friday', :value => '4', :name => 'Friday', :class => 'dowCheckbox'}
+        %label{:for => 'friday'} Fridays
+      %div.overview-select-input-container
+        %input{:type => 'checkbox', :id => 'saturday', :value => '5', :name => 'Saturday', :class => 'dowCheckbox'}
+        %label{:for => 'saturday'} Saturdays
+      %div.overview-select-input-container
+        %input{:type => 'checkbox', :id => 'sunday', :value => '6', :name => 'Sunday', :class => 'dowCheckbox'}
+        %label{:for => 'sunday'} Sundays
+      
+    %div.overview-readout-header
+      %div.readout
+        %output{:for => 'courseLength', :name => 'out' , :id => 'courseLengthReadout'} 16
+        %span weeks
+
+%div
   %div.output-container 
   %div.preview-container 

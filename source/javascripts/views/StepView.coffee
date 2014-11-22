@@ -32,8 +32,6 @@ WikiDatesModule = require('../templates/steps/modules/WikiDatesModule.hbs')
 #DATA
 CourseInfoData = require('../data/WizardCourseInfo')
 
-#OUTPUT
-AssignmentData = require('../data/WizardAssignmentData')
 
 #INPUTS
 WizardStepInputs = require('../data/WizardStepInputs')
@@ -470,6 +468,18 @@ module.exports = class StepView extends View
 
     inputType = WizardStepInputs[@model.id][id].type 
 
+    isExclusive = false || WizardStepInputs[@model.id][id].exclusive 
+
+    hasExclusiveSibling = false
+
+    _.each(WizardStepInputs[@model.id], (inputItem) =>
+
+      if inputItem.exclusive
+
+        hasExclusiveSibling = true
+
+    )
+
     out = 
 
       type: inputType
@@ -484,15 +494,45 @@ module.exports = class StepView extends View
 
         WizardStepInputs[@model.id][id].selected = true
 
+        if hasExclusiveSibling && !isExclusive
+
+          @$el.find('.custom-input--checkbox[data-exclusive="true"]').addClass('not-editable').removeClass('editable')
+
+        else if isExclusive
+
+          @$el.find('.custom-input--checkbox').not('.custom-input--checkbox[data-exclusive="true"]').addClass('not-editable').removeClass('editable')
+
       else
 
         WizardStepInputs[@model.id][id].selected = false
 
+        if hasExclusiveSibling && !isExclusive
+
+          allOthersDisengaged = true
+
+          @$el.find('.custom-input--checkbox').each(->
+
+            if !$(this).attr('data-exclusive') && $(this).hasClass('checked')
+
+              allOthersDisengaged = false
+
+          )
+
+          if allOthersDisengaged
+
+            @$el.find('.custom-input--checkbox[data-exclusive="true"]').removeClass('not-editable').addClass('editable')
+
+          else
+
+            @$el.find('.custom-input--checkbox[data-exclusive="true"]').addClass('not-editable').removeClass('editable')
+
+        else if isExclusive
+
+          @$el.find('.custom-input--checkbox').not('.custom-input--checkbox[data-exclusive="true"]').removeClass('not-editable').addClass('editable')
 
     else if inputType == 'text' || inputType == 'percent'
 
       WizardStepInputs[@model.id][id].value = value
-
 
     return @
 

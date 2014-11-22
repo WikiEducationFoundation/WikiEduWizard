@@ -1,3 +1,24 @@
+.output-container, .preview-container
+  display block
+  width 100%
+  max-width 1100px
+  margin 25px auto 50px
+  text-align left
+  
+
+.output-container
+  text-align left
+  
+.preview-container
+  max-width 1100px
+  text-align left
+  
+span.date
+  display none;
+  &:before
+    content: ' | week of '
+
+
 .preview-container
   
   h4, h5
@@ -34,6 +55,33 @@
     display inline-block
     width: auto
     margin 0px 0 5px
+    
+.overview-input-container
+  position relative
+  margin 10px 0
+  
+  label
+    display inline-block
+    width: 160px
+  
+  input 
+    display inline-block
+    margin 0 15px
+    width 125px
+
+.overview-select-container
+  margin 30px 0
+
+.overview-select-input-container
+  margin 5px 0
+
+.overview-readout-header
+  margin-top 25px;
+  
+  .readout 
+    font-size:38px;
+  
+
 
         
 

@@ -99,19 +99,25 @@ module.exports = class HomeView extends View
     @$innerContainer.append(@StepNav.el)
 
     if @stepViews.length > 0
+
       @showCurrentStep()
 
     return @
     
 
-
   _createStepViews: ->
     
     _views = []
 
+    introSteps = application.WizardConfig.intro_steps
 
+    pathways = application.WizardConfig.pathways
 
-    _.each(application.data,(step, index) =>
+    outroSteps = application.WizardConfig.outro_steps
+
+    stepNumber = 0
+
+    _.each(introSteps,(step, index) =>
 
       newmodel = new StepModel()
 
@@ -127,13 +133,12 @@ module.exports = class HomeView extends View
 
       )
 
-      newview.model.set('stepNumber', index + 1)
+      newview.model.set('stepNumber', stepNumber + 1)
 
-      newview.model.set('stepIndex', index )
+      newview.model.set('stepIndex', stepNumber )
 
-      if index is application.data.length - 1
-        newview.isLastStep = true
-      else if index is 0
+      if stepNumber is 0
+
         newview.isFirstStep = true
 
       @$stepsContainer.append(newview.render().hide().el)
@@ -142,10 +147,184 @@ module.exports = class HomeView extends View
 
       _views.push(newview)
 
+      stepNumber++
+
+    )
+
+    _.each(pathways.multimedia,(step, index) =>
+
+      newmodel = new StepModel()
+
+      _.map(step,(value, key, list) -> 
+
+        newmodel.set(key,value)
+
+      )
+
+      newview = new StepView(
+
+        model: newmodel
+
+      )
+
+      newview.model.set('stepNumber', stepNumber + 1)
+
+      newview.model.set('stepIndex', stepNumber )
+
+      @$stepsContainer.append(newview.render().hide().el)
+
+      newview.$el.addClass("step--#{step.id}")
+
+      _views.push(newview)
+
+      stepNumber++
+
+    )
+
+    _.each(pathways.researchwrite,(step, index) =>
+
+      newmodel = new StepModel()
+
+      _.map(step,(value, key, list) -> 
+
+        newmodel.set(key,value)
+
+      )
+
+      newview = new StepView(
+
+        model: newmodel
+
+      )
+
+      newview.model.set('stepNumber', stepNumber + 1)
+
+      newview.model.set('stepIndex', stepNumber )
+
+      @$stepsContainer.append(newview.render().hide().el)
+
+      newview.$el.addClass("step--#{step.id}")
+
+      _views.push(newview)
+
+      stepNumber++
+
+    )
+
+
+    _.each(outroSteps,(step, index) =>
+
+      newmodel = new StepModel()
+
+      _.map(step,(value, key, list) -> 
+
+        newmodel.set(key,value)
+
+      )
+
+      newview = new StepView(
+
+        model: newmodel
+
+      )
+
+      newview.model.set('stepNumber', stepNumber + 1)
+
+      newview.model.set('stepIndex', stepNumber )
+
+      if index is outroSteps.length - 1
+
+        newview.isLastStep = true
+
+      @$stepsContainer.append(newview.render().hide().el)
+
+      newview.$el.addClass("step--#{step.id}")
+
+      _views.push(newview)
+
+      stepNumber++
+
     )
 
     return _views
 
+
+
+    # _.each(application.data,(step, index) =>
+
+    #   newmodel = new StepModel()
+
+    #   _.map(step,(value, key, list) -> 
+
+    #     newmodel.set(key,value)
+
+    #   )
+
+    #   newview = new StepView(
+
+    #     model: newmodel
+
+    #   )
+
+    #   newview.model.set('stepNumber', index + 1)
+
+    #   newview.model.set('stepIndex', index )
+
+    #   if index is application.data.length - 1
+
+    #     newview.isLastStep = true
+
+    #   else if index is 0
+
+    #     newview.isFirstStep = true
+
+    #   @$stepsContainer.append(newview.render().hide().el)
+
+    #   newview.$el.addClass("step--#{step.id}")
+
+    #   _views.push(newview)
+
+    # )
+
+    # return _views
+
+    # _.each(application.data,(step, index) =>
+
+    #   newmodel = new StepModel()
+
+    #   _.map(step,(value, key, list) -> 
+
+    #     newmodel.set(key,value)
+
+    #   )
+
+    #   newview = new StepView(
+
+    #     model: newmodel
+
+    #   )
+
+    #   newview.model.set('stepNumber', index + 1)
+
+    #   newview.model.set('stepIndex', index )
+
+    #   if index is application.data.length - 1
+
+    #     newview.isLastStep = true
+
+    #   else if index is 0
+
+    #     newview.isFirstStep = true
+
+    #   @$stepsContainer.append(newview.render().hide().el)
+
+    #   newview.$el.addClass("step--#{step.id}")
+
+    #   _views.push(newview)
+
+    # )
+
+    # return _views
 
 
   getRenderData: ->
@@ -155,11 +334,9 @@ module.exports = class HomeView extends View
 
     }
     
-
   #--------------------------------------------------------
   # CUSTOM FUNCTIONS
   #--------------------------------------------------------
-
 
   advanceStep: ->
     @currentStep+=1

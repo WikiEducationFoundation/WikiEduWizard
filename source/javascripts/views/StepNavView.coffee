@@ -54,11 +54,9 @@ module.exports = class StepNavView extends View
 
       @$el.removeClass('hidden')
 
-
     else if @currentStep > 0 && @currentStep == @totalSteps - 1
 
       @$el.removeClass('hidden')
-
 
     else
 
