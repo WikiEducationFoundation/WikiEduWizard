@@ -257,7 +257,7 @@ module.exports = class InputItemView extends View
 
 
   itemChangeHandler: (e) ->
-    
+
     # Backbone.Mediator.publish('answer:updated', inputId, value)
 
     if @inputType == 'radioGroup'

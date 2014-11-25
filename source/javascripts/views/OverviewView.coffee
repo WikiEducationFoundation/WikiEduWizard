@@ -13,11 +13,12 @@ WizardStepInputs = require('../data/WizardStepInputs')
 
 module.exports = class OverviewView extends View
 
-  detailTemplate: WikiDetailsModule
+  overviewItemTemplate: WikiDetailsModule
 
   render: ->
 
     selectedPathways = application.homeView.selectedPathways
+
     selectedInputs = []
     
     _.each(selectedPathways, (pid) =>
@@ -33,7 +34,7 @@ module.exports = class OverviewView extends View
       _.each(stepTitles, (title, index) =>
 
         unless stepData[index].showInOverview
-        
+
           return
 
         selectedInputs = []
@@ -61,7 +62,7 @@ module.exports = class OverviewView extends View
 
           selectedInputs.push "[None selected]"
 
-        @$el.append( @detailTemplate(
+        @$el.append( @overviewItemTemplate(
 
           label: title
 

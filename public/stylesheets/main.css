@@ -2416,7 +2416,7 @@ select {
 .custom-input--checkbox label span,
 .custom-input--radiobox label span {
   display: inline-block;
-  width: auto;
+  width: 100%;
 }
 .custom-input--checkbox input,
 .custom-input--radiobox input {
