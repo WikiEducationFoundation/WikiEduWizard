@@ -3265,7 +3265,8 @@ span.date:before {
     border-radius: 10px;
   }
 }
-.step-nav .step-nav-indicators__item.visited {
+.step-nav .step-nav-indicators__item.visited,
+.step-nav .step-nav-indicators__item:first-child {
   background-color: transparent;
   border: 2px solid #fff;
   cursor: pointer;

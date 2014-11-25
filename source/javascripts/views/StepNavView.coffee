@@ -204,7 +204,7 @@ module.exports = class StepNavView extends View
 
   isLastStep: ->
 
-    return @currentStep is @totalSteps - 1
+    return @currentStep is @totalSteps - 1 && @currentStep > 1
 
   isInactive: (item) ->
 
@@ -224,7 +224,9 @@ module.exports = class StepNavView extends View
         
         itIs = true
 
-      else
-        itIs = true
+      if application.homeView.selectedPathways.length == 0
+
+        itIs = true  
+
 
     return itIs

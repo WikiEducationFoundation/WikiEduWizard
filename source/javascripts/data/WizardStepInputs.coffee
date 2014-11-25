@@ -40,7 +40,6 @@ WizardStepInputs =
       id: 'instructor_username'
       value: ''
       
-
     wizard_start_date:
       isDate: true
       month: ''
@@ -56,16 +55,87 @@ WizardStepInputs =
       year: ''
       value: ''
       required: true
+
     
-  image_stuff:
-    want_image:
+  multimedia_1:
+    multimedia_1_1:
       type: 'checkbox'
-      id: 'want_image'
+      id: 'multimedia_1_1'
       selected: true
-      label: 'You Want Image?'
+      label: 'Text for the question 1?'
       disabled: false
       exclusive: false
       required: true
+
+    multimedia_1_2:
+      type: 'checkbox'
+      id: 'multimedia_1_2'
+      selected: true
+      label: 'Text for the question 2?'
+      disabled: false
+      exclusive: false
+      required: true
+
+  multimedia_2:
+    multimedia_2_1:
+      type: 'checkbox'
+      id: 'multimedia_2_1'
+      selected: false
+      label: 'Text for the question 1?'
+      disabled: false
+      exclusive: false
+      required: true
+
+    multimedia_2_2:
+      type: 'checkbox'
+      id: 'multimedia_2_2'
+      selected: false
+      label: 'Text for the question 2?'
+      disabled: false
+      exclusive: false
+      required: true
+
+  copyedit_1:
+    copyedit_1_1:
+      type: 'radioBox'
+      id: 'copyedit_1_1'
+      selected: false
+      label: 'Text for the question 1?'
+      disabled: false
+      exclusive: false
+      required: true
+
+    copyedit_1_2:
+      type: 'radioBox'
+      id: 'copyedit_1_2'
+      selected: false
+      label: 'Text for the question 2?'
+      disabled: false
+      exclusive: false
+      required: true
+
+  copyedit_2:
+    copyedit_2_1:
+      type: 'radioBox'
+      id: 'copyedit_2_1'
+      selected: false
+      label: 'Text for the question 1?'
+      disabled: false
+      exclusive: false
+      required: true
+
+    copyedit_2_2:
+      type: 'radioBox'
+      id: 'copyedit_2_2'
+      selected: false
+      label: 'Text for the question 2?'
+      disabled: false
+      exclusive: false
+      required: true
+    
+
+
+
 
 
   assignment_selection: 
@@ -506,119 +576,6 @@ WizardStepInputs =
         'original_paper'
       ]
 
-    #FULL
-
-    # complete_training:
-    #   type: 'percent'
-    #   label: 'Completion of Wikipedia training'
-    #   id: 'complete_training'
-    #   value: 1
-    #   renderInOutput: true
-    #   contingentUpon: []
-
-    # practice_communication:
-    #   type: 'percent'
-    #   label: '"Practice on-wiki communication" exercise'
-    #   id: 'practice_communication'
-    #   value: 1  
-    #   renderInOutput: true
-    #   contingentUpon: []
-
-    # practice_communication:
-    #   type: 'percent'
-    #   label: '"Practice on-wiki communication" exercise'
-    #   id: 'practice_communication'
-    #   value: 1  
-    #   renderInOutput: true
-    #   contingentUpon: []
-
-    # copy_edit_article:
-    #   type: 'percent'
-    #   label: '"Copyedit an article" exercise'
-    #   id: 'practice_communication'
-    #   value: 1  
-    #   renderInOutput: true
-    #   contingentUpon: []
-
-    # critique_article:
-    #   type: 'percent'
-    #   label: '"Evaluate an article" exercise'
-    #   id: 'critique_article'
-    #   value: 1  
-    #   renderInOutput: true
-    #   contingentUpon: []
-
-    # add_to_article:
-    #   type: 'percent'
-    #   label: '"Add to an article" exercise'
-    #   id: 'add_to_article'
-    #   value: 1  
-    #   renderInOutput: true
-    #   contingentUpon: []
-
-    # illustrate_article:
-    #   type: 'percent'
-    #   label: '"Illustrate an article" exercise'
-    #   id: 'illustrate_article'
-    #   value: 1  
-    #   renderInOutput: true
-    #   contingentUpon: []
-
-    # outline_quality:
-    #   type: 'percent'
-    #   id: 'outline_quality'
-    #   label: 'Quality of bibliography and outline'
-    #   value: 2   
-    #   renderInOutput: true
-    #   contingentUpon: []
-
-    # peer_reviews:
-    #   type: 'percent'
-    #   id: 'peer_reviews'
-    #   label: 'Peer reviews and collaboration with classmates'
-    #   value: 2   
-    #   renderInOutput: true
-    #   contingentUpon: []
-
-    # class_participation:
-    #   type: 'percent'
-    #   id: 'class_participation'
-    #   label: 'Participation in class discussions'
-    #   value: 2   
-    #   renderInOutput: true
-    #   contingentUpon: []
-
-    # contribution_quality:
-    #   type: 'percent'
-    #   id: 'contribution_quality'
-    #   label: 'Quality of your main Wikipedia contributions'
-    #   value: 10   
-    #   renderInOutput: true
-    #   contingentUpon: []
-
-    # reflective_essay:
-    #   type: 'percent'
-    #   id: 'reflective_essay'
-    #   label: 'Reflective essay'
-    #   value: 2   
-    #   renderInOutput: true
-    #   contingentUpon: []
-
-    # original_paper:
-    #   type: 'percent'
-    #   id: 'original_paper'
-    #   label: 'Original argument paper'
-    #   value: 10   
-    #   renderInOutput: true
-    #   contingentUpon: []
-
-    # class_presentation:
-    #   type: 'percent'
-    #   id: 'class_presentation'
-    #   label: 'In-class presentation of contributions'
-    #   value: 2 
-    #   renderInOutput: true
-    #   contingentUpon: []
 
     grading_selection:
       label: 'Grading based on:'

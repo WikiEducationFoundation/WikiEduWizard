@@ -73,11 +73,17 @@ module.exports = class InputItemView extends View
   infoIconClickHandler: ->
 
     unless @$el.hasClass('selected')
+
       @showTooltip()
+
     else
+
       $('body, html').animate(
+
         scrollTop: 0
+
       ,500)
+
 
   radioButtonClickHandler: (e) ->
     e.preventDefault()
@@ -149,8 +155,6 @@ module.exports = class InputItemView extends View
       @$inputEl.trigger('change')
 
       Backbone.Mediator.publish('tips:hide')
-
-
 
 
   checkButtonClickHandler: (e) ->
@@ -475,6 +479,7 @@ module.exports = class InputItemView extends View
       @$el.addClass('has-content')
 
       if selectedInputs.length == 0
+        
         selectedInputs.push "[None selected]"
 
       return {

@@ -17,6 +17,8 @@ DateInputView = require('../views/DateInputView')
 
 GradingInputView = require('../views/GradingInputView')
 
+OverviewView = require('../views/OverviewView')
+
 #TEMPLATES
 StepTemplate = require('../templates/steps/StepTemplate.hbs')
 
@@ -132,9 +134,6 @@ module.exports = class StepView extends View
     )
 
     return datesAreValid
-
-
-
 
 
   accordianClickHandler: (e) ->
@@ -310,6 +309,21 @@ module.exports = class StepView extends View
 
       @$el.find('.step-form-content').append(@gradingView.getInputValues().render().el)
 
+    if @model.attributes.id is 'overview'
+
+      $innerEl = @$el.find('.step-form-inner')
+
+      $innerEl.html('')
+
+      @overviewView = new OverviewView(
+        el: $innerEl
+      )
+
+      @overviewView.parentStepView = @
+
+      @overviewView.render()
+
+
     return @
 
 
@@ -326,14 +340,13 @@ module.exports = class StepView extends View
       scrollTop: 0
     ,1)
 
-    if @isLastStep
+    if @model.attributes.id is 'overview'
 
       @render().$el.show()
 
     else if @model.attributes.id is 'grading'
 
       @render().$el.show()
-
 
     else
 
@@ -502,6 +515,10 @@ module.exports = class StepView extends View
 
           @$el.find('.custom-input--checkbox').not('.custom-input--checkbox[data-exclusive="true"]').addClass('not-editable').removeClass('editable')
 
+        if @model.id is 'assignment_selection'
+          
+          application.homeView.updateSelectedPathway('add', id)
+
       else
 
         WizardStepInputs[@model.id][id].selected = false
@@ -530,9 +547,14 @@ module.exports = class StepView extends View
 
           @$el.find('.custom-input--checkbox').not('.custom-input--checkbox[data-exclusive="true"]').removeClass('not-editable').addClass('editable')
 
+        if @model.id is 'assignment_selection'
+          
+          application.homeView.updateSelectedPathway('remove', id)
+
     else if inputType == 'text' || inputType == 'percent'
 
       WizardStepInputs[@model.id][id].value = value
+
 
     return @
 

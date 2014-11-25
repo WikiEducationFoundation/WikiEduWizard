@@ -38,20 +38,201 @@ WizardConfig = {
   pathways: {
     multimedia: [
       {
-        id: "image_stuff"
-        title: 'Image related step'
+        id: "multimedia_1"
+        showInOverview: true
+        title: 'Multimedia step 1'
         formTitle: 'Choose one:'
-        infoTitle: 'Image stuff'
-        instructions: "To get started, you'll want to introduce your students to the basic rules of writing Wikipedia articles and working with the Wikipedia community."
+        infoTitle: 'Instruction Title'
+        instructions: "Step Instructions"
         inputs: []
         sections: [
         ]
+      }
+      {
+        id: "multimedia_2"
+        showInOverview: true
+        title: 'Multimedia step 2'
+        formTitle: 'Choose one:'
+        infoTitle: 'Instruction Title'
+        instructions: "Step Instructions"
+        inputs: []
+        sections: [
+        ]
+      }
+      {
+        id: "grading"
+        title: 'Grading'
+        showInOverview: false
+        formTitle: "How will students' grades for assignments be determined?"
+        infoTitle: "About grading"
+        instructions: 'Grading Wikipedia assignments can be a challenge. Here are some tips for grading your Wikipedia assignments:'
+        sections: [
+          {
+            title: 'Know all of your students\' Wikipedia usernames.'
+            accordian: true
+            content: [
+              "<p>Without knowing the students' usernames, you won't be able to grade them.</p>"
+              "<p>Make sure all students enroll on the course page. Once all students have signed the list, you can click on \"user contributions\" (in the menu bar on the left hand side of your browser screen) to review that student's activities on Wikipedia. If you have made student training compulsory, you can check the <a href='https://en.wikipedia.org/wiki/Wikipedia:Training/For_students/Training_feedback' target='_blank'>feedback page</a> to see which students have completed it.</p>"
+            ]
+          }
+          {
+            title: 'Be specific about your expectations.'
+            accordian: true
+            content: [
+              "<p>Being specific about what you expect your students to do is crucial for grading. For example, students could be asked to add a minimum of three sections to an existing article, or a minimum of eight references to an existing article that lacks the appropriate sourcing.</p>"
+            ]
+          }
+          {
+            title: 'Grade based on what students contribute to Wikipedia, not what remains on Wikipedia at the course\'s end.'
+            accordian: true
+            content: [
+              "<p>You can see a student's contributions in the article history, even if some writing was removed by the community (or the student). A student’s content could be edited for many reasons, and can even be evidence of a student reflecting critically on their own contributions. Furthermore, if students feel they must defend control of an article for the sake of their grade, this can lead to conflict with other editors.</p>"
+              "<p>Wikipedia is a collaborative writing environment driven by verifiability, noteworthiness and neutral point of view – all of which have created challenges for students familiar with a persuasive writing format in classrooms. Encourage students to reflect on edits to improve their understanding of the process and the community.</p>"
+              
+            ]
+          }
+        ]
+        inputs: []
+      }
+      {
+        id: "overview"
+        title: 'Assignment overview'
+        showInOverview: false
+        infoTitle: "About the course"
+        formTitle: ""
+        sections: [
+          {
+            content: [
+              "<p>Now it's time to write a short description of your course and how this Wikipedia assignment fits into it. This will allow other Wikipedia editors to understand what students will be doing. Be sure to mention:"
+              "<ul>
+                <li>topics you're covering in the class</li>
+                <li>what students will be asked to do on Wikipedia</li>
+                <li>what types of articles your class will be working on</li>  
+              </ul>"
+            ]
+          }
+          
+          {
+            content: [
+              "<p><textarea id='short_description' rows='14' style='width:100%;background-color:rgba(242,242,242,1.0);border:1px solid rgba(202,202,202,1.0);padding:10px 15px;font-size: 16px;line-height 23px;letter-spacing: 0.25px;'></textarea></p>"
+            ]
+          }
+          {
+            content: [
+              "<div class='step-form-dates'></div>"
+            ]
+          }
+          {
+            title: ''
+            content: [
+              "<p><a id='publish' href='#' class='button' style='display:inline-block;text-align:center;'>Publish</a></p>"
+            ]
+          }
+        ]
+        inputs: []
+      }
+    ]
+    copyedit: [
+      {
+        id: "copyedit_1"
+        title: 'Copy Edit step 1'
+        showInOverview: true
+        formTitle: 'Choose one:'
+        infoTitle: 'Instruction Title'
+        instructions: "Step Instructions"
+        inputs: []
+        sections: [
+        ]
+      }
+      {
+        id: "copyedit_2"
+        title: 'Copy Edit step 2'
+        showInOverview: true
+        formTitle: 'Choose one:'
+        infoTitle: 'Instruction Title'
+        instructions: "Step Instructions"
+        inputs: []
+        sections: [
+        ]
+      }
+      {
+        id: "grading"
+        title: 'Grading'
+        showInOverview: false
+        formTitle: "How will students' grades for assignments be determined?"
+        infoTitle: "About grading"
+        instructions: 'Grading Wikipedia assignments can be a challenge. Here are some tips for grading your Wikipedia assignments:'
+        sections: [
+          {
+            title: 'Know all of your students\' Wikipedia usernames.'
+            accordian: true
+            content: [
+              "<p>Without knowing the students' usernames, you won't be able to grade them.</p>"
+              "<p>Make sure all students enroll on the course page. Once all students have signed the list, you can click on \"user contributions\" (in the menu bar on the left hand side of your browser screen) to review that student's activities on Wikipedia. If you have made student training compulsory, you can check the <a href='https://en.wikipedia.org/wiki/Wikipedia:Training/For_students/Training_feedback' target='_blank'>feedback page</a> to see which students have completed it.</p>"
+            ]
+          }
+          {
+            title: 'Be specific about your expectations.'
+            accordian: true
+            content: [
+              "<p>Being specific about what you expect your students to do is crucial for grading. For example, students could be asked to add a minimum of three sections to an existing article, or a minimum of eight references to an existing article that lacks the appropriate sourcing.</p>"
+            ]
+          }
+          {
+            title: 'Grade based on what students contribute to Wikipedia, not what remains on Wikipedia at the course\'s end.'
+            accordian: true
+            content: [
+              "<p>You can see a student's contributions in the article history, even if some writing was removed by the community (or the student). A student’s content could be edited for many reasons, and can even be evidence of a student reflecting critically on their own contributions. Furthermore, if students feel they must defend control of an article for the sake of their grade, this can lead to conflict with other editors.</p>"
+              "<p>Wikipedia is a collaborative writing environment driven by verifiability, noteworthiness and neutral point of view – all of which have created challenges for students familiar with a persuasive writing format in classrooms. Encourage students to reflect on edits to improve their understanding of the process and the community.</p>"
+              
+            ]
+          }
+        ]
+        inputs: []
+      }
+      {
+        id: "overview"
+        title: 'Assignment overview'
+        infoTitle: "About the course"
+        showInOverview: false
+        formTitle: ""
+        sections: [
+          {
+            content: [
+              "<p>Now it's time to write a short description of your course and how this Wikipedia assignment fits into it. This will allow other Wikipedia editors to understand what students will be doing. Be sure to mention:"
+              "<ul>
+                <li>topics you're covering in the class</li>
+                <li>what students will be asked to do on Wikipedia</li>
+                <li>what types of articles your class will be working on</li>  
+              </ul>"
+            ]
+          }
+          
+          {
+            content: [
+              "<p><textarea id='short_description' rows='14' style='width:100%;background-color:rgba(242,242,242,1.0);border:1px solid rgba(202,202,202,1.0);padding:10px 15px;font-size: 16px;line-height 23px;letter-spacing: 0.25px;'></textarea></p>"
+            ]
+          }
+          {
+            content: [
+              "<div class='step-form-dates'></div>"
+            ]
+          }
+          {
+            title: ''
+            content: [
+              "<p><a id='publish' href='#' class='button' style='display:inline-block;text-align:center;'>Publish</a></p>"
+            ]
+          }
+        ]
+        inputs: []
       }
     ]
     researchwrite: [
       {
         id: "learning_essentials"
         title: 'Wikipedia essentials'
+        showInOverview: true
         formTitle: 'Choose one:'
         infoTitle: 'About Wikipedia essentials'
         instructions: "To get started, you'll want to introduce your students to the basic rules of writing Wikipedia articles and working with the Wikipedia community."
@@ -81,6 +262,7 @@ WizardConfig = {
       {
         id: "getting_started"
         title: 'Getting started with editing'
+        showInOverview: true
         infoTitle: 'About early editing tasks'
         instructions: "It is important for students to start editing Wikipedia early on. That way, they become familiar with Wikipedia's markup (\"wikisyntax\", \"wikimarkup\", or \"wikicode\") and the mechanics of editing and communicating on the site. We recommend assigning a few basic Wikipedia tasks early on."
         formTitle: 'Which basic assignments would you like to include?'
@@ -108,6 +290,7 @@ WizardConfig = {
       {
         id: 'choosing_articles'
         title: 'Choosing articles'
+        showInOverview: true
         formTitle: 'How will your class select articles?'
         infoTitle: 'About choosing articles'
         inputs: []
@@ -168,6 +351,7 @@ WizardConfig = {
       {
         id: "research_planning"
         title: 'Research and planning'
+        showInOverview: true
         formTitle: 'How should students plan their articles?'
         infoTitle: 'About research and planning'
         sections: [
@@ -183,6 +367,7 @@ WizardConfig = {
       }
       {
         id: "drafts_mainspace"
+        showInOverview: true
         title: 'Drafts and mainspace'
         formTitle: 'Choose one:'
         infoTitle: 'About drafts and mainspace'
@@ -210,6 +395,7 @@ WizardConfig = {
       {
         id: "peer_feedback"
         title: 'Peer feedback'
+        showInOverview: true
         infoTitle: 'About peer feedback'
         formTitle: "How many peer reviews should each student conduct?"
         instructions: "Collaboration is a critical element of contributing to Wikipedia."
@@ -228,6 +414,7 @@ WizardConfig = {
       {
         id: "supplementary_assignments"
         title: 'Supplementary assignments'
+        showInOverview: true
         formTitle: 'Choose supplementary assignments (optional):'
         infoTitle: 'About supplementary assignments'
         instructions: "By the time students have made improvements based on classmates' comments—and ideally suggestions from you as well—they should have produced nearly complete articles. Now is the chance to encourage them to wade a little deeper into Wikipedia and its norms and criteria to create great content."
@@ -245,6 +432,7 @@ WizardConfig = {
       {
         id: "dyk"
         title: 'DYK process'
+        showInOverview: false
         infoTitle: 'About the <em>Did You Know</em> process'
         formTitle: "Would you like to include DYK as an ungraded option?"
         sections: [
@@ -263,6 +451,7 @@ WizardConfig = {
       {
         id: "ga"
         title: 'Good Article process'
+        showInOverview: false
         infoTitle: 'About the <em>Good Article</em> process'
         formTitle: "Would you like to include this as an ungraded option?"
         sections: [
@@ -277,81 +466,81 @@ WizardConfig = {
         ]
         inputs: []
       }
+      {
+        id: "grading"
+        title: 'Grading'
+        showInOverview: false
+        formTitle: "How will students' grades for assignments be determined?"
+        infoTitle: "About grading"
+        instructions: 'Grading Wikipedia assignments can be a challenge. Here are some tips for grading your Wikipedia assignments:'
+        sections: [
+          {
+            title: 'Know all of your students\' Wikipedia usernames.'
+            accordian: true
+            content: [
+              "<p>Without knowing the students' usernames, you won't be able to grade them.</p>"
+              "<p>Make sure all students enroll on the course page. Once all students have signed the list, you can click on \"user contributions\" (in the menu bar on the left hand side of your browser screen) to review that student's activities on Wikipedia. If you have made student training compulsory, you can check the <a href='https://en.wikipedia.org/wiki/Wikipedia:Training/For_students/Training_feedback' target='_blank'>feedback page</a> to see which students have completed it.</p>"
+            ]
+          }
+          {
+            title: 'Be specific about your expectations.'
+            accordian: true
+            content: [
+              "<p>Being specific about what you expect your students to do is crucial for grading. For example, students could be asked to add a minimum of three sections to an existing article, or a minimum of eight references to an existing article that lacks the appropriate sourcing.</p>"
+            ]
+          }
+          {
+            title: 'Grade based on what students contribute to Wikipedia, not what remains on Wikipedia at the course\'s end.'
+            accordian: true
+            content: [
+              "<p>You can see a student's contributions in the article history, even if some writing was removed by the community (or the student). A student’s content could be edited for many reasons, and can even be evidence of a student reflecting critically on their own contributions. Furthermore, if students feel they must defend control of an article for the sake of their grade, this can lead to conflict with other editors.</p>"
+              "<p>Wikipedia is a collaborative writing environment driven by verifiability, noteworthiness and neutral point of view – all of which have created challenges for students familiar with a persuasive writing format in classrooms. Encourage students to reflect on edits to improve their understanding of the process and the community.</p>"
+              
+            ]
+          }
+        ]
+        inputs: []
+      }
+      {
+        id: "overview"
+        title: 'Assignment overview'
+        showInOverview: false
+        infoTitle: "About the course"
+        formTitle: ""
+        sections: [
+          {
+            content: [
+              "<p>Now it's time to write a short description of your course and how this Wikipedia assignment fits into it. This will allow other Wikipedia editors to understand what students will be doing. Be sure to mention:"
+              "<ul>
+                <li>topics you're covering in the class</li>
+                <li>what students will be asked to do on Wikipedia</li>
+                <li>what types of articles your class will be working on</li>  
+              </ul>"
+            ]
+          }
+          
+          {
+            content: [
+              "<p><textarea id='short_description' rows='14' style='width:100%;background-color:rgba(242,242,242,1.0);border:1px solid rgba(202,202,202,1.0);padding:10px 15px;font-size: 16px;line-height 23px;letter-spacing: 0.25px;'></textarea></p>"
+            ]
+          }
+          {
+            content: [
+              "<div class='step-form-dates'></div>"
+            ]
+          }
+          {
+            title: ''
+            content: [
+              "<p><a id='publish' href='#' class='button' style='display:inline-block;text-align:center;'>Publish</a></p>"
+            ]
+          }
+        ]
+        inputs: []
+      }
+
     ]
   }
-  outro_steps: [
-    {
-      id: "grading"
-      title: 'Grading'
-      formTitle: "How will students' grades for assignments be determined?"
-      infoTitle: "About grading"
-      instructions: 'Grading Wikipedia assignments can be a challenge. Here are some tips for grading your Wikipedia assignments:'
-      sections: [
-        {
-          title: 'Know all of your students\' Wikipedia usernames.'
-          accordian: true
-          content: [
-            "<p>Without knowing the students' usernames, you won't be able to grade them.</p>"
-            "<p>Make sure all students enroll on the course page. Once all students have signed the list, you can click on \"user contributions\" (in the menu bar on the left hand side of your browser screen) to review that student's activities on Wikipedia. If you have made student training compulsory, you can check the <a href='https://en.wikipedia.org/wiki/Wikipedia:Training/For_students/Training_feedback' target='_blank'>feedback page</a> to see which students have completed it.</p>"
-          ]
-        }
-        {
-          title: 'Be specific about your expectations.'
-          accordian: true
-          content: [
-            "<p>Being specific about what you expect your students to do is crucial for grading. For example, students could be asked to add a minimum of three sections to an existing article, or a minimum of eight references to an existing article that lacks the appropriate sourcing.</p>"
-          ]
-        }
-        {
-          title: 'Grade based on what students contribute to Wikipedia, not what remains on Wikipedia at the course\'s end.'
-          accordian: true
-          content: [
-            "<p>You can see a student's contributions in the article history, even if some writing was removed by the community (or the student). A student’s content could be edited for many reasons, and can even be evidence of a student reflecting critically on their own contributions. Furthermore, if students feel they must defend control of an article for the sake of their grade, this can lead to conflict with other editors.</p>"
-            "<p>Wikipedia is a collaborative writing environment driven by verifiability, noteworthiness and neutral point of view – all of which have created challenges for students familiar with a persuasive writing format in classrooms. Encourage students to reflect on edits to improve their understanding of the process and the community.</p>"
-            
-          ]
-        }
-      ]
-      inputs: []
-    }
-    {
-      id: "overview"
-      title: 'Assignment overview'
-      infoTitle: "About the course"
-      formTitle: ""
-      sections: [
-        {
-          content: [
-            "<p>Now it's time to write a short description of your course and how this Wikipedia assignment fits into it. This will allow other Wikipedia editors to understand what students will be doing. Be sure to mention:"
-            "<ul>
-              <li>topics you're covering in the class</li>
-              <li>what students will be asked to do on Wikipedia</li>
-              <li>what types of articles your class will be working on</li>  
-            </ul>"
-          ]
-        }
-        
-        {
-          content: [
-            "<p><textarea id='short_description' rows='14' style='width:100%;background-color:rgba(242,242,242,1.0);border:1px solid rgba(202,202,202,1.0);padding:10px 15px;font-size: 16px;line-height 23px;letter-spacing: 0.25px;'></textarea></p>"
-          ]
-        }
-        {
-          content: [
-            "<div class='step-form-dates'></div>"
-          ]
-        }
-        {
-          title: ''
-          content: [
-            "<p><a id='publish' href='#' class='button' style='display:inline-block;text-align:center;'>Publish</a></p>"
-          ]
-        }
-      ]
-      inputs: []
-    }
-  ]
-
 }
 
 module.exports = WizardConfig

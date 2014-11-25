@@ -34,7 +34,36 @@ module.exports = class HomeView extends View
 
   className: 'home-view'
 
+
   template: HomeTemplate
+
+
+  stepData: 
+
+    intro: application.WizardConfig.intro_steps
+
+    pathways: application.WizardConfig.pathways
+
+    outro: application.WizardConfig.outro_steps
+
+
+  pathwayIds: ->
+
+    return _.keys(@stepData.pathways)
+
+  stepViews: []
+
+
+  allStepViews:
+
+    intro: []
+
+    pathway: []
+
+    outro: []
+
+
+  selectedPathways: []
 
 
   #--------------------------------------------------------
@@ -42,6 +71,9 @@ module.exports = class HomeView extends View
   #--------------------------------------------------------
 
   initialize: ->
+
+    @StepNav = new StepNavView()
+
     @currentStep = 0
 
     @stepsRendered = false
@@ -50,6 +82,7 @@ module.exports = class HomeView extends View
   events: 
 
     'click .exit-edit' : 'exitEditClickHandler'
+
 
   subscriptions:
 
@@ -70,6 +103,7 @@ module.exports = class HomeView extends View
 
 
   render: ->
+
     @$el.html( @template( @getRenderData()))
 
     unless @stepsRendered
@@ -79,18 +113,15 @@ module.exports = class HomeView extends View
     return @
 
 
-
   afterRender: ->
-    #SUBVIEWS
-    @StepNav = new StepNavView()
 
-    # THE FOLLWING COULD PROBABLY HAPPEN IN A COLLETION VIEW CLASS TO CONTROL ALL STEPS
     @$stepsContainer = @$el.find('.steps')
 
     @$innerContainer = @$el.find('.content')
 
-    # SETUP STEPS AND RETURN ARRAY OF VIEWS
-    @stepViews = @_createStepViews()
+    @renderIntroSteps()
+
+    @renderSteps()
 
     @StepNav.stepViews = @stepViews
 
@@ -102,22 +133,14 @@ module.exports = class HomeView extends View
 
       @showCurrentStep()
 
+    
     return @
-    
 
-  _createStepViews: ->
-    
-    _views = []
-
-    introSteps = application.WizardConfig.intro_steps
-
-    pathways = application.WizardConfig.pathways
-
-    outroSteps = application.WizardConfig.outro_steps
+  renderIntroSteps: ->
 
     stepNumber = 0
 
-    _.each(introSteps,(step, index) =>
+    _.each(@stepData.intro,(step, index) =>
 
       newmodel = new StepModel()
 
@@ -137,7 +160,7 @@ module.exports = class HomeView extends View
 
       newview.model.set('stepIndex', stepNumber )
 
-      if stepNumber is 0
+      if index is 0
 
         newview.isFirstStep = true
 
@@ -145,189 +168,101 @@ module.exports = class HomeView extends View
 
       newview.$el.addClass("step--#{step.id}")
 
-      _views.push(newview)
+      @stepViews.push(newview)
+
+      @allStepViews.intro.push(newview)
 
       stepNumber++
 
     )
 
-    _.each(pathways.multimedia,(step, index) =>
+    return @
 
-      newmodel = new StepModel()
+  renderSteps: ->
 
-      _.map(step,(value, key, list) -> 
+    @allStepViews.pathway = []
 
-        newmodel.set(key,value)
+    stepNumber = @stepViews.length
+
+    _.each(@selectedPathways, (pid, pindex) =>
+
+      _.each(@stepData.pathways[pid],(step, index) =>
+
+        if @selectedPathways.length > 1
+
+          if step.id is 'grading' || step.id is 'overview'
+
+            if pindex < @selectedPathways.length - 1
+
+              return 
+
+        newmodel = new StepModel()
+
+        _.map(step,(value, key, list) -> 
+
+          newmodel.set(key,value)
+
+        )
+
+        newview = new StepView(
+
+          model: newmodel
+
+        )
+
+        newview.model.set('stepNumber', stepNumber + 1)
+
+        newview.model.set('stepIndex', stepNumber )
+
+        @$stepsContainer.append(newview.render().hide().el)
+
+        newview.$el.addClass("step--#{step.id}")
+
+        newview.$el.addClass("step-pathway step-pathway--#{pid}")
+
+        @stepViews.push(newview)
+
+        @allStepViews.pathway.push(newview)
+
+        stepNumber++
 
       )
+    
+    )
 
-      newview = new StepView(
+    return @
 
-        model: newmodel
 
-      )
+  recreatePathway: ->
 
-      newview.model.set('stepNumber', stepNumber + 1)
+    clone = @stepViews
 
-      newview.model.set('stepIndex', stepNumber )
+    @stepViews = [clone[0], clone[1]]
 
-      @$stepsContainer.append(newview.render().hide().el)
+    _.each(@allStepViews.pathway, (step) ->
 
-      newview.$el.addClass("step--#{step.id}")
-
-      _views.push(newview)
-
-      stepNumber++
+      step.remove()
 
     )
 
-    _.each(pathways.researchwrite,(step, index) =>
+    _.each(@allStepViews.outro, (step) ->
 
-      newmodel = new StepModel()
-
-      _.map(step,(value, key, list) -> 
-
-        newmodel.set(key,value)
-
-      )
-
-      newview = new StepView(
-
-        model: newmodel
-
-      )
-
-      newview.model.set('stepNumber', stepNumber + 1)
-
-      newview.model.set('stepIndex', stepNumber )
-
-      @$stepsContainer.append(newview.render().hide().el)
-
-      newview.$el.addClass("step--#{step.id}")
-
-      _views.push(newview)
-
-      stepNumber++
+      step.remove()
 
     )
 
+    @renderSteps()
 
-    _.each(outroSteps,(step, index) =>
+    @StepNav.stepViews = @stepViews
 
-      newmodel = new StepModel()
+    @StepNav.totalSteps = @stepViews.length
 
-      _.map(step,(value, key, list) -> 
+    @$innerContainer.append(@StepNav.el)
 
-        newmodel.set(key,value)
-
-      )
-
-      newview = new StepView(
-
-        model: newmodel
-
-      )
-
-      newview.model.set('stepNumber', stepNumber + 1)
-
-      newview.model.set('stepIndex', stepNumber )
-
-      if index is outroSteps.length - 1
-
-        newview.isLastStep = true
-
-      @$stepsContainer.append(newview.render().hide().el)
-
-      newview.$el.addClass("step--#{step.id}")
-
-      _views.push(newview)
-
-      stepNumber++
-
-    )
-
-    return _views
-
-
-
-    # _.each(application.data,(step, index) =>
-
-    #   newmodel = new StepModel()
-
-    #   _.map(step,(value, key, list) -> 
-
-    #     newmodel.set(key,value)
-
-    #   )
-
-    #   newview = new StepView(
-
-    #     model: newmodel
-
-    #   )
-
-    #   newview.model.set('stepNumber', index + 1)
-
-    #   newview.model.set('stepIndex', index )
-
-    #   if index is application.data.length - 1
-
-    #     newview.isLastStep = true
-
-    #   else if index is 0
-
-    #     newview.isFirstStep = true
-
-    #   @$stepsContainer.append(newview.render().hide().el)
-
-    #   newview.$el.addClass("step--#{step.id}")
-
-    #   _views.push(newview)
-
-    # )
-
-    # return _views
-
-    # _.each(application.data,(step, index) =>
-
-    #   newmodel = new StepModel()
-
-    #   _.map(step,(value, key, list) -> 
-
-    #     newmodel.set(key,value)
-
-    #   )
-
-    #   newview = new StepView(
-
-    #     model: newmodel
-
-    #   )
-
-    #   newview.model.set('stepNumber', index + 1)
-
-    #   newview.model.set('stepIndex', index )
-
-    #   if index is application.data.length - 1
-
-    #     newview.isLastStep = true
-
-    #   else if index is 0
-
-    #     newview.isFirstStep = true
-
-    #   @$stepsContainer.append(newview.render().hide().el)
-
-    #   newview.$el.addClass("step--#{step.id}")
-
-    #   _views.push(newview)
-
-    # )
-
-    # return _views
 
 
   getRenderData: ->
+
     return {
 
       content: "This is special content"
@@ -339,6 +274,7 @@ module.exports = class HomeView extends View
   #--------------------------------------------------------
 
   advanceStep: ->
+
     @currentStep+=1
     
     if @currentStep is @stepViews.length 
@@ -386,7 +322,6 @@ module.exports = class HomeView extends View
     )
 
 
-
   showCurrentStep: ->
 
     @stepViews[@currentStep].show()
@@ -396,10 +331,38 @@ module.exports = class HomeView extends View
     return @
 
 
+  updateSelectedPathway: (action, pathwayId) ->
+
+    if action is 'add'
+
+      if pathwayId is 'researchwrite'
+
+        @selectedPathways = [pathwayId]
+
+      else
+
+        @selectedPathways.push(pathwayId)
+
+    else if action is 'remove'
+
+      if pathwayId is 'researchwrite'
+
+        @selectedPathways = []
+
+      else
+
+        removeIndex = _.indexOf(@selectedPathway, pathwayId)
+
+        @selectedPathways.splice(removeIndex)
+
+    @recreatePathway()
+
+    return @
+
 
   currentStepView: ->
-    return @stepViews[@currentStep]
 
+    return @stepViews[@currentStep]
 
 
   hideAllSteps: ->
@@ -424,8 +387,6 @@ module.exports = class HomeView extends View
     $('.step-info-tip').removeClass('visible')
 
     $('.custom-input-wrapper').removeClass('selected')
-
-
 
 
   #--------------------------------------------------------

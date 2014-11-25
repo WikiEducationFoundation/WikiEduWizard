@@ -6,7 +6,6 @@ View = require('../views/supers/View')
 
 WikiGradingModule = require('../templates/steps/modules/WikiGradingModule.hbs')
 
-
 #Data
 WizardStepInputs = require('../data/WizardStepInputs')
 
