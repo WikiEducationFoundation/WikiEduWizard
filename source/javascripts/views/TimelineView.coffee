@@ -119,8 +119,8 @@ module.exports = class TimelineView extends Backbone.View
 
     @data = []
 
-    if application.homeView.selectedPathways[0] is 'researchwrite'
-      @data = application.timelineDataAlt
+    
+    @data = application.timelineDataAlt
 
     $('#cLength').on 'change', (e) =>
       @changeHandler(e)
@@ -249,7 +249,7 @@ module.exports = class TimelineView extends Backbone.View
 
   updateWeeklyDates: ->
 
-    console.log WizardStepInputs.course_details
+    # console.log WizardStepInputs.course_details
 
     if @$courseStartDate.val() is ''
 
@@ -410,7 +410,7 @@ module.exports = class TimelineView extends Backbone.View
 
 
   renderPreview: ->
-
+    console.log 'here', @out
     @$previewContainer.html('')
 
     _.each(@out, (item, index) =>
@@ -630,8 +630,11 @@ module.exports = class TimelineView extends Backbone.View
     return "#{year}-#{month}-#{day}"
 
   toString: (date) ->
+
     year = date.getUTCFullYear().toString()
+
     month = date.getUTCMonth()+1
+
     day = date.getUTCDate()
 
     if month.toString().length is 1
