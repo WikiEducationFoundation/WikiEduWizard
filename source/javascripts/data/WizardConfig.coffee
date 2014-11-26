@@ -681,11 +681,11 @@ WizardConfig = {
             </div>"
           ]
         }
-        {
-          content: [
-            "<div class='step-form-dates'></div>"
-          ]
-        }
+        # {
+        #   content: [
+        #     "<div class='step-form-dates'></div>"
+        #   ]
+        # }
         {
           title: ''
           content: [

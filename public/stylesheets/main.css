@@ -2735,6 +2735,12 @@ select {
     line-height: 1.875;
   }
 }
+.custom-input-dates.auto-height {
+  height: auto;
+}
+.custom-input-dates.auto-height .custom-input-dates__label {
+  padding: 0;
+}
 .custom-input-dates__inner {
   display: inline-block;
   width: auto;
@@ -3032,6 +3038,9 @@ span.date:before {
   padding-bottom: 50px;
   background: #f5f5f5;
 }
+.step--intro .preview-container {
+  max-height: none;
+}
 .preview-container h4,
 .preview-container h5 {
   font-size: 1em;
@@ -3092,6 +3101,8 @@ span.date:before {
 .overview-input-container label {
   display: inline-block;
   width: 130px;
+  font-size: 0.8em;
+  vertical-align: bottom;
 }
 .overview-input-container input {
   display: inline-block;
@@ -4017,7 +4028,7 @@ section.step.step--overview .step-info .step-info-tip__inner {
   display: block;
   width: 100%;
   max-width: 1100px;
-  margin: 5px -10px;
+  margin: 5px 0;
   text-align: left;
 }
 .output-container {

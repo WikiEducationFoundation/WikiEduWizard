@@ -6,28 +6,30 @@ application = require( '../app' )
 # SUPER VIEW CLASS
 View = require('../views/supers/View')
 
+WizardStepInputs = require('../data/WizardStepInputs')
+
 module.exports = class TimelineView extends Backbone.View 
 
   el: $('.form-container')
 
   curDateConfig:
 
-    termStart: ''
+    termStart: WizardStepInputs.course_details.term_start_date
 
-    termEnd: ''
+    termEnd: WizardStepInputs.course_details.term_end_date
 
-    courseStart: ''
+    courseStart: WizardStepInputs.course_details.start_date
 
-    courseEnd: ''
+    courseEnd: WizardStepInputs.course_details.end_date
 
-    courseStartWeekOf: ''
+    courseStartWeekOf: WizardStepInputs.course_details.start_weekof_date
 
-    courseEndWeekOf: ''
+    courseEndWeekOf: WizardStepInputs.course_details.end_weekof_date
 
-    numberWeeks: 16
+    numberWeeks: WizardStepInputs.course_details.length_in_weeks
 
 
-  daysSelected: [false,false,false,false,false,false,false]
+  daysSelected: WizardStepInputs.course_details.weekdays_selected
 
 
   allDates: []
@@ -60,7 +62,6 @@ module.exports = class TimelineView extends Backbone.View
 
     'change .dowCheckbox' : 'onDowSelect'
 
-
   onDowSelect: (e) ->
 
     $target = $(e.currentTarget)
@@ -73,10 +74,14 @@ module.exports = class TimelineView extends Backbone.View
 
       @daysSelected[dowId] = true
 
+
+
     else
 
       @daysSelected[dowId] = false
 
+    WizardStepInputs.course_details.weekdays_selected = @daysSelected
+    
     @update()
 
 
@@ -98,6 +103,10 @@ module.exports = class TimelineView extends Backbone.View
 
     @$courseEndDate = $('#courseEndDate')
 
+    @$termStartDate = $('#termStartDate')
+
+    @$termEndDate =   $('#termEndDate')
+
     @$outContainer = $('.output-container')
 
     @$previewContainer = $('.preview-container')
@@ -108,7 +117,10 @@ module.exports = class TimelineView extends Backbone.View
 
     @courseDiff = 0
 
-    @data = application.timelineDataAlt
+    @data = []
+
+    if application.homeView.selectedPathways[0] is 'researchwrite'
+      @data = application.timelineDataAlt
 
     $('#cLength').on 'change', (e) =>
       @changeHandler(e)
@@ -136,15 +148,7 @@ module.exports = class TimelineView extends Backbone.View
 
     @update()
 
-  resetDates: ->
-    #TODO - NEED A PLACE THAT RESETS EVERYTHING - EG WHEN MASTER COURSE DATES CHANGE
-
-
   onTermStartDateChange: (e) ->
-
-    @curDateConfig.courseStart = ''
-
-    @$courseStartDate.val('')
 
     dateInput = $(e.currentTarget).val()
 
@@ -152,7 +156,19 @@ module.exports = class TimelineView extends Backbone.View
 
     @curDateConfig.termStart = newDate
 
+    WizardStepInputs.course_details.term_start_date = @toString(newDate)
+
     @$courseStartDate.datepicker('option', 'minDate', newDate)
+
+    @$termEndDate.datepicker('option', 'minDate', @getWeeksOutDate(@getWeekOfDate(newDate),6))
+
+    @curDateConfig.courseStart = newDate
+
+    WizardStepInputs.course_details.start_date = @toString(newDate)
+
+    @$courseStartDate.val(dateInput)
+
+    @$courseStartDate.trigger('change')
 
     @update()
 
@@ -165,28 +181,91 @@ module.exports = class TimelineView extends Backbone.View
 
     @curDateConfig.termEnd = newDate
 
+    WizardStepInputs.course_details.term_end_date = @toString(newDate)
+
     @$courseStartDate.datepicker('option', 'maxDate', newDate)
+
+    @curDateConfig.courseEnd = newDate
+
+    WizardStepInputs.course_details.end_date = @toString(newDate)
+
+    @$courseEndDate.val(dateInput)
+
+    @$courseEndDate.trigger('change')
 
     @update()
 
 
   onCourseStartDateChange: (e) ->
 
-    @updateWeeklyDates()
+    @$courseEndDate.val('')
+
+    @courseLength = 16
+
+    @courseDiff = 16 - @courseLength
+
+    WizardStepInputs.course_details.length_in_weeks = parseInt(@courseLength)
+
+    @curDateConfig.courseEndWeekOf = new Date(@allDates[@courseLength-1])
+
+    WizardStepInputs.course_details.end_weekof_date = @toString(@curDateConfig.courseEndWeekOf)
+
+    @update()
+    
 
   onCourseEndDateChange: (e) ->
 
-    @$courseLengthInput.val(10)
-    @$courseLengthInput.trigger('change')
+    if @$courseStartDate.val() is ''
+      return
 
-    $('output[name="out2"]').html(10)
+    dStart = @$courseStartDate.val()
+
+    dEnd = $(e.currentTarget).val()
+
+    newStart = moment(dStart)
+
+    newEnd = moment(dEnd)
+
+    newLength = @getWeeksDiff(newStart,newEnd)
+
+    if newLength < 6 or newLength > 16
+      alert('Please pick a date between 6 and 16 weeks of the assignemnt start date')
+      return false
+
+    @courseLength = newLength
+    
+    @courseDiff = 16 - @courseLength
+
+    WizardStepInputs.course_details.length_in_weeks = parseInt(@courseLength)
+
+    @curDateConfig.courseEndWeekOf = new Date(@allDates[@courseLength-1])
+
+    WizardStepInputs.course_details.end_weekof_date = @toString(@curDateConfig.courseEndWeekOf)
+
+    $('output[name="out2"]').html(@courseLength)
+
+    @update()
 
 
   updateWeeklyDates: ->
 
+    console.log WizardStepInputs.course_details
+
     if @$courseStartDate.val() is ''
 
       @curDateConfig.courseStart = ''
+
+      WizardStepInputs.course_details.start_date = ''
+
+      $('span.date').hide()
+
+      return
+
+    if @$courseEndDate.val() is ''
+
+      @curDateConfig.courseEnd = ''
+
+      WizardStepInputs.course_details.end_date = ''
 
       $('span.date').hide()
 
@@ -198,9 +277,26 @@ module.exports = class TimelineView extends Backbone.View
 
     @curDateConfig.courseStart = newStartDate
 
+    WizardStepInputs.course_details.start_date = @toString(newStartDate)
+
     weekOfDate = @getWeekOfDate(newStartDate)
 
     @curDateConfig.courseStartWeekOf = weekOfDate
+
+    WizardStepInputs.course_details.start_weekof_date = @toString(weekOfDate)
+
+
+    newEndDate = new Date(@$courseEndDate.val())
+
+    @curDateConfig.courseEnd = newEndDate
+
+    WizardStepInputs.course_details.end_date = @toString(newEndDate)
+
+    courseEndWeekOf = @getWeekOfDate(newEndDate)
+
+    @curDateConfig.courseEndWeekOf = courseEndWeekOf
+
+    WizardStepInputs.course_details.end_weekof_date = @toString(courseEndWeekOf)
 
     $('span.date').each((index,item) =>
 
@@ -260,7 +356,11 @@ module.exports = class TimelineView extends Backbone.View
 
     @courseDiff = 16 - @courseLength
 
+    WizardStepInputs.course_details.length_in_weeks = parseInt(@courseLength)
+
     @curDateConfig.courseEndWeekOf = new Date(@allDates[@courseLength-1])
+
+    WizardStepInputs.course_details.end_weekof_date = @toString(@curDateConfig.courseEndWeekOf)
 
     @update()
 
@@ -529,6 +629,30 @@ module.exports = class TimelineView extends Backbone.View
 
     return "#{year}-#{month}-#{day}"
 
+  toString: (date) ->
+    year = date.getUTCFullYear().toString()
+    month = date.getUTCMonth()+1
+    day = date.getUTCDate()
+
+    if month.toString().length is 1
+
+      month = "0" + month.toString()
+
+    else
+
+      month = month.toString()
+
+    if day.toString().length is 1
+
+      day = "0" + day.toString()
+
+    else
+
+      day = day.toString()
+
+
+    return "#{year}-#{month}-#{day}"
+
 
   getWeekOfDate: (date) ->
 
@@ -554,9 +678,12 @@ module.exports = class TimelineView extends Backbone.View
 
     newDate = new Date()
 
-    newDate.setDate(date.getDate()+(weeksOut*7))
+    newDate.setDate(date.getDate()+(weeksOut*7)+1)
 
     return newDate
+
+  getWeeksDiff: (a, b) ->
+    return b.diff(a, 'weeks')
 
 
   combine: (obj1, obj2) ->

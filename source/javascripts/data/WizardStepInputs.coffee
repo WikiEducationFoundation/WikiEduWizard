@@ -664,11 +664,14 @@ WizardStepInputs =
     description: ''
     term_start_date: ''
     term_end_date: ''
-    course_start_date: ''
-    course_end_date: ''
-    course_meets_on: []
-    course_length: ''
-    selected_assignment: ''
+    start_date: ''
+    start_weekof_date: ''
+    end_weekof_date: ''
+    end_date: ''
+    weekdays_selected: [false,false,false,false,false,false,false]
+    length_in_weeks: 16
+    assignments: []
+
 
 
     
