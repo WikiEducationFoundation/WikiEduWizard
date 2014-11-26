@@ -3381,10 +3381,6 @@ span.date:before {
   background: #858daa;
   color: #fff;
   z-index: 2;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
 }
 .step-form .step-form-header {
   display: table;

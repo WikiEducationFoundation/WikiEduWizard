@@ -8,9 +8,20 @@ View = require('../views/supers/View')
 
 WizardStepInputs = require('../data/WizardStepInputs')
 
+DetailsTemplate = require('../templates/steps/output/CourseDetailsTemplate.hbs')
+
+GradingTemplate = require('../templates/steps/output/GradingTemplate.hbs')
+
+OptionsTemplate = require('../templates/steps/output/CourseOptionsTemplate.hbs')
+
+WizardStepInputs = require('../data/WizardStepInputs')
+
+
 module.exports = class TimelineView extends Backbone.View 
 
   el: $('.form-container')
+
+  wikiSpace: '{{subst:Wikipedia:Education program/Assignment Design Wizard/spaces}}'
 
   curDateConfig:
 
@@ -160,15 +171,19 @@ module.exports = class TimelineView extends Backbone.View
 
     @$courseStartDate.datepicker('option', 'minDate', newDate)
 
+    @$courseEndDate.datepicker('option', 'minDate', '')
+
+    @$courseEndDate.val('')
+
     @$termEndDate.datepicker('option', 'minDate', @getWeeksOutDate(@getWeekOfDate(newDate),6))
+
+    @$termEndDate.val('').trigger('change')
 
     @curDateConfig.courseStart = newDate
 
     WizardStepInputs.course_details.start_date = @toString(newDate)
 
-    @$courseStartDate.val(dateInput)
-
-    @$courseStartDate.trigger('change')
+    @$courseStartDate.val(dateInput).trigger('change')
 
     @update()
 
@@ -189,16 +204,18 @@ module.exports = class TimelineView extends Backbone.View
 
     WizardStepInputs.course_details.end_date = @toString(newDate)
 
-    @$courseEndDate.val(dateInput)
-
-    @$courseEndDate.trigger('change')
+    @$courseEndDate.val(dateInput).trigger('change')
 
     @update()
 
 
   onCourseStartDateChange: (e) ->
 
-    @$courseEndDate.val('')
+    dateInput = $(e.currentTarget).val()
+
+    newDate = moment(dateInput).toDate()
+
+    @$courseEndDate.val('').trigger('change')
 
     @courseLength = 16
 
@@ -216,6 +233,7 @@ module.exports = class TimelineView extends Backbone.View
   onCourseEndDateChange: (e) ->
 
     if @$courseStartDate.val() is ''
+
       return
 
     dStart = @$courseStartDate.val()
@@ -369,23 +387,25 @@ module.exports = class TimelineView extends Backbone.View
 
     @out = []
 
-    @unitsClone = _.clone(@data)
+    @outWiki = []
+
+    unitsClone = _.clone(@data)
 
     if @courseDiff > 0
 
-      @unitsClone = _.reject(@unitsClone, (item) =>
+      unitsClone = _.reject(unitsClone, (item) =>
 
         return item.type is 'break' && @courseDiff >= item.value && item.value != 0
 
       )
 
-    obj = @unitsClone[0]
+    obj = unitsClone[0]
 
-    _.each(@unitsClone, (item, index) =>
+    _.each(unitsClone, (item, index) =>
 
-      if item.type is 'break' || index is @unitsClone.length - 1
+      if item.type is 'break' || index is unitsClone.length - 1
 
-        if index is @unitsClone.length - 1
+        if index is unitsClone.length - 1
 
           @out.push _.clone(item)
 
@@ -403,6 +423,8 @@ module.exports = class TimelineView extends Backbone.View
 
     )
 
+    @outWiki = @out
+
     @renderPreview()
     @renderResult()
 
@@ -410,7 +432,7 @@ module.exports = class TimelineView extends Backbone.View
 
 
   renderPreview: ->
-    console.log 'here', @out
+
     @$previewContainer.html('')
 
     _.each(@out, (item, index) =>
@@ -458,7 +480,9 @@ module.exports = class TimelineView extends Backbone.View
         inClassOut += '<ul>'
 
         _.each(item.in_class, (c) ->
-          inClassOut += "<li>#{c}</li>"
+
+          inClassOut += "<li>#{c.text}</li>"
+
         )
 
         inClassOut += "</ul>"
@@ -467,10 +491,6 @@ module.exports = class TimelineView extends Backbone.View
 
         previewDetails += inClassOut
 
-        # @$previewContainer.append(inClassOut)
-
-
-      # renderAssignments()
       if item.assignments.length > 0
 
         assignmentsOut = "<div>"
@@ -480,7 +500,7 @@ module.exports = class TimelineView extends Backbone.View
         assignmentsOut += '<ul>'
 
         _.each(item.assignments, (assign) ->
-          assignmentsOut += "<li>#{assign}</li>" 
+          assignmentsOut += "<li>#{assign.text}</li>" 
         )
 
         assignmentsOut += '</ul>'
@@ -489,10 +509,6 @@ module.exports = class TimelineView extends Backbone.View
 
         previewDetails += assignmentsOut
 
-        # @$previewContainer.append(assignmentsOut)
-
-
-      # renderMilestones()
       if item.milestones.length > 0
 
         milestonesOut = "<div>"
@@ -502,7 +518,7 @@ module.exports = class TimelineView extends Backbone.View
         milestonesOut += "<ul>"
 
         _.each(item.milestones, (milestone) ->
-          milestonesOut += "<li>#{milestone.title}</li>"
+          milestonesOut += "<li>#{milestone.text}</li>"
         )
 
         milestonesOut += "</ul>"
@@ -524,20 +540,29 @@ module.exports = class TimelineView extends Backbone.View
 
   renderResult: ->
 
-    @$outContainer.html('').css('white-space', 'pre-wrap')
+    # @$outContainer.html('').css('white-space', 'nowrap')
 
-    _.each(@out, (item, index) =>
+    #course details
+
+    @$outContainer.html('')
+
+    @$outContainer.append(DetailsTemplate(WizardStepInputs))
+
+    _.each(@outWiki, (item, index) =>
 
       thisWeek = index + 1
-      nextWeek = index + 2
-      isLastWeek = index is @out.length - 1
 
+      nextWeek = index + 2
+
+      isLastWeek = index is @out.length - 1
 
       if item.title.length > 0
 
-        titles = "<div>"
+        titles = ""
 
-        titles += "{{subst:Wikipedia:Education program/Assignment Design Wizard/course week | #{thisWeek} | "
+        extra = if thisWeek is 1 then '1' else ''
+
+        titles += "{{subst:Wikipedia:Education program/Assignment Design Wizard/course week #{extra}| #{thisWeek} | "
 
         _.each(item.title, (t, i) ->
 
@@ -553,61 +578,82 @@ module.exports = class TimelineView extends Backbone.View
 
         titles += "}}"
 
-        titles += "</div>"
-
         @$outContainer.append(titles)
 
-        @$outContainer.append("<br/>")
+        @$outContainer.append("#{@wikiSpace}")
 
       if item.in_class.length > 0
 
-        @$outContainer.append("<div style='font-weight: bold;'>{{in class}}</div>")
+        @$outContainer.append("{{in class}}")
 
-        _.each(item.in_class, (c) =>
+        @$outContainer.append("#{@wikiSpace}")
 
-          @$outContainer.append("<div>#{c}</div>")
+        _.each(item.in_class, (c, ci) =>
 
+          @$outContainer.append("#{c.wikitext}")
+
+          @$outContainer.append("#{@wikiSpace}")
         )
 
-        @$outContainer.append("<br/>")
+        @$outContainer.append("#{@wikiSpace}")
 
       if item.assignments.length > 0
 
-        @$outContainer.append("<div style='font-weight: bold;'>{{assignment | due = Week #{nextWeek} }}</div>")
+        @$outContainer.append("{{assignment | due = Week #{nextWeek} }}")
+
+        @$outContainer.append("#{@wikiSpace}")
 
         _.each(item.assignments, (assign) =>
 
-          @$outContainer.append("<div>#{assign}</div>")
+          @$outContainer.append("#{assign.wikitext}")
+
+          @$outContainer.append("#{@wikiSpace}")
 
         )
 
-        @$outContainer.append("<br/>")
+        @$outContainer.append("#{@wikiSpace}")
 
       if item.milestones.length > 0
 
-        @$outContainer.append("<div style='font-weight: bold;'>{{assignment milestones}}</div>")
+        @$outContainer.append("{{assignment milestones}}")
+
+        @$outContainer.append("#{@wikiSpace}")
 
         _.each(item.milestones, (m) =>
 
-          @$outContainer.append("<div>#{m}</div>")
+          @$outContainer.append("#{m.wikitext}")
+
+          @$outContainer.append("#{@wikiSpace}")
 
         )
 
-        @$outContainer.append("<br/>")
+        @$outContainer.append("#{@wikiSpace}")
 
       if isLastWeek
 
         @$outContainer.append("{{end of course week}}")
 
-
-      @$outContainer.append("<br/><hr/>")
+        @$outContainer.append("#{@wikiSpace}")
 
     )
 
+    
+    @$outContainer.append(GradingTemplate(WizardStepInputs))
+    @$outContainer.append(OptionsTemplate(WizardStepInputs))
+
+    Backbone.Mediator.publish('output:update', @$outContainer.text())
+
+    # GRADING 
+
+    # OPTIONS
+
 
   getFormattedDateString: (date) ->
+
     year = date.getUTCFullYear().toString()
+
     month = date.getUTCMonth()+1
+
     day = date.getUTCDate()
 
     if month.toString().length is 1
@@ -653,7 +699,6 @@ module.exports = class TimelineView extends Backbone.View
 
       day = day.toString()
 
-
     return "#{year}-#{month}-#{day}"
 
 
@@ -685,7 +730,9 @@ module.exports = class TimelineView extends Backbone.View
 
     return newDate
 
+
   getWeeksDiff: (a, b) ->
+
     return b.diff(a, 'weeks')
 
 

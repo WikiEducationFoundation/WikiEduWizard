@@ -23,6 +23,7 @@ module.exports = class OutputView extends View
 
   template: WikiOutputTemplate
 
+  currentBuild: ''
 
   detailsTemplate: CourseDetailsTempalte
 
@@ -33,7 +34,12 @@ module.exports = class OutputView extends View
 
   subscriptions:
 
-    'wizard:publish' : 'publishHandler' 
+    'wizard:publish' : 'publishHandler'
+    'output:update'  : 'updateBuild'
+
+  updateBuild: (build) ->
+    @currentBuild = build
+    console.log @currentBuild
 
 
   outputPlainText: ->
@@ -118,7 +124,9 @@ module.exports = class OutputView extends View
 
       # @exportData(@$el.html(@populateOutput()).text())
 
-      @exportData(@populateOutput())
+      # @exportData(@populateOutput())
+
+      @exportData(@currentBuild)
 
     else
 

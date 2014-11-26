@@ -381,6 +381,8 @@ module.exports = class StepView extends View
 
       @render().$el.show()
 
+      application.homeView.timelineView.update()
+
     else if @model.attributes.id is 'grading' || @model.attributes.type is 'grading'
 
       @render().$el.show()

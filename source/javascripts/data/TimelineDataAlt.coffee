@@ -5,7 +5,11 @@ TimelineDataAlt = [
     type: 'week'
     title: ['Wikipedia essentials']
     in_class: [
-      'Intro to Wikipedia'
+      {
+        text: 'Intro to Wikipedia'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Intro to Wikipedia}}'
+        condition: ''
+      }
     ]
     assignments: []
     milestones: []
@@ -25,16 +29,34 @@ TimelineDataAlt = [
     action: 'combine'
     title: ['Editing basics']
     in_class: [
-      'Editing basics in class'
+      {
+        text: 'Editing basics in class'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Editing basics in class}}'
+        condition: ''
+      }
     ]
     assignments: [
-      'Complete the training' #T
-      'Create userpage and sign up' #T
-      'Practice communicating' #T
+      {
+        text: 'Complete the training'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Complete the training}}'
+        condition: ''
+      }
+      {
+        text: 'Create userpage and sign up'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Create userpage and sign up}}'
+        condition: ''
+      }
+      {
+        text: 'Practice communicating'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Practice communicating}}'
+        condition: ''
+      }
     ]
     milestones: [
       {
-        title: 'Students enrolled'
+        text: 'Students enrolled'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Students enrolled}}'
+        condition: ''
       }
     ]
     readings: []
@@ -53,11 +75,23 @@ TimelineDataAlt = [
     action: 'combine'
     title: ['Exploring the topic area']
     in_class: [
-      'Editing basics in class'
+      {
+        text: 'Editing basics in class'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Editing basics in class}}'
+        condition: ''
+      }
     ]
     assignments: [
-      'Evaluate an article' # FW getting_started.critique_article.selected
-      'Copyedit an article' # FW2 getting_started.copy_edit_article.selected
+      {
+        text: 'Evaluate an article'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Evaluate an article}}'
+        condition: 'getting_started.critique_article.selected'
+      }
+      {
+        text: 'Copyedit an article'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Copyedit an article}}'
+        condition: 'getting_started.copy_edit_article.selected'
+      }
     ]
     milestones: []
     readings: []
@@ -76,14 +110,38 @@ TimelineDataAlt = [
     action: 'combine'
     title: ['Using sources and choosing articles']
     in_class: [
-      'Using sources in class'
+      {
+        text: 'Using sources in class'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Using sources in class}}'
+        condition: ''
+      }
     ]
     assignments: [
-      'Add to an article' # FW3 getting_started.add_to_article.selected
-      'Illustrate an article' # FW4 getting_started.illustrate_article.selected
-      'List article choices' # PA choosing_articles.students_explore.selected
-      'Choose articles from a list' # PA choosing_articles.prepare_list.selected}
-      'Evaluate article selections | due = next week'
+      {
+        text: 'Add to an article'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Add to an article}}'
+        condition: 'getting_started.add_to_article.selected'
+      }
+      {
+        text: 'Illustrate an article'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Illustrate an article}}'
+        condition: 'getting_started.illustrate_article.selected'
+      }
+      {
+        text: 'List article choices'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/List article choices}}'
+        condition: 'choosing_articles.students_explore.selected'
+      }
+      {
+        text: 'Choose articles from a list'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Choose articles from a list}}'
+        condition: 'choosing_articles.prepare_list.selected'
+      }
+      {
+        text: 'Evaluate article selections | due = next week'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Evaluate article selections | due = next week }}'
+        condition: ''
+      }
     ]
     milestones: []
     readings: []
@@ -102,11 +160,23 @@ TimelineDataAlt = [
     action: 'combine'
     title: ['Finalizing topics and starting research']
     in_class: [
-      'Discuss topics'
+      {
+        text: 'Discuss topics'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Discuss topics}}'
+        condition: ''
+      }
     ]
     assignments: [
-      'Select article from student choices' #CA choosing_articles.students_explore.selected
-      'Compile a bibliography' #PB
+      {
+        text: 'Select article from student choices'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Select article from student choices}}'
+        condition: 'choosing_articles.students_explore.selected'
+      }
+      {
+        text: 'Compile a bibliography'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Compile a bibliography}}'
+        condition: ''
+      }
     ]
     milestones: []
     readings: []
@@ -125,17 +195,33 @@ TimelineDataAlt = [
     action: 'combine'
     title: ['Drafting starter articles']
     in_class: [
-      'Discuss etiquette and sandboxes'
+      {
+        text: 'Discuss etiquette and sandboxes'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Discuss etiquette and sandboxes}}'
+      }
     ]
     assignments: [
-      'Conventional outline ' # PO research_planning.create_outline.selected && drafts_mainspace.sandbox.selected
-      'Conventional outline | sandbox = no ' # PO research_planning.create_outline.selected && drafts_mainspace.work_live.selected
-      'Outline as lead section' #PO research_planning.write_lead.selected
+      {
+        text: 'Conventional outline '
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Conventional outline}}'
+        condition: 'research_planning.create_outline.selected && drafts_mainspace.sandbox.selected'
+      }
+      {
+        text: 'Conventional outline | sandbox = no'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Conventional outline | sandbox = no }}'
+        condition: 'research_planning.create_outline.selected && drafts_mainspace.work_live.selected'
+      }
+      {
+        text: 'Outline as lead section'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Outline as lead section}}'
+        condition: 'research_planning.write_lead.selected'
+      }
     ]
     milestones: [
       {
-        type: 'milestone'
-        title: 'Students have started editing'
+        text: 'Students have started editing'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Students have started editing}}'
+        condition: ''
       }
     ]
     readings: []
@@ -154,12 +240,28 @@ TimelineDataAlt = [
     action: 'combine'
     title: ['Moving articles to the main space']
     in_class: [
-      'Main space in class'
+      {
+        text: 'Main space in class'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Main space in class}}'
+        condition: ''
+      }
     ]
     assignments: [
-      'Move to main space' #MMS
-      'DYK nominations' #dyk.dyk.selected
-      'Expand your article' 
+      {
+        text: 'Move to main space'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Move to main space}}'
+        condition: ''
+      }
+      {
+        text: 'DYK nominations'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/DYK nominations}}'
+        condition: 'dyk.dyk.selected'
+      }
+      {
+        text: 'Expand your article'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Expand your article}}'
+        condition: ''
+      }
     ]
     milestones: []
     readings: []
@@ -178,11 +280,23 @@ TimelineDataAlt = [
     action: 'combine'
     title: ['Building articles']
     in_class: [
-      'Building articles in class'
+      {
+        text: 'Building articles in class'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Building articles in class}}'
+        condition: ''
+      }
     ]
     assignments: [
-      'Choose one peer review article' #CPR if peer_feedback.peer_reviews.options.0.selected
-      'Choose peer review articles| peerreviewnumber = {{peer_feedback.peer_reviews.value}} }}' # CPR else
+      {
+        text: 'Choose one peer review article'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Choose one peer review article}}'
+        condition: 'peer_feedback.peer_reviews.options.0.selected'
+      }
+      {
+        text: 'Choose peer review articles'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Choose peer review articles| peerreviewnumber = {{peer_feedback.peer_reviews.value}} }}'
+        condition: '!peer_feedback.peer_reviews.options.0.selected'
+      }
     ]
     milestones: []
     readings: []
@@ -203,7 +317,11 @@ TimelineDataAlt = [
     in_class: [
     ]
     assignments: [
-      'Complete first draft' #1DC
+      {
+        text: 'Complete first draft' #1DC
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Complete first draft}}'
+        condition: ''
+      }
     ]
     milestones: []
     readings: []
@@ -222,15 +340,29 @@ TimelineDataAlt = [
     action: 'combine'
     title: ['Getting and giving feedback']
     in_class: [
-      'Group suggestions'
+      {
+        text: 'Group suggestions'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Group suggestions}}'
+        condition: ''
+      }
     ]
     assignments: [
-      'Do one peer review' #PR1 peer_feedback.peer_reviews.options.0.selected
-      'Do peer reviews | peerreviewnumber = {{peer_feedback.peer_reviews.value}}' #else
+      {
+        text: 'Do one peer review'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Do one peer review}}'
+        condition: 'peer_feedback.peer_reviews.options.0.selected'
+      }
+      {
+        text: 'Do peer reviews'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Do peer reviews | peerreviewnumber = {{peer_feedback.peer_reviews.value}} }}'
+        condition: '!peer_feedback.peer_reviews.options.0.selected'
+      }
     ]
     milestones: [
       {
-        title: 'Articles have been reviewed'
+        text: 'Articles have been reviewed'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Articles have been reviewed}}'
+        condition: ''
       }
     ]
     readings: []
@@ -249,14 +381,24 @@ TimelineDataAlt = [
     action: 'combine'
     title: ['Responding to feedback']
     in_class: [
-      'Media literacy discussion'
+      {
+        text: 'Media literacy discussion'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Media literacy discussion}}'
+        condition: ''
+      }
     ]
     assignments: [
-      'Make edits based on peer reviews' #RFB 
+      {
+        text: 'Make edits based on peer reviews' #RFB 
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Make edits based on peer reviews}}' #RFB 
+        condition: ''
+      }
     ]
     milestones: [
       {
-        title: 'Articles have been reviewed'
+        text: 'Articles have been reviewed'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Articles have been reviewed}}'
+        condition: ''
       }
     ]
     readings: []
@@ -275,10 +417,18 @@ TimelineDataAlt = [
     action: 'omit'
     title: ['Continuing improving articles']
     in_class: [
-      'Discuss further article improvements'
+      {
+        text: 'Discuss further article improvements'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Discuss further article improvements}}'
+        condition: ''
+      }
     ]
     assignments: [
-      'Continue improving articles' 
+      {
+        text: 'Continue improving articles' 
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Continue improving articles}}'
+        condition: ''
+      }
     ]
     milestones: []
     readings: []
@@ -297,10 +447,17 @@ TimelineDataAlt = [
     action: 'omit'
     title: ['Continuing improving articles']
     in_class: [
-      'Discuss further article improvements'
+      {
+        text: 'Discuss further article improvements'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Discuss further article improvements}}'
+      }
     ]
     assignments: [
-      'Continue improving articles' 
+      {
+        text: 'Continue improving articles' 
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Continue improving articles}}' 
+        condition: '' 
+      }
     ]
     milestones: []
     readings: []
@@ -319,11 +476,23 @@ TimelineDataAlt = [
     action: 'omit'
     title: ['Continuing improving articles']
     in_class: [
-      'Discuss further article improvements'
+      {
+        text: 'Discuss further article improvements'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Discuss further article improvements}}'
+        condition: ''
+      }
     ]
     assignments: [
-      'Continue improving articles' 
-      'Prepare in-class presentation' #if
+      {
+        text: 'Continue improving articles'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Continue improving articles}}'
+        condition: ''
+      }
+      {
+        text: 'Prepare in-class presentation'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Prepare in-class presentation}}'
+        condition: ''
+      }
     ]
     milestones: []
     readings: []
@@ -342,17 +511,39 @@ TimelineDataAlt = [
     action: 'combine'
     title: ['Class presentations and finishing touches']
     in_class: [
-      'In-class presentations' #supplementary_assignments.class_presentation.selected
+      {
+        text: 'In-class presentations'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/In-class presentations}}'
+        condition: 'supplementary_assignments.class_presentation.selected'
+      }
     ]
     assignments: [
-      'Final touches to articles' #FA
-      'Reflective essay' #supplementary_assignments.reflective_essay.selected
-      'Wikipedia portfolio' #supplementary_assignments.portfolio.selected
-      'Original argument paper' #supplementary_assignments.original_paper.selected
+      {
+        text: 'Final touches to articles'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Final touches to articles}}'
+        condition: ''
+      }
+      {
+        text: 'Reflective essay'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Reflective essay}}'
+        condition: 'supplementary_assignments.reflective_essay.selected'
+      }
+      {
+        text: 'Wikipedia portfolio'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Wikipedia portfolio}}'
+        condition: 'supplementary_assignments.portfolio.selected'
+      }
+      {
+        text: 'Original argument paper'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Original argument paper}}'
+        condition: 'supplementary_assignments.original_paper.selected'
+      }
     ]
     milestones: [
       {
-        title: 'Articles have been reviewed'
+        text: 'Articles have been reviewed'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Articles have been reviewed}}'
+        condition: ''
       }
     ]
     readings: []
@@ -374,7 +565,9 @@ TimelineDataAlt = [
     assignments: []
     milestones: [
       {
-        title: 'All students finished'
+        text: 'All students finished'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/All students finished}}'
+        condition: ''
       }
     ]
     readings: []
