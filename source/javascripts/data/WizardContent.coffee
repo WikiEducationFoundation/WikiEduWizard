@@ -320,6 +320,7 @@ WizardContent = [
       {
         content: [
           "<div class='step-form-dates'></div>"
+          
         ]
       }
       {

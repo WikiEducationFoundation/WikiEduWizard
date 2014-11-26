@@ -11,26 +11,39 @@ module.exports = class TimelineView extends Backbone.View
   el: $('.form-container')
 
   curDateConfig:
+
     termStart: ''
+
     termEnd: ''
+
     courseStart: ''
+
     courseEnd: ''
+
     courseStartWeekOf: ''
+
     courseEndWeekOf: ''
+
     numberWeeks: 16
 
 
   daysSelected: [false,false,false,false,false,false,false]
 
+
   allDates: []
+
 
   dowNames: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
+
   dowAbbrv: ['Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun']
+
 
   renderDays: true
 
+
   events:
+
     'mousedown #cLength' : 'clickHandler'
 
     'mouseup #cLength'  : 'changeHandler'
@@ -43,7 +56,10 @@ module.exports = class TimelineView extends Backbone.View
 
     'change #courseStartDate' : 'onCourseStartDateChange'
 
+    'change #courseEndDate' : 'onCourseEndDateChange'
+
     'change .dowCheckbox' : 'onDowSelect'
+
 
   onDowSelect: (e) ->
 
@@ -80,15 +96,43 @@ module.exports = class TimelineView extends Backbone.View
 
     @$courseStartDate = $('#courseStartDate')
 
+    @$courseEndDate = $('#courseEndDate')
+
     @$outContainer = $('.output-container')
 
     @$previewContainer = $('.preview-container')
 
-    @courseLength = $('#cLength').val()
+    @$courseLengthInput = $('#cLength')
+
+    @courseLength = @$courseLengthInput.val()
 
     @courseDiff = 0
 
     @data = application.timelineDataAlt
+
+    $('#cLength').on 'change', (e) =>
+      @changeHandler(e)
+
+    $('#cLength').on 'mousedown', (e) =>
+      @changeHandler(e)
+
+    $('#cLength').on 'mouseup', (e) =>
+      @changeHandler(e)
+
+    $('#termStartDate').on 'change', (e) =>
+      @onTermStartDateChange(e)
+
+    $('#termEndDate').on 'change', (e) =>
+      @onTermEndDateChange(e)
+
+    $('#courseStartDate').on 'change', (e) =>
+      @onCourseStartDateChange(e)
+
+    $('#courseEndDate').on 'change', (e) =>
+      @onCourseEndDateChange(e)
+
+    $('.dowCheckbox').on 'change', (e) =>
+      @onDowSelect(e)
 
     @update()
 
@@ -129,6 +173,13 @@ module.exports = class TimelineView extends Backbone.View
   onCourseStartDateChange: (e) ->
 
     @updateWeeklyDates()
+
+  onCourseEndDateChange: (e) ->
+
+    @$courseLengthInput.val(10)
+    @$courseLengthInput.trigger('change')
+
+    $('output[name="out2"]').html(10)
 
 
   updateWeeklyDates: ->
@@ -191,7 +242,7 @@ module.exports = class TimelineView extends Backbone.View
 
           theDate = theDate.setDate(theDate.getDate() + (selectedIndex))
 
-          $(item).append("<div class='dow-date dow-date--#{selectedIndex}' ><span contenteditable>#{@dowNames[selectedIndex]} | </span><span contenteditable>#{@getFormattedDateString(new Date(theDate))}</span></div><br/>")
+          $(item).append("<div class='dow-date dow-date--#{selectedIndex}' ><span contenteditable>#{@dowNames[selectedIndex]} | </span><span contenteditable>#{@getFormattedDateString(new Date(theDate))}</span></div>")
       )
     )
 
@@ -253,7 +304,7 @@ module.exports = class TimelineView extends Backbone.View
     )
 
     @renderPreview()
-    #@renderResult()
+    @renderResult()
 
     @updateWeeklyDates()
 
@@ -271,7 +322,7 @@ module.exports = class TimelineView extends Backbone.View
       # renderTitles()
       if item.title.length > 0
 
-        titles = "<div>"
+        titles = "<div class='preview-container-header'>"
 
         titles += "<h4 data-week='#{thisWeek}'>Week #{thisWeek}<span class='date date-#{thisWeek}' data-week='#{thisWeek}'></span></h4>"
 
@@ -279,21 +330,23 @@ module.exports = class TimelineView extends Backbone.View
 
           if i is 0
 
-           titles += "<h2>#{t}</h2>"
+           titles += "<h2 class='preview-container-weekly-title'>#{t}</h2>"
 
           else
 
-            titles += "<h3>#{t}</h3>"
+            titles += "<h3 class='preview-container-weekly-title preview-container-weekly-title--smaller'>#{t}</h3>"
 
         )
 
-        titles += "</div><br/>"
+        titles += "</div>"
 
         @$previewContainer.append(titles)
 
-      datesOut = "<div class='dates-preview dates-preview-#{thisWeek}' data-week='#{thisWeek}'></div>"
+      datesOut = "<div class='preview-container-dates dates-preview dates-preview-#{thisWeek}' data-week='#{thisWeek}'></div>"
 
       @$previewContainer.append(datesOut)
+
+      previewDetails = "<div class='preview-container-details'>"
 
       # renderInClass()
       if item.in_class.length > 0
@@ -310,9 +363,11 @@ module.exports = class TimelineView extends Backbone.View
 
         inClassOut += "</ul>"
 
-        inClassOut += "</div><br/>"
+        inClassOut += "</div>"
 
-        @$previewContainer.append(inClassOut)
+        previewDetails += inClassOut
+
+        # @$previewContainer.append(inClassOut)
 
 
       # renderAssignments()
@@ -330,9 +385,11 @@ module.exports = class TimelineView extends Backbone.View
 
         assignmentsOut += '</ul>'
 
-        assignmentsOut += '</div><br/>'
+        assignmentsOut += '</div>'
 
-        @$previewContainer.append(assignmentsOut)
+        previewDetails += assignmentsOut
+
+        # @$previewContainer.append(assignmentsOut)
 
 
       # renderMilestones()
@@ -350,17 +407,17 @@ module.exports = class TimelineView extends Backbone.View
 
         milestonesOut += "</ul>"
 
-        milestonesOut += "</div><br/>"
+        milestonesOut += "</div>"
 
-        @$previewContainer.append(milestonesOut)
+        previewDetails += milestonesOut
 
+        # @$previewContainer.append(milestonesOut)
 
-      if isLastWeek
+      @$previewContainer.append(previewDetails)
 
-        @$previewContainer.append("<h1>End of Course</h1>")
+      # if isLastWeek
 
-
-      @$previewContainer.append("<br/>")
+      #   @$previewContainer.append("<h1>End of Course</h1>")
 
     )
 

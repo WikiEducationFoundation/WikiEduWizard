@@ -284,7 +284,17 @@ module.exports = class InputItemView extends View
 
       inputId = $(e.currentTarget).attr('id')
 
-      @parentStep.updateAnswer(inputId, value)
+      if @parentStep.model.attributes.id is 'grading'
+
+        pathway = $(e.target).parents('.custom-input').attr('data-pathway-id')
+
+        unless pathway
+          return
+
+        @parentStep.updateAnswer(inputId, value, true, pathway)
+
+      else
+        @parentStep.updateAnswer(inputId, value, false)
 
       if @inputType == 'percent'
 
@@ -298,7 +308,7 @@ module.exports = class InputItemView extends View
 
           Backbone.Mediator.publish('grade:change', inputId, value)
     
-    return @parentStep.updateUserAnswer(inputId, value, @inputType)
+    return @parentStep.updateUserHasAnswered(inputId, value, @inputType)
 
 
   #--------------------------------------------------------
@@ -406,7 +416,7 @@ module.exports = class InputItemView extends View
 
     else if @inputType == 'percent'
 
-      if @parentStep.model.attributes.id is 'grading'
+      if @parentStep.model.attributes.id is 'grading' || @parentStep.model.attributes.type is 'grading'
 
         if @model.attributes.contingentUpon.length != 0
 

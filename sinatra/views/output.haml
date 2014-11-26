@@ -5,7 +5,7 @@
       %label{:for => 'termStartDate'} Term begins
       %input{:type => 'date', :id => 'termStartDate', :name => 'termStartDate'}
 
-    %div.overview-input-container{:style => 'display: none;'}
+    %div.overview-input-container
       %label{:for => 'termEndDate'} Term ends
       %input{:type => 'date', :id => 'termEndDate', :name => 'termEndDate'}
 
@@ -16,6 +16,10 @@
     %div.overview-input-container
       %label{:for => 'courseStartDate'} Course starts on 
       %input{:type => 'date', :id => 'courseStartDate', :name => 'courseStartDate'}
+
+    %div.overview-input-container
+      %label{:for => 'courseEndDate'} Course ends on 
+      %input{:type => 'date', :id => 'courseEndDate', :name => 'courseEndDate'}
 
     %div.overview-input-container{:style => 'display: none;'}
       %label{:for => 'startWeekOfDate'} Start week of 
@@ -60,5 +64,5 @@
         %span weeks
 
 %div
-  %div.output-container 
+  /%div.output-container 
   %div.preview-container 

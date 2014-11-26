@@ -4,39 +4,46 @@
 # Author: kevin@wintr.us @ WINTR
 #########################################################
 
-#APP
+#########APP#########
 application = require( '../app' )
 
-#VIEW CLASS
+#########VIEW CLASS#########
 View = require('../views/supers/View')
 
-#SUBVIEWS
+#########SUBVIEWS#########
 InputItemView = require('../views/InputItemView')
+
 
 DateInputView = require('../views/DateInputView')
 
+
 GradingInputView = require('../views/GradingInputView')
+
 
 OverviewView = require('../views/OverviewView')
 
-#TEMPLATES
+
+#########TEMPLATES###########
 StepTemplate = require('../templates/steps/StepTemplate.hbs')
+
 
 IntroStepTemplate = require('../templates/steps/IntroStepTemplate.hbs')
 
+
 InputTipTemplate = require('../templates/steps/info/InputTipTemplate.hbs')
+
 
 CourseTipTemplate = require('../templates/steps/info/CourseTipTemplate.hbs')
 
+
 WikiDatesModule = require('../templates/steps/modules/WikiDatesModule.hbs')
 
-
-#DATA
+##########DATA#########
 CourseInfoData = require('../data/WizardCourseInfo')
 
-
-#INPUTS
+#########INPUTS#########
 WizardStepInputs = require('../data/WizardStepInputs')
+
 
 
 
@@ -104,7 +111,6 @@ module.exports = class StepView extends View
     'date:change' : 'isIntroValid'
 
 
-
   editClickHandler: (e) ->
 
     stepId = $(e.currentTarget).attr('data-step-id')
@@ -157,8 +163,6 @@ module.exports = class StepView extends View
     if @isFirstStep
 
       @_renderStepType('first')
-
-
 
     else if @isLastStep
 
@@ -221,7 +225,6 @@ module.exports = class StepView extends View
 
     return @
 
-    
 
   _renderInputsAndInfo: ->
 
@@ -229,7 +232,40 @@ module.exports = class StepView extends View
 
     @$tipSection = @$el.find('.step-info-tips')
 
-    @inputData = WizardStepInputs[@model.attributes.id] || []
+    if @model.attributes.id is 'grading'
+
+      pathways = application.homeView.selectedPathways
+
+      numberOfPathways = pathways.length
+
+      if numberOfPathways > 1
+
+        distributedValue = Math.floor(100/numberOfPathways)
+
+        @inputData = []
+
+        _.each(pathways, (pathway) =>
+
+          gradingData = WizardStepInputs[@model.attributes.id][pathway]
+
+          _.each(gradingData, (gradeItem) =>
+
+            gradeItem.value = distributedValue
+
+            @inputData.push gradeItem
+
+          )
+
+        )
+
+      else
+
+        @inputData = WizardStepInputs[@model.attributes.id][pathways[0]] || []
+
+    else
+
+      @inputData = WizardStepInputs[@model.attributes.id] || []
+
 
     _.each(@inputData, (input, index) =>
 
@@ -295,13 +331,15 @@ module.exports = class StepView extends View
         inputView.$el.addClass('has-info')
 
     )
+
     return @
+
 
   afterRender: ->
 
     @$inputContainers = @$el.find('.custom-input')
 
-    if @model.attributes.id is 'grading'
+    if @model.attributes.id is 'grading' || @model.attributes.type is 'grading'
 
       @gradingView = new GradingInputView()
 
@@ -323,7 +361,6 @@ module.exports = class StepView extends View
 
       @overviewView.render()
 
-
     return @
 
 
@@ -340,11 +377,11 @@ module.exports = class StepView extends View
       scrollTop: 0
     ,1)
 
-    if @model.attributes.id is 'overview'
+    if @model.attributes.id is 'overview' || @model.attributes.type is 'overview'
 
       @render().$el.show()
 
-    else if @model.attributes.id is 'grading'
+    else if @model.attributes.id is 'grading' || @model.attributes.type is 'grading'
 
       @render().$el.show()
 
@@ -353,7 +390,6 @@ module.exports = class StepView extends View
       @$el.show()
 
     @hasUserVisited = true
-
 
     return @
 
@@ -364,8 +400,8 @@ module.exports = class StepView extends View
     Backbone.Mediator.publish('step:next')
 
 
+  updateUserHasAnswered: (id, value, type) ->
 
-  updateUserAnswer: (id, value, type) ->
 
     inputItems = WizardStepInputs[@model.id]
 
@@ -376,7 +412,6 @@ module.exports = class StepView extends View
       @hasUserAnswered = true
 
       return @
-
 
     _.each(inputItems, (item) =>
 
@@ -432,16 +467,13 @@ module.exports = class StepView extends View
 
         @isIntroValid()
 
-
     else 
 
       @hasUserAnswered = false
-  
 
     Backbone.Mediator.publish('step:answered', @)
 
     return @
-
 
 
   isIntroValid: ->
@@ -461,8 +493,6 @@ module.exports = class StepView extends View
         @$beginButton.addClass('inactive')
 
 
-
-
   updateRadioAnswer: (id, index, value) ->
 
     inputType = WizardStepInputs[@model.id][id].type 
@@ -477,11 +507,21 @@ module.exports = class StepView extends View
 
 
 
-  updateAnswer: (id, value) ->
+  updateAnswer: (id, value, hasPathway, pathway) ->
 
-    inputType = WizardStepInputs[@model.id][id].type 
+    if hasPathway
 
-    isExclusive = false || WizardStepInputs[@model.id][id].exclusive 
+      console.log pathway, id, value
+      inputType = WizardStepInputs[@model.id][pathway][id].type 
+
+      isExclusive = false
+
+    else
+
+      inputType = WizardStepInputs[@model.id][id].type 
+
+      isExclusive = false || WizardStepInputs[@model.id][id].exclusive 
+
 
     hasExclusiveSibling = false
 
@@ -505,7 +545,13 @@ module.exports = class StepView extends View
 
       if value == 'on'
 
-        WizardStepInputs[@model.id][id].selected = true
+        if hasPathway
+
+          WizardStepInputs[@model.id][pathway][id].selected = true
+
+        else
+
+          WizardStepInputs[@model.id][id].selected = true
 
         if hasExclusiveSibling && !isExclusive
 
@@ -521,7 +567,13 @@ module.exports = class StepView extends View
 
       else
 
-        WizardStepInputs[@model.id][id].selected = false
+        if hasPathway
+
+          WizardStepInputs[@model.id][pathway][id].selected = false
+
+        else
+
+          WizardStepInputs[@model.id][id].selected = false
 
         if hasExclusiveSibling && !isExclusive
 
@@ -553,8 +605,15 @@ module.exports = class StepView extends View
 
     else if inputType == 'text' || inputType == 'percent'
 
-      WizardStepInputs[@model.id][id].value = value
+      if hasPathway
 
+        WizardStepInputs[@model.id][pathway][id].value = value
+
+      else
+
+        WizardStepInputs[@model.id][id].value = value
+
+    console.log WizardStepInputs[@model.id]
 
     return @
 

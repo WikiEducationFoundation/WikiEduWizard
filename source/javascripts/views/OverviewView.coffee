@@ -11,6 +11,9 @@ WikiDetailsModule = require('../templates/steps/modules/WikiDetailsModule.hbs')
 WizardStepInputs = require('../data/WizardStepInputs')
 
 
+TimelineView = require('../views/TimelineView')
+
+
 module.exports = class OverviewView extends View
 
   overviewItemTemplate: WikiDetailsModule
@@ -19,9 +22,37 @@ module.exports = class OverviewView extends View
 
     selectedPathways = application.homeView.selectedPathways
 
+    selectedObjects = _.where(WizardStepInputs['assignment_selection'], {selected: true})
+
+    $('<div class="step-form-content__title">Selected assignment(s): </div>').appendTo(@$el).css(
+      marginBottom: '8px'
+    )
+
+    _.each(selectedObjects, (obj) =>
+
+      pathTitle = obj.label
+
+      $newTitle = $(@overviewItemTemplate(
+
+        label: pathTitle
+
+        stepId: 'assignment_selection'
+
+        assignments: []
+
+      )).find('.custom-input').removeClass('custom-input--accordian')
+
+      $newTitle.find('.edit-button')
+
+      @$el.append($newTitle)
+
+    )
+
     selectedInputs = []
+
     
-    _.each(selectedPathways, (pid) =>
+    
+    _.each(selectedPathways, (pid, i) =>
 
       stepData = application.homeView.stepData.pathways[pid]
 
@@ -30,6 +61,16 @@ module.exports = class OverviewView extends View
       stepTitles = _.pluck(stepData, 'title')
 
       totalLength = stepData.length
+
+      if stepTitles.length > 0 && i is 0
+
+        $('<div class="step-form-content__title">Assignment details: </div>').appendTo(@$el).css(
+          bottom: 'auto'
+          display: 'block'
+          position: 'relative'
+          marginBottom: '0'
+          marginTop: '15px'
+        )
 
       _.each(stepTitles, (title, index) =>
 
@@ -74,6 +115,28 @@ module.exports = class OverviewView extends View
 
       )
     )
+
+    @renderDescription()
+    
+    return @
+
+
+  renderDescription: ->
+
+    $descInput = $("<textarea id='short_description' rows='6' style='width:100%;background-color:rgba(242,242,242,1.0);border:1px solid rgba(202,202,202,1.0);padding:10px 15px;font-size: 16px;line-height 23px;letter-spacing: 0.25px;'></textarea>")
+
+    $descInput.val(WizardStepInputs.course_details.description)
+
+    $('.description-container').html($descInput[0])
+
+    $descInput.off 'change'
+
+    $descInput.on 'change', (e) ->
+
+      WizardStepInputs.course_details.description = $(this).val()
+
+    return @
+
 
 
 

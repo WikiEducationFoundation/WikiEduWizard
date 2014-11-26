@@ -65,7 +65,7 @@ WizardStepInputs =
       label: 'Text for the question 1?'
       disabled: false
       exclusive: false
-      required: true
+      required: false
 
     multimedia_1_2:
       type: 'checkbox'
@@ -74,7 +74,7 @@ WizardStepInputs =
       label: 'Text for the question 2?'
       disabled: false
       exclusive: false
-      required: true
+      required: false
 
   multimedia_2:
     multimedia_2_1:
@@ -84,7 +84,7 @@ WizardStepInputs =
       label: 'Text for the question 1?'
       disabled: false
       exclusive: false
-      required: true
+      required: false
 
     multimedia_2_2:
       type: 'checkbox'
@@ -93,7 +93,7 @@ WizardStepInputs =
       label: 'Text for the question 2?'
       disabled: false
       exclusive: false
-      required: true
+      required: false
 
   copyedit_1:
     copyedit_1_1:
@@ -103,7 +103,7 @@ WizardStepInputs =
       label: 'Text for the question 1?'
       disabled: false
       exclusive: false
-      required: true
+      required: false
 
     copyedit_1_2:
       type: 'radioBox'
@@ -112,7 +112,7 @@ WizardStepInputs =
       label: 'Text for the question 2?'
       disabled: false
       exclusive: false
-      required: true
+      required: false
 
   copyedit_2:
     copyedit_2_1:
@@ -122,7 +122,7 @@ WizardStepInputs =
       label: 'Text for the question 1?'
       disabled: false
       exclusive: false
-      required: true
+      required: false
 
     copyedit_2_2:
       type: 'radioBox'
@@ -131,12 +131,8 @@ WizardStepInputs =
       label: 'Text for the question 2?'
       disabled: false
       exclusive: false
-      required: true
-    
-
-
-
-
+      required: false
+  
 
   assignment_selection: 
     researchwrite:
@@ -178,44 +174,6 @@ WizardStepInputs =
         title: ''
         content: "Have another idea for incorporating Wikipedia into your class? We've found that these assignments work well, but they aren't the only way to do it. Get in touch, and we can talk things through: <a style='color:#505a7f;' href='mailto:contact@wikiedu.org'>contact@wikiedu.org</a>."
 
-
-    # evaluate:
-    #   type: 'checkbox'
-    #   id: 'evaluate'
-    #   selected: false
-    #   label: 'Evaluate articles'
-    #   exclusive: false
-    #   hasCourseInfo: true
-    #   disabled: true
-
-    # sourcecentered:
-    #   type: 'checkbox'
-    #   id: 'sourcecentered'
-    #   selected: false
-    #   label: 'Source-centered additions'
-    #   exclusive: false
-    #   hasCourseInfo: true
-    #   disabled: true
-
-    # findfix:
-    #   type: 'checkbox'
-    #   id: 'findfix'
-    #   selected: false
-    #   label: 'Find and fix errors'
-    #   exclusive: false
-    #   hasCourseInfo: true
-    #   disabled: true
-
-    
-    # plagiarism:
-    #   type: 'checkbox'
-    #   id: 'plagiarism'
-    #   selected: false
-    #   label: 'Identify and fix plagiarism'
-    #   exclusive: false
-    #   hasCourseInfo: true
-    #   disabled: true
-   
   learning_essentials: 
     create_user:
       # type: 'checkbox'
@@ -520,61 +478,111 @@ WizardStepInputs =
       exclusive: false
       
 
-  grading: 
-    complete_training:
+  grading_multimedia: 
+    complete_multimedia:
       type: 'percent'
-      label: 'Completion of Wikipedia training'
-      id: 'complete_training'
-      value: 5
-      renderInOutput: true
-      contingentUpon: [
-        'training_graded'
-      ]
-
-    getting_started:
-      type: 'percent'
-      label: 'Early Wikipedia exercises'
-      id: 'getting_started'
-      value: 15   
+      label: 'Add images & multimedia'
+      id: 'complete_multimedia'
+      value: 50
       renderInOutput: true
       contingentUpon: []
-
-    outline_quality:
+  
+  grading_copyedit: 
+    complete_copyedit:
       type: 'percent'
-      id: 'outline_quality'
-      label: 'Quality of bibliography and outline'
-      value: 10   
-      renderInOutput: true
-      contingentUpon: []
-
-    peer_reviews:
-      type: 'percent'
-      label: 'Peer reviews and collaboration with classmates'
-      value: 10   
-      renderInOutput: true
-      contingentUpon: []
-
-    contribution_quality:
-      type: 'percent' 
-      id: 'contribution_quality'
-      label: 'Quality of your main Wikipedia contributions'
+      label: 'Copyedit articles'
+      id: 'omplete_copyedit'
       value: 50
       renderInOutput: true
       contingentUpon: []
 
-    supplementary_assignments:
-      type: 'percent' 
-      id: 'supplementary_assignments'
-      label: 'Supplementary assignments'
-      value: 10
-      renderInOutput: true
-      contingentUpon: [
-        'class_blog'
-        'class_presentation'
-        'reflective_essay'
-        'portfolio'
-        'original_paper'
-      ]
+
+  grading: 
+    researchwrite:
+      complete_training:
+        type: 'percent'
+        label: 'Completion of Wikipedia training'
+        id: 'complete_training'
+        value: 5
+        renderInOutput: true
+        pathwayId: 'researchwrite'
+        contingentUpon: [
+          'training_graded'
+        ]
+
+      getting_started:
+        type: 'percent'
+        label: 'Early Wikipedia exercises'
+        id: 'getting_started'
+        value: 15   
+        renderInOutput: true
+        pathwayId: 'researchwrite'
+        contingentUpon: []
+
+      outline_quality:
+        type: 'percent'
+        id: 'outline_quality'
+        label: 'Quality of bibliography and outline'
+        value: 10   
+        renderInOutput: true
+        pathwayId: 'researchwrite'
+        contingentUpon: []
+
+      peer_reviews:
+        id: 'peer_reviews'
+        type: 'percent'
+        label: 'Peer reviews and collaboration with classmates'
+        value: 10   
+        renderInOutput: true
+        pathwayId: 'researchwrite'
+        contingentUpon: []
+
+      contribution_quality:
+        type: 'percent' 
+        id: 'contribution_quality'
+        label: 'Quality of your main Wikipedia contributions'
+        value: 50
+        renderInOutput: true
+        pathwayId: 'researchwrite'
+        contingentUpon: []
+
+      supplementary_assignments:
+        type: 'percent' 
+        id: 'supplementary_assignments'
+        label: 'Supplementary assignments'
+        value: 10
+        renderInOutput: true
+        pathwayId: 'researchwrite'
+        contingentUpon: [
+          'class_blog'
+          'class_presentation'
+          'reflective_essay'
+          'portfolio'
+          'original_paper'
+        ]
+
+    copyedit:
+      copy_edit:
+        type: 'percent'
+        label: 'Copyedit articles'
+        id: 'copy_edit'
+        value: 100
+        renderInOutput: true
+        pathwayId: 'copyedit'
+        contingentUpon: [
+        ]
+    multimedia:
+      multimedia:
+        type: 'percent'
+        label: 'Add images & multimedia'
+        id: 'multimedia'
+        value: 100
+        renderInOutput: true
+        pathwayId: 'multimedia'
+        contingentUpon: [
+        ]
+
+
 
 
     grading_selection:
@@ -651,6 +659,17 @@ WizardStepInputs =
       month: ''
       day: ''
       year: ''
+
+  course_details:
+    description: ''
+    term_start_date: ''
+    term_end_date: ''
+    course_start_date: ''
+    course_end_date: ''
+    course_meets_on: []
+    course_length: ''
+    selected_assignment: ''
+
 
     
 

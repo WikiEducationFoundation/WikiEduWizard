@@ -44,13 +44,13 @@
 
 {{!-- PERCENT --}}
 {{#if type.percent}}
-<div class="custom-input custom-input--percent">
+<div class="custom-input custom-input--percent" data-pathway-id="{{data.pathwayId}}">
   <div class="custom-input--percent__inner">
     <label for="{{data.id}}">{{data.label}}</label>
     <div class="input-container">
     <div class="icon icon--percent"></div>
     <div class="icon icon--points">points</div>
-    <input name="{{data.id}}" id="{{data.id}}" type="{{data.type}}" value="{{data.value}}" maxlength="2" />
+    <input name="{{data.id}}" id="{{data.id}}" type="{{data.type}}" value="{{data.value}}" maxlength="3" />
     </div>
   </div>
 </div>

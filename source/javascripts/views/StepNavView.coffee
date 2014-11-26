@@ -39,6 +39,7 @@ module.exports = class StepNavView extends View
 
 
   events: ->
+
     'click .next' : 'nextClickHandler'
 
     'click .prev' : 'prevClickHandler'

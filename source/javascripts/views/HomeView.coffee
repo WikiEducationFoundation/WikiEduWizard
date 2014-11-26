@@ -21,8 +21,11 @@ StepModel = require('../models/StepModel')
 
 StepNavView = require('../views/StepNavView')
 
+TimelineView = require('../views/TimelineView')
+
 #INPUTS
 WizardStepInputs = require('../data/WizardStepInputs')
+
 
 
 
@@ -133,6 +136,11 @@ module.exports = class HomeView extends View
 
       @showCurrentStep()
 
+    setTimeout(=>
+      @timelineView = new TimelineView()
+    ,2000)
+    
+
     
     return @
 
@@ -190,7 +198,7 @@ module.exports = class HomeView extends View
 
         if @selectedPathways.length > 1
 
-          if step.id is 'grading' || step.id is 'overview'
+          if step.id is 'grading' || step.id is 'overview' || step.type is 'grading' || step.type is 'overview'
 
             if pindex < @selectedPathways.length - 1
 
@@ -232,6 +240,53 @@ module.exports = class HomeView extends View
 
     return @
 
+  renderOutroSteps: ->
+
+    console.log 'outro'
+
+    @allStepViews.outro = []
+
+    stepNumber = @stepViews.length
+
+    _.each(@stepData.outro,(step, index) =>
+
+      newmodel = new StepModel()
+
+      _.map(step,(value, key, list) -> 
+
+        newmodel.set(key,value)
+
+      )
+
+      newview = new StepView(
+
+        model: newmodel
+
+      )
+
+      newview.model.set('stepNumber', stepNumber + 1)
+
+      newview.model.set('stepIndex', stepNumber )
+
+      if index is @stepData.outro.length - 1
+
+        newview.isLastStep = true
+
+      @$stepsContainer.append(newview.render().hide().el)
+
+      newview.$el.addClass("step--#{step.id}")
+
+      @stepViews.push(newview)
+
+      @allStepViews.outro.push(newview)
+
+      stepNumber++
+
+    )
+
+    return @
+
+
 
   recreatePathway: ->
 
@@ -252,6 +307,8 @@ module.exports = class HomeView extends View
     )
 
     @renderSteps()
+
+    @renderOutroSteps()
 
     @StepNav.stepViews = @stepViews
 
@@ -410,7 +467,14 @@ module.exports = class HomeView extends View
 
   editHandler: (id) ->
 
-    $('body').addClass('edit-mode')
+    if id is 'assignment_selection'
+      x = confirm('Are you sure you want to start the process over with a new assignment type?')
+      if !x
+        return
+
+    else       
+
+      $('body').addClass('edit-mode')
 
     _.each(@stepViews, (view, index) =>
 

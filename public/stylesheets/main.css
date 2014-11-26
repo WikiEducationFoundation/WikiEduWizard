@@ -824,12 +824,12 @@ body .ui-tooltip {
   border: 1px solid #ccc;
   background: #eee url("images/ui-bg_glass_60_eeeeee_1x400.png") 50% 50% repeat-x;
   font-weight: bold;
-  color: #3383bb;
+  color: #505a7f;
 }
 .ui-state-default a,
 .ui-state-default a:link,
 .ui-state-default a:visited {
-  color: #3383bb;
+  color: #505a7f;
   text-decoration: none;
 }
 .ui-state-hover,
@@ -841,7 +841,7 @@ body .ui-tooltip {
   border: 1px solid #bbb;
   background: #f8f8f8 url("images/ui-bg_glass_100_f8f8f8_1x400.png") 50% 50% repeat-x;
   font-weight: bold;
-  color: #599fcf;
+  color: #858daa;
 }
 .ui-state-hover a,
 .ui-state-hover a:hover,
@@ -851,7 +851,7 @@ body .ui-tooltip {
 .ui-state-focus a:hover,
 .ui-state-focus a:link,
 .ui-state-focus a:visited {
-  color: #599fcf;
+  color: #858daa;
   text-decoration: none;
 }
 .ui-state-active,
@@ -2197,9 +2197,9 @@ select {
 }
 .custom-input--percent .input-container {
   position: absolute;
-  padding: 0 5px;
+  padding: 0;
   border-bottom: 2px solid #505a7f;
-  width: 30px;
+  width: 35px;
   height: 25px;
   top: 50%;
   right: 45px;
@@ -2258,7 +2258,7 @@ select {
   position: relative;
   background: transparent;
   color: #fff;
-  width: 25px;
+  width: 35px;
   display: inline-block;
   border: none;
   outline: none;
@@ -3001,15 +3001,23 @@ textarea {
   display: block;
   width: 100%;
   max-width: 1100px;
-  margin: 25px auto 50px;
+  margin: 10px auto 50px;
   text-align: left;
 }
 .output-container {
   text-align: left;
 }
+.step--overview .output-container {
+  display: none;
+}
 .preview-container {
   max-width: 1100px;
   text-align: left;
+  margin-top: 10px;
+}
+.form-container label {
+  font-size: 0.9em;
+  color: #505a7f;
 }
 span.date {
   display: none;
@@ -3017,15 +3025,22 @@ span.date {
 span.date:before {
   content: ' | week of ';
 }
+.preview-container {
+  max-height: 325px;
+  overflow: auto;
+  padding: 15px;
+  padding-bottom: 50px;
+  background: #f5f5f5;
+}
 .preview-container h4,
 .preview-container h5 {
   font-size: 1em;
-  font-weight: bold;
+  font-weight: normal;
   display: block;
   width: 100%;
-  padding-bottom: 10px;
-  margin-bottom: 10px;
-  border-bottom: 1px solid #f5f5f5;
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid #f9f9f9;
 }
 .preview-container h5 {
   font-size: 0.9em;
@@ -3037,45 +3052,65 @@ span.date:before {
 .preview-container h2,
 .preview-container h3 {
   display: inline-block;
-  font-size: 1.4em;
+  font-size: 1.1em;
   font-weight: bold;
   margin: 0 0.5em 0.5em 0;
 }
 .preview-container h3 {
-  font-size: 1.2em;
+  font-size: 1em;
 }
 .preview-container h3:before {
-  content: ' | ';
-}
-.preview-container .dates-preview {
-  margin: 0px 0 10px;
+  content: '| ';
 }
 .preview-container .dow-date {
   display: inline-block;
   width: auto;
-  margin: 0px 0 5px;
+  margin: 0px 10px 5px;
+  font-size: 0.9em;
+  font-style: italic;
+}
+.preview-container .dow-date:first-child {
+  margin-left: 0;
+}
+.preview-container .preview-container-header {
+  margin-top: 10px;
+}
+.preview-container .preview-container-details {
+  max-height: 0;
+  height: auto;
+  overflow: hidden;
+}
+.preview-container .preview-container-details.open {
+  max-height: 50%;
 }
 .overview-input-container {
   position: relative;
-  margin: 10px 0;
+  display: inline-block;
+  width: auto;
+  margin: 0 0 15px;
 }
 .overview-input-container label {
   display: inline-block;
-  width: 160px;
+  width: 130px;
 }
 .overview-input-container input {
   display: inline-block;
-  margin: 0 15px;
-  width: 125px;
+  margin: 0 5px;
+  width: 100px;
+  background: #f2f2f2;
 }
 .overview-select-container {
-  margin: 30px 0;
+  margin: 0;
 }
 .overview-select-input-container {
   margin: 5px 0;
+  width: 120px;
+  display: inline-block;
+  white-space: nowrap;
 }
 .overview-readout-header {
-  margin-top: 25px;
+  display: none;
+  margin-top: 10px;
 }
 .overview-readout-header .readout {
   font-size: 38px;
@@ -3414,6 +3449,10 @@ span.date:before {
     min-width: 900px;
     padding: 130px 40px 40px 440px;
   }
+}
+section.step.step--overview .step-info,
+section.step.step--overview .step-info .step-info-tip__inner {
+  padding-top: 150px;
 }
 .step--last .step-info,
 .step--last .step-info .step-info-tip__inner {
@@ -3974,20 +4013,20 @@ span.date:before {
   width: 430px;
   background: transparent;
 }
-body.output .form-container {
+.form-container {
   display: block;
   width: 100%;
   max-width: 1100px;
-  margin: 25px auto;
+  margin: 5px -10px;
   text-align: left;
 }
-body.output .output-container {
+.output-container {
   text-align: left;
 }
-body.output span.date {
+span.date {
   display: none;
   font-size: 0.8em;
 }
-body.output span.date:before {
+span.date:before {
   content: ' | week of ';
 }
