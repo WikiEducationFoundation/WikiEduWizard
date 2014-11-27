@@ -290,4 +290,5 @@ gulp.task "build", ->
     "bower"
     "javascripts"
     "stylesheets"
+    "stylesheet-images"
   ], "minify"
