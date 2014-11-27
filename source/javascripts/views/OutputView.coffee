@@ -39,7 +39,7 @@ module.exports = class OutputView extends View
 
   updateBuild: (build) ->
     @currentBuild = build
-    console.log @currentBuild
+    # console.log @currentBuild
 
 
   outputPlainText: ->
@@ -125,6 +125,8 @@ module.exports = class OutputView extends View
       # @exportData(@$el.html(@populateOutput()).text())
 
       # @exportData(@populateOutput())
+
+      console.log @currentBuild
 
       @exportData(@currentBuild)
 

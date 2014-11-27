@@ -82,6 +82,7 @@ module.exports = class OverviewView extends View
 
         stepInputItems = WizardStepInputs[inputDataIds[index]]
 
+
         _.each(stepInputItems, (input) =>
 
           if input.type
@@ -123,7 +124,7 @@ module.exports = class OverviewView extends View
 
   renderDescription: ->
 
-    # @TimelineView = new TimelineView()
+    @TimelineView = new TimelineView()
 
     $descInput = $("<textarea id='short_description' rows='6' style='width:100%;background-color:rgba(242,242,242,1.0);border:1px solid rgba(202,202,202,1.0);padding:10px 15px;font-size: 16px;line-height 23px;letter-spacing: 0.25px;'></textarea>")
 
@@ -133,9 +134,12 @@ module.exports = class OverviewView extends View
 
     $descInput.off 'change'
 
-    $descInput.on 'change', (e) ->
+    $descInput.on 'change', (e) =>
 
-      WizardStepInputs.course_details.description = $(this).val()
+      WizardStepInputs.course_details.description = $(e.target).val()
+
+      @TimelineView.update()
+      application.homeView.timelineView.update()
 
     return @
 

@@ -478,23 +478,23 @@ WizardStepInputs =
       exclusive: false
       
 
-  grading_multimedia: 
-    complete_multimedia:
-      type: 'percent'
-      label: 'Add images & multimedia'
-      id: 'complete_multimedia'
-      value: 50
-      renderInOutput: true
-      contingentUpon: []
+  # grading_multimedia: 
+  #   complete_multimedia:
+  #     type: 'percent'
+  #     label: 'Add images & multimedia'
+  #     id: 'complete_multimedia'
+  #     value: 50
+  #     renderInOutput: true
+  #     contingentUpon: []
   
-  grading_copyedit: 
-    complete_copyedit:
-      type: 'percent'
-      label: 'Copyedit articles'
-      id: 'omplete_copyedit'
-      value: 50
-      renderInOutput: true
-      contingentUpon: []
+  # grading_copyedit: 
+  #   complete_copyedit:
+  #     type: 'percent'
+  #     label: 'Copyedit articles'
+  #     id: 'omplete_copyedit'
+  #     value: 50
+  #     renderInOutput: true
+  #     contingentUpon: []
 
 
   grading: 
@@ -562,10 +562,10 @@ WizardStepInputs =
         ]
 
     copyedit:
-      copy_edit:
+      copyedit:
         type: 'percent'
         label: 'Copyedit articles'
-        id: 'copy_edit'
+        id: 'copyedit'
         value: 100
         renderInOutput: true
         pathwayId: 'copyedit'
