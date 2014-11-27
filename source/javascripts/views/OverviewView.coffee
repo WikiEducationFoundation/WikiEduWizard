@@ -82,6 +82,7 @@ module.exports = class OverviewView extends View
 
         stepInputItems = WizardStepInputs[inputDataIds[index]]
 
+
         _.each(stepInputItems, (input) =>
 
           if input.type
@@ -133,9 +134,12 @@ module.exports = class OverviewView extends View
 
     $descInput.off 'change'
 
-    $descInput.on 'change', (e) ->
+    $descInput.on 'change', (e) =>
 
-      WizardStepInputs.course_details.description = $(this).val()
+      WizardStepInputs.course_details.description = $(e.target).val()
+
+      @TimelineView.update()
+      application.homeView.timelineView.update()
 
     return @
 

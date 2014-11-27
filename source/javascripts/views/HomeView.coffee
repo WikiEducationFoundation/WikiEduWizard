@@ -138,7 +138,7 @@ module.exports = class HomeView extends View
 
     setTimeout(=>
       @timelineView = new TimelineView()
-    ,2000)
+    ,1000)
     
 
     
@@ -241,8 +241,6 @@ module.exports = class HomeView extends View
     return @
 
   renderOutroSteps: ->
-
-    console.log 'outro'
 
     @allStepViews.outro = []
 

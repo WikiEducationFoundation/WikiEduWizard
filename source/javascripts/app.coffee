@@ -37,8 +37,6 @@ Application =
 
     OutputView = require('./views/OutputView')
 
-    TimelineView = require('./views/TimelineView')
-
 
     # Initialize views
     @homeView = new HomeView()
@@ -48,8 +46,6 @@ Application =
     @inputItemView = new InputItemView()
 
     @outputView = new OutputView()
-
-    @timelineView = new TimelineView()
 
     @router = new Router()
 

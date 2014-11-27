@@ -6,30 +6,40 @@ application = require( '../app' )
 # SUPER VIEW CLASS
 View = require('../views/supers/View')
 
-WizardStepInputs = require('../data/WizardStepInputs')
+DetailsTemplate = require('../templates/steps/output/CourseDetailsTemplate.hbs')
+
+GradingTemplate = require('../templates/steps/output/GradingTemplate.hbs')
+GradingCustomTemplate = require('../templates/steps/output/GradingAltTemplate.hbs')
+
+OptionsTemplate = require('../templates/steps/output/CourseOptionsTemplate.hbs')
+
+WizardData = require('../data/WizardStepInputs')
+
 
 module.exports = class TimelineView extends Backbone.View 
 
   el: $('.form-container')
 
+  wikiSpace: '{{subst:Wikipedia:Education program/Assignment Design Wizard/spaces}}'
+
   curDateConfig:
 
-    termStart: WizardStepInputs.course_details.term_start_date
+    termStart: WizardData.course_details.term_start_date
 
-    termEnd: WizardStepInputs.course_details.term_end_date
+    termEnd: WizardData.course_details.term_end_date
 
-    courseStart: WizardStepInputs.course_details.start_date
+    courseStart: WizardData.course_details.start_date
 
-    courseEnd: WizardStepInputs.course_details.end_date
+    courseEnd: WizardData.course_details.end_date
 
-    courseStartWeekOf: WizardStepInputs.course_details.start_weekof_date
+    courseStartWeekOf: WizardData.course_details.start_weekof_date
 
-    courseEndWeekOf: WizardStepInputs.course_details.end_weekof_date
+    courseEndWeekOf: WizardData.course_details.end_weekof_date
 
-    numberWeeks: WizardStepInputs.course_details.length_in_weeks
+    numberWeeks: WizardData.course_details.length_in_weeks
 
 
-  daysSelected: WizardStepInputs.course_details.weekdays_selected
+  daysSelected: WizardData.course_details.weekdays_selected
 
 
   allDates: []
@@ -39,6 +49,9 @@ module.exports = class TimelineView extends Backbone.View
 
 
   dowAbbrv: ['Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun']
+
+
+  dowLetter: ['M', 'T', 'W', 'Th', 'F', 'Sa', 'Su']
 
 
   renderDays: true
@@ -80,7 +93,7 @@ module.exports = class TimelineView extends Backbone.View
 
       @daysSelected[dowId] = false
 
-    WizardStepInputs.course_details.weekdays_selected = @daysSelected
+    WizardData.course_details.weekdays_selected = @daysSelected
     
     @update()
 
@@ -119,8 +132,9 @@ module.exports = class TimelineView extends Backbone.View
 
     @data = []
 
-    if application.homeView.selectedPathways[0] is 'researchwrite'
-      @data = application.timelineDataAlt
+    @data = application.timelineDataAlt
+
+    @dataAlt = application.timelineData
 
     $('#cLength').on 'change', (e) =>
       @changeHandler(e)
@@ -146,6 +160,11 @@ module.exports = class TimelineView extends Backbone.View
     $('.dowCheckbox').on 'change', (e) =>
       @onDowSelect(e)
 
+    $('#termStartDate').on 'focus', (e) =>
+      $('body,html').animate(
+        scrollTop: $('#termStartDate').offset().top - 350
+      , 400)
+
     @update()
 
   onTermStartDateChange: (e) ->
@@ -156,19 +175,23 @@ module.exports = class TimelineView extends Backbone.View
 
     @curDateConfig.termStart = newDate
 
-    WizardStepInputs.course_details.term_start_date = @toString(newDate)
+    WizardData.course_details.term_start_date = @toString(newDate)
 
     @$courseStartDate.datepicker('option', 'minDate', newDate)
 
+    @$courseEndDate.datepicker('option', 'minDate', '')
+
+    @$courseEndDate.val('')
+
     @$termEndDate.datepicker('option', 'minDate', @getWeeksOutDate(@getWeekOfDate(newDate),6))
+
+    @$termEndDate.val('').trigger('change')
 
     @curDateConfig.courseStart = newDate
 
-    WizardStepInputs.course_details.start_date = @toString(newDate)
+    WizardData.course_details.start_date = @toString(newDate)
 
-    @$courseStartDate.val(dateInput)
-
-    @$courseStartDate.trigger('change')
+    @$courseStartDate.val(dateInput).trigger('change')
 
     @update()
 
@@ -181,34 +204,40 @@ module.exports = class TimelineView extends Backbone.View
 
     @curDateConfig.termEnd = newDate
 
-    WizardStepInputs.course_details.term_end_date = @toString(newDate)
+    WizardData.course_details.term_end_date = @toString(newDate)
 
     @$courseStartDate.datepicker('option', 'maxDate', newDate)
 
     @curDateConfig.courseEnd = newDate
 
-    WizardStepInputs.course_details.end_date = @toString(newDate)
+    WizardData.course_details.end_date = @toString(newDate)
 
-    @$courseEndDate.val(dateInput)
-
-    @$courseEndDate.trigger('change')
+    @$courseEndDate.val(dateInput).trigger('change')
 
     @update()
 
 
   onCourseStartDateChange: (e) ->
 
-    @$courseEndDate.val('')
+    dateInput = $(e.currentTarget).val()
+
+    newDate = moment(dateInput).toDate()
+
+    WizardData.intro.wizard_start_date.value = dateInput
+
+    @$courseEndDate.val('').trigger('change')
+
+    WizardData.intro.wizard_end_date.value = ''
 
     @courseLength = 16
 
     @courseDiff = 16 - @courseLength
 
-    WizardStepInputs.course_details.length_in_weeks = parseInt(@courseLength)
+    WizardData.course_details.length_in_weeks = parseInt(@courseLength)
 
     @curDateConfig.courseEndWeekOf = new Date(@allDates[@courseLength-1])
 
-    WizardStepInputs.course_details.end_weekof_date = @toString(@curDateConfig.courseEndWeekOf)
+    WizardData.course_details.end_weekof_date = @toString(@curDateConfig.courseEndWeekOf)
 
     @update()
     
@@ -216,11 +245,14 @@ module.exports = class TimelineView extends Backbone.View
   onCourseEndDateChange: (e) ->
 
     if @$courseStartDate.val() is ''
+
       return
 
     dStart = @$courseStartDate.val()
 
     dEnd = $(e.currentTarget).val()
+
+    WizardData.intro.wizard_end_date.value = dEnd
 
     newStart = moment(dStart)
 
@@ -236,11 +268,11 @@ module.exports = class TimelineView extends Backbone.View
     
     @courseDiff = 16 - @courseLength
 
-    WizardStepInputs.course_details.length_in_weeks = parseInt(@courseLength)
+    WizardData.course_details.length_in_weeks = parseInt(@courseLength)
 
     @curDateConfig.courseEndWeekOf = new Date(@allDates[@courseLength-1])
 
-    WizardStepInputs.course_details.end_weekof_date = @toString(@curDateConfig.courseEndWeekOf)
+    WizardData.course_details.end_weekof_date = @toString(@curDateConfig.courseEndWeekOf)
 
     $('output[name="out2"]').html(@courseLength)
 
@@ -249,13 +281,11 @@ module.exports = class TimelineView extends Backbone.View
 
   updateWeeklyDates: ->
 
-    console.log WizardStepInputs.course_details
-
     if @$courseStartDate.val() is ''
 
       @curDateConfig.courseStart = ''
 
-      WizardStepInputs.course_details.start_date = ''
+      WizardData.course_details.start_date = ''
 
       $('span.date').hide()
 
@@ -265,7 +295,7 @@ module.exports = class TimelineView extends Backbone.View
 
       @curDateConfig.courseEnd = ''
 
-      WizardStepInputs.course_details.end_date = ''
+      WizardData.course_details.end_date = ''
 
       $('span.date').hide()
 
@@ -277,26 +307,26 @@ module.exports = class TimelineView extends Backbone.View
 
     @curDateConfig.courseStart = newStartDate
 
-    WizardStepInputs.course_details.start_date = @toString(newStartDate)
+    WizardData.course_details.start_date = @toString(newStartDate)
 
     weekOfDate = @getWeekOfDate(newStartDate)
 
     @curDateConfig.courseStartWeekOf = weekOfDate
 
-    WizardStepInputs.course_details.start_weekof_date = @toString(weekOfDate)
+    WizardData.course_details.start_weekof_date = @toString(weekOfDate)
 
 
     newEndDate = new Date(@$courseEndDate.val())
 
     @curDateConfig.courseEnd = newEndDate
 
-    WizardStepInputs.course_details.end_date = @toString(newEndDate)
+    WizardData.course_details.end_date = @toString(newEndDate)
 
     courseEndWeekOf = @getWeekOfDate(newEndDate)
 
     @curDateConfig.courseEndWeekOf = courseEndWeekOf
 
-    WizardStepInputs.course_details.end_weekof_date = @toString(courseEndWeekOf)
+    WizardData.course_details.end_weekof_date = @toString(courseEndWeekOf)
 
     $('span.date').each((index,item) =>
 
@@ -356,11 +386,11 @@ module.exports = class TimelineView extends Backbone.View
 
     @courseDiff = 16 - @courseLength
 
-    WizardStepInputs.course_details.length_in_weeks = parseInt(@courseLength)
+    WizardData.course_details.length_in_weeks = parseInt(@courseLength)
 
     @curDateConfig.courseEndWeekOf = new Date(@allDates[@courseLength-1])
 
-    WizardStepInputs.course_details.end_weekof_date = @toString(@curDateConfig.courseEndWeekOf)
+    WizardData.course_details.end_weekof_date = @toString(@curDateConfig.courseEndWeekOf)
 
     @update()
 
@@ -369,23 +399,25 @@ module.exports = class TimelineView extends Backbone.View
 
     @out = []
 
-    @unitsClone = _.clone(@data)
+    @outWiki = []
+
+    unitsClone = _.clone(@data)
 
     if @courseDiff > 0
 
-      @unitsClone = _.reject(@unitsClone, (item) =>
+      unitsClone = _.reject(unitsClone, (item) =>
 
         return item.type is 'break' && @courseDiff >= item.value && item.value != 0
 
       )
 
-    obj = @unitsClone[0]
+    obj = unitsClone[0]
 
-    _.each(@unitsClone, (item, index) =>
+    _.each(unitsClone, (item, index) =>
 
-      if item.type is 'break' || index is @unitsClone.length - 1
+      if item.type is 'break' || index is unitsClone.length - 1
 
-        if index is @unitsClone.length - 1
+        if index is unitsClone.length - 1
 
           @out.push _.clone(item)
 
@@ -403,10 +435,15 @@ module.exports = class TimelineView extends Backbone.View
 
     )
 
+    @outWiki = @out
+
     @renderPreview()
+
     @renderResult()
 
     @updateWeeklyDates()
+
+    Backbone.Mediator.publish('output:update', @$outContainer.text())
 
 
   renderPreview: ->
@@ -458,7 +495,9 @@ module.exports = class TimelineView extends Backbone.View
         inClassOut += '<ul>'
 
         _.each(item.in_class, (c) ->
-          inClassOut += "<li>#{c}</li>"
+
+          inClassOut += "<li>#{c.text}</li>"
+
         )
 
         inClassOut += "</ul>"
@@ -467,10 +506,6 @@ module.exports = class TimelineView extends Backbone.View
 
         previewDetails += inClassOut
 
-        # @$previewContainer.append(inClassOut)
-
-
-      # renderAssignments()
       if item.assignments.length > 0
 
         assignmentsOut = "<div>"
@@ -480,7 +515,7 @@ module.exports = class TimelineView extends Backbone.View
         assignmentsOut += '<ul>'
 
         _.each(item.assignments, (assign) ->
-          assignmentsOut += "<li>#{assign}</li>" 
+          assignmentsOut += "<li>#{assign.text}</li>" 
         )
 
         assignmentsOut += '</ul>'
@@ -489,10 +524,6 @@ module.exports = class TimelineView extends Backbone.View
 
         previewDetails += assignmentsOut
 
-        # @$previewContainer.append(assignmentsOut)
-
-
-      # renderMilestones()
       if item.milestones.length > 0
 
         milestonesOut = "<div>"
@@ -502,7 +533,7 @@ module.exports = class TimelineView extends Backbone.View
         milestonesOut += "<ul>"
 
         _.each(item.milestones, (milestone) ->
-          milestonesOut += "<li>#{milestone.title}</li>"
+          milestonesOut += "<li>#{milestone.text}</li>"
         )
 
         milestonesOut += "</ul>"
@@ -511,103 +542,234 @@ module.exports = class TimelineView extends Backbone.View
 
         previewDetails += milestonesOut
 
-        # @$previewContainer.append(milestonesOut)
 
       @$previewContainer.append(previewDetails)
 
-      # if isLastWeek
-
-      #   @$previewContainer.append("<h1>End of Course</h1>")
 
     )
 
 
   renderResult: ->
 
-    @$outContainer.html('').css('white-space', 'pre-wrap')
+    @$outContainer.html('')
 
-    _.each(@out, (item, index) =>
+    @$outContainer.append(DetailsTemplate( _.extend(WizardData,{ description: WizardData.course_details.description})))
 
-      thisWeek = index + 1
-      nextWeek = index + 2
-      isLastWeek = index is @out.length - 1
+    if application.homeView.selectedPathways[0] is 'researchwrite'
 
 
-      if item.title.length > 0
+      @$outContainer.append('{{table of contents}}')
 
-        titles = "<div>"
+      @$outContainer.append("#{@wikiSpace}")
 
-        titles += "{{subst:Wikipedia:Education program/Assignment Design Wizard/course week | #{thisWeek} | "
+      @$outContainer.append('==Timeline==')
 
-        _.each(item.title, (t, i) ->
+      @$outContainer.append("#{@wikiSpace}")
 
-          if i is 0
+      _.each(@outWiki, (item, index) =>
 
-           titles += "#{t} "
+        thisWeek = index + 1
 
-          else
+        nextWeek = index + 2
 
-            titles += "| #{t} "
+        isLastWeek = index is @out.length - 1
+
+        if item.title.length > 0
+
+          titles = ""
+
+          extra = if thisWeek is 1 then '1' else ''
+
+          titles += "{{subst:Wikipedia:Education program/Assignment Design Wizard/course week #{extra}| #{thisWeek} | "
+
+          _.each(item.title, (t, i) ->
+
+            if i is 0
+
+             titles += "#{t}"
+
+            else
+
+              titles += ", #{t}"
+
+          )
+
+          if @allDates.length > 0
+
+            titles += "| weekof = #{@allDates[index]} "
+
+            dowDateStrings = []
+
+            _.each(@daysSelected, (day,dayIndex) =>
+
+              if day 
+
+                dowLetter = @dowLetter[dayIndex]
+
+                theDate = new Date(@allDates[index])
+
+                theDate = theDate.setDate(theDate.getDate() + (dayIndex))
+
+                theDateString = "#{dowLetter} #{@toString(new Date(theDate))}"
+
+                dowDateStrings.push(theDateString)
+
+            )
+
+            if dowDateStrings.length > 0
+
+              titles += "| meets = "
+
+              _.each(dowDateStrings, (dow, dowIndex) =>
+
+                if dowIndex is dowDateStrings.length - 1
+
+                  titles += "#{dow} "
+
+                else
+
+                  titles += "#{dow}, "
+                  
+              )
+
+          titles += "}}"
+
+          @$outContainer.append(titles)
+
+          @$outContainer.append("#{@wikiSpace}")
+
+        if item.in_class.length > 0
+
+          @$outContainer.append("{{in class}}")
+
+          @$outContainer.append("#{@wikiSpace}")
+
+          _.each(item.in_class, (c, ci) =>
+
+            if c.condition && c.condition != ''
+
+              condition = eval(c.condition)
+
+              if condition 
+
+                @$outContainer.append("#{c.wikitext}")
+
+                @$outContainer.append("#{@wikiSpace}")
+
+            else
+
+              @$outContainer.append("#{c.wikitext}")
+
+              @$outContainer.append("#{@wikiSpace}")
+          )
+
+          @$outContainer.append("#{@wikiSpace}")
+
+
+        if item.assignments.length > 0
+
+          @$outContainer.append("{{assignment | due = Week #{nextWeek} }}")
+
+          @$outContainer.append("#{@wikiSpace}")
+
+          _.each(item.assignments, (assign) =>
+
+            if assign.condition && assign.condition != ''
+
+              condition = eval(assign.condition)
+
+              if condition 
+
+                @$outContainer.append("#{assign.wikitext}")
+
+                @$outContainer.append("#{@wikiSpace}")
+
+            else
+
+              @$outContainer.append("#{assign.wikitext}")
+
+              @$outContainer.append("#{@wikiSpace}")
+
+          )
+
+          @$outContainer.append("#{@wikiSpace}")
+
+        if item.milestones.length > 0
+
+          @$outContainer.append("{{assignment milestones}}")
+
+          @$outContainer.append("#{@wikiSpace}")
+
+          _.each(item.milestones, (m) =>
+
+            if m.condition && m.condition != ''
+
+              @$outContainer.append("#{m.wikitext}")
+
+              @$outContainer.append("#{@wikiSpace}")
+
+            else
+
+              @$outContainer.append("#{m.wikitext}")
+
+              @$outContainer.append("#{@wikiSpace}")
+
+          )
+
+          @$outContainer.append("#{@wikiSpace}")
+
+        if isLastWeek
+
+          @$outContainer.append("{{end of course week}}")
+
+          @$outContainer.append("#{@wikiSpace}")
+
+      )
+      
+      @$outContainer.append(GradingTemplate(WizardData))
+
+    else
+
+      @$outContainer.append("#{@wikiSpace}")
+
+      @$outContainer.append('{{table of contents}}')
+
+      @$outContainer.append("#{@wikiSpace}")
+
+      gradingItems = []
+
+      _.each(application.homeView.selectedPathways, (pathway) =>
+
+        gradingItems.push(WizardData.grading[pathway][pathway])
+
+        _.each(@dataAlt[pathway], (item, ind) =>
+
+          @$outContainer.append("<div>#{item}</div><br/>")
+
+          if ind is 0
+
+            @$outContainer.append("#{@wikiSpace}")
 
         )
-
-        titles += "}}"
-
-        titles += "</div>"
-
-        @$outContainer.append(titles)
-
         @$outContainer.append("<br/>")
+        @$outContainer.append("#{@wikiSpace}")
+        @$outContainer.append("<div></div>")
+      )
 
-      if item.in_class.length > 0
+      @$outContainer.append("<br/>")
 
-        @$outContainer.append("<div style='font-weight: bold;'>{{in class}}</div>")
+      @$outContainer.append(GradingCustomTemplate({gradeItems: gradingItems}))
 
-        _.each(item.in_class, (c) =>
+    @$outContainer.append(OptionsTemplate(WizardData))
 
-          @$outContainer.append("<div>#{c}</div>")
-
-        )
-
-        @$outContainer.append("<br/>")
-
-      if item.assignments.length > 0
-
-        @$outContainer.append("<div style='font-weight: bold;'>{{assignment | due = Week #{nextWeek} }}</div>")
-
-        _.each(item.assignments, (assign) =>
-
-          @$outContainer.append("<div>#{assign}</div>")
-
-        )
-
-        @$outContainer.append("<br/>")
-
-      if item.milestones.length > 0
-
-        @$outContainer.append("<div style='font-weight: bold;'>{{assignment milestones}}</div>")
-
-        _.each(item.milestones, (m) =>
-
-          @$outContainer.append("<div>#{m}</div>")
-
-        )
-
-        @$outContainer.append("<br/>")
-
-      if isLastWeek
-
-        @$outContainer.append("{{end of course week}}")
-
-
-      @$outContainer.append("<br/><hr/>")
-
-    )
-
+    
 
   getFormattedDateString: (date) ->
+
     year = date.getUTCFullYear().toString()
+
     month = date.getUTCMonth()+1
+
     day = date.getUTCDate()
 
     if month.toString().length is 1
@@ -630,8 +792,11 @@ module.exports = class TimelineView extends Backbone.View
     return "#{year}-#{month}-#{day}"
 
   toString: (date) ->
+
     year = date.getUTCFullYear().toString()
+
     month = date.getUTCMonth()+1
+
     day = date.getUTCDate()
 
     if month.toString().length is 1
@@ -649,7 +814,6 @@ module.exports = class TimelineView extends Backbone.View
     else
 
       day = day.toString()
-
 
     return "#{year}-#{month}-#{day}"
 
@@ -682,7 +846,9 @@ module.exports = class TimelineView extends Backbone.View
 
     return newDate
 
+
   getWeeksDiff: (a, b) ->
+
     return b.diff(a, 'weeks')
 
 

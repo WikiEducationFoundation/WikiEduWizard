@@ -193,8 +193,7 @@ module.exports = class InputItemView extends View
 
 
   hoverHandler: (e) ->
-
-    console.log e.target
+    return e
 
 
   mouseoverHandler: (e) ->

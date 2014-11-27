@@ -381,6 +381,8 @@ module.exports = class StepView extends View
 
       @render().$el.show()
 
+      application.homeView.timelineView.update()
+
     else if @model.attributes.id is 'grading' || @model.attributes.type is 'grading'
 
       @render().$el.show()
@@ -511,7 +513,6 @@ module.exports = class StepView extends View
 
     if hasPathway
 
-      console.log pathway, id, value
       inputType = WizardStepInputs[@model.id][pathway][id].type 
 
       isExclusive = false
@@ -613,7 +614,6 @@ module.exports = class StepView extends View
 
         WizardStepInputs[@model.id][id].value = value
 
-    console.log WizardStepInputs[@model.id]
 
     return @
 
