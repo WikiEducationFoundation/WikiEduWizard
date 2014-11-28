@@ -3111,6 +3111,13 @@ span.date:before {
   width: 100px;
   background: #f2f2f2;
 }
+.overview-input-container--blackout-dates {
+  display: block;
+  width: 100%;
+}
+.overview-input-container--blackout-dates input {
+  width: 350px;
+}
 .overview-select-container {
   margin: 5px 0 0;
 }

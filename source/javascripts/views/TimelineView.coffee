@@ -41,6 +41,8 @@ module.exports = class TimelineView extends Backbone.View
 
   daysSelected: WizardData.course_details.weekdays_selected
 
+  blackoutDates: WizardData.course_details.blackout_dates
+
 
   allDates: []
 
@@ -99,7 +101,7 @@ module.exports = class TimelineView extends Backbone.View
 
 
   initialize: ->
-
+  
     $('input[type="date"]').datepicker(
 
       dateFormat: 'yy-mm-dd'
@@ -109,6 +111,18 @@ module.exports = class TimelineView extends Backbone.View
       firstDay: 1
 
     ).prop('type','text')
+
+
+    @$blackoutDates = $('#blackoutDates')
+
+    @$blackoutDates.multiDatesPicker(
+
+      dateFormat: 'yy-mm-dd'
+
+      constrainInput: true
+
+      firstDay: 1
+    )
 
     @$startWeekOfDate = $('#startWeekOfDate')
 
@@ -177,19 +191,13 @@ module.exports = class TimelineView extends Backbone.View
 
     WizardData.course_details.term_start_date = @toString(newDate)
 
-    @$courseStartDate.datepicker('option', 'minDate', newDate)
-
-    @$courseEndDate.datepicker('option', 'minDate', '')
-
-    @$courseEndDate.val('')
-
     @$termEndDate.datepicker('option', 'minDate', @getWeeksOutDate(@getWeekOfDate(newDate),6))
 
+    # @$courseEndDate.datepicker('option', 'minDate', @getWeeksOutDate(@getWeekOfDate(newDate),6))
+
+    @$courseStartDate.datepicker('option', 'minDate', newDate)
+
     @$termEndDate.val('').trigger('change')
-
-    @curDateConfig.courseStart = newDate
-
-    WizardData.course_details.start_date = @toString(newDate)
 
     @$courseStartDate.val(dateInput).trigger('change')
 
@@ -225,6 +233,8 @@ module.exports = class TimelineView extends Backbone.View
 
     WizardData.intro.wizard_start_date.value = dateInput
 
+    WizardData.course_details.start_date = dateInput
+
     @$courseEndDate.val('').trigger('change')
 
     WizardData.intro.wizard_end_date.value = ''
@@ -238,6 +248,8 @@ module.exports = class TimelineView extends Backbone.View
     @curDateConfig.courseEndWeekOf = new Date(@allDates[@courseLength-1])
 
     WizardData.course_details.end_weekof_date = @toString(@curDateConfig.courseEndWeekOf)
+
+    @curDateConfig.courseStart = newDate
 
     @update()
     
@@ -273,8 +285,11 @@ module.exports = class TimelineView extends Backbone.View
     @curDateConfig.courseEndWeekOf = new Date(@allDates[@courseLength-1])
 
     WizardData.course_details.end_weekof_date = @toString(@curDateConfig.courseEndWeekOf)
-
-    $('output[name="out2"]').html(@courseLength)
+    
+    if @courseLength
+      $('output[name="out2"]').html(@courseLength + ' weeks')
+    else
+      $('output[name="out2"]').html('')
 
     @update()
 
@@ -551,12 +566,13 @@ module.exports = class TimelineView extends Backbone.View
 
   renderResult: ->
 
+    currentBlackoutDates = @$blackoutDates.multiDatesPicker('getDates')
+
     @$outContainer.html('')
 
     @$outContainer.append(DetailsTemplate( _.extend(WizardData,{ description: WizardData.course_details.description})))
 
     if application.homeView.selectedPathways[0] is 'researchwrite'
-
 
       @$outContainer.append('{{table of contents}}')
 
@@ -629,6 +645,22 @@ module.exports = class TimelineView extends Backbone.View
                 else
 
                   titles += "#{dow}, "
+                  
+              )
+
+            if currentBlackoutDates.length > 0
+
+              titles += "| nomeeting = "
+
+              _.each(currentBlackoutDates, (boDate, boIndex) =>
+
+                if boIndex is currentBlackoutDates.length - 1
+
+                  titles += "#{boDate} "
+
+                else
+
+                  titles += "#{boDate}, "
                   
               )
 
