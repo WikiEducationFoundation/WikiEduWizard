@@ -481,6 +481,8 @@ module.exports = class TimelineView extends Backbone.View
 
     Backbone.Mediator.publish('output:update', @$outContainer.text())
 
+    Backbone.Mediator.publish('date:change', @)
+
 
   renderPreview: ->
 

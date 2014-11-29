@@ -124,7 +124,7 @@ module.exports = class StepView extends View
     return @model.attributes.id
 
 
-  validateDates: (dateView) ->
+  validateDates: ->
 
     unless @isFirstStep or @isLastStep
 
@@ -132,12 +132,14 @@ module.exports = class StepView extends View
 
     datesAreValid = false
 
-    _.each(@dateViews, (dateView) =>
-      if dateView.isValid()
-        datesAreValid = true
-      else 
-        datesAreValid = false
-    )
+    if $('#termStartDate').val != '' && $('#termEndDate').val != '' && $('#courseStartDate').val != '' && $('#courseEndDate').val != ''
+      datesAreValid = true
+    # _.each(@dateViews, (dateView) =>
+    #   if dateView.isValid()
+    #     datesAreValid = true
+    #   else 
+    #     datesAreValid = false
+    # )
 
     return datesAreValid
 
