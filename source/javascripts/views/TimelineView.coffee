@@ -9,6 +9,7 @@ View = require('../views/supers/View')
 DetailsTemplate = require('../templates/steps/output/CourseDetailsTemplate.hbs')
 
 GradingTemplate = require('../templates/steps/output/GradingTemplate.hbs')
+
 GradingCustomTemplate = require('../templates/steps/output/GradingAltTemplate.hbs')
 
 OptionsTemplate = require('../templates/steps/output/CourseOptionsTemplate.hbs')
@@ -20,7 +21,9 @@ module.exports = class TimelineView extends Backbone.View
 
   el: $('.form-container')
 
-  wikiSpace: '{{subst:Wikipedia:Education program/Assignment Design Wizard/spaces}}'
+  wikiSpace: '{{subst:Wikipedia:Education program/Assignment Design Wizard/spaces}}<br/>'
+
+  wikiNoClass: 'NO CLASS WEEK OF '
 
   curDateConfig:
 
@@ -40,6 +43,7 @@ module.exports = class TimelineView extends Backbone.View
 
 
   daysSelected: WizardData.course_details.weekdays_selected
+
 
   blackoutDates: WizardData.course_details.blackout_dates
 
@@ -343,23 +347,40 @@ module.exports = class TimelineView extends Backbone.View
 
     WizardData.course_details.end_weekof_date = @toString(courseEndWeekOf)
 
-    $('span.date').each((index,item) =>
+    d = 0 
 
-      weekId = parseInt($(item).attr('data-week'))
+    while d < 20
 
       newDate = new Date(weekOfDate)
 
-      if index is 0
+      if d is 0
 
         @allDates.push(@getFormattedDateString(new Date(newDate)))
 
-        return
+      else 
 
-      newDate = newDate.setDate(newDate.getDate() + (7 * (weekId-1)))
+        newDate = newDate.setDate(newDate.getDate() + (7 * (d)))
 
-      @allDates.push(@getFormattedDateString(new Date(newDate)))
+        @allDates.push(@getFormattedDateString(new Date(newDate)))
 
-      $(item).show().text(@getFormattedDateString(new Date(newDate)))
+      d++
+
+    $('span.date').each((index,item) =>
+
+
+      newDate = @allDates[index]
+
+      # if index is 0
+
+      #   @allDates.push(@getFormattedDateString(new Date(newDate)))
+
+      #   return
+
+      # newDate = newDate.setDate(newDate.getDate() + (7 * (weekId-1)))
+
+      # @allDates.push(@getFormattedDateString(new Date(newDate)))
+
+      $(item).show().text(newDate)
 
     )
 
@@ -574,6 +595,10 @@ module.exports = class TimelineView extends Backbone.View
 
     if application.homeView.selectedPathways[0] is 'researchwrite'
 
+      addWeeks = 0
+
+      @$outContainer.append("#{@wikiSpace}")
+
       @$outContainer.append('{{table of contents}}')
 
       @$outContainer.append("#{@wikiSpace}")
@@ -582,6 +607,8 @@ module.exports = class TimelineView extends Backbone.View
 
       @$outContainer.append("#{@wikiSpace}")
 
+      curWeekOffset = 0
+
       _.each(@outWiki, (item, index) =>
 
         thisWeek = index + 1
@@ -589,6 +616,101 @@ module.exports = class TimelineView extends Backbone.View
         nextWeek = index + 2
 
         isLastWeek = index is @out.length - 1
+
+        noClassThisWeek = false
+
+        dowDateStrings = []
+
+        if @allDates.length > 0
+
+          thisWeeksDates = []
+
+          noClassDates = []
+
+          _.each(@daysSelected, (day,dayIndex) =>
+
+            if day 
+
+              dowLetter = @dowAbbrv[dayIndex]
+
+              theDate = new Date(@allDates[index+curWeekOffset])
+
+              theDate = theDate.setDate(theDate.getDate() + (dayIndex))
+
+              dateString = @toString(new Date(theDate))
+
+              thisWeeksDates.push(dateString)
+
+              if _.indexOf(currentBlackoutDates, dateString) != -1
+
+                fullDateString = "NO CLASS: #{dowLetter} #{dateString}"
+
+                noClassDates.push(dateString)
+
+              else
+
+                fullDateString = "#{dowLetter} #{dateString}"
+              
+              dowDateStrings.push(fullDateString)
+
+          )
+
+          if noClassDates.length > 0 && thisWeeksDates.length > 0
+
+            if noClassDates.length == thisWeeksDates.length
+
+              noClassThisWeek = true
+
+              curWeekOffset += 1
+
+              dowDateStrings = []
+
+              thisWeeksDates = []
+
+              noClassDates = []
+
+              _.each(@daysSelected, (day,dayIndex) =>
+
+                if day 
+
+                  dowLetter = @dowAbbrv[dayIndex]
+
+                  theDate = new Date(@allDates[index+1])
+
+                  theDate = theDate.setDate(theDate.getDate() + (dayIndex))
+
+                  dateString = @toString(new Date(theDate))
+
+                  thisWeeksDates.push(dateString)
+
+                  if _.indexOf(currentBlackoutDates, dateString) != -1
+
+                    fullDateString = "NO CLASS: #{dowLetter} #{dateString}"
+
+                    noClassDates.push(dateString)
+
+                  else
+
+                    fullDateString = "#{dowLetter} #{dateString}"
+                  
+                  dowDateStrings.push(fullDateString)
+
+              )
+
+        if noClassThisWeek
+
+          @$outContainer.append("{{end of course week}}")
+
+          @$outContainer.append("#{@wikiSpace}")
+
+          @$outContainer.append("#{@wikiSpace}")
+          
+          @$outContainer.append("===#{@wikiNoClass} #{@allDates[index+curWeekOffset-1]}===")
+
+          @$outContainer.append("#{@wikiSpace}")
+
+          @$outContainer.append("#{@wikiSpace}")
+
 
         if item.title.length > 0
 
@@ -612,64 +734,33 @@ module.exports = class TimelineView extends Backbone.View
 
           if @allDates.length > 0
 
-            titles += "| weekof = #{@allDates[index]} "
-
-            dowDateStrings = []
-
-            _.each(@daysSelected, (day,dayIndex) =>
-
-              if day 
-
-                dowLetter = @dowLetter[dayIndex]
-
-                theDate = new Date(@allDates[index])
-
-                theDate = theDate.setDate(theDate.getDate() + (dayIndex))
-
-                theDateString = "#{dowLetter} #{@toString(new Date(theDate))}"
-
-                dowDateStrings.push(theDateString)
-
-            )
-
-            if dowDateStrings.length > 0
-
-              titles += "| meets = "
-
-              _.each(dowDateStrings, (dow, dowIndex) =>
-
-                if dowIndex is dowDateStrings.length - 1
-
-                  titles += "#{dow} "
-
-                else
-
-                  titles += "#{dow}, "
-                  
-              )
-
-            if currentBlackoutDates.length > 0
-
-              titles += "| nomeeting = "
-
-              _.each(currentBlackoutDates, (boDate, boIndex) =>
-
-                if boIndex is currentBlackoutDates.length - 1
-
-                  titles += "#{boDate} "
-
-                else
-
-                  titles += "#{boDate}, "
-                  
-              )
+            titles += " - Week of #{@allDates[index+curWeekOffset]} | weekof = #{@allDates[index+curWeekOffset]} "
 
           titles += "}}"
 
           @$outContainer.append(titles)
 
           @$outContainer.append("#{@wikiSpace}")
+    
+          if dowDateStrings.length > 0
 
+            @$outContainer.append("'''Class meetings:'''")
+
+            @$outContainer.append("#{@wikiSpace}")
+
+            _.each(dowDateStrings, (dow, dowIndex) =>
+
+              @$outContainer.append("#{@wikiSpace}")
+
+              @$outContainer.append("#{dow}")
+
+              @$outContainer.append("#{@wikiSpace}")
+                
+            )
+
+            @$outContainer.append("#{@wikiSpace}")
+
+        
         if item.in_class.length > 0
 
           @$outContainer.append("{{in class}}")
