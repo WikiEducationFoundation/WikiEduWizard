@@ -195,11 +195,11 @@ module.exports = class TimelineView extends Backbone.View
 
     WizardData.course_details.term_start_date = @toString(newDate)
 
-    @$termEndDate.datepicker('option', 'minDate', @getWeeksOutDate(@getWeekOfDate(newDate),6))
+    # @$termEndDate.datepicker('option', 'minDate', @getWeeksOutDate(@getWeekOfDate(newDate),6))
 
     # @$courseEndDate.datepicker('option', 'minDate', @getWeeksOutDate(@getWeekOfDate(newDate),6))
 
-    @$courseStartDate.datepicker('option', 'minDate', newDate)
+    # @$courseStartDate.datepicker('option', 'minDate', newDate)
 
     @$termEndDate.val('').trigger('change')
 
@@ -218,7 +218,7 @@ module.exports = class TimelineView extends Backbone.View
 
     WizardData.course_details.term_end_date = @toString(newDate)
 
-    @$courseStartDate.datepicker('option', 'maxDate', newDate)
+    # @$courseStartDate.datepicker('option', 'maxDate', newDate)
 
     @curDateConfig.courseEnd = newDate
 
@@ -276,9 +276,10 @@ module.exports = class TimelineView extends Backbone.View
 
     newLength = @getWeeksDiff(newStart,newEnd)
 
-    if newLength < 6 or newLength > 16
-      alert('Please pick a date between 6 and 16 weeks of the assignemnt start date')
-      return false
+    if newLength < 6 
+      newLength = 6
+    else if newLength > 16
+      newLength = 16
 
     @courseLength = newLength
     
