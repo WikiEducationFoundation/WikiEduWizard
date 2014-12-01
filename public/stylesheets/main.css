@@ -2321,14 +2321,17 @@ select {
 .custom-input-wrapper.has-content .custom-input-accordian .custom-input-accordian__header:before {
   display: block;
 }
-.custom-input-wrapper.has-content .custom-input-accordian:hover {
+.custom-input-wrapper.has-content .custom-input-accordian:hover,
+.custom-input-wrapper.has-content .custom-input-accordian.active {
   -webkit-transition: max-height 0.3s 0.3s ease-in;
           transition: max-height 0.3s 0.3s ease-in;
 }
-.custom-input-wrapper.has-content .custom-input-accordian:hover .custom-input-accordian__content {
+.custom-input-wrapper.has-content .custom-input-accordian:hover .custom-input-accordian__content,
+.custom-input-wrapper.has-content .custom-input-accordian.active .custom-input-accordian__content {
   max-height: 200px;
 }
-.custom-input-wrapper.has-content .custom-input-accordian:hover .custom-input-accordian__header:before {
+.custom-input-wrapper.has-content .custom-input-accordian:hover .custom-input-accordian__header:before,
+.custom-input-wrapper.has-content .custom-input-accordian.active .custom-input-accordian__header:before {
   -webkit-transform: rotate(0deg);
       -ms-transform: rotate(0deg);
           transform: rotate(0deg);
@@ -4034,6 +4037,13 @@ section.step.step--overview .step-info .step-info-tip__inner {
 .step-form {
   width: 430px;
   background: transparent;
+}
+.expand-all {
+  font-size: 11px;
+  position: absolute;
+  letter-spacing: normal;
+  right: 35px;
+  top: 0;
 }
 .form-container {
   display: block;
