@@ -47,6 +47,7 @@ module.exports = class TimelineView extends Backbone.View
 
   blackoutDates: WizardData.course_details.blackout_dates
 
+  defaultCourseLength: 16
 
   allDates: []
 
@@ -187,23 +188,21 @@ module.exports = class TimelineView extends Backbone.View
 
   onTermStartDateChange: (e) ->
 
-    dateInput = $(e.currentTarget).val()
+    dateInputVal = $(e.currentTarget).val()
 
-    newDate = moment(dateInput).toDate()
+    dateMoment = moment(dateInputVal)
 
-    @curDateConfig.termStart = newDate
+    dateObject = dateMoment.toDate()
 
-    WizardData.course_details.term_start_date = @toString(newDate)
+    @curDateConfig.termStart = dateObject
+    
+    defaultEndDate = @getWeeksOutDate(dateObject,@defaultCourseLength)
 
-    # @$termEndDate.datepicker('option', 'minDate', @getWeeksOutDate(@getWeekOfDate(newDate),6))
+    defaultEndDateString = @toString(defaultEndDate)
 
-    # @$courseEndDate.datepicker('option', 'minDate', @getWeeksOutDate(@getWeekOfDate(newDate),6))
+    @$courseStartDate.val(@toString(dateObject)).trigger('change')
 
-    # @$courseStartDate.datepicker('option', 'minDate', newDate)
-
-    @$termEndDate.val('').trigger('change')
-
-    @$courseStartDate.val(dateInput).trigger('change')
+    @$termEndDate.val(defaultEndDateString)
 
     @update()
 
@@ -217,8 +216,6 @@ module.exports = class TimelineView extends Backbone.View
     @curDateConfig.termEnd = newDate
 
     WizardData.course_details.term_end_date = @toString(newDate)
-
-    # @$courseStartDate.datepicker('option', 'maxDate', newDate)
 
     @curDateConfig.courseEnd = newDate
 
@@ -239,13 +236,13 @@ module.exports = class TimelineView extends Backbone.View
 
     WizardData.course_details.start_date = dateInput
 
-    @$courseEndDate.val('').trigger('change')
+    defaultEndDate = @getWeeksOutDate(newDate,@defaultCourseLength)
 
-    WizardData.intro.wizard_end_date.value = ''
+    defaultEndDateString = @toString(defaultEndDate)
 
-    @courseLength = 16
+    @courseLength = @defaultCourseLength
 
-    @courseDiff = 16 - @courseLength
+    @courseDiff = 0
 
     WizardData.course_details.length_in_weeks = parseInt(@courseLength)
 
@@ -256,17 +253,19 @@ module.exports = class TimelineView extends Backbone.View
     @curDateConfig.courseStart = newDate
 
     @update()
+
+    @$courseEndDate.val(defaultEndDateString).trigger('change')
+
     
 
   onCourseEndDateChange: (e) ->
 
     if @$courseStartDate.val() is ''
-
       return
 
     dStart = @$courseStartDate.val()
 
-    dEnd = $(e.currentTarget).val()
+    dEnd = @$courseEndDate.val()
 
     WizardData.intro.wizard_end_date.value = dEnd
 
@@ -968,7 +967,9 @@ module.exports = class TimelineView extends Backbone.View
 
     newDate = new Date()
 
-    newDate.setDate(date.getDate()+(weeksOut*7)+1)
+    newDate.setHours(0,0,0,0)
+
+    newDate.setDate(date.getDate()+(weeksOut*7))
 
     return newDate
 
