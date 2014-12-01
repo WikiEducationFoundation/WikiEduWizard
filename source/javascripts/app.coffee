@@ -32,7 +32,6 @@ Application =
 
     Router = require('./routers/Router')
 
-
     InputItemView = require('./views/InputItemView')
 
     OutputView = require('./views/OutputView')

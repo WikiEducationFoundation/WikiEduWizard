@@ -16,7 +16,28 @@ TimelineView = require('../views/TimelineView')
 
 module.exports = class OverviewView extends View
 
+  events: 
+    'click .expand-all' : 'expandCollapseAll'
+
   overviewItemTemplate: WikiDetailsModule
+
+  expandCollapseAll: (e) ->
+    e.preventDefault()
+
+    $target = $(e.currentTarget)
+
+    $target.toggleClass('open')
+
+    $('.custom-input-wrapper.has-content').find('.custom-input-accordian').toggleClass('active')
+
+    if $target.hasClass('open')
+      $target.text('[collapse all]')
+    else
+      $target.text('[expand all]')
+
+
+
+    
 
   render: ->
 
@@ -24,7 +45,7 @@ module.exports = class OverviewView extends View
 
     selectedObjects = _.where(WizardStepInputs['assignment_selection'], {selected: true})
 
-    $('<div class="step-form-content__title">Selected assignment(s): </div>').appendTo(@$el).css(
+    $('<div class="step-form-content__title">Selected assignment(s): <a class="expand-all" href="#">[expand all]</a></div>').appendTo(@$el).css(
       marginBottom: '8px'
     )
 

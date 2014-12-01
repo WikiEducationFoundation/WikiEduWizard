@@ -776,10 +776,6 @@ module.exports = class TimelineView extends Backbone.View
         
         if item.in_class.length > 0
 
-          @$outContainer.append("{{in class}}")
-
-          @$outContainer.append("#{@wikiSpace}")
-
           _.each(item.in_class, (c, ci) =>
 
             if c.condition && c.condition != ''
@@ -788,11 +784,23 @@ module.exports = class TimelineView extends Backbone.View
 
               if condition 
 
+                if ci is 0
+
+                  @$outContainer.append("{{in class}}")
+
+                  @$outContainer.append("#{@wikiSpace}")
+
                 @$outContainer.append("#{c.wikitext}")
 
                 @$outContainer.append("#{@wikiSpace}")
 
             else
+
+              if ci is 0
+
+                @$outContainer.append("{{in class}}")
+
+                @$outContainer.append("#{@wikiSpace}")
 
               @$outContainer.append("#{c.wikitext}")
 
@@ -804,11 +812,8 @@ module.exports = class TimelineView extends Backbone.View
 
         if item.assignments.length > 0
 
-          @$outContainer.append("{{assignment | due = Week #{nextWeek} }}")
 
-          @$outContainer.append("#{@wikiSpace}")
-
-          _.each(item.assignments, (assign) =>
+          _.each(item.assignments, (assign, ai) =>
 
             if assign.condition && assign.condition != ''
 
@@ -816,11 +821,23 @@ module.exports = class TimelineView extends Backbone.View
 
               if condition 
 
+                if ai is 0
+
+                  @$outContainer.append("{{assignment | due = Week #{nextWeek} }}")
+
+                  @$outContainer.append("#{@wikiSpace}")
+
                 @$outContainer.append("#{assign.wikitext}")
 
                 @$outContainer.append("#{@wikiSpace}")
 
             else
+
+              if ai is 0
+
+                @$outContainer.append("{{assignment | due = Week #{nextWeek} }}")
+
+                @$outContainer.append("#{@wikiSpace}")
 
               @$outContainer.append("#{assign.wikitext}")
 
