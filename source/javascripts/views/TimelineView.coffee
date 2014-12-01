@@ -49,6 +49,8 @@ module.exports = class TimelineView extends Backbone.View
 
   defaultCourseLength: 16
 
+  defaultEndDates: ['06-30', '12-31']
+
   allDates: []
 
 
@@ -195,14 +197,18 @@ module.exports = class TimelineView extends Backbone.View
     dateObject = dateMoment.toDate()
 
     @curDateConfig.termStart = dateObject
-    
-    defaultEndDate = @getWeeksOutDate(dateObject,@defaultCourseLength)
 
-    defaultEndDateString = @toString(defaultEndDate)
+    isAfter = dateMoment.isAfter("#{dateMoment.year()}-06-01")
+
+    if isAfter
+      endDateString = "#{dateMoment.year()}-#{@defaultEndDates[1]}"
+    else
+      endDateString = "#{dateMoment.year()}-#{@defaultEndDates[0]}"
+
 
     @$courseStartDate.val(@toString(dateObject)).trigger('change')
 
-    @$termEndDate.val(defaultEndDateString)
+    @$termEndDate.val(endDateString)
 
     @update()
 
@@ -230,31 +236,36 @@ module.exports = class TimelineView extends Backbone.View
 
     dateInput = $(e.currentTarget).val()
 
-    newDate = moment(dateInput).toDate()
+    dateMoment = moment(dateInput)
+
+    newDate = dateMoment.toDate()
 
     WizardData.intro.wizard_start_date.value = dateInput
 
     WizardData.course_details.start_date = dateInput
 
-    defaultEndDate = @getWeeksOutDate(newDate,@defaultCourseLength)
+    isAfter = dateMoment.isAfter("#{dateMoment.year()}-06-01")
 
-    defaultEndDateString = @toString(defaultEndDate)
+    if isAfter
+      endDateString = "#{dateMoment.year()}-#{@defaultEndDates[1]}"
+    else
+      endDateString = "#{dateMoment.year()}-#{@defaultEndDates[0]}"
 
-    @courseLength = @defaultCourseLength
+    # @courseLength = @defaultCourseLength
 
-    @courseDiff = 0
+    # @courseDiff = 0
 
-    WizardData.course_details.length_in_weeks = parseInt(@courseLength)
+    # WizardData.course_details.length_in_weeks = parseInt(@courseLength)
 
-    @curDateConfig.courseEndWeekOf = new Date(@allDates[@courseLength-1])
+    # @curDateConfig.courseEndWeekOf = new Date(@allDates[@courseLength-1])
 
-    WizardData.course_details.end_weekof_date = @toString(@curDateConfig.courseEndWeekOf)
+    # WizardData.course_details.end_weekof_date = @toString(@curDateConfig.courseEndWeekOf)
 
     @curDateConfig.courseStart = newDate
 
     @update()
 
-    @$courseEndDate.val(defaultEndDateString).trigger('change')
+    @$courseEndDate.val(endDateString).trigger('change')
 
     
 
