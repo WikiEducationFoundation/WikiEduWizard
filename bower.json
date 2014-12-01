@@ -19,7 +19,8 @@
       },
       "main": [
         "ui/core.js",
-        "ui/datepicker.js"
+        "ui/datepicker.js",
+        "jquery-ui.multidatespicker.js"
       ]
     }
   }
