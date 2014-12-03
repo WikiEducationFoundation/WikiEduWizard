@@ -2,7 +2,7 @@
   Author: kevin@wintr.us
   Date: 10/02/2014
 
-  Description: Individal Step Template
+  Description: Individal Step Template for the INTRO FORM SCREEN
 -->
 
 <div class="step-form">
@@ -48,7 +48,7 @@
 
   <div class='form-container custom-input'>
 
-    <form id='courseLength' oninput='out.value = parseInt(courseLength.value); out2.value = parseInt(courseLength.value);' onsubmit='return false'>
+    <form id='courseLength' onsubmit='return false'>
       <div class='overview-input-container'>
         <label for='termStartDate'>Course begins</label>
         <input id='termStartDate' name='termStartDate' type='date'>
@@ -65,58 +65,54 @@
         <label for='courseEndDate'>Assignment ends</label>
         <input id='courseEndDate' name='courseEndDate' type='date'>
       </div>
-      <div class='overview-input-container overview-input-container--blackout-dates'>
-        <label for='blackoutDates'>No class meeting on</label>
-        <input id='blackoutDates' name='blackoutDates' type='text'>
-      </div>
       <div class='overview-input-container' style="display:none;">
-        <label for='startWeekOfDate'>Start week of</label>
-        <input id='startWeekOfDate' name='startWeekOfDate' type='date'>
-      </div>
-      <div class='overview-input-container' style="display:none;">
-        <label for='endWeekOfDate'>End week of</label>
-        <input id='endWeekOfDate' name='endWeekOfDate' type='date'>
-      </div>
-      <div class='overview-input-container'>
         <label for='courseLength' style="vertical-align:middle;">Course Length</label>
         <input defaultValue='16' id='cLength' max='16' min='6' name='courseLength' step='1' type='range' value='16' style="display:none;">
-        <output name='out2'>16 weeks</output>
+        <output name='out2'></output>
       </div>
       <div class='overview-select-container'>
-        <label>Class meets on: </label><br/><br/>
-        <div class='overview-select-input-container'>
-          <input class='dowCheckbox' id='monday' name='Monday' type='checkbox' value='0'>
-          <label for='monday'>Mondays</label>
-        </div>
-        <div class='overview-select-input-container'>
-          <input class='dowCheckbox' id='tuesday' name='Tuesday' type='checkbox' value='1'>
-          <label for='tuesday'>Tuesdays</label>
-        </div>
-        <div class='overview-select-input-container'>
-          <input class='dowCheckbox' id='wednesday' name='Wednesday' type='checkbox' value='2'>
-          <label for='wednesday'>Wednesdays</label>
-        </div>
-        <div class='overview-select-input-container'>
-          <input class='dowCheckbox' id='thursday' name='Thursday' type='checkbox' value='3'>
-          <label for='thursday'>Thursdays</label>
-        </div>
-        <div class='overview-select-input-container'>
-          <input class='dowCheckbox' id='friday' name='Friday' type='checkbox' value='4'>
-          <label for='friday'>Fridays</label>
-        </div>
-        <div class='overview-select-input-container'>
-          <input class='dowCheckbox' id='saturday' name='Saturday' type='checkbox' value='5'>
-          <label for='saturday'>Saturdays</label>
-        </div>
-        <div class='overview-select-input-container'>
-          <input class='dowCheckbox' id='sunday' name='Sunday' type='checkbox' value='6'>
-          <label for='sunday'>Sundays</label>
+        <label>Class meets on: </label>
+        <div class="overview-select-wrapper overview-select-wrapper--dow">
+          <div class='overview-select-input-container'>
+            <input class='dowCheckbox' id='monday' name='Monday' type='checkbox' value='0'>
+            <label for='monday'>Mondays</label>
+          </div>
+          <div class='overview-select-input-container'>
+            <input class='dowCheckbox' id='tuesday' name='Tuesday' type='checkbox' value='1'>
+            <label for='tuesday'>Tuesdays</label>
+          </div>
+          <div class='overview-select-input-container'>
+            <input class='dowCheckbox' id='wednesday' name='Wednesday' type='checkbox' value='2'>
+            <label for='wednesday'>Wednesdays</label>
+          </div>
+          <div class='overview-select-input-container'>
+            <input class='dowCheckbox' id='thursday' name='Thursday' type='checkbox' value='3'>
+            <label for='thursday'>Thursdays</label>
+          </div>
+          <div class='overview-select-input-container'>
+            <input class='dowCheckbox' id='friday' name='Friday' type='checkbox' value='4'>
+            <label for='friday'>Fridays</label>
+          </div>
+          <div class='overview-select-input-container'>
+            <input class='dowCheckbox' id='saturday' name='Saturday' type='checkbox' value='5'>
+            <label for='saturday'>Saturdays</label>
+          </div>
+          <div class='overview-select-input-container'>
+            <input class='dowCheckbox' id='sunday' name='Sunday' type='checkbox' value='6'>
+            <label for='sunday'>Sundays</label>
+          </div>
         </div>
       </div>
-      <div class='overview-readout-header'>
-        <div class='readout'>
-          <output for='courseLength' id='courseLengthReadout' name='out'>16 weeks</output>
+      <div class='overview-input-container overview-input-container--blackout-dates'>
+        
+        <input id='blackoutDatesField' name='blackoutDatesField' type='hidden'>
+        <div class="blackoutDates-wrapper">
+          <div class="blackoutDates-inner">
+            <div class="blackoutDates-label">Select days where class does not meet (if any):</div>
+            <div id="blackoutDates" class="blackoutDates"></div>
+          </div>
         </div>
+        
       </div>
     </form>
   </div>

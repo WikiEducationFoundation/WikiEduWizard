@@ -10,20 +10,11 @@ Application =
 
   initialize: ->
 
-    # App Data
-    AppData = require('./data/WizardContent')
-
-    TimelineData = require('./data/TimelineData')
-
-    TimelineDataAlt = require('./data/TimelineDataAlt')
-
     @WizardConfig = require('./data/WizardConfig')
 
-    @data = AppData
+    @timelineData = require('./data/TimelineData')
 
-    @timelineData = TimelineData
-
-    @timelineDataAlt = TimelineDataAlt
+    @timelineDataAlt = require('./data/TimelineDataAlt')
 
     # Import views
     HomeView = require('./views/HomeView')

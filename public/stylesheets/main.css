@@ -3116,13 +3116,51 @@ span.date:before {
 }
 .overview-input-container--blackout-dates {
   display: block;
+  margin-top: 0;
   width: 100%;
 }
-.overview-input-container--blackout-dates input {
-  width: 350px;
+table.ui-datepicker-calendar {
+  border-collapse: separate;
+}
+.ui-datepicker-calendar td {
+  border: 1px solid transparent;
+}
+.ui-datepicker .ui-datepicker-calendar .ui-state-highlight a {
+  background: #e36945 none; /* a color that fits the widget theme */
+  color: #fff;
+}
+.blackoutDates-wrapper {
+  -webkit-transition: min-height 0.5s;
+          transition: min-height 0.5s;
+  position: relative;
+  max-height: 0;
+  overflow: hidden;
+}
+.blackoutDates-wrapper .blackoutDates-inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.blackoutDates-wrapper .blackoutDates-inner .ui-datepicker {
+  margin: 10px auto 0;
+}
+.blackoutDates-wrapper.open {
+  min-height: 300px;
+}
+.blackoutDates-wrapper .blackoutDates-label {
+  color: #505a7f;
+  display: inline-block;
+  width: 100%;
+  margin: 10px 0 10px;
+  font-size: 0.8em;
 }
 .overview-select-container {
   margin: 5px 0 0;
+}
+.overview-select-wrapper--dow {
+  margin-top: 10px;
 }
 .overview-select-input-container {
   margin: 5px 0;
