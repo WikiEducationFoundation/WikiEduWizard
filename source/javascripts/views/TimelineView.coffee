@@ -395,15 +395,23 @@ module.exports = class TimelineView extends Backbone.View
       @$blackoutDates.multiDatesPicker('destroy')
 
       @$blackoutDates.multiDatesPicker(
+
         dateFormat: 'yy-mm-dd'
+
         firstDay: 1
+
         altField: '#blackoutDatesField'
+
         defaultDate: @start_date.weekday.value
+
         minDate: @start_date.weekday.value
+
         maxDate: @end_date.value
+
         onSelect: =>
+
           @currentBlackoutDates = @$blackoutDates.multiDatesPicker('getDates')
-          console.log @currentBlackoutDates
+
           @updateTimeline()
       )
 
