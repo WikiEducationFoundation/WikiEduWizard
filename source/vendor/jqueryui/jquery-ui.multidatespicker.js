@@ -424,7 +424,7 @@
 						disabled: []
 					},
 					mode: 'normal',
-					adjustRangeToDisabled: true
+					adjustRangeToDisabled: false
 				};
 			}
 			

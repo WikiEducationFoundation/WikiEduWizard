@@ -33,52 +33,17 @@ module.exports = class TimelineView extends Backbone.View
 
   currentBlackoutDates: []
 
-  length: 16
+  length: 0
 
   actualLength: 0
 
   weeklyDates: []
 
-  totalBlackoutWeeks: 0
-
   weeklyStartDates: []
 
   totalBlackoutWeeks: 0
 
-  curDateConfig:
-
-    termStart: WizardData.course_details.term_start_date
-
-    termEnd: WizardData.course_details.term_end_date
-
-    courseStart: WizardData.course_details.start_date
-
-    courseEnd: WizardData.course_details.end_date
-
-    courseStartWeekOf: WizardData.course_details.start_weekof_date
-
-    courseEndWeekOf: WizardData.course_details.end_weekof_date
-
-    numberWeeks: WizardData.course_details.length_in_weeks
-
-  daysSelected: WizardData.course_details.weekdays_selected
-
-  blackoutDates: WizardData.course_details.blackout_dates
-
-  defaultCourseLength: 16
-
-  allDates: []
-
-  dowNames: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-
-
-  dowAbbrv: ['Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun']
-
-
-  dowLetter: ['M', 'T', 'W', 'Th', 'F', 'Sa', 'Su']
-
-
-  renderDays: true
+  daysSelected: [false,false,false,false,false,false,false]
 
   start_date:
     value: ''
@@ -86,26 +51,11 @@ module.exports = class TimelineView extends Backbone.View
   end_date:
     value: ''
 
-  onDowSelect: (e) ->
+  term_start_date:
+    value: ''
 
-    $target = $(e.currentTarget)
-
-    dow = $target.attr('id')
-
-    dowId = parseInt($target.val())
-
-    if $target.is(':checked')
-
-      @daysSelected[dowId] = true
-
-    else
-
-      @daysSelected[dowId] = false
-
-    WizardData.course_details.weekdays_selected = @daysSelected
-
-    @updateTimeline()
-
+  term_end_date:
+    value: ''
 
   initialize: ->
   
@@ -125,9 +75,13 @@ module.exports = class TimelineView extends Backbone.View
 
       dateFormat: 'yy-mm-dd'
 
-      constrainInput: true
-
       firstDay: 1
+
+      altField: '#blackoutDatesField'
+
+      onSelect: =>
+
+        @changeBlackoutDates()
     )
 
     @$startWeekOfDate = $('#startWeekOfDate')
@@ -146,9 +100,9 @@ module.exports = class TimelineView extends Backbone.View
 
     @data = []
 
-    @data = application.timelineDataAlt
+    @data = application.timelineData
 
-    @dataAlt = application.timelineData
+    @dataAlt = application.timelineDataAlt
 
     $('#termStartDate').on 'change', (e) =>
       @changeTermStart(e)
@@ -172,9 +126,148 @@ module.exports = class TimelineView extends Backbone.View
 
     @update()
 
+  onDowSelect: (e) ->
+
+    $target = $(e.currentTarget)
+
+    dow = $target.attr('id')
+
+    dowId = parseInt($target.val())
+
+    if $target.is(':checked')
+
+      @daysSelected[dowId] = true
+
+    else
+
+      @daysSelected[dowId] = false
+
+    WizardData.course_details.weekdays_selected = @daysSelected
+
+    if _.indexOf(@daysSelected, true) != -1
+      $('.blackoutDates-wrapper').addClass('open')
+    else
+      $('.blackoutDates-wrapper').removeClass('open')
+
+    @updateTimeline()
+
+
+  changeBlackoutDates: (e) ->
+
+    @currentBlackoutDates = @$blackoutDates.multiDatesPicker('getDates')
+
+    @updateTimeline()
+
+
+  changeTermStart: (e) ->
+
+    value = $(e.currentTarget).val() || ''
+
+    if value is ''
+
+      @term_end_date =
+
+        value: ''
+
+      return 
+
+    dateMoment = moment(value)
+
+    date = dateMoment.toDate()
+
+    @term_start_date = 
+
+      moment: dateMoment
+
+      date: date
+
+      value: value
+
+      week: dateMoment.week()
+
+      weekday: 
+
+        moment: dateMoment.week(dateMoment.week()).weekday(0)
+
+        date: dateMoment.week(dateMoment.week()).weekday(0).toDate()
+
+        value: dateMoment.week(dateMoment.week()).weekday(0).format('YYYY-MM-DD')
+
+    isAfter = dateMoment.isAfter("#{dateMoment.year()}-06-01")
+
+    yearMod = 0
+
+    if @term_start_date.week is 1
+
+      yearMod = 1
+
+    if isAfter
+
+      endDateString = "#{dateMoment.year()}-#{@defaultEndDates[1]}"
+
+    else
+
+      endDateString = "#{dateMoment.year()+yearMod}-#{@defaultEndDates[0]}"
+
+    @$termEndDate.val(endDateString).trigger('change')
+
+    @$courseEndDate.val(endDateString).trigger('change')
+
+    @$courseStartDate.val(dateMoment.format('YYYY-MM-DD')).trigger('change')
+
+    return
+
+  changeTermEnd: (e) ->
+
+    value = $(e.currentTarget).val() || ''
+
+    if value is ''
+
+      @term_start_date =
+
+        value: ''
+
+      return 
+
+    dateMoment = moment(value)
+
+    date = dateMoment.toDate()
+
+    @term_end_date = 
+
+      moment: dateMoment
+
+      date: date
+
+      value: value
+
+      week: dateMoment.week()
+
+      weekday: 
+
+        moment: dateMoment.week(dateMoment.week()).weekday(0)
+
+        date: dateMoment.week(dateMoment.week()).weekday(0).toDate()
+
+        value: dateMoment.week(dateMoment.week()).weekday(0).format('YYYY-MM-DD')
+
+    @$courseEndDate.val(value).trigger('change')
+
+    return
+
   changeCourseStart: (e) ->
 
-    value = $(e.currentTarget).val()
+    value = $(e.currentTarget).val() || ''
+
+    if value is ''
+
+      @start_date =
+
+        value: ''
+
+      @$courseEndDate.val('').trigger('change')
+
+      return @updateTimeline 
 
     dateMoment = moment(value)
 
@@ -198,15 +291,43 @@ module.exports = class TimelineView extends Backbone.View
 
         value: dateMoment.week(dateMoment.week()).weekday(0).format('YYYY-MM-DD')
 
-    @updateTimeline()
+    yearMod = 0
 
+    if @start_date.week is 1
+
+      yearMod = 1
+
+    isAfter = dateMoment.isAfter("#{dateMoment.year()+yearMod}-06-01")
+
+    if isAfter
+
+      endDateString = "#{dateMoment.year()}-#{@defaultEndDates[1]}"
+
+    else
+
+      endDateString = "#{dateMoment.year()+yearMod}-#{@defaultEndDates[0]}"
+
+    @$courseEndDate.val(endDateString).trigger('change')
+
+    if @term_start_date.value is ''
+      @$termStartDate.val(value).trigger('change')
+
+    @updateTimeline()
 
     return false
 
 
   changeCourseEnd: (e) ->
 
-    value = $(e.currentTarget).val()
+    value = $(e.currentTarget).val() || ''
+
+    if value is ''
+      @end_date =
+        value: ''
+
+      @updateTimeline()
+
+      return @updateTimeline 
 
     dateMoment = moment(value)
 
@@ -237,9 +358,13 @@ module.exports = class TimelineView extends Backbone.View
 
   updateTimeline: ->
 
-    @currentBlackoutDates = @$blackoutDates.multiDatesPicker('getDates')
+    @weeklyStartDates = []
 
-    timeline = []
+    @weeklyDates = [] 
+
+    @out = []
+
+    @outWiki = []
 
     if @start_date.value != '' && @end_date.value != ''
 
@@ -250,13 +375,13 @@ module.exports = class TimelineView extends Backbone.View
       #if less than 6 make it 6 weeks, if more than 16, make it 16 weeks
       @actualLength = 1 + diff 
 
-      if @actualLength < 6
+      if @actualLength < @shortestCourseLength
 
-        @length = 6
+        @length = @shortestCourseLength
 
-      else if @actualLength > 16
+      else if @actualLength > @longestCourseLength
 
-        @length = 16
+        @length = @longestCourseLength
 
       else 
 
@@ -303,6 +428,9 @@ module.exports = class TimelineView extends Backbone.View
 
           dates: []
 
+          weekIndex: wi - @totalBlackoutWeeks
+
+
         _.each(@daysSelected, (day, di) =>
 
           if day 
@@ -331,6 +459,8 @@ module.exports = class TimelineView extends Backbone.View
 
           thisWeek.classThisWeek = false
 
+          thisWeek.weekIndex = ''
+
           @totalBlackoutWeeks++
 
         @weeklyDates.push(thisWeek)
@@ -351,7 +481,6 @@ module.exports = class TimelineView extends Backbone.View
 
           @length = newLength
 
-          newCourse = @getWikiWeekOutput(@length)
 
     @update()
 
@@ -405,125 +534,26 @@ module.exports = class TimelineView extends Backbone.View
   update: ->
 
     WizardData.course_details.start_date = @start_date.value || ''
+
     WizardData.course_details.end_date = @end_date.value || ''
 
+    if @length
+
+      $('output[name="out2"]').html(@length + ' weeks')
+
+    else
+
+      $('output[name="out2"]').html('')
 
     @out = @getWikiWeekOutput(@length)
     
     @outWiki = @out
-
-    console.log @length, @outWiki
-
-    # @renderPreview()
 
     @renderResult()
 
     Backbone.Mediator.publish('output:update', @$outContainer.text())
 
     Backbone.Mediator.publish('date:change', @)
-
-
-  renderPreview: ->
-
-    @$previewContainer.html('')
-
-    _.each(@out, (item, index) =>
-
-      thisWeek = index + 1
-      nextWeek = index + 2
-      isLastWeek = index is @out.length - 1
-
-      # renderTitles()
-      if item.title.length > 0
-
-        titles = "<div class='preview-container-header'>"
-
-        titles += "<h4 data-week='#{thisWeek}'>Week #{thisWeek}<span class='date date-#{thisWeek}' data-week='#{thisWeek}'></span></h4>"
-
-        _.each(item.title, (t, i) ->
-
-          if i is 0
-
-           titles += "<h2 class='preview-container-weekly-title'>#{t}</h2>"
-
-          else
-
-            titles += "<h3 class='preview-container-weekly-title preview-container-weekly-title--smaller'>#{t}</h3>"
-
-        )
-
-        titles += "</div>"
-
-        @$previewContainer.append(titles)
-
-      datesOut = "<div class='preview-container-dates dates-preview dates-preview-#{thisWeek}' data-week='#{thisWeek}'></div>"
-
-      @$previewContainer.append(datesOut)
-
-      previewDetails = "<div class='preview-container-details'>"
-
-      # renderInClass()
-      if item.in_class.length > 0
-
-        inClassOut = '<div>'
-
-        inClassOut += "<h5 style='font-weight: bold;'>In class</h5>"
-
-        inClassOut += '<ul>'
-
-        _.each(item.in_class, (c) ->
-
-          inClassOut += "<li>#{c.text}</li>"
-
-        )
-
-        inClassOut += "</ul>"
-
-        inClassOut += "</div>"
-
-        previewDetails += inClassOut
-
-      if item.assignments.length > 0
-
-        assignmentsOut = "<div>"
-
-        assignmentsOut += "<h5 style='font-weight: bold;'>Assignments | due week #{nextWeek}</h5>"
-
-        assignmentsOut += '<ul>'
-
-        _.each(item.assignments, (assign) ->
-          assignmentsOut += "<li>#{assign.text}</li>" 
-        )
-
-        assignmentsOut += '</ul>'
-
-        assignmentsOut += '</div>'
-
-        previewDetails += assignmentsOut
-
-      if item.milestones.length > 0
-
-        milestonesOut = "<div>"
-
-        milestonesOut += "<h5 style='font-weight: bold;'>Milestones</h5>"
-
-        milestonesOut += "<ul>"
-
-        _.each(item.milestones, (milestone) ->
-          milestonesOut += "<li>#{milestone.text}</li>"
-        )
-
-        milestonesOut += "</ul>"
-
-        milestonesOut += "</div>"
-
-        previewDetails += milestonesOut
-
-
-      @$previewContainer.append(previewDetails)
-
-
-    )
 
 
   renderResult: ->
@@ -533,8 +563,6 @@ module.exports = class TimelineView extends Backbone.View
     @$outContainer.append(DetailsTemplate( _.extend(WizardData,{ description: WizardData.course_details.description})))
 
     if application.homeView.selectedPathways[0] is 'researchwrite'
-
-      addWeeks = 0
 
       @$outContainer.append("#{@wikiSpace}")
 
@@ -548,18 +576,31 @@ module.exports = class TimelineView extends Backbone.View
 
       curWeekOffset = 0
 
-      _.each(@outWiki, (item, index) =>
+      _.each(@weeklyDates, (week, index) =>
 
-        thisWeek = index + 1
+        unless week.classThisWeek
 
-        nextWeek = index + 2
+          @$outContainer.append("{{end of course week}}")
 
-        isLastWeek = index is @out.length - 1
+          @$outContainer.append("#{@wikiSpace}")
 
-        noClassThisWeek = false
+          @$outContainer.append("#{@wikiSpace}")
+                    
+          @$outContainer.append("===#{@wikiNoClass} #{week.weekStart}===")
 
+          @$outContainer.append("#{@wikiSpace}")
 
-        #TODO GET THOSE DATES BACK IN THERE!!
+          @$outContainer.append("#{@wikiSpace}")
+
+          return
+
+        item = @outWiki[week.weekIndex]
+
+        thisWeek = week.weekIndex + 1
+
+        nextWeek = week.weekIndex + 2
+
+        isLastWeek = week.weekIndex is @length - 1
 
 
         if item.title.length > 0
@@ -583,7 +624,21 @@ module.exports = class TimelineView extends Backbone.View
           )
 
 
-          #TODO GET THOSE DATES BACK IN THERE!!
+          if week.weekStart and week.weekStart != ''
+
+            titles += "| weekof = #{week.weekStart} "
+
+          dayCount = 0
+
+          _.each(week.dates, (d, di) =>
+
+            if d.isClass
+
+              dayCount++
+
+              titles += "| day#{dayCount} = #{d.date} "
+
+          )
 
 
           titles += "}}"
@@ -667,8 +722,6 @@ module.exports = class TimelineView extends Backbone.View
 
         if item.milestones.length > 0
 
-          console.log 'milestones', item.milestones
-
           @$outContainer.append("{{assignment milestones}}")
 
           @$outContainer.append("#{@wikiSpace}")
@@ -725,8 +778,11 @@ module.exports = class TimelineView extends Backbone.View
 
         )
         @$outContainer.append("<br/>")
+
         @$outContainer.append("#{@wikiSpace}")
+
         @$outContainer.append("<div></div>")
+
       )
 
       @$outContainer.append("<br/>")
@@ -736,92 +792,6 @@ module.exports = class TimelineView extends Backbone.View
     @$outContainer.append(OptionsTemplate(WizardData))
 
     
-
-  getFormattedDateString: (date) ->
-
-    year = date.getUTCFullYear().toString()
-
-    month = date.getUTCMonth()+1
-
-    day = date.getUTCDate()
-
-    if month.toString().length is 1
-
-      month = "0" + month.toString()
-
-    else
-
-      month = month.toString()
-
-    if day.toString().length is 1
-
-      day = "0" + day.toString()
-
-    else
-
-      day = day.toString()
-
-
-    return "#{year}-#{month}-#{day}"
-
-  toString: (date) ->
-
-    year = date.getUTCFullYear().toString()
-
-    month = date.getUTCMonth()+1
-
-    day = date.getUTCDate()
-
-    if month.toString().length is 1
-
-      month = "0" + month.toString()
-
-    else
-
-      month = month.toString()
-
-    if day.toString().length is 1
-
-      day = "0" + day.toString()
-
-    else
-
-      day = day.toString()
-
-    return "#{year}-#{month}-#{day}"
-
-
-  getWeekOfDate: (date) ->
-
-    year = date.getUTCFullYear().toString()
-
-    month = date.getUTCMonth()+1
-
-    day = date.getUTCDay()
-
-    dateDay = date.getUTCDate()
-
-
-    if day is 1
-
-      return date
-
-    else
-
-      return new Date(date.setDate(date.getUTCDate()-date.getUTCDay()))
-
-
-  getWeeksOutDate: (date, weeksOut) ->
-
-    newDate = new Date()
-
-    newDate.setHours(0,0,0,0)
-
-    newDate.setDate(date.getDate()+(weeksOut*7))
-
-    return newDate
-
-
   getWeeksDiff: (a, b) ->
 
     return b.diff(a, 'weeks')

@@ -66,7 +66,7 @@ module.exports = class HomeView extends View
     outro: []
 
 
-  selectedPathways: ['researchwrite']
+  selectedPathways: []
 
 
   #--------------------------------------------------------
