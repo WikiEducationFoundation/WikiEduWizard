@@ -1,4 +1,8 @@
-TimelineDataAlt = [
+## THIS FILES IS USED AS THE MASTER FOR ALL WIKI OUT RELATED TO THE MAIN ASSIGNMENT TYPE ##
+## THE BREAK ARE USED TO DETERMINE HOW THE ASSIGNMENT EXPANDS AND CONTRACT BASED ON COURSE LENGTH ##
+## THE action VARIABLE IS USED TO DETERMINE WHETHER OR NOT THE CONTENT IS COMBINED WITH ITS PREDECESOR OR WHETHER ITS OMITTED ALL TOGETHER##
+
+TimelineData = [
   #--------------------------------------------------------
   #--------------------------------------------------------
   {
@@ -543,5 +547,5 @@ TimelineDataAlt = [
   }
 ]
 
-module.exports = TimelineDataAlt
+module.exports = TimelineData
 

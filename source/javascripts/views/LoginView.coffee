@@ -12,7 +12,7 @@ View = require('../views/supers/View')
 #TEMPLATES
 LoginTemplate = require('../templates/LoginTemplate.hbs')
 
-WizardContent = require('../data/WizardContent')
+LoginContent = require('../data/LoginContent')
 
 module.exports = class HomeView extends View
 
@@ -26,4 +26,4 @@ module.exports = class HomeView extends View
 
   getRenderData: ->
     
-    return WizardContent[0]
+    return LoginContent

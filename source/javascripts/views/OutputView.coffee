@@ -7,7 +7,6 @@ application = require( '../app' )
 View = require('../views/supers/View')
 
 #TEMPLATES
-WikiOutputTemplate = require('../templates/steps/output/WikiOutputTemplate.hbs')
 CourseDetailsTempalte = require('../templates/steps/output/CourseDetailsTemplate.hbs')
 GradingTemplate = require('../templates/steps/output/GradingTemplate.hbs')
 CourseOptionsTemplate = require('../templates/steps/output/CourseOptionsTemplate.hbs')
@@ -19,9 +18,6 @@ WizardStepInputs = require('../data/WizardStepInputs')
 
 
 module.exports = class OutputView extends View 
-
-
-  template: WikiOutputTemplate
 
   currentBuild: ''
 
@@ -50,10 +46,6 @@ module.exports = class OutputView extends View
 
 
   render: ->
-
-    @$el.html( @template( @populateOutput() ) )
-    
-    @afterRender()
     
     return @
 
@@ -121,10 +113,6 @@ module.exports = class OutputView extends View
     if WizardStepInputs.intro.course_name.value.length > 0 
 
       $('#publish').addClass('processing')
-
-      # @exportData(@$el.html(@populateOutput()).text())
-
-      # @exportData(@populateOutput())
 
       console.log @currentBuild
 

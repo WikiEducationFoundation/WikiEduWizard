@@ -1,4 +1,7 @@
-TimelineData = 
+## THIS FILE INCLUDES THE WIKI OUTPUT TEMPLATE CHUNKS USED FOR FINAL OUTPUT - FOR ALT ASSIGNMENT TYPES ##
+
+
+TimelineDataAlt = 
   multimedia: [
     "== Illustrating Wikipedia =="
     "{{assignment}}"
@@ -12,5 +15,5 @@ TimelineData =
     "<br/>{{end of course assignment}}"
   ]
 
-module.exports = TimelineData
+module.exports = TimelineDataAlt
 

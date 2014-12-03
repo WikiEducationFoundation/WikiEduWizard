@@ -3144,7 +3144,7 @@ table.ui-datepicker-calendar {
   height: 100%;
 }
 .blackoutDates-wrapper .blackoutDates-inner .ui-datepicker {
-  margin: 0 auto;
+  margin: 10px auto 0;
 }
 .blackoutDates-wrapper.open {
   min-height: 300px;

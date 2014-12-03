@@ -192,33 +192,9 @@ module.exports = class StepView extends View
 
         @$beginButton = @$el.find('a#beginButton')
 
-      else
-
-        @$el.addClass('step--last').html( @template( @model.attributes ) )
-
-        dateTitle = 'Assignment timeline'
-
-      @dateViews = []
 
       $dates = $(@datesModule({title: dateTitle}))
 
-      $dateInputs = $dates.find('.custom-select')
-
-      self = @
-
-      $dateInputs.each((inputElement) ->
-
-        newDateView = new DateInputView(
-
-          el: $(this) 
-
-        )
-
-        newDateView.parentStepView = self
-
-        self.dateViews.push(newDateView)
-      
-      )
 
       @$el.find('.step-form-dates').html($dates)
 
