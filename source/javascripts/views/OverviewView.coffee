@@ -45,7 +45,7 @@ module.exports = class OverviewView extends View
 
     selectedObjects = _.where(WizardStepInputs['assignment_selection'], {selected: true})
 
-    $('<div class="step-form-content__title">Selected assignment(s): <a class="expand-all" href="#">[expand all]</a></div>').appendTo(@$el).css(
+    $('<div class="step-form-content__title">Selected assignment(s):</div>').appendTo(@$el).css(
       marginBottom: '8px'
     )
 
@@ -85,7 +85,7 @@ module.exports = class OverviewView extends View
 
       if stepTitles.length > 0 && i is 0
 
-        $('<div class="step-form-content__title">Assignment details: </div>').appendTo(@$el).css(
+        $('<div class="step-form-content__title">Assignment details: <a class="expand-all" href="#">[expand all]</a></div>').appendTo(@$el).css(
           bottom: 'auto'
           display: 'block'
           position: 'relative'
