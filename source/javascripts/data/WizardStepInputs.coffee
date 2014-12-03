@@ -296,7 +296,8 @@ WizardStepInputs =
       selected: false
       label: 'Would you like help selecting or evaulating article choices?'
       exclusive: false
-      required: false
+      required: true
+      ignoreValidation: true
       conditional_label: 
         prepare_list: "Would you like help selecting articles?"
         students_explore: "Would you like help evaluating student choices?"

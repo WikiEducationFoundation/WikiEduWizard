@@ -132,14 +132,11 @@ module.exports = class StepView extends View
 
     datesAreValid = false
 
-    if $('#termStartDate').val != '' && $('#termEndDate').val != '' && $('#courseStartDate').val != '' && $('#courseEndDate').val != ''
+    # if $('#termStartDate').val != '' && $('#termEndDate').val != '' && $('#courseStartDate').val != '' && $('#courseEndDate').val != ''
+    #   datesAreValid = true
+
+    if WizardStepInputs.course_details.start_date != '' and WizardStepInputs.course_details.end_date != ''
       datesAreValid = true
-    # _.each(@dateViews, (dateView) =>
-    #   if dateView.isValid()
-    #     datesAreValid = true
-    #   else 
-    #     datesAreValid = false
-    # )
 
     return datesAreValid
 
@@ -420,6 +417,12 @@ module.exports = class StepView extends View
     _.each(inputItems, (item) =>
 
       if item.type is 'checkbox'
+
+        if item.ignoreValidation
+
+          requiredSelected = true
+
+          return
 
         if item.required is true
 
