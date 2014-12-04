@@ -192,6 +192,12 @@ module.exports = class StepView extends View
 
         @$beginButton = @$el.find('a#beginButton')
 
+      else
+
+        @$el.addClass('step--last').html( @template( @model.attributes ) )
+
+        dateTitle = 'Assignment timeline'
+
 
       $dates = $(@datesModule({title: dateTitle}))
 
