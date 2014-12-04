@@ -282,8 +282,23 @@ TimelineData = [
       }
       {
         text: 'Choose peer review articles'
-        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Choose peer review articles| peerreviewnumber = {{peer_feedback.peer_reviews.value}} }}'
-        condition: '!WizardData.peer_feedback.peer_reviews.options[0].selected'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Choose peer review articles| peerreviewnumber = two }}'
+        condition: 'WizardData.peer_feedback.peer_reviews.options[1].selected'
+      }
+      {
+        text: 'Choose peer review articles'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Choose peer review articles| peerreviewnumber = three }}'
+        condition: 'WizardData.peer_feedback.peer_reviews.options[2].selected'
+      }
+      {
+        text: 'Choose peer review articles'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Choose peer review articles| peerreviewnumber = four }}'
+        condition: 'WizardData.peer_feedback.peer_reviews.options[3].selected'
+      }
+      {
+        text: 'Choose peer review articles'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Choose peer review articles| peerreviewnumber = five }}'
+        condition: 'WizardData.peer_feedback.peer_reviews.options[4].selected'
       }
     ]
     milestones: []
@@ -340,8 +355,23 @@ TimelineData = [
       }
       {
         text: 'Do peer reviews'
-        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Do peer reviews | peerreviewnumber = {{peer_feedback.peer_reviews.value}} }}'
-        condition: '!WizardData.peer_feedback.peer_reviews.options[0].selected'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Do peer reviews | peerreviewnumber = two }}'
+        condition: 'WizardData.peer_feedback.peer_reviews.options[1].selected'
+      }
+      {
+        text: 'Do peer reviews'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Do peer reviews | peerreviewnumber = three }}'
+        condition: 'WizardData.peer_feedback.peer_reviews.options[2].selected'
+      }
+      {
+        text: 'Do peer reviews'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Do peer reviews | peerreviewnumber = four }}'
+        condition: 'WizardData.peer_feedback.peer_reviews.options[3].selected'
+      }
+      {
+        text: 'Do peer reviews'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Do peer reviews | peerreviewnumber = five }}'
+        condition: 'WizardData.peer_feedback.peer_reviews.options[4].selected'
       }
     ]
     milestones: [
@@ -373,8 +403,8 @@ TimelineData = [
     ]
     assignments: [
       {
-        text: 'Make edits based on peer reviews' #RFB 
-        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Make edits based on peer reviews}}' #RFB 
+        text: 'Make edits based on peer reviews'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Make edits based on peer reviews}}'
       }
     ]
     milestones: [
