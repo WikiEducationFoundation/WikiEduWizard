@@ -615,7 +615,7 @@ module.exports = class TimelineView extends Backbone.View
 
       else if item.type is 'week'
 
-        obj = @combine(obj, item)
+        obj = if item.action is 'combine' then @combine(obj, item) else obj
 
     )
 
@@ -794,6 +794,14 @@ module.exports = class TimelineView extends Backbone.View
 
                 @$outContainer.append("#{@wikiSpace}")
 
+              else
+
+                if ai is 0
+
+                  @$outContainer.append("{{assignment | due = Week #{nextWeek} }}")
+
+                  @$outContainer.append("#{@wikiSpace}")
+
             else
 
               if ai is 0
@@ -818,17 +826,9 @@ module.exports = class TimelineView extends Backbone.View
 
           _.each(item.milestones, (m) =>
 
-            if m.condition && m.condition != ''
+            @$outContainer.append("#{m.wikitext}")
 
-              @$outContainer.append("#{m.wikitext}")
-
-              @$outContainer.append("#{@wikiSpace}")
-
-            else
-
-              @$outContainer.append("#{m.wikitext}")
-
-              @$outContainer.append("#{@wikiSpace}")
+            @$outContainer.append("#{@wikiSpace}")
 
           )
 
@@ -891,11 +891,11 @@ module.exports = class TimelineView extends Backbone.View
 
     title = _.union(obj1.title, obj2.title)
 
-    in_class = _.union(obj1.in_class, obj2.in_class)
+    in_class = _.uniq(_.union(obj1.in_class, obj2.in_class),true)
 
-    assignments = _.union(obj1.assignments, obj2.assignments)
+    assignments = _.uniq(_.union(obj1.assignments, obj2.assignments),true)
 
-    milestones = _.union(obj1.milestones, obj2.milestones)
+    milestones = _.uniq(_.union(obj1.milestones, obj2.milestones),true)
 
     readings = _.union(obj1.readings, obj2.readings)
 

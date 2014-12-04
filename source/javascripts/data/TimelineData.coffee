@@ -426,7 +426,7 @@ TimelineData = [
   #--------------------------------------------------------
   {
     type: 'week'
-    action: 'omit'
+    action: 'combine'
     title: ['Continuing improving articles']
     in_class: [
       {
