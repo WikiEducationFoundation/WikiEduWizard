@@ -1,1 +1,12 @@
-<svg width="8" height="5" viewBox="0 0 8 5" xmlns="http://www.w3.org/2000/svg"><title>Triangle 11</title><desc>Created with Sketch.</desc><path d="M4 5l4-5H0z" fill="#00618C" opacity=".5"/></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="8px" height="5px" viewBox="0 0 8 5" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.1 (8751) - http://www.bohemiancoding.com/sketch -->
+    <title>Triangle 11</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="4A-Overview" sketch:type="MSArtboardGroup" transform="translate(-537.000000, -794.000000)" fill="#00618C" opacity="0.5">
+            <polygon id="Triangle-11" sketch:type="MSShapeGroup" transform="translate(541.000000, 796.500000) scale(1, -1) translate(-541.000000, -796.500000) " points="541 794 545 799 537 799 "></polygon>
+        </g>
+    </g>
+</svg>
