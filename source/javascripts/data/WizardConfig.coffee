@@ -166,28 +166,27 @@ WizardConfig = {
         showInOverview: true
         formTitle: 'Will any students work in these areas?'
         infoTitle: 'Medicine and other tricky topics'
+        instructions: 'Writing about medicine and human health is especially tricky. If you expect any of your students to work on medicine-related topics — including psychology — you\'ll need to familiarize yourself, and those students, with the special sourcing rules for medical topics.'
         sections: [
           {
             title: ''
             content: [
-              "<p>Writing about medicine is especially tricky and has some extra rules for sourcing. If you expect any of your students to work on medicine-related topics — including psychology — you'll need to familiarize yourself, and those students, with the special sourcing rules for medical topics. Wiki Education Foundation can also send you subject-specific brochures with advice for writing psychology and/or medicine articles.</p>"
+              "<p>Wiki Education Foundation can also send you subject-specific brochures with advice for writing psychology and/or medicine articles.</p>"
             ]
           }
-        ]
-        inputs: []
-      }
-      {
-        id: "research_planning"
-        title: 'Research and planning'
-        showInOverview: true
-        formTitle: 'How should students plan their articles?'
-        infoTitle: 'About research and planning'
-        sections: [
           {
-            title: ''
+            title: 'Special considerations for medical topics'
+            accordian: true
             content: [
-              "<p>Students often wait until the last minute to do their research, or choose sources unsuitable for Wikipedia. That's why we recommend asking students to put together a bibliography of materials they want to use in editing the article, which can then be assessed by you and other Wikipedians.</p>"
-              "<p>Then, students should propose outlines for their articles. This can be a traditional outline, in which students identify which sections their articles will have and which aspects of the topic will be covered in each section. Alternatively, students can develop each outline in the form of a Wikipedia lead section — the untitled section at the beginning of an article that defines the topic and provide a concise summary of its content. Would you like your students to create traditional outlines, or compose outlines in the form of a Wikipedia-style lead section?</p>"
+              "<p>The standards for sourcing on medical topics differ from other topic areas. In particular, the use of primary sources is more strongly discouraged.</p>"
+              "<p>By Wikipedia's conventions for medical content, typically inappropriate primary sources include reports of original medical research — such as clinical studies, case reports, or animal studies — even if published in respected journals. In general, medical and health-related content should be based on review articles from reputable journals and other professional medical literature. Popular press is generally not considered a reliable source for medical topics.</p>"
+            ]
+          }
+          {
+            title: 'Special considerations for psychology topics'
+            accordian: true
+            content: [
+              "<p>Topics that involve human psychology — in particular, clinical psychology or abnormal psychology — often overlap with medical topics on Wikipedia. In those cases, the same more stringent rules about acceptable sources will apply.</p>"
             ]
           }
         ]
