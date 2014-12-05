@@ -426,8 +426,8 @@ TimelineData = [
   #--------------------------------------------------------
   {
     type: 'week'
-    action: 'combine'
-    title: ['Continuing improving articles']
+    action: 'omit'
+    title: ['Continuing to improve articles']
     in_class: [
       {
         text: 'Discuss further article improvements'
@@ -436,7 +436,7 @@ TimelineData = [
     ]
     assignments: [
       {
-        text: 'Continue improving articles' 
+        text: 'Continue to improve articles' 
         wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Continue improving articles}}'
       }
     ]
@@ -455,7 +455,7 @@ TimelineData = [
   {
     type: 'week'
     action: 'omit'
-    title: ['Continuing improving articles']
+    title: ['Continuing to improve articles']
     in_class: [
       {
         text: 'Discuss further article improvements'
@@ -464,7 +464,7 @@ TimelineData = [
     ]
     assignments: [
       {
-        text: 'Continue improving articles' 
+        text: 'Continue to improve articles' 
         wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Continue improving articles}}' 
       }
     ]
@@ -482,8 +482,8 @@ TimelineData = [
   #--------------------------------------------------------
   {
     type: 'week'
-    action: 'omit'
-    title: ['Continuing improving articles']
+    action: 'combine'
+    title: ['Continuing to improve articles']
     in_class: [
       {
         text: 'Discuss further article improvements'
@@ -492,7 +492,7 @@ TimelineData = [
     ]
     assignments: [
       {
-        text: 'Continue improving articles'
+        text: 'Continue to improve articles'
         wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Continue improving articles}}'
       }
       {
