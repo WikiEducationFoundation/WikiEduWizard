@@ -498,6 +498,7 @@ TimelineData = [
       {
         text: 'Prepare in-class presentation'
         wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Prepare in-class presentation}}'
+        condition: 'WizardData.supplementary_assignments.class_presentation.selected'
       }
     ]
     milestones: []
