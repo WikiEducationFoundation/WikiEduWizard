@@ -172,7 +172,6 @@ WizardConfig = {
             title: ''
             content: [
               "<p>If you expect any of your students to work on medicine-related topics — including psychology — you\'ll need to familiarize yourself, and those students, with the special sourcing rules for medical topics. Even if your course is not directly related to medicine, if your students are choosing their own topics then these rules may be important for some of their topics.</p>"
-              "<p>Wiki Education Foundation can also send you subject-specific brochures with advice for writing psychology and/or medicine articles.</p>"
             ]
           }
           {
