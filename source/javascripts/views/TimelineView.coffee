@@ -23,6 +23,8 @@ module.exports = class TimelineView extends Backbone.View
 
   wikiSpace: '{{subst:Wikipedia:Education program/Assignment Design Wizard/spaces}}<br/>'
 
+  #wikiSpace: '</br/><br/>'
+
   wikiNoClass: 'NO CLASS WEEK OF '
 
   longestCourseLength: 16
@@ -336,6 +338,7 @@ module.exports = class TimelineView extends Backbone.View
     @$courseEndDate.val(endDateString).trigger('change')
 
     if @term_start_date.value is ''
+
       @$termStartDate.val(value).trigger('change')
 
     @updateMultiDatePicker()
@@ -456,7 +459,6 @@ module.exports = class TimelineView extends Backbone.View
     @outWiki = []
 
     if @start_date.value != '' && @end_date.value != ''
-
 
       #difference in weeks between selected start and end dates
       diff = @getWeeksDiff(@start_date.weekday.moment, @end_date.weekday.moment)
@@ -596,7 +598,7 @@ module.exports = class TimelineView extends Backbone.View
       )
 
     obj = unitsClone[0]
-
+    
     _.each(unitsClone, (item, index) =>
 
       if item.type is 'break' || index is unitsClone.length - 1
@@ -609,16 +611,30 @@ module.exports = class TimelineView extends Backbone.View
 
           out.push _.clone(obj)
 
-        obj = {}
+        obj = false
 
         return
 
       else if item.type is 'week'
+        
+        if obj is false #if this is the first week after a break - a clean break
 
-        obj = if item.action is 'combine' then @combine(obj, item) else obj
+          obj = item # make the current working object this new week
+
+        else # if we are working on an object that already has data then ...
+
+          # check to see what its action is when confronted with a combo situation
+          if item.action is 'combine' # if action is combine - merge this week with the working object (i.e. previous week(s))
+
+            obj = @combine(obj, item)
+
+          else # if its anything else at this point - just return (i.e. omit it)
+
+            return
+        
 
     )
-
+    
     return out
 
   update: ->
