@@ -161,6 +161,22 @@ WizardConfig = {
         ]
       }
       {
+        id: "tricky_topics"
+        title: 'Tricky topic areas'
+        showInOverview: true
+        formTitle: 'Will any students work in these areas?'
+        infoTitle: 'Medicine and other tricky topics'
+        sections: [
+          {
+            title: ''
+            content: [
+              "<p>Writing about medicine is especially tricky and has some extra rules for sourcing. If you expect any of your students to work on medicine-related topics — including psychology — you'll need to familiarize yourself, and those students, with the special sourcing rules for medical topics. Wiki Education Foundation can also send you subject-specific brochures with advice for writing psychology and/or medicine articles.</p>"
+            ]
+          }
+        ]
+        inputs: []
+      }
+      {
         id: "research_planning"
         title: 'Research and planning'
         showInOverview: true
@@ -278,41 +294,6 @@ WizardConfig = {
         ]
         inputs: []
       }
-      # {
-      #   id: "grading"
-      #   title: 'Grading'
-      #   showInOverview: false
-      #   formTitle: "How will students' grades for assignments be determined?"
-      #   infoTitle: "About grading"
-      #   instructions: 'Grading Wikipedia assignments can be a challenge. Here are some tips for grading your Wikipedia assignments:'
-      #   sections: [
-      #     {
-      #       title: 'Know all of your students\' Wikipedia usernames.'
-      #       accordian: true
-      #       content: [
-      #         "<p>Without knowing the students' usernames, you won't be able to grade them.</p>"
-      #         "<p>Make sure all students enroll on the course page. Once all students have signed the list, you can click on \"user contributions\" (in the menu bar on the left hand side of your browser screen) to review that student's activities on Wikipedia. If you have made student training compulsory, you can check the <a href='https://en.wikipedia.org/wiki/Wikipedia:Training/For_students/Training_feedback' target='_blank'>feedback page</a> to see which students have completed it.</p>"
-      #       ]
-      #     }
-      #     {
-      #       title: 'Be specific about your expectations.'
-      #       accordian: true
-      #       content: [
-      #         "<p>Being specific about what you expect your students to do is crucial for grading. For example, students could be asked to add a minimum of three sections to an existing article, or a minimum of eight references to an existing article that lacks the appropriate sourcing.</p>"
-      #       ]
-      #     }
-      #     {
-      #       title: 'Grade based on what students contribute to Wikipedia, not what remains on Wikipedia at the course\'s end.'
-      #       accordian: true
-      #       content: [
-      #         "<p>You can see a student's contributions in the article history, even if some writing was removed by the community (or the student). A student’s content could be edited for many reasons, and can even be evidence of a student reflecting critically on their own contributions. Furthermore, if students feel they must defend control of an article for the sake of their grade, this can lead to conflict with other editors.</p>"
-      #         "<p>Wikipedia is a collaborative writing environment driven by verifiability, noteworthiness and neutral point of view – all of which have created challenges for students familiar with a persuasive writing format in classrooms. Encourage students to reflect on edits to improve their understanding of the process and the community.</p>"
-              
-      #       ]
-      #     }
-      #   ]
-      #   inputs: []
-      # }
       # {
       #   id: "overview"
       #   title: 'Assignment overview'

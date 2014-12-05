@@ -301,7 +301,24 @@ WizardStepInputs =
       conditional_label: 
         prepare_list: "Would you like help selecting articles?"
         students_explore: "Would you like help evaluating student choices?"
+   
+
+  tricky_topics: 
+    medical_articles:
+      type: 'checkbox'
+      id: 'medical_articles'
+      selected: false
+      label: 'Medical topics'
+      exclusive: false
+      required: false
       
+    psychology_articles:
+      type: 'checkbox'
+      id: 'psychology_articles'
+      selected: false
+      label: 'Psychology topics'
+      exclusive: false
+      required: false 
 
 
   research_planning: 
