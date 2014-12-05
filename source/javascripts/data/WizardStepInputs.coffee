@@ -304,21 +304,29 @@ WizardStepInputs =
    
 
   tricky_topics: 
-    medical_articles:
-      type: 'checkbox'
-      id: 'medical_articles'
+    yes_definitely:
+      type: 'radioBox'
+      id: 'yes_definitely'
       selected: false
-      label: 'Medical topics'
+      label: 'Yes. We will work on medicine or psychology articles.'
       exclusive: false
-      required: false
+      required: true
       
-    psychology_articles:
-      type: 'checkbox'
-      id: 'psychology_articles'
+    maybe:
+      type: 'radioBox'
+      id: 'maybe'
       selected: false
-      label: 'Psychology topics'
+      label: 'Maybe. Students might choose a medicine or psychology topic.'
       exclusive: false
-      required: false 
+      required: true 
+
+    definitely_not:
+      type: 'radioBox'
+      id: 'definitely_not'
+      selected: false
+      label: 'No. No one will work on medicine or psychology topics.'
+      exclusive: false
+      required: true 
 
 
   research_planning: 

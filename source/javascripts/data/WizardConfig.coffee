@@ -164,29 +164,24 @@ WizardConfig = {
         id: "tricky_topics"
         title: 'Tricky topic areas'
         showInOverview: true
-        formTitle: 'Will any students work in these areas?'
+        formTitle: 'Will your students work in these areas?'
         infoTitle: 'Medicine and other tricky topics'
-        instructions: 'Writing about medicine and human health is especially tricky. If you expect any of your students to work on medicine-related topics — including psychology — you\'ll need to familiarize yourself, and those students, with the special sourcing rules for medical topics.'
+        instructions: 'Writing about some topics on Wikipedia can be especially tricky — topics related to medicine, human health and psychology, in particular. Is there any chance some of your students will work in these topic areas?'
         sections: [
           {
             title: ''
             content: [
+              "<p>If you expect any of your students to work on medicine-related topics — including psychology — you\'ll need to familiarize yourself, and those students, with the special sourcing rules for medical topics. Even if your course is not directly related to medicine, if your students are choosing their own topics then these rules may be important for some of their topics.</p>"
               "<p>Wiki Education Foundation can also send you subject-specific brochures with advice for writing psychology and/or medicine articles.</p>"
             ]
           }
           {
-            title: 'Special considerations for medical topics'
+            title: 'Special considerations for medical and psychology topics'
             accordian: true
             content: [
-              "<p>The standards for sourcing on medical topics differ from other topic areas. In particular, the use of primary sources is more strongly discouraged.</p>"
-              "<p>By Wikipedia's conventions for medical content, typically inappropriate primary sources include reports of original medical research — such as clinical studies, case reports, or animal studies — even if published in respected journals. In general, medical and health-related content should be based on review articles from reputable journals and other professional medical literature. Popular press is generally not considered a reliable source for medical topics.</p>"
-            ]
-          }
-          {
-            title: 'Special considerations for psychology topics'
-            accordian: true
-            content: [
-              "<p>Topics that involve human psychology — in particular, clinical psychology or abnormal psychology — often overlap with medical topics on Wikipedia. In those cases, the same more stringent rules about acceptable sources will apply.</p>"
+              "<p>Though not a medical resource, many people nonetheless turn to Wikipedia for medical information. Poor medical information on Wikipedia can have terrible consequences. For this reason, the standards for sourcing on medical topics differ from other topic areas. In particular, the use of primary sources is strongly discouraged.</p>"
+              "<p>By Wikipedia's conventions for medical content, inappropriate primary sources include original medical research such as clinical studies, case reports, or animal studies, even if published in respected journals. In general, medical and health-related content should be based on review articles from reputable journals and other professional medical literature. Popular press is not considered a reliable source for medical topics.</p>"
+              "<p>Topics that involve human psychology — in particular, clinical psychology or abnormal psychology — often overlap with medical topics on Wikipedia. In those cases, the same rules about acceptable sources apply.</p>" 
             ]
           }
         ]
