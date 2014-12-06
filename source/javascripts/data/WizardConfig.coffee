@@ -178,7 +178,7 @@ WizardConfig = {
             title: 'Special considerations for medical and psychology topics'
             accordian: true
             content: [
-              "<p>Though not a medical resource, many people nonetheless turn to Wikipedia for medical information. Poor medical information on Wikipedia can have terrible consequences. For this reason, the standards for sourcing on medical topics differ from other topic areas. In particular, the use of primary sources is strongly discouraged.</p>"
+              "<p>Though it is not a medical resource, many people nonetheless turn to Wikipedia for medical information. Poor medical information on Wikipedia can have terrible consequences. For this reason, the standards for sourcing on medical topics differ from other topic areas. In particular, the use of primary sources is strongly discouraged.</p>"
               "<p>By Wikipedia\'s conventions for medical content, inappropriate primary sources include original medical research such as clinical studies, case reports, or animal studies, even if published in respected journals. In general, medical and health-related content should be based on review articles from reputable journals and other professional medical literature. Popular press is not considered a reliable source for medical topics.</p>"
               "<p>Topics that involve human psychology — in particular, clinical psychology or abnormal psychology — often overlap with medical topics on Wikipedia. In those cases, the same rules about acceptable sources apply.</p>"
             ]
