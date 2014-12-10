@@ -171,7 +171,7 @@ WizardConfig = {
           {
             title: ''
             content: [
-              "<p>If you expect any of your students to work on medicine-related articles — including psychology — you\'ll need to familiarize yourself, and those students, with the special sourcing rules for these subject areas. These rules also apply if your students will be adding information on, say, the sociological implications of dis ease or other ways of looking at medical articles.Even if your course is not directly related to medicine, these rules may be important  if your students are choosing their own topics.</p>"
+              "<p>If you expect any of your students to work on medicine-related articles — including psychology — you\'ll need to familiarize yourself, and those students, with the special sourcing rules for these subject areas. These rules also apply if your students will be adding information on, say, the sociological implications of disease or other ways of looking at medical articles.Even if your course is not directly related to medicine, these rules may be important  if your students are choosing their own topics.</p>"
             ]
           }
           {
