@@ -3175,6 +3175,10 @@ table.ui-datepicker-calendar {
 .overview-readout-header .readout {
   font-size: 38px;
 }
+.output-container,
+.preview-container {
+  display: none !important;
+}
 .output-container {
   white-space: pre-wrap;
 }
