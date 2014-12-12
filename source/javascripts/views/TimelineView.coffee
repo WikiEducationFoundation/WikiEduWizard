@@ -798,13 +798,14 @@ module.exports = class TimelineView extends Backbone.View
 
               condition = eval(assign.condition)
 
-              if condition 
+              if condition is true
 
                 if ai is 0
 
                   @$outContainer.append("{{assignment | due = Week #{nextWeek} }}")
 
                   @$outContainer.append("#{@wikiSpace}")
+
 
                 @$outContainer.append("#{assign.wikitext}")
 
@@ -820,13 +821,25 @@ module.exports = class TimelineView extends Backbone.View
 
             else
 
+              assignmentOutput = ''
+
               if ai is 0
 
                 @$outContainer.append("{{assignment | due = Week #{nextWeek} }}")
 
                 @$outContainer.append("#{@wikiSpace}")
 
-              @$outContainer.append("#{assign.wikitext}")
+              if assign.hasVariables
+
+                temp = _.template(assign.wikitext)
+
+                assignmentOutput = "#{temp(WizardData)}"
+
+              else
+
+               assignmentOutput = "#{assign.wikitext}"
+
+              @$outContainer.append(assignmentOutput)
 
               @$outContainer.append("#{@wikiSpace}")
 

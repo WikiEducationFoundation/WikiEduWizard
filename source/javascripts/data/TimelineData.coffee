@@ -168,7 +168,8 @@ TimelineData = [
       }
       {
         text: 'Compile a bibliography'
-        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Compile a bibliography}}'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Compile a bibliography | <%= course_details.start_date %> }}'
+        hasVariables: true
       }
     ]
     milestones: []
