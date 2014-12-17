@@ -1,12 +1,1 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg width="14px" height="13px" viewBox="0 0 14 13" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
-    <!-- Generator: Sketch 3.1 (8751) - http://www.bohemiancoding.com/sketch -->
-    <title>Star 36</title>
-    <desc>Created with Sketch.</desc>
-    <defs></defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-        <g id="02b_select_assignment" sketch:type="MSArtboardGroup" transform="translate(-1047.000000, -800.000000)" fill="#5E5E5E">
-            <polygon id="Star-36" sketch:type="MSShapeGroup" points="1054 810.5 1049.8855 812.663119 1050.6713 808.081559 1047.3426 804.836881 1051.94275 804.168441 1054 800 1056.05725 804.168441 1060.6574 804.836881 1057.3287 808.081559 1058.1145 812.663119 "></polygon>
-        </g>
-    </g>
-</svg>
+<svg width="14" height="13" viewBox="0 0 14 13" xmlns="http://www.w3.org/2000/svg"><title>Star 36</title><desc>Created with Sketch.</desc><path d="M7 10.5l-4.114 2.163.785-4.58L.344 4.836l4.6-.67L7 0l2.057 4.168 4.6.67L10.33 8.08l.784 4.58z" fill="#5E5E5E"/></svg>
