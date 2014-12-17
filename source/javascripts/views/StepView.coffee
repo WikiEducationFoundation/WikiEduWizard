@@ -132,9 +132,6 @@ module.exports = class StepView extends View
 
     datesAreValid = false
 
-    # if $('#termStartDate').val != '' && $('#termEndDate').val != '' && $('#courseStartDate').val != '' && $('#courseEndDate').val != ''
-    #   datesAreValid = true
-
     if WizardStepInputs.course_details.start_date != '' and WizardStepInputs.course_details.end_date != ''
       datesAreValid = true
 

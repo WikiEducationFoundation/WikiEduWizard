@@ -145,8 +145,6 @@ module.exports = class OverviewView extends View
 
   renderDescription: ->
 
-    @TimelineView = new TimelineView()
-
     $descInput = $("<textarea id='short_description' rows='6' style='width:100%;background-color:rgba(242,242,242,1.0);border:1px solid rgba(202,202,202,1.0);padding:10px 15px;font-size: 16px;line-height 23px;letter-spacing: 0.25px;'></textarea>")
 
     $descInput.val(WizardStepInputs.course_details.description)
@@ -159,7 +157,6 @@ module.exports = class OverviewView extends View
 
       WizardStepInputs.course_details.description = $(e.target).val()
 
-      @TimelineView.update()
       application.homeView.timelineView.update()
 
     return @
