@@ -139,7 +139,7 @@ WizardStepInputs =
       type: 'checkbox'
       id: 'researchwrite'
       selected: false
-      label: 'Research and write an article'
+      label: 'Create or expand an article'
       exclusive: true
       hasCourseInfo: true
       required: true

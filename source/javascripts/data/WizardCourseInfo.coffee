@@ -2,9 +2,9 @@
 
 WizardCourseInfo = 
 
-  # RESEARCH AND WRITE A WIKIPEDIA ARTICLE
+  # CREATE OR EXPAND A WIKIPEDIA ARTICLE
   researchwrite: 
-    title: "Research and write a Wikipedia article"
+    title: "Create or expand a Wikipedia article"
     description: [
       "You guide your students to select course-related topics that are not well-covered on Wikipedia, and they work individually or in small teams to develop content — either expanding existing articles or creating new ones. Students analyze the current gaps, start their research to find high-quality secondary sources, and then consider the best way to organize the available information. Then it's time for them in turn to: propose an outline; draft new articles or new content for existing ones; provide and respond to peer feedback; and move their work into the live article namespace on Wikipedia."
       "Along the way, students may work with experienced Wikipedia editors who can offer critical feedback and help make sure articles meet Wikipedia's standards and style conventions, and it's important to incorporate time into the assignment for the students to integrate those suggestions. Students who do great work may have their articles highlighted on Wikipedia's main page, and high quality articles will help inform thousands of future readers about the selected topic. "
