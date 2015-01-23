@@ -74,8 +74,8 @@ TimelineData = [
     title: ['Exploring the topic area']
     in_class: [
       {
-        text: 'Editing basics in class'
-        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Editing basics in class}}'
+        text: 'Exploring the topic area in class'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Exploring the topic area in class}}'
       }
     ]
     assignments: [
@@ -196,7 +196,7 @@ TimelineData = [
     ]
     assignments: [
       {
-        text: 'Conventional outline '
+        text: 'Conventional outline'
         wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Conventional outline}}'
         condition: 'WizardData.research_planning.create_outline.selected && WizardData.drafts_mainspace.sandbox.selected'
       }
