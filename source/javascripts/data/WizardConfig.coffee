@@ -161,6 +161,23 @@ WizardConfig = {
         ]
       }
       {
+        id: 'research_planning'
+        title: 'Research and planning'
+        showInOverview: true
+        formTitle: 'How should students plan their articles?'
+        infoTitle: 'About research and planning'
+        sections: [
+          {
+            title: ''
+            content: [
+              "<p>Students often wait until the last minute to do their research, or choose sources unsuitable for Wikipedia. That's why we recommend asking students to put together a bibliography of materials they want to use in editing the article, which can then be assessed by you and other Wikipedians.</p>"
+              "<p>Then, students should propose outlines for their articles. This can be a traditional outline, in which students identify which sections their articles will have and which aspects of the topic will be covered in each section. Alternatively, students can develop each outline in the form of a Wikipedia lead section — the untitled section at the beginning of an article that defines the topic and provide a concise summary of its content. Would you like your students to create traditional outlines, or compose outlines in the form of a Wikipedia-style lead section?</p>"
+            ]
+          }
+        ]
+        inputs: []
+      }
+      {
         id: "tricky_topics"
         title: 'Tricky topic areas'
         showInOverview: true
