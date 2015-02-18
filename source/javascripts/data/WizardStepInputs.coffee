@@ -543,7 +543,7 @@ WizardStepInputs =
     translation:
       complete_translation_training:
         type: 'percent'
-        label: 'Completion of translation training'
+        label: 'Was the training completed?'
         id: 'complete_translation_training'
         value: 5
         renderInOutput: true
@@ -553,7 +553,7 @@ WizardStepInputs =
         ]
       translation_accuracy:
         type: 'percent'
-        label: 'Translation accuracy'
+        label: 'Is the translation accurate?'
         id: 'translation_accuracy'
         value: 25
         renderInOutput: true
@@ -562,7 +562,7 @@ WizardStepInputs =
         ]
       translation_language:
         type: 'percent'
-        label: 'Language of final product'
+        label: 'Does the article use natural vocabulary?'
         id: 'translation_language'
         value: 25
         renderInOutput: true
@@ -571,7 +571,7 @@ WizardStepInputs =
         ]
       translation_consistency:
         type: 'percent'
-        label: 'Consistency of style'
+        label: "Is the article's style consistent?"
         id: 'translation_consistency'
         value: 15
         renderInOutput: true
@@ -580,7 +580,7 @@ WizardStepInputs =
         ]
       translation_documentation:
         type: 'percent'
-        label: 'Documentation of sources'
+        label: "Are the original article's sources well-documented?"
         id: 'translation_documentation'
         value: 15
         renderInOutput: true
@@ -590,7 +590,7 @@ WizardStepInputs =
         ]
       translation_revisions:
         type: 'percent'
-        label: 'Revisions to target language'
+        label: 'Does the article adopt new, quality sources?'
         id: 'translation_revisions'
         value: 15
         renderInOutput: true

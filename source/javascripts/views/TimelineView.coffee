@@ -638,44 +638,31 @@ module.exports = class TimelineView extends Backbone.View
   update: ->
 
     WizardData.course_details.start_date = @start_date.value || ''
-
     WizardData.course_details.end_date = @end_date.value || ''
 
     if @length
-
       $('output[name="out2"]').html(@length + ' weeks')
-
     else
-
       $('output[name="out2"]').html('')
 
     @out = @getWikiWeekOutput(@length)
-    
     @outWiki = @out
-
     @renderResult()
 
     Backbone.Mediator.publish('output:update', @$outContainer.text())
-
     Backbone.Mediator.publish('date:change', @)
-
 
   renderResult: ->
 
     @$outContainer.html('')
-
     @$outContainer.append(DetailsTemplate( _.extend(WizardData,{ description: WizardData.course_details.description})))
 
     if application.homeView.selectedPathways[0] is 'researchwrite'
 
       @$outContainer.append("#{@wikiSpace}")
-
       @$outContainer.append('{{table of contents}}')
-
       @$outContainer.append("#{@wikiSpace}")
-
       @$outContainer.append('==Timeline==')
-
       @$outContainer.append("#{@wikiSpace}")
 
       curWeekOffset = 0
@@ -683,53 +670,31 @@ module.exports = class TimelineView extends Backbone.View
       _.each(@weeklyDates, (week, index) =>
 
         unless week.classThisWeek
-
           @$outContainer.append("{{end of course week}}")
-
           @$outContainer.append("#{@wikiSpace}")
-
           @$outContainer.append("#{@wikiSpace}")
-                    
           @$outContainer.append("===#{@wikiNoClass} #{week.weekStart}===")
-
           @$outContainer.append("#{@wikiSpace}")
-
           @$outContainer.append("#{@wikiSpace}")
-
           return
 
         item = @outWiki[week.weekIndex]
-
         thisWeek = week.weekIndex + 1
-
         nextWeek = week.weekIndex + 2
-
         isLastWeek = week.weekIndex is @length - 1
 
-
         if item.title.length > 0
-
           titles = ""
-
           extra = if thisWeek is 1 then '1' else ''
-
           titles += "{{subst:Wikipedia:Education program/Assignment Design Wizard/course week #{extra}| #{thisWeek} | "
-
           _.each(item.title, (t, i) ->
-
             if i is 0
-
              titles += "#{t}"
-
             else
-
               titles += ", #{t}"
-
           )
 
-
           if week.weekStart and week.weekStart != ''
-
             titles += "| weekof = #{week.weekStart} "
 
           dayCount = 0
@@ -737,18 +702,13 @@ module.exports = class TimelineView extends Backbone.View
           _.each(week.dates, (d, di) =>
 
             if d.isClass
-
               dayCount++
-
               titles += "| day#{dayCount} = #{d.date} "
-
           )
-
 
           titles += "}}"
 
           @$outContainer.append(titles)
-
           @$outContainer.append("#{@wikiSpace}")
   
       
@@ -757,31 +717,23 @@ module.exports = class TimelineView extends Backbone.View
           _.each(item.in_class, (c, ci) =>
 
             if c.condition && c.condition != ''
-
               condition = eval(c.condition)
-
               if condition 
 
                 if ci is 0
-
                   @$outContainer.append("{{in class}}")
-
                   @$outContainer.append("#{@wikiSpace}")
 
                 @$outContainer.append("#{c.wikitext}")
-
                 @$outContainer.append("#{@wikiSpace}")
 
             else
-
               if ci is 0
 
                 @$outContainer.append("{{in class}}")
-
                 @$outContainer.append("#{@wikiSpace}")
 
               @$outContainer.append("#{c.wikitext}")
-
               @$outContainer.append("#{@wikiSpace}")
           )
 
@@ -789,32 +741,22 @@ module.exports = class TimelineView extends Backbone.View
 
 
         if item.assignments.length > 0
-
           _.each(item.assignments, (assign, ai) =>
 
             if assign.condition && assign.condition != ''
-
               condition = eval(assign.condition)
 
               if condition is true
-
                 if ai is 0
-
                   @$outContainer.append("{{assignment | due = Week #{nextWeek} }}")
-
                   @$outContainer.append("#{@wikiSpace}")
 
-
                 @$outContainer.append("#{assign.wikitext}")
-
                 @$outContainer.append("#{@wikiSpace}")
 
               else
-
                 if ai is 0
-
                   @$outContainer.append("{{assignment | due = Week #{nextWeek} }}")
-
                   @$outContainer.append("#{@wikiSpace}")
 
             else
@@ -822,23 +764,17 @@ module.exports = class TimelineView extends Backbone.View
               assignmentOutput = ''
 
               if ai is 0
-
                 @$outContainer.append("{{assignment | due = Week #{nextWeek} }}")
-
                 @$outContainer.append("#{@wikiSpace}")
 
               if assign.hasVariables
-
                 temp = _.template(assign.wikitext)
-
                 assignmentOutput = "#{temp(WizardData)}"
 
               else
-
                assignmentOutput = "#{assign.wikitext}"
 
               @$outContainer.append(assignmentOutput)
-
               @$outContainer.append("#{@wikiSpace}")
 
           )
@@ -846,25 +782,18 @@ module.exports = class TimelineView extends Backbone.View
           @$outContainer.append("#{@wikiSpace}")
 
         if item.milestones.length > 0
-
           @$outContainer.append("{{assignment milestones}}")
-
           @$outContainer.append("#{@wikiSpace}")
-
           _.each(item.milestones, (m) =>
 
             @$outContainer.append("#{m.wikitext}")
-
             @$outContainer.append("#{@wikiSpace}")
-
           )
 
           @$outContainer.append("#{@wikiSpace}")
 
         if isLastWeek
-
           @$outContainer.append("{{end of course week}}")
-
           @$outContainer.append("#{@wikiSpace}")
 
       )
@@ -874,9 +803,7 @@ module.exports = class TimelineView extends Backbone.View
     else
 
       @$outContainer.append("#{@wikiSpace}")
-
       @$outContainer.append('{{table of contents}}')
-
       @$outContainer.append("#{@wikiSpace}")
 
       gradingItems = []
@@ -892,14 +819,10 @@ module.exports = class TimelineView extends Backbone.View
           if ind is 0
 
             @$outContainer.append("#{@wikiSpace}")
-
         )
         @$outContainer.append("<br/>")
-
         @$outContainer.append("#{@wikiSpace}")
-
         @$outContainer.append("<div></div>")
-
       )
 
       @$outContainer.append("<br/>")
@@ -909,25 +832,15 @@ module.exports = class TimelineView extends Backbone.View
       else
         @$outContainer.append(GradingCustomTemplate({gradeItems: gradingItems}))
 
-    
   getWeeksDiff: (a, b) ->
-
     return b.diff(a, 'weeks')
 
-
   combine: (obj1, obj2) ->
-
     title = _.union(obj1.title, obj2.title)
-
     in_class = _.uniq(_.union(obj1.in_class, obj2.in_class),true)
-
     assignments = _.uniq(_.union(obj1.assignments, obj2.assignments),true)
-
     milestones = _.uniq(_.union(obj1.milestones, obj2.milestones),true)
-
     readings = _.union(obj1.readings, obj2.readings)
 
     return {title: title, in_class: in_class, assignments: assignments, milestones: milestones, readings: readings}
-
-
 
