@@ -56,84 +56,7 @@ WizardStepInputs =
       value: ''
       required: true
 
-    
-  multimedia_1:
-    multimedia_1_1:
-      type: 'checkbox'
-      id: 'multimedia_1_1'
-      selected: true
-      label: 'Text for the question 1?'
-      disabled: false
-      exclusive: false
-      required: false
-
-    multimedia_1_2:
-      type: 'checkbox'
-      id: 'multimedia_1_2'
-      selected: true
-      label: 'Text for the question 2?'
-      disabled: false
-      exclusive: false
-      required: false
-
-  multimedia_2:
-    multimedia_2_1:
-      type: 'checkbox'
-      id: 'multimedia_2_1'
-      selected: false
-      label: 'Text for the question 1?'
-      disabled: false
-      exclusive: false
-      required: false
-
-    multimedia_2_2:
-      type: 'checkbox'
-      id: 'multimedia_2_2'
-      selected: false
-      label: 'Text for the question 2?'
-      disabled: false
-      exclusive: false
-      required: false
-
-  copyedit_1:
-    copyedit_1_1:
-      type: 'radioBox'
-      id: 'copyedit_1_1'
-      selected: false
-      label: 'Text for the question 1?'
-      disabled: false
-      exclusive: false
-      required: false
-
-    copyedit_1_2:
-      type: 'radioBox'
-      id: 'copyedit_1_2'
-      selected: false
-      label: 'Text for the question 2?'
-      disabled: false
-      exclusive: false
-      required: false
-
-  copyedit_2:
-    copyedit_2_1:
-      type: 'radioBox'
-      id: 'copyedit_2_1'
-      selected: false
-      label: 'Text for the question 1?'
-      disabled: false
-      exclusive: false
-      required: false
-
-    copyedit_2_2:
-      type: 'radioBox'
-      id: 'copyedit_2_2'
-      selected: false
-      label: 'Text for the question 2?'
-      disabled: false
-      exclusive: false
-      required: false
-  
-
+  # Assignment selection options
   assignment_selection: 
     researchwrite:
       type: 'checkbox'
@@ -143,6 +66,15 @@ WizardStepInputs =
       exclusive: true
       hasCourseInfo: true
       required: true
+
+    translation: 
+      type: 'checkbox'
+      id: 'translation'
+      selected: false
+      label: 'Translate an article'
+      exclusive: false
+      hasCourseInfo: true
+      disabled: false
     
     multimedia:
       type: 'checkbox'
@@ -174,50 +106,10 @@ WizardStepInputs =
         title: ''
         content: "Have another idea for incorporating Wikipedia into your class? We've found that these assignments work well, but they aren't the only way to do it. Get in touch, and we can talk things through: <a style='color:#505a7f;' href='mailto:contact@wikiedu.org'>contact@wikiedu.org</a>."
 
+## Start of input options for the researchwrite path
+  
   learning_essentials: 
-    create_user:
-      # type: 'checkbox'
-      id: 'create_user'
-      selected: true
-      label: 'Create user account'
-      exclusive: false
-      disabled: true
-      required: true
     
-    enroll:
-      # type: 'checkbox'
-      id: 'enroll'
-      selected: true
-      label: 'Enroll to the course'
-      exclusive: false
-      disabled: true
-      required: true
-
-    complete_training:
-      # type: 'checkbox'
-      id: 'complete_training'
-      selected: true
-      label: 'Complete online training'
-      disabled: true
-      exclusive: false
-      required: true
-
-    introduce_ambassadors:
-      # type: 'checkbox'
-      id: 'introduce_ambassadors'
-      selected: true
-      disabled: true
-      label: 'Introduce Wikipedia Ambassadors Involved'
-      exclusive: false
-      required: true
-    
-    # include_completion:
-    #   type: 'checkbox'
-    #   id: 'include_completion'
-    #   selected: false
-    #   label: 'Include Completion of this Assignment as Part of the Students\'s Grade'
-    #   exclusive: false
-
     training_graded:
       type: 'radioBox'
       id: 'training_graded'
@@ -504,6 +396,65 @@ WizardStepInputs =
       exclusive: false
       
 
+## Start of input options for the translate path
+
+  translation_essentials:
+    training_graded:
+      type: 'radioBox'
+      id: 'training_graded'
+      selected: false
+      label: 'Completion of training will be graded'
+      exclusive: false
+      required: true
+
+    training_not_graded:
+      type: 'radioBox'
+      id: 'training_not_graded'
+      selected: false
+      label: 'Completion of training will not be graded'
+      exclusive: false
+      required: true
+
+  translation_choosing_articles:
+    prepare_list:
+      type: 'radioBox'
+      id: 'prepare_list'
+      selected: false
+      label: 'Instructor prepares a list'
+      exclusive: false
+      hasSubChoice: true
+      required: true
+      
+    students_explore:
+      type: 'radioBox'
+      id: 'students_explore'
+      selected: false
+      label: 'Students find articles'
+      exclusive: false
+      hasSubChoice: true
+      required: true
+
+    request_help:
+      type: 'checkbox'
+      id: 'request_help'
+      selected: false
+      label: 'Would you like help selecting or evaulating article choices?'
+      exclusive: false
+      required: true
+      ignoreValidation: true
+      conditional_label: 
+        prepare_list: "Would you like help selecting articles?"
+        students_explore: "Would you like help evaluating student choices?"
+    
+  translation_media_literacy:
+    media_literacy:
+      type: 'checkbox'
+      id: 'dyk'
+      selected: false
+      required: false
+      label: 'Fact-checking assignment'
+      exclusive: false
+
   # grading_multimedia: 
   #   complete_multimedia:
   #     type: 'percent'
@@ -522,6 +473,8 @@ WizardStepInputs =
   #     renderInOutput: true
   #     contingentUpon: []
 
+
+## Start of grading configuration
 
   grading: 
     researchwrite:
@@ -587,6 +540,27 @@ WizardStepInputs =
           'original_paper'
         ]
 
+    translation:
+      complete_training:
+        type: 'percent'
+        label: 'Completion of translation training'
+        id: 'complete_training'
+        value: 10
+        renderInOutput: true
+        pathwayId: 'translation'
+        contingentUpon: [
+          'training_graded'
+        ]
+      translation:
+        type: 'percent'
+        label: 'Articles translation'
+        id: 'translation'
+        value: 90
+        renderInOutput: true
+        pathwayId: 'translation'
+        contingentUpon: [
+        ]
+
     copyedit:
       copyedit:
         type: 'percent'
@@ -597,6 +571,7 @@ WizardStepInputs =
         pathwayId: 'copyedit'
         contingentUpon: [
         ]
+
     multimedia:
       multimedia:
         type: 'percent'

@@ -78,6 +78,11 @@ get '/begin' do
   end
 end
 
+# Use the /test endpoint for local development without OAuth login.
+get '/test' do
+  haml :app
+end
+
 post '/publish' do
   content_type :json
   @wizardData = params['wikitext']

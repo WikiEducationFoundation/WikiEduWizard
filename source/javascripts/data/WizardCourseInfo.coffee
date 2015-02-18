@@ -176,17 +176,18 @@ WizardCourseInfo =
     
 
   #TRANSLATE AN ARTICLE TO ENGLISH
-  translate: 
-    title: "Identify and fix close paraphrasing / plagiarism"
+  translation: 
+    title: " Translate an article"
     description: [
-      "This is a practical assignment for language instructors. Students select a Wikipedia article in the language they are studying, and translate it into their native language. Students should start with high-quality articles which are not available in their native language. This assignment provides practical translation advice with the incentive of real public service, as students expand the representation of the target culture on Wikipedia."
+      "Students work individually, or in small groups, to translate high-quality articles from the language they are studying's (L2) Wikipedia to their native-language (L1) Wikipedia. Students gain skills in translation as well as expanding their vocabulary in the language they are studying. Optionally, students fact-check the translated article and seek out sources to support and expand the article in their native-language Wikipedia."
     ]
     min_timeline: "4 weeks"
-    rec_timeline: "6+ weeks"
+    rec_timeline: "5 weeks"
     best_for: [
-      "Language courses"
+      "Foreign language classrooms"
     ]
     not_for: [
+      "Students without proficiency in both languages "
       "Students translating <em>from</em> their native language to the language they're studying"
     ]
     learning_objectives: [
@@ -200,19 +201,19 @@ WizardCourseInfo =
       }
       {
         text: "Increase media and information fluency"
-        stars: 1
+        stars: 2
       }
       {
         text: "Improve critical thinking and research skills"
-        stars: 3
+        stars: 1
       }
       {
         text: "Foster collaboration"
-        stars: 4
+        stars: 2
       }
       {
         text: "Develop technical and communication skills"
-        stars: 4
+        stars: 2
       }
     ]
     
