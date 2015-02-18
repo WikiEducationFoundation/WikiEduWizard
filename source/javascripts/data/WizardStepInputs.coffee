@@ -551,7 +551,7 @@ WizardStepInputs =
         contingentUpon: [
           'translation_training_graded'
         ]
-      accuracy:
+      translation_accuracy:
         type: 'percent'
         label: 'Translation accuracy'
         id: 'translation_accuracy'
@@ -560,7 +560,7 @@ WizardStepInputs =
         pathwayId: 'translation'
         contingentUpon: [
         ]
-      language:
+      translation_language:
         type: 'percent'
         label: 'Language of final product'
         id: 'translation_language'
@@ -569,7 +569,7 @@ WizardStepInputs =
         pathwayId: 'translation'
         contingentUpon: [
         ]
-      consistency:
+      translation_consistency:
         type: 'percent'
         label: 'Consistency of style'
         id: 'translation_consistency'
@@ -578,7 +578,7 @@ WizardStepInputs =
         pathwayId: 'translation'
         contingentUpon: [
         ]
-      documentation:
+      translation_documentation:
         type: 'percent'
         label: 'Documentation of sources'
         id: 'translation_documentation'
@@ -588,7 +588,7 @@ WizardStepInputs =
         contingentUpon: [
           'fact_checking'
         ]
-      revisions:
+      translation_revisions:
         type: 'percent'
         label: 'Revisions to target language'
         id: 'translation_revisions'

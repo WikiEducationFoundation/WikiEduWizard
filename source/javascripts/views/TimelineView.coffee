@@ -9,10 +9,8 @@ View = require('../views/supers/View')
 DetailsTemplate = require('../templates/steps/output/CourseDetailsTemplate.hbs')
 
 GradingTemplate = require('../templates/steps/output/GradingTemplate.hbs')
-
+GradingTemplateTranslation = require('../templates/steps/output/GradingTemplateTranslation.hbs')
 GradingCustomTemplate = require('../templates/steps/output/GradingAltTemplate.hbs')
-
-OptionsTemplate = require('../templates/steps/output/CourseOptionsTemplate.hbs')
 
 WizardData = require('../data/WizardStepInputs')
 
@@ -906,9 +904,10 @@ module.exports = class TimelineView extends Backbone.View
 
       @$outContainer.append("<br/>")
 
-      @$outContainer.append(GradingCustomTemplate({gradeItems: gradingItems}))
-
-    @$outContainer.append(OptionsTemplate(WizardData))
+      if application.homeView.selectedPathways[0] is 'translation'
+        @$outContainer.append(GradingTemplateTranslation(WizardData))
+      else
+        @$outContainer.append(GradingCustomTemplate({gradeItems: gradingItems}))
 
     
   getWeeksDiff: (a, b) ->
