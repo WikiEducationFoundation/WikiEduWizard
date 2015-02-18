@@ -399,17 +399,17 @@ WizardStepInputs =
 ## Start of input options for the translate path
 
   translation_essentials:
-    training_graded:
+    translation_training_graded:
       type: 'radioBox'
-      id: 'training_graded'
+      id: 'translation_training_graded'
       selected: false
       label: 'Completion of training will be graded'
       exclusive: false
       required: true
 
-    training_not_graded:
+    translation_training_not_graded:
       type: 'radioBox'
-      id: 'training_not_graded'
+      id: 'translation_training_not_graded'
       selected: false
       label: 'Completion of training will not be graded'
       exclusive: false
@@ -447,9 +447,9 @@ WizardStepInputs =
         students_explore: "Would you like help evaluating student choices?"
     
   translation_media_literacy:
-    media_literacy:
+    fact_checking:
       type: 'checkbox'
-      id: 'dyk'
+      id: 'fact_checking'
       selected: false
       required: false
       label: 'Fact-checking assignment'
@@ -541,24 +541,62 @@ WizardStepInputs =
         ]
 
     translation:
-      complete_training:
+      complete_translation_training:
         type: 'percent'
         label: 'Completion of translation training'
-        id: 'complete_training'
-        value: 10
+        id: 'complete_translation_training'
+        value: 5
         renderInOutput: true
         pathwayId: 'translation'
         contingentUpon: [
-          'training_graded'
+          'translation_training_graded'
         ]
-      translation:
+      accuracy:
         type: 'percent'
-        label: 'Articles translation'
-        id: 'translation'
-        value: 90
+        label: 'Translation accuracy'
+        id: 'translation_accuracy'
+        value: 25
         renderInOutput: true
         pathwayId: 'translation'
         contingentUpon: [
+        ]
+      language:
+        type: 'percent'
+        label: 'Language of final product'
+        id: 'translation_language'
+        value: 25
+        renderInOutput: true
+        pathwayId: 'translation'
+        contingentUpon: [
+        ]
+      consistency:
+        type: 'percent'
+        label: 'Consistency of style'
+        id: 'translation_consistency'
+        value: 15
+        renderInOutput: true
+        pathwayId: 'translation'
+        contingentUpon: [
+        ]
+      documentation:
+        type: 'percent'
+        label: 'Documentation of sources'
+        id: 'translation_documentation'
+        value: 15
+        renderInOutput: true
+        pathwayId: 'translation'
+        contingentUpon: [
+          'fact_checking'
+        ]
+      revisions:
+        type: 'percent'
+        label: 'Revisions to target language'
+        id: 'translation_revisions'
+        value: 15
+        renderInOutput: true
+        pathwayId: 'translation'
+        contingentUpon: [
+          'fact_checking'
         ]
 
     copyedit:
@@ -582,9 +620,6 @@ WizardStepInputs =
         pathwayId: 'multimedia'
         contingentUpon: [
         ]
-
-
-
 
     grading_selection:
       label: 'Grading based on:'

@@ -495,7 +495,7 @@ WizardConfig = {
         showInOverview: true
         formTitle: "Add a media literacy component?"
         infoTitle: "Optional: add a more challenging media literacy component"
-        instructions: "For advanced students, you can add a challenging media literacy component to your course. This requires students to fact-check information on the target-language Wikipedia, and try to find L2-language sources to support those claims."
+        instructions: "For advanced students, you can add a challenging media literacy component to your course. This requires students to fact-check information on the target-language Wikipedia using the target language. They also find sources in their base language to support those claims on their base-language Wikipedia."
       }
     ]
   }
