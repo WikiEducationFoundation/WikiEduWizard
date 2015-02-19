@@ -516,15 +516,23 @@ module.exports = class TimelineView extends Backbone.View
   renderResult: ->
 
     @$outContainer.html('')
+
+    # First add the {{course details}} template and course description.
     @$outContainer.append(DetailsTemplate( _.extend(WizardData,{ description: WizardData.course_details.description})))
+
+    # Then add table of contents.
+    @$outContainer.append("#{@wikiSpace}")
+    @$outContainer.append('{{table of contents}}')
+    @$outContainer.append("#{@wikiSpace}")
+
+    # The remainder of the output depends of which assignment type is selected.
+    # There are branches for 'researchwrite', 'translation', and the mix-and-match
+    # other options.
 
     # This is the logic for composing the timeline for a 'researchwrite' assignment.
     # It uses TimelineData.coffee and the getWikiWeekOutput function to create the timeline.
     if application.homeView.selectedPathways[0] is 'researchwrite'
 
-      @$outContainer.append("#{@wikiSpace}")
-      @$outContainer.append('{{table of contents}}')
-      @$outContainer.append("#{@wikiSpace}")
       @$outContainer.append('==Timeline==')
       @$outContainer.append("#{@wikiSpace}")
 
@@ -663,28 +671,48 @@ module.exports = class TimelineView extends Backbone.View
       
       @$outContainer.append(GradingTemplate(WizardData))
 
-    # This is the logic for composing the timeline for any other assignment types.
+    # This is the logic for composing the timeline for translation assignments.
+    else if application.homeView.selectedPathways[0] is 'translation'
+
+      # Translation week 1
+      @$outContainer.append("{{subst:Wikipedia:Education program/Assignment Design Wizard/Translation essentials}}")
+      @$outContainer.append("#{@wikiSpace}")
+
+      # Translation week 2
+      @$outContainer.append("{{subst:Wikipedia:Education program/Assignment Design Wizard/Translation choose articles from list}}")
+      @$outContainer.append("#{@wikiSpace}")
+
+      # Translation week 3
+      @$outContainer.append("{{subst:Wikipedia:Education program/Assignment Design Wizard/Translation translate and fact check}}")
+      @$outContainer.append("#{@wikiSpace}")
+
+      # Translation weeks 4 & 5
+      @$outContainer.append("{{subst:Wikipedia:Education program/Assignment Design Wizard/Translation publish}}")
+      @$outContainer.append("#{@wikiSpace}")
+      @$outContainer.append("{{subst:Wikipedia:Education program/Assignment Design Wizard/Translation review and revise}}")
+      @$outContainer.append("#{@wikiSpace}")
+
+      # Grading
+      @$outContainer.append(GradingTemplateTranslation(WizardData))
+
+
+    # This is the logic for composing the timeline for any other assignment types
+    # besides 'researchwrite' and 'translation'.
     # It uses TimelineDataAlt.coffee for the components of the timeline.
     else
-
-      @$outContainer.append("#{@wikiSpace}")
-      @$outContainer.append('{{table of contents}}')
-      @$outContainer.append("#{@wikiSpace}")
 
       gradingItems = []
 
       _.each(application.homeView.selectedPathways, (pathway) =>
-
         gradingItems.push(WizardData.grading[pathway][pathway])
 
         _.each(@dataAlt[pathway], (item, ind) =>
-
           @$outContainer.append("<div>#{item}</div><br/>")
 
           if ind is 0
-
             @$outContainer.append("#{@wikiSpace}")
         )
+
         @$outContainer.append("<br/>")
         @$outContainer.append("#{@wikiSpace}")
         @$outContainer.append("<div></div>")
@@ -692,10 +720,7 @@ module.exports = class TimelineView extends Backbone.View
 
       @$outContainer.append("<br/>")
 
-      if application.homeView.selectedPathways[0] is 'translation'
-        @$outContainer.append(GradingTemplateTranslation(WizardData))
-      else
-        @$outContainer.append(GradingCustomTemplate({gradeItems: gradingItems}))
+      @$outContainer.append(GradingCustomTemplate({gradeItems: gradingItems}))
 
   getWeeksDiff: (a, b) ->
     return b.diff(a, 'weeks')

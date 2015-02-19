@@ -14,5 +14,4 @@ TimelineDataAlt =
     "{{subst:Wikipedia:Education program/Assignment Design Wizard/Copyedit an article}}"
     "<br/>{{end of course assignment}}"
   ]
-
 module.exports = TimelineDataAlt
