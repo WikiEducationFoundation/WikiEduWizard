@@ -448,7 +448,7 @@ WizardConfig = {
           {
             content: [
               "<p>To get started, you'll want to introduce your students to the basic rules of writing Wikipedia articles and working with the Wikipedia community.</p>"
-              "<p>The Wikipedia Adventure is a very brief introduction to the basics of editing Wikipedia. Should completion of the training be part of your students’ grade? (Make your choice at the top left).</p>"
+              "<p>The online Student Training for Translation Assignments is a very brief introduction to the basics of editing Wikipedia. Should completion of the training be part of your students’ grade? (Make your choice at the top left).</p>"
             ]
           }
         ]
