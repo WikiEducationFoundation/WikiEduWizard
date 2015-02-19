@@ -62,40 +62,27 @@ module.exports = class TimelineView extends Backbone.View
   initialize: ->
   
     $('input[type="date"]').datepicker(
-
       dateFormat: 'yy-mm-dd'
-
       constrainInput: true
-
       firstDay: 1
-
     ).prop('type','text')
 
     @$blackoutDates = $('#blackoutDates')
 
     @$blackoutDates.multiDatesPicker(
-
       dateFormat: 'yy-mm-dd'
-
       firstDay: 1
-
       altField: '#blackoutDatesField'
 
       onSelect: =>
-
         @currentBlackoutDates = @$blackoutDates.multiDatesPicker('getDates')
-
         @updateTimeline()
     )
 
     @$startWeekOfDate = $('#startWeekOfDate')
-
     @$courseStartDate = $('#courseStartDate')
-
     @$courseEndDate = $('#courseEndDate')
-
     @$termStartDate = $('#termStartDate')
-
     @$termEndDate =   $('#termEndDate')
 
     @$outContainer = $('.output-container')
@@ -103,7 +90,6 @@ module.exports = class TimelineView extends Backbone.View
     @$previewContainer = $('.preview-container')
 
     @data = []
-
     @data = application.timelineData
 
     @dataAlt = application.timelineDataAlt
@@ -139,11 +125,9 @@ module.exports = class TimelineView extends Backbone.View
     dowId = parseInt($target.val())
 
     if $target.is(':checked')
-
       @daysSelected[dowId] = true
 
     else
-
       @daysSelected[dowId] = false
 
     WizardData.course_details.weekdays_selected = @daysSelected
@@ -165,74 +149,48 @@ module.exports = class TimelineView extends Backbone.View
     value = $(e.currentTarget).val() || ''
 
     if value is ''
-
       @term_end_date =
-
         value: ''
-
       return 
 
     dateMoment = moment(value)
-
     date = dateMoment.toDate()
 
     @term_start_date = 
-
       moment: dateMoment
-
       date: date
-
       value: value
-
       week: dateMoment.week()
-
       weekday: 
-
         moment: dateMoment.week(dateMoment.week()).weekday(0)
-
         date: dateMoment.week(dateMoment.week()).weekday(0).toDate()
-
         value: dateMoment.week(dateMoment.week()).weekday(0).format('YYYY-MM-DD')
 
     yearMod = 0
 
     if @term_start_date.week is 1
-
       yearMod = 1
 
     isAfter = dateMoment.isAfter("#{dateMoment.year()+yearMod}-06-01")
 
     if isAfter
-
       endDateString = "#{dateMoment.year()}-#{@defaultEndDates[1]}"
-
     else
-
       endDateString = "#{dateMoment.year()+yearMod}-#{@defaultEndDates[0]}"
 
     if isAfter
-
       isFullWidthCourse = 53 - @term_start_date.week > @defaultCourseLength
-
     else
-
       isFullWidthCourse = moment(endDateString).week() - @term_start_date.week > @defaultCourseLength
 
-
     @$termEndDate.val(endDateString).trigger('change')
-
     @$courseStartDate.val(value).trigger('change')
 
     if isFullWidthCourse 
-
       defaultEndDate = moment(value).toDate()
-
       defaultEndDate.setDate(7*@defaultCourseLength)
-
       @$courseEndDate.val(moment(defaultEndDate).format('YYYY-MM-DD')).trigger('change')
-
     else
-
       @$courseEndDate.val(endDateString).trigger('change')
 
     @$blackoutDates.multiDatesPicker('resetDates', 'picked')
@@ -244,37 +202,24 @@ module.exports = class TimelineView extends Backbone.View
     value = $(e.currentTarget).val() || ''
 
     if value is ''
-
       @term_start_date =
-
         value: ''
-
       return 
 
     dateMoment = moment(value)
-
     date = dateMoment.toDate()
 
     @term_end_date = 
-
       moment: dateMoment
-
       date: date
-
       value: value
-
       week: dateMoment.week()
-
       weekday: 
-
         moment: dateMoment.week(dateMoment.week()).weekday(0)
-
         date: dateMoment.week(dateMoment.week()).weekday(0).toDate()
-
         value: dateMoment.week(dateMoment.week()).weekday(0).format('YYYY-MM-DD')
 
     @$courseEndDate.val(value).trigger('change')
-
     @$blackoutDates.multiDatesPicker('resetDates', 'picked')
 
     return
@@ -284,63 +229,43 @@ module.exports = class TimelineView extends Backbone.View
     value = $(e.currentTarget).val() || ''
 
     if value is ''
-
       @start_date =
-
         value: ''
-
       @$courseEndDate.val('').trigger('change')
-
       @updateMultiDatePicker()
-
       return @updateTimeline 
 
     dateMoment = moment(value)
-
     date = dateMoment.toDate()
 
     @start_date = 
-
       moment: dateMoment
-
       date: date
-
       value: value
-
       week: dateMoment.week()
-
       weekday: 
-
         moment: dateMoment.week(dateMoment.week()).weekday(0)
-
         date: dateMoment.week(dateMoment.week()).weekday(0).toDate()
-
         value: dateMoment.week(dateMoment.week()).weekday(0).format('YYYY-MM-DD')
 
     yearMod = 0
 
     if @start_date.week is 1
-
       yearMod = 1
 
     isAfter = dateMoment.isAfter("#{dateMoment.year()+yearMod}-06-01")
 
     if isAfter
-
       endDateString = "#{dateMoment.year()}-#{@defaultEndDates[1]}"
-
     else
-
       endDateString = "#{dateMoment.year()+yearMod}-#{@defaultEndDates[0]}"
 
     @$courseEndDate.val(endDateString).trigger('change')
 
     if @term_start_date.value is ''
-
       @$termStartDate.val(value).trigger('change')
 
     @updateMultiDatePicker()
-
     @updateTimeline()
 
     return false
@@ -355,35 +280,24 @@ module.exports = class TimelineView extends Backbone.View
         value: ''
 
       @updateMultiDatePicker()
-
       @updateTimeline()
 
       return @updateTimeline 
 
     dateMoment = moment(value)
-
     date = dateMoment.toDate()
 
     @end_date = 
-
       moment: dateMoment
-
       date: date
-
       value: value
-
       week: dateMoment.week()
-
       weekday: 
-
         moment: dateMoment.week(dateMoment.week()).weekday(0)
-
         date: dateMoment.week(dateMoment.week()).weekday(0).toDate()
-
         value: dateMoment.week(dateMoment.week()).weekday(0).format('YYYY-MM-DD')
 
     @updateMultiDatePicker()
-
     @updateTimeline()
 
     return false
@@ -392,68 +306,46 @@ module.exports = class TimelineView extends Backbone.View
 
 
     if @start_date.value != '' && @end_date.value != ''
-
       @$blackoutDates.multiDatesPicker('destroy')
 
       @$blackoutDates.multiDatesPicker(
-
         dateFormat: 'yy-mm-dd'
-
         firstDay: 1
-
         altField: '#blackoutDatesField'
-
         defaultDate: @start_date.weekday.value
-
         minDate: @start_date.weekday.value
-
         maxDate: @end_date.value
 
         onSelect: =>
-
           @currentBlackoutDates = @$blackoutDates.multiDatesPicker('getDates')
-
           @updateTimeline()
       )
 
       @$blackoutDates.multiDatesPicker('resetDates', 'picked')
 
       if @currentBlackoutDates.length > 0
-
         @$blackoutDates.multiDatesPicker('addDates', @currentBlackoutDates)
 
     else 
-
       @$blackoutDates.multiDatesPicker('destroy')
 
       @$blackoutDates.multiDatesPicker(
-
         dateFormat: 'yy-mm-dd'
-
         firstDay: 1
-
         altField: '#blackoutDatesField'
 
         onSelect: =>
-
           @currentBlackoutDates = @$blackoutDates.multiDatesPicker('getDates')
-
           @updateTimeline()
       )
 
       @$blackoutDates.multiDatesPicker('resetDates', 'picked')
 
 
-
-
   updateTimeline: ->
-
     @weeklyStartDates = []
-
     @weeklyDates = [] 
-
     @out = []
-
     @outWiki = []
 
     if @start_date.value != '' && @end_date.value != ''
@@ -466,15 +358,10 @@ module.exports = class TimelineView extends Backbone.View
       @actualLength = 1 + diff 
 
       if @actualLength < @shortestCourseLength
-
         @length = @shortestCourseLength
-
       else if @actualLength > @longestCourseLength
-
         @length = @longestCourseLength
-
       else 
-
         @length = @actualLength
 
       #make an array of all the monday week start dates as strings
@@ -485,11 +372,8 @@ module.exports = class TimelineView extends Backbone.View
       while w < @length
 
         if w is 0
-
           newDate = moment(@start_date.weekday.moment).format('YYYY-MM-DD')
-
         else
-
           newDate = moment(@start_date.weekday.moment).week(@start_date.week+w).format('YYYY-MM-DD')
         
         @weeklyStartDates.push(newDate)
@@ -497,7 +381,6 @@ module.exports = class TimelineView extends Backbone.View
         w++
 
       @weeklyDates = []
-
       @totalBlackoutWeeks = 0
 
 
@@ -511,71 +394,49 @@ module.exports = class TimelineView extends Backbone.View
         totalBlackedOut = 0
 
         thisWeek =
-
           weekStart: dMoment.format('YYYY-MM-DD')
-
           classThisWeek: true
-
           dates: []
-
           weekIndex: wi - @totalBlackoutWeeks
-
 
         _.each(@daysSelected, (day, di) =>
 
           if day 
-
             isClass = true
-
-            dateString = dMoment.weekday(di).format('YYYY-MM-DD')
-            
+            dateString = dMoment.weekday(di).format('YYYY-MM-DD')    
             totalSelected++
 
-
             if _.indexOf(@currentBlackoutDates, dateString) != -1
-
               totalBlackedOut++
-
               isClass = false
 
             thisWeek.dates.push({isClass: isClass, date: dateString})
 
           else
-
             thisWeek.dates.push({})
         )
 
         if totalBlackedOut != 0 and totalSelected is totalBlackedOut
-
           thisWeek.classThisWeek = false
-
           thisWeek.weekIndex = ''
-
           @totalBlackoutWeeks++
 
         @weeklyDates.push(thisWeek)
-
       )
 
       if @totalBlackoutWeeks > 0
-
         newLength = @length - @totalBlackoutWeeks
 
         if newLength < 6
-
-          alert('You have blackouted out days that will result in a course length that is less than 6 weeks. Please increase the course length.')
-          
+          alert('You have blacked out days that will result in a course length that is less than 6 weeks. Please increase the course length.')        
           return false
 
         else
-
           @length = newLength
-
 
     @update()
 
     return @
-
 
 
   # don't touch this function unless you know what you are doing ;-)
