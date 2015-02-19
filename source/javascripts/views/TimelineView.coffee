@@ -674,10 +674,14 @@ module.exports = class TimelineView extends Backbone.View
     # This is the logic for composing the timeline for translation assignments.
     else if application.homeView.selectedPathways[0] is 'translation'
 
+      @$outContainer.append('==Timeline==')
+      @$outContainer.append("#{@wikiSpace}")
+
       # Translation week 1
       @$outContainer.append("{{subst:Wikipedia:Education program/Assignment Design Wizard/Translation essentials}}")
       @$outContainer.append("#{@wikiSpace}")
-
+      @$outContainer.append("#{@wikiSpace}")
+      
       # Translation week 2
       if WizardData.translation_choosing_articles.prepare_list.selected
         @$outContainer.append("{{subst:Wikipedia:Education program/Assignment Design Wizard/Translation choose articles from list}}")
@@ -689,20 +693,23 @@ module.exports = class TimelineView extends Backbone.View
       else
         @$outContainer.append("{{subst:Wikipedia:Education program/Assignment Design Wizard/Translation choose articles end}}")
       @$outContainer.append("#{@wikiSpace}")
-
+      @$outContainer.append("#{@wikiSpace}")
+      
       # Translation week 3
       if WizardData.translation_media_literacy.fact_checking.selected
         @$outContainer.append("{{subst:Wikipedia:Education program/Assignment Design Wizard/Translation translate and fact check}}")
       else
         @$outContainer.append("{{subst:Wikipedia:Education program/Assignment Design Wizard/Translation translate}}")
       @$outContainer.append("#{@wikiSpace}")
-
+      @$outContainer.append("#{@wikiSpace}")
+      
       # Translation weeks 4 & 5
       @$outContainer.append("{{subst:Wikipedia:Education program/Assignment Design Wizard/Translation publish}}")
       @$outContainer.append("#{@wikiSpace}")
       @$outContainer.append("{{subst:Wikipedia:Education program/Assignment Design Wizard/Translation review and revise}}")
       @$outContainer.append("#{@wikiSpace}")
-
+      @$outContainer.append("#{@wikiSpace}")
+      
       # Grading
       @$outContainer.append(GradingTemplateTranslation(WizardData))
 
