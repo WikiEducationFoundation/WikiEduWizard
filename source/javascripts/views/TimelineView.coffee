@@ -688,7 +688,8 @@ module.exports = class TimelineView extends Backbone.View
         @$outContainer.append("{{subst:Wikipedia:Education program/Assignment Design Wizard/Translation choose articles fact check end}}")
       else
         @$outContainer.append("{{subst:Wikipedia:Education program/Assignment Design Wizard/Translation choose articles end}}")
-        
+      @$outContainer.append("#{@wikiSpace}")
+
       # Translation week 3
       if WizardData.translation_media_literacy.fact_checking.selected
         @$outContainer.append("{{subst:Wikipedia:Education program/Assignment Design Wizard/Translation translate and fact check}}")
