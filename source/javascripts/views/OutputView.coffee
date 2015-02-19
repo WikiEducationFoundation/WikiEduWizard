@@ -7,7 +7,7 @@ application = require( '../app' )
 View = require('../views/supers/View')
 
 #TEMPLATES
-CourseDetailsTempalte = require('../templates/steps/output/CourseDetailsTemplate.hbs')
+CourseDetailsTemplate = require('../templates/steps/output/CourseDetailsTemplate.hbs')
 GradingTemplate = require('../templates/steps/output/GradingTemplate.hbs')
 
 
@@ -20,7 +20,7 @@ module.exports = class OutputView extends View
 
   currentBuild: ''
 
-  detailsTemplate: CourseDetailsTempalte
+  detailsTemplate: CourseDetailsTemplate
 
   gradingTemplate: GradingTemplate
 

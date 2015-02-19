@@ -477,6 +477,7 @@ WizardStepInputs =
 ## Start of grading configuration
 
   grading: 
+    # Research and write an article grading
     researchwrite:
       complete_training:
         type: 'percent'
@@ -540,6 +541,7 @@ WizardStepInputs =
           'original_paper'
         ]
 
+    # Translation assignment grading
     translation:
       complete_translation_training:
         type: 'percent'
@@ -551,6 +553,7 @@ WizardStepInputs =
         contingentUpon: [
           'translation_training_graded'
         ]
+
       translation_accuracy:
         type: 'percent'
         label: 'Is the translation accurate?'
@@ -560,6 +563,7 @@ WizardStepInputs =
         pathwayId: 'translation'
         contingentUpon: [
         ]
+
       translation_language:
         type: 'percent'
         label: 'Does the article use natural vocabulary?'
@@ -569,6 +573,7 @@ WizardStepInputs =
         pathwayId: 'translation'
         contingentUpon: [
         ]
+
       translation_consistency:
         type: 'percent'
         label: "Is the article's style consistent?"
@@ -578,6 +583,7 @@ WizardStepInputs =
         pathwayId: 'translation'
         contingentUpon: [
         ]
+
       translation_documentation:
         type: 'percent'
         label: "Are the original article's sources well-documented?"
@@ -588,6 +594,7 @@ WizardStepInputs =
         contingentUpon: [
           'fact_checking'
         ]
+
       translation_revisions:
         type: 'percent'
         label: 'Does the article adopt new, quality sources?'
@@ -599,6 +606,7 @@ WizardStepInputs =
           'fact_checking'
         ]
 
+    # Copyedit grading
     copyedit:
       copyedit:
         type: 'percent'
@@ -610,6 +618,7 @@ WizardStepInputs =
         contingentUpon: [
         ]
 
+    # Add multimedia grading
     multimedia:
       multimedia:
         type: 'percent'
