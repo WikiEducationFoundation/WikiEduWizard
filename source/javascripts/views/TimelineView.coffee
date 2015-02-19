@@ -518,6 +518,8 @@ module.exports = class TimelineView extends Backbone.View
     @$outContainer.html('')
     @$outContainer.append(DetailsTemplate( _.extend(WizardData,{ description: WizardData.course_details.description})))
 
+    # This is the logic for composing the timeline for a 'researchwrite' assignment.
+    # It uses TimelineData.coffee and the getWikiWeekOutput function to create the timeline.
     if application.homeView.selectedPathways[0] is 'researchwrite'
 
       @$outContainer.append("#{@wikiSpace}")
@@ -661,6 +663,8 @@ module.exports = class TimelineView extends Backbone.View
       
       @$outContainer.append(GradingTemplate(WizardData))
 
+    # This is the logic for composing the timeline for any other assignment types.
+    # It uses TimelineDataAlt.coffee for the components of the timeline.
     else
 
       @$outContainer.append("#{@wikiSpace}")
