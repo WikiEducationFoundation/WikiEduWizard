@@ -668,7 +668,7 @@ module.exports = class TimelineView extends Backbone.View
           @$outContainer.append("#{@wikiSpace}")
 
       )
-      
+
       @$outContainer.append(GradingTemplate(WizardData))
 
     # This is the logic for composing the timeline for translation assignments.
@@ -711,6 +711,7 @@ module.exports = class TimelineView extends Backbone.View
       @$outContainer.append("#{@wikiSpace}")
       
       # Grading
+
       @$outContainer.append(GradingTemplateTranslation(WizardData))
 
 
