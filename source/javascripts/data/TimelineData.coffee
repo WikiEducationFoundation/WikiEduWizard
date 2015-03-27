@@ -82,7 +82,12 @@ TimelineData = [
       {
         text: 'Evaluate an article'
         wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Evaluate an article}}'
-        condition: 'WizardData.getting_started.critique_article.selected'
+        condition: 'WizardData.getting_started.critique_article.selected && WizardData.tricky_topics.definitely_not.selected'
+      }
+      {
+        text: 'Evaluate an article'
+        wikitext: '{{subst:Wikipedia:Education program/Assignment Design Wizard/Evaluate an article_MEDRS}}'
+        condition: 'WizardData.getting_started.critique_article.selected && ( WizardData.tricky_topics.yes_definitely.selected || WizardData.tricky_topics.maybe.selected)'
       }
       {
         text: 'Copyedit an article'
