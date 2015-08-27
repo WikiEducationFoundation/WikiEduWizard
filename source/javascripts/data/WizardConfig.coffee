@@ -1,8 +1,10 @@
 ## THIS FILE IS THE DATA CONTENT AND STEP ORDER CONFIGRATION FOR THE WIZARD AS WELL AS ASSIGNMENT PATHWAYS ##
-## UNCOMMENTING THE DATA INSIDE THE PATHWAYS SECTION WLL ADD MORE STEPS INTO THOSE ALTERNATIVE PATHWAYS ##
+## UNCOMMENTING THE DATA INSIDE THE PATHWAYS SECTION WILL ADD MORE STEPS INTO THOSE ALTERNATIVE PATHWAYS ##
 
 WizardConfig = {
+  ## The intro_steps are the steps before the wizard branches into different assignment types.
   intro_steps: [
+    # Intro
     {
       id: "intro"
       title: '<center>Welcome to the<br />Assignment Design Wizard!</center>'
@@ -12,6 +14,7 @@ WizardConfig = {
       sections: [
         {
           content: [
+            "<p class='large'>Thank you for visiting the Assignment Design Wizard. Wiki Ed is excited to announce that we will be launching a new set of tools for creating and tracking a Wikipedia assignment for the Fall 2015 term. You may look through the wizard now, but we are advising instructors teaching with Wikipedia in the fall to wait for our new tools to be ready to plan their assignments. Those teaching during the summer, should go through the current wizard to plan their Wikipedia projects. IF you have any questions, please feel free to contact Helaine Blumenthal (helaine@wikiedu.org). We look forward to working with you in the Fall!</p>"
             "<p class='large'>This tool will help you to easily create a customized Wikipedia classroom assignment and customized syllabus for your course.</p>"
             "<p class='large'>When you’re finished, you'll have a ready-to-use lesson plan, with weekly assignments, published directly onto a sandbox page on Wikipedia where you can customize it even further.</p>"     
             "<p class='large'>Let’s start by filling in some basics about you and your course:</p>"
@@ -19,6 +22,7 @@ WizardConfig = {
         }
       ]
     }
+    # Assignment selection
     {
       id: "assignment_selection"
       title: 'Assignment type selection'
@@ -38,9 +42,11 @@ WizardConfig = {
       ]
     }
   ]
+  # Here begin the pathways for different assignment types: researchwrite, 
   pathways: {
     ###################################
     researchwrite: [
+      # Wikipedia essentials (researchwrite)
       {
         id: "learning_essentials"
         title: 'Wikipedia essentials'
@@ -71,6 +77,7 @@ WizardConfig = {
           }
         ]
       }
+      # Getting started with editing (researchwrite)
       {
         id: "getting_started"
         title: 'Getting started with editing'
@@ -99,6 +106,7 @@ WizardConfig = {
           }
         ]
       }
+      # Choosing articles (researchwrite)
       {
         id: 'choosing_articles'
         title: 'Choosing articles'
@@ -160,6 +168,7 @@ WizardConfig = {
           } 
         ]
       }
+      # Research and planning (researchwrite)
       {
         id: 'research_planning'
         title: 'Research and planning'
@@ -203,6 +212,7 @@ WizardConfig = {
         ]
         inputs: []
       }
+      # Drafts and mainspace (researchwrite)
       {
         id: "drafts_mainspace"
         showInOverview: true
@@ -230,6 +240,7 @@ WizardConfig = {
         ]
         inputs: []
       }
+      # Peer feedback (researchwrite)
       {
         id: "peer_feedback"
         title: 'Peer feedback'
@@ -249,6 +260,7 @@ WizardConfig = {
         ]
         inputs: []
       }
+      # Supplementary assignments (researchwrite)
       {
         id: "supplementary_assignments"
         title: 'Supplementary assignments'
@@ -267,6 +279,7 @@ WizardConfig = {
         ]
         inputs: []
       }
+      # DYK process (researchwrite)
       {
         id: "dyk"
         title: 'DYK process'
@@ -286,6 +299,7 @@ WizardConfig = {
         ]
         inputs: []
       }
+      # Good article process (researchwrite)
       {
         id: "ga"
         title: 'Good Article process'
@@ -416,203 +430,77 @@ WizardConfig = {
     ]
     ###################################
     multimedia: [
-      # {
-      #   id: "multimedia_1"
-      #   showInOverview: true
-      #   title: 'Multimedia step 1'
-      #   formTitle: 'Choose one:'
-      #   infoTitle: 'Instruction Title'
-      #   instructions: "Step Instructions"
-      #   inputs: []
-      #   sections: [
-      #   ]
-      # }
-      # {
-      #   id: "multimedia_2"
-      #   showInOverview: true
-      #   title: 'Multimedia step 2'
-      #   formTitle: 'Choose one:'
-      #   infoTitle: 'Instruction Title'
-      #   instructions: "Step Instructions"
-      #   inputs: []
-      #   sections: [
-      #   ]
-      # }
-      # {
-      #   id: "grading_multimedia"
-      #   type: "grading"
-      #   title: 'Grading'
-      #   showInOverview: false
-      #   formTitle: "How will students' grades for assignments be determined?"
-      #   infoTitle: "About grading"
-      #   instructions: 'Grading Wikipedia assignments can be a challenge. Here are some tips for grading your Wikipedia assignments:'
-      #   sections: [
-      #     {
-      #       title: 'Know all of your students\' Wikipedia usernames.'
-      #       accordian: true
-      #       content: [
-      #         "<p>Without knowing the students' usernames, you won't be able to grade them.</p>"
-      #         "<p>Make sure all students enroll on the course page. Once all students have signed the list, you can click on \"user contributions\" (in the menu bar on the left hand side of your browser screen) to review that student's activities on Wikipedia. If you have made student training compulsory, you can check the <a href='https://en.wikipedia.org/wiki/Wikipedia:Training/For_students/Training_feedback' target='_blank'>feedback page</a> to see which students have completed it.</p>"
-      #       ]
-      #     }
-      #     {
-      #       title: 'Be specific about your expectations.'
-      #       accordian: true
-      #       content: [
-      #         "<p>Being specific about what you expect your students to do is crucial for grading. For example, students could be asked to add a minimum of three sections to an existing article, or a minimum of eight references to an existing article that lacks the appropriate sourcing.</p>"
-      #       ]
-      #     }
-      #     {
-      #       title: 'Grade based on what students contribute to Wikipedia, not what remains on Wikipedia at the course\'s end.'
-      #       accordian: true
-      #       content: [
-      #         "<p>You can see a student's contributions in the article history, even if some writing was removed by the community (or the student). A student’s content could be edited for many reasons, and can even be evidence of a student reflecting critically on their own contributions. Furthermore, if students feel they must defend control of an article for the sake of their grade, this can lead to conflict with other editors.</p>"
-      #         "<p>Wikipedia is a collaborative writing environment driven by verifiability, noteworthiness and neutral point of view – all of which have created challenges for students familiar with a persuasive writing format in classrooms. Encourage students to reflect on edits to improve their understanding of the process and the community.</p>"
-              
-      #       ]
-      #     }
-      #   ]
-      #   inputs: []
-      # }
-      # {
-      #   id: "overview"
-      #   title: 'Assignment overview'
-      #   type: "overview"
-      #   showInOverview: false
-      #   infoTitle: "About the course"
-      #   formTitle: ""
-      #   sections: [
-      #     {
-      #       content: [
-      #         "<p>Now it's time to write a short description of your course and how this Wikipedia assignment fits into it. This will allow other Wikipedia editors to understand what students will be doing. Be sure to mention:"
-      #         "<ul>
-      #           <li>topics you're covering in the class</li>
-      #           <li>what students will be asked to do on Wikipedia</li>
-      #           <li>what types of articles your class will be working on</li>  
-      #         </ul>"
-      #       ]
-      #     }
-          
-      #     {
-      #       content: [
-      #         "<p class='description-container'></p>"
-      #       ]
-      #     }
-      #     {
-      #       content: [
-      #         "<div class='step-form-dates'></div>"
-      #       ]
-      #     }
-      #     {
-      #       title: ''
-      #       content: [
-      #         "<p><a id='publish' href='#' class='button' style='display:inline-block;text-align:center;'>Publish</a></p>"
-      #       ]
-      #     }
-      #   ]
-      #   inputs: []
-      # }
+      # There are no extra steps associated with the multimedia path, so it skips straight to the outro.
     ]
     ###################################
     copyedit: [
-      # {
-      #   id: "copyedit_1"
-      #   title: 'Copy Edit step 1'
-      #   showInOverview: true
-      #   formTitle: 'Choose one:'
-      #   infoTitle: 'Instruction Title'
-      #   instructions: "Step Instructions"
-      #   inputs: []
-      #   sections: [
-      #   ]
-      # }
-      # {
-      #   id: "copyedit_2"
-      #   title: 'Copy Edit step 2'
-      #   showInOverview: true
-      #   formTitle: 'Choose one:'
-      #   infoTitle: 'Instruction Title'
-      #   instructions: "Step Instructions"
-      #   inputs: []
-      #   sections: [
-      #   ]
-      # }
-      # {
-      #   id: "grading_copyedit"
-      #   type: "grading"
-      #   title: 'Grading'
-      #   showInOverview: false
-      #   formTitle: "How will students' grades for assignments be determined?"
-      #   infoTitle: "About grading"
-      #   instructions: 'Grading Wikipedia assignments can be a challenge. Here are some tips for grading your Wikipedia assignments:'
-      #   sections: [
-      #     {
-      #       title: 'Know all of your students\' Wikipedia usernames.'
-      #       accordian: true
-      #       content: [
-      #         "<p>Without knowing the students' usernames, you won't be able to grade them.</p>"
-      #         "<p>Make sure all students enroll on the course page. Once all students have signed the list, you can click on \"user contributions\" (in the menu bar on the left hand side of your browser screen) to review that student's activities on Wikipedia. If you have made student training compulsory, you can check the <a href='https://en.wikipedia.org/wiki/Wikipedia:Training/For_students/Training_feedback' target='_blank'>feedback page</a> to see which students have completed it.</p>"
-      #       ]
-      #     }
-      #     {
-      #       title: 'Be specific about your expectations.'
-      #       accordian: true
-      #       content: [
-      #         "<p>Being specific about what you expect your students to do is crucial for grading. For example, students could be asked to add a minimum of three sections to an existing article, or a minimum of eight references to an existing article that lacks the appropriate sourcing.</p>"
-      #       ]
-      #     }
-      #     {
-      #       title: 'Grade based on what students contribute to Wikipedia, not what remains on Wikipedia at the course\'s end.'
-      #       accordian: true
-      #       content: [
-      #         "<p>You can see a student's contributions in the article history, even if some writing was removed by the community (or the student). A student’s content could be edited for many reasons, and can even be evidence of a student reflecting critically on their own contributions. Furthermore, if students feel they must defend control of an article for the sake of their grade, this can lead to conflict with other editors.</p>"
-      #         "<p>Wikipedia is a collaborative writing environment driven by verifiability, noteworthiness and neutral point of view – all of which have created challenges for students familiar with a persuasive writing format in classrooms. Encourage students to reflect on edits to improve their understanding of the process and the community.</p>"
-              
-      #       ]
-      #     }
-      #   ]
-      #   inputs: []
-      # }
-      # {
-      #   id: "overview"
-      #   type: "overview"
-      #   title: 'Assignment overview'
-      #   infoTitle: "About the course"
-      #   showInOverview: false
-      #   formTitle: ""
-      #   sections: [
-      #     {
-      #       content: [
-      #         "<p>Now it's time to write a short description of your course and how this Wikipedia assignment fits into it. This will allow other Wikipedia editors to understand what students will be doing. Be sure to mention:"
-      #         "<ul>
-      #           <li>topics you're covering in the class</li>
-      #           <li>what students will be asked to do on Wikipedia</li>
-      #           <li>what types of articles your class will be working on</li>  
-      #         </ul>"
-      #       ]
-      #     }
-          
-      #     {
-      #       content: [
-      #         "<p class='description-container'></p>"
-      #       ]
-      #     }
-      #     {
-      #       content: [
-      #         "<div class='step-form-dates'></div>"
-      #       ]
-      #     }
-      #     {
-      #       title: ''
-      #       content: [
-      #         "<p><a id='publish' href='#' class='button' style='display:inline-block;text-align:center;'>Publish</a></p>"
-      #       ]
-      #     }
-      #   ]
-      #   inputs: []
-      # }
+      # There are no extra steps associated with the copyedit path, so it skips straight to the outro.
+    ]
+    ###################################
+    translation: [
+      # Translation step 1: Training / Translation essentials
+      {
+        id: "translation_essentials"
+        title: "Translation essentials"
+        showInOverview: true
+        formTitle: "Choose one"
+        infoTitle: "Preparing for a translation assignment"
+        sections: [
+          {
+            content: [
+              "<p>To get started, you'll want to introduce your students to the basic rules of writing Wikipedia articles and working with the Wikipedia community.</p>"
+              "<p>The online Student Training for Translation Assignments is a very brief introduction to the basics of editing Wikipedia. Should completion of the training be part of your students’ grade? (Make your choice at the top left).</p>"
+            ]
+          }
+        ]
+      }
+      # Translation step 2: Choosing articles
+      {
+        id: "translation_choosing_articles"
+        title: "Choosing articles"
+        showInOverview: true
+        formTitle: "How will your class select articles?"
+        infoTitle: "About choosing articles "
+        inputs: []
+        sections: [
+          {
+            title: ''
+            content: [
+              "<p>Students should find articles that have gone through Wikipedia's peer review process and have been deemed Good or Featured Articles in the language they are studying. For this assignment, students will copy these articles from the target language into a sandbox, and begin translating it into their L1.</p>"
+              "<p>Generally, articles that are ripe for translation are those that:</p>"
+              "<ul>
+                <li>are relevant to the culture, history, or other aspect of their target language (L2).</li>
+                <li>are quality articles in their target language’s Wikipedia, but not on their L1 Wikipedia.</li>
+              </ul>"
+              "<p>There are two recommended options for selecting articles:</p>"
+            ]
+          }
+          {
+            title: 'Instructor prepares a list'
+            content: [
+              '<p>You (the instructor) prepare a list of appropriate articles from the target-language Wikipedia ahead of time for the students to choose from. If possible, you may want to work with an experienced Wikipedian to create the list. Each student chooses an article from your list to work on. Although this requires more preparation, it may help students to start translating their articles sooner, which is useful for shorter Wikipedia assignments.</p>'
+            ]
+          }
+          {
+            title: 'Students find articles'
+            content: [
+              '<p>Each student explores the target-language Wikipedia and lists two topics on their Wikipedia user page that they are interested in for their main project. You (the instructor) should approve article choices before students proceed to translating. Having students find their own articles provides them with a sense of motivation and ownership over the assignment and exercises their critical thinking skills as they identify content gaps, but it may also lead to choices that are further afield from course material. This options is useful for classes that spend more time on the Wikipedia assignment.</p>'
+            ]
+          } 
+        ]
+      }
+      # Translation step 3: Media literacy
+      {
+        id: "translation_media_literacy"
+        title: "Media literacy"
+        showInOverview: true
+        formTitle: "Add a media literacy component?"
+        infoTitle: "Optional: add a more challenging media literacy component"
+        instructions: "For advanced students, you can add a challenging media literacy component to your course. This requires students to fact-check information on the target-language Wikipedia using the target language. They also find sources in their base language to support those claims on their base-language Wikipedia."
+      }
     ]
   }
+  # Outro steps common to all branches
   outro_steps: [
     {
       id: "grading"

@@ -414,39 +414,34 @@ module.exports = class InputItemView extends View
       }
 
     else if @inputType == 'percent'
-
       if @parentStep.model.attributes.id is 'grading' || @parentStep.model.attributes.type is 'grading'
-
         if @model.attributes.contingentUpon.length != 0
-
           currentSelected = application.homeView.getSelectedIds()
-
           renderInOutput = false
 
           _.each(@model.attributes.contingentUpon, (id) =>
-
             _.each(currentSelected, (selectedId) =>
-
               if id is selectedId
-
+                # This is an awful hack to make renderInOutput work as it should for wikitext output. -Sage
+                try WizardStepInputs['grading']['translation'][@model.id]['renderInOutput'] = true
+                catch e
+                try WizardStepInputs['grading']['researchwrite'][@model.id]['renderInOutput'] = true
+                catch e
                 renderInOutput = true
-
             )
-
           )
 
           unless renderInOutput
-
+            # See above re: awful hack. -Sage
+            try WizardStepInputs['grading']['translation'][@model.id]['renderInOutput'] = false
+            catch e
+            try WizardStepInputs['grading']['researchwrite'][@model.id]['renderInOutput'] = false
+            catch e
             return false
 
-
-
       return {
-
         type: inputTypeObject
-
         data: @model.attributes
-
       }
 
     else if @inputType == 'radioGroup'

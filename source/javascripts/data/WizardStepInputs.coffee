@@ -56,84 +56,7 @@ WizardStepInputs =
       value: ''
       required: true
 
-    
-  multimedia_1:
-    multimedia_1_1:
-      type: 'checkbox'
-      id: 'multimedia_1_1'
-      selected: true
-      label: 'Text for the question 1?'
-      disabled: false
-      exclusive: false
-      required: false
-
-    multimedia_1_2:
-      type: 'checkbox'
-      id: 'multimedia_1_2'
-      selected: true
-      label: 'Text for the question 2?'
-      disabled: false
-      exclusive: false
-      required: false
-
-  multimedia_2:
-    multimedia_2_1:
-      type: 'checkbox'
-      id: 'multimedia_2_1'
-      selected: false
-      label: 'Text for the question 1?'
-      disabled: false
-      exclusive: false
-      required: false
-
-    multimedia_2_2:
-      type: 'checkbox'
-      id: 'multimedia_2_2'
-      selected: false
-      label: 'Text for the question 2?'
-      disabled: false
-      exclusive: false
-      required: false
-
-  copyedit_1:
-    copyedit_1_1:
-      type: 'radioBox'
-      id: 'copyedit_1_1'
-      selected: false
-      label: 'Text for the question 1?'
-      disabled: false
-      exclusive: false
-      required: false
-
-    copyedit_1_2:
-      type: 'radioBox'
-      id: 'copyedit_1_2'
-      selected: false
-      label: 'Text for the question 2?'
-      disabled: false
-      exclusive: false
-      required: false
-
-  copyedit_2:
-    copyedit_2_1:
-      type: 'radioBox'
-      id: 'copyedit_2_1'
-      selected: false
-      label: 'Text for the question 1?'
-      disabled: false
-      exclusive: false
-      required: false
-
-    copyedit_2_2:
-      type: 'radioBox'
-      id: 'copyedit_2_2'
-      selected: false
-      label: 'Text for the question 2?'
-      disabled: false
-      exclusive: false
-      required: false
-  
-
+  # Assignment selection options
   assignment_selection: 
     researchwrite:
       type: 'checkbox'
@@ -143,6 +66,15 @@ WizardStepInputs =
       exclusive: true
       hasCourseInfo: true
       required: true
+
+    translation: 
+      type: 'checkbox'
+      id: 'translation'
+      selected: false
+      label: 'Translate an article'
+      exclusive: false
+      hasCourseInfo: true
+      disabled: false
     
     multimedia:
       type: 'checkbox'
@@ -174,50 +106,10 @@ WizardStepInputs =
         title: ''
         content: "Have another idea for incorporating Wikipedia into your class? We've found that these assignments work well, but they aren't the only way to do it. Get in touch, and we can talk things through: <a style='color:#505a7f;' href='mailto:contact@wikiedu.org'>contact@wikiedu.org</a>."
 
+## Start of input options for the researchwrite path
+  
   learning_essentials: 
-    create_user:
-      # type: 'checkbox'
-      id: 'create_user'
-      selected: true
-      label: 'Create user account'
-      exclusive: false
-      disabled: true
-      required: true
     
-    enroll:
-      # type: 'checkbox'
-      id: 'enroll'
-      selected: true
-      label: 'Enroll to the course'
-      exclusive: false
-      disabled: true
-      required: true
-
-    complete_training:
-      # type: 'checkbox'
-      id: 'complete_training'
-      selected: true
-      label: 'Complete online training'
-      disabled: true
-      exclusive: false
-      required: true
-
-    introduce_ambassadors:
-      # type: 'checkbox'
-      id: 'introduce_ambassadors'
-      selected: true
-      disabled: true
-      label: 'Introduce Wikipedia Ambassadors Involved'
-      exclusive: false
-      required: true
-    
-    # include_completion:
-    #   type: 'checkbox'
-    #   id: 'include_completion'
-    #   selected: false
-    #   label: 'Include Completion of this Assignment as Part of the Students\'s Grade'
-    #   exclusive: false
-
     training_graded:
       type: 'radioBox'
       id: 'training_graded'
@@ -504,6 +396,65 @@ WizardStepInputs =
       exclusive: false
       
 
+## Start of input options for the translate path
+
+  translation_essentials:
+    translation_training_graded:
+      type: 'radioBox'
+      id: 'translation_training_graded'
+      selected: false
+      label: 'Completion of training will be graded'
+      exclusive: false
+      required: true
+
+    translation_training_not_graded:
+      type: 'radioBox'
+      id: 'translation_training_not_graded'
+      selected: false
+      label: 'Completion of training will not be graded'
+      exclusive: false
+      required: true
+
+  translation_choosing_articles:
+    prepare_list:
+      type: 'radioBox'
+      id: 'prepare_list'
+      selected: false
+      label: 'Instructor prepares a list'
+      exclusive: false
+      hasSubChoice: true
+      required: true
+      
+    students_explore:
+      type: 'radioBox'
+      id: 'students_explore'
+      selected: false
+      label: 'Students find articles'
+      exclusive: false
+      hasSubChoice: true
+      required: true
+
+    request_help:
+      type: 'checkbox'
+      id: 'request_help'
+      selected: false
+      label: 'Would you like help selecting or evaulating article choices?'
+      exclusive: false
+      required: true
+      ignoreValidation: true
+      conditional_label: 
+        prepare_list: "Would you like help selecting articles?"
+        students_explore: "Would you like help evaluating student choices?"
+    
+  translation_media_literacy:
+    fact_checking:
+      type: 'checkbox'
+      id: 'fact_checking'
+      selected: false
+      required: false
+      label: 'Fact-checking assignment'
+      exclusive: false
+
   # grading_multimedia: 
   #   complete_multimedia:
   #     type: 'percent'
@@ -523,7 +474,10 @@ WizardStepInputs =
   #     contingentUpon: []
 
 
+## Start of grading configuration
+
   grading: 
+    # Research and write an article grading
     researchwrite:
       complete_training:
         type: 'percent'
@@ -587,6 +541,72 @@ WizardStepInputs =
           'original_paper'
         ]
 
+    # Translation assignment grading
+    translation:
+      complete_translation_training:
+        type: 'percent'
+        label: 'Was the training completed?'
+        id: 'complete_translation_training'
+        value: 5
+        renderInOutput: true
+        pathwayId: 'translation'
+        contingentUpon: [
+          'translation_training_graded'
+        ]
+
+      translation_accuracy:
+        type: 'percent'
+        label: 'Is the translation accurate?'
+        id: 'translation_accuracy'
+        value: 25
+        renderInOutput: true
+        pathwayId: 'translation'
+        contingentUpon: [
+        ]
+
+      translation_language:
+        type: 'percent'
+        label: 'Does the article use natural vocabulary?'
+        id: 'translation_language'
+        value: 25
+        renderInOutput: true
+        pathwayId: 'translation'
+        contingentUpon: [
+        ]
+
+      translation_consistency:
+        type: 'percent'
+        label: "Is the article's style consistent?"
+        id: 'translation_consistency'
+        value: 15
+        renderInOutput: true
+        pathwayId: 'translation'
+        contingentUpon: [
+        ]
+
+      translation_documentation:
+        type: 'percent'
+        label: "Are the original article's sources well-documented?"
+        id: 'translation_documentation'
+        value: 15
+        renderInOutput: true
+        pathwayId: 'translation'
+        contingentUpon: [
+          'fact_checking'
+        ]
+
+      translation_revisions:
+        type: 'percent'
+        label: 'Does the article adopt new, quality sources?'
+        id: 'translation_revisions'
+        value: 15
+        renderInOutput: true
+        pathwayId: 'translation'
+        contingentUpon: [
+          'fact_checking'
+        ]
+
+    # Copyedit grading
     copyedit:
       copyedit:
         type: 'percent'
@@ -597,6 +617,8 @@ WizardStepInputs =
         pathwayId: 'copyedit'
         contingentUpon: [
         ]
+
+    # Add multimedia grading
     multimedia:
       multimedia:
         type: 'percent'
@@ -607,9 +629,6 @@ WizardStepInputs =
         pathwayId: 'multimedia'
         contingentUpon: [
         ]
-
-
-
 
     grading_selection:
       label: 'Grading based on:'

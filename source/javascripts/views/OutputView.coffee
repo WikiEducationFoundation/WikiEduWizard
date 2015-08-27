@@ -7,9 +7,8 @@ application = require( '../app' )
 View = require('../views/supers/View')
 
 #TEMPLATES
-CourseDetailsTempalte = require('../templates/steps/output/CourseDetailsTemplate.hbs')
+CourseDetailsTemplate = require('../templates/steps/output/CourseDetailsTemplate.hbs')
 GradingTemplate = require('../templates/steps/output/GradingTemplate.hbs')
-CourseOptionsTemplate = require('../templates/steps/output/CourseOptionsTemplate.hbs')
 
 
 #CONFIG DATA
@@ -21,11 +20,9 @@ module.exports = class OutputView extends View
 
   currentBuild: ''
 
-  detailsTemplate: CourseDetailsTempalte
+  detailsTemplate: CourseDetailsTemplate
 
   gradingTemplate: GradingTemplate
-
-  optionsTemplate: CourseOptionsTemplate
 
 
   subscriptions:
@@ -60,9 +57,7 @@ module.exports = class OutputView extends View
 
     gradingOutput = @$el.html(@gradingTemplate(@getRenderData())).text()
 
-    optionsOutput = @$el.html(@optionsTemplate(@getRenderData())).text()
-
-    courseOut = detailsOutput + assignmentOutput + gradingOutput + optionsOutput
+    courseOut = detailsOutput + assignmentOutput + gradingOutput
     
     return courseOut
 

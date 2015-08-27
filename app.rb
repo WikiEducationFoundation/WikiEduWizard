@@ -42,7 +42,7 @@ Dotenv.load
 # Rack Middleware
 #--------------------------------------------------------
 
-use Rack::Session::Cookie, :path => '/', :expire_after => 3600, :secret => ENV['SESSION_SECRET']
+use Rack::Session::Cookie, :path => '/', :expire_after => 172800, :secret => ENV['SESSION_SECRET']
 
 # BUILD OMNIAUTH PROVIDER
 use OmniAuth::Builder do
@@ -76,6 +76,11 @@ get '/begin' do
   else
     redirect to '/auth/mediawiki'
   end
+end
+
+# Use the /test endpoint for local development without OAuth login.
+get '/test' do
+  haml :app
 end
 
 post '/publish' do
